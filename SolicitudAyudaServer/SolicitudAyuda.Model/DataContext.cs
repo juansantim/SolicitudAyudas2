@@ -11,6 +11,8 @@ namespace SolicitudAyuda.Model
     {
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
+        public DbSet<Seccional> Seccionales { get; set; }
+
 
         public DataContext(DbContextOptions options) : base(options)
         {

@@ -31,7 +31,8 @@ namespace SolicitudAyudaServer
 
             services.AddDbContextPool<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("adp"));
+                var connectionString = Configuration.GetConnectionString("adp");
+                options.UseSqlServer(connectionString);
             });
 
         }

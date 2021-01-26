@@ -13,6 +13,10 @@ namespace SolicitudAyuda.Model.Entities
 
         public string Password { get; set; }
 
+        public bool DebeCambiarPassword { get; set; }
+
+        public string TempPassword { get; set; }
+
         public bool Disponible { get; set; }
 
         public DateTime? FechaCreacion { get; set; }

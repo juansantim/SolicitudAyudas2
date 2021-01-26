@@ -13,6 +13,8 @@ namespace SolicitudAyuda.Model.Entities
         public int MunicipioId { get; set; }
         public Municipio Municipio { get; set; }
         public int? PresidenteId { get; set; }
+
+        [ForeignKey("PresidenteId")]
         public Maestro Presidente { get; set; }
         public List<Maestro> Maestros { get; set; }
     }
