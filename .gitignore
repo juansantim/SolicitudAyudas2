@@ -33,7 +33,6 @@ solicitudAyudasClient/node_modules/**
 *.suo
 *.tlb
 *.tlh
-*.bak
 *.[Cc]ache
 *.ilk
 *.log
