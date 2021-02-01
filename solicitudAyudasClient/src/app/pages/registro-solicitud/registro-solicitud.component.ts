@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -9,16 +11,17 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class RegistroSolicitudComponent implements OnInit {
 
-  constructor(private dataService:DataService) 
-  {
+  constructor(private dataService: DataService) {
 
-   }
+  }
 
-  seccionales:Array<any>;
-  selectedSeccional:any;
+  Solicitud: SolicitudAyuda;
+
+  seccionales: Array<any>;
+  selectedSeccional: any;
   cargandoSeccionales: boolean;
 
-  isLoading(){
+  isLoading() {
     return this.cargandoSeccionales;
   }
 
@@ -28,19 +31,42 @@ export class RegistroSolicitudComponent implements OnInit {
 
   ngOnInit() {
     this.cargandoSeccionales = true;
+    this.Solicitud = new SolicitudAyuda();
 
-    this.dataService.GetSeccionales().subscribe(data => {
-      this.seccionales = data;
-      this.cargandoSeccionales = false;
-    }, err => {
-      this.cargandoSeccionales = false;
-    })
+    // this.dataService.GetSeccionales().subscribe(data => {
+    //   this.seccionales = data;
+    //   this.cargandoSeccionales = false;
+    // }, err => {
+    //   this.cargandoSeccionales = false;
+    // })
+
+    this.cargandoSeccionales = false;
+    this.seccionales = [
+      {nombre: "Municipio Azua"},
+      {nombre: "Municipio Guayabal"},
+      {nombre: "Municipio Las Yayas"},
+      {nombre: "Municipio Padre las casas"}
+    ]
+
   }
 
-  removerSeccional(){
-    this.selectedSeccional=null;
+
+  removerSeccional() {
+    this.selectedSeccional = null;
     this.selected = null;
   }
 
   selected: any;
+
+  registrarSolicitud(){
+    Swal.fire({
+      title:'Aviso', 
+      text:'Solicitud de ayuda Nro# 2134 registrara satisfactoriamente', 
+      icon:'info',
+      showConfirmButton:true,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText:'Imprimir',
+    })
+  }
 }

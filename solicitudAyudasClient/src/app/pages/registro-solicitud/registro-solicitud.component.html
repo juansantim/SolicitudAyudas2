@@ -1,6 +1,6 @@
 <ng-template #customItemTemplate let-model="item" let-index="index">
     <label>{{model.nombre}}</label>
-  </ng-template>
+</ng-template>
 
 <app-loading [show]="isLoading()"></app-loading>
 <div class="row">
@@ -16,18 +16,145 @@
         <label>Telefono</label>
         <input type="text" class="form-control">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
+      
         <label>Seccional</label>
         <!-- <input [(ngModel)]="selectedSeccioan" [typeahead]="seccionales"class="form-control"> -->
-        <input 
-        class="form-control"
-        [(ngModel)]="selected" 
-        [typeahead]="seccionales" [adaptivePosition]="true"         
-        [typeaheadItemTemplate]="customItemTemplate"
-        typeaheadOptionField = "nombre"
-        (typeaheadOnSelect) = "typeaheadOnSelect($event)"
-        [disabled]= "selectedSeccional">
+        <div class="form-inline">
+            <input class="form-control" [(ngModel)]="selected" [typeahead]="seccionales" [adaptivePosition]="true"
+            [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
+            (typeaheadOnSelect)="typeaheadOnSelect($event)" [disabled]="selectedSeccional">
 
-        <button class="btn btn-danger" *ngIf="selectedSeccional" (click) = "removerSeccional()">Remover</button>
+        <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
+        </div>
+    
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label>Correo Electronico</label>
+        <input class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label>ARS pertenece</label>
+        <select class="form-control">
+            <option>--Seleccione--</option>
+            <option>SEMMA</option>
+            <option>SENASA</option>
+            <option>Humano</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        <fieldset>
+            <legend>Requisitos</legend>
+
+            <label>
+                <input type="checkbox">
+                Comunicacion solicitud del interesado al CEN
+            </label>
+            <br>
+            <label>
+                <input type="checkbox">
+                Copia de Cedula de ientidad y Electroral
+            </label>
+            <br>
+            <label>
+                <input type="checkbox">
+                Expediente clinico que muestre el diagnostico actualizado
+            </label>
+            <br>
+            <label>
+                <input type="checkbox">
+                Carta Aval de la seccional municipal a la que pertenece
+            </label>
+            <br>
+            <label>
+                <input type="checkbox">
+                Estado de cuenta del MINERD
+            </label>
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Quien recibira ayuda?</label>
+                    <select class="form-control" [(ngModel)] = "Solicitud.ayudapara">
+                        <option value="0">--Seleccione--</option>
+                        <option value="1">El Solicitante</option>
+                        <option value="2">Hijo/Hija</option>
+                        <option value="3">Padre/Madre</option>
+                        <option value="4">Conyuge o Esposa/Esposo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" *ngIf="Solicitud.ayudapara == 2">
+                <div class="col-md-12">
+                    <label>
+                        <input type="checkbox">
+                        Acta de Nacimiento de Hijo/Hija
+                    </label>
+                </div>
+            </div>
+            <div class="row" *ngIf="Solicitud.ayudapara == 3">
+                <div class="col-md-12">
+                    <label>
+                        <input type="checkbox">
+                        Copia cedula de padra/madre
+                    </label>
+                </div>
+            </div>
+            <div class="row" *ngIf="Solicitud.ayudapara == 4">
+                <div class="col-md-12">
+                    <label>
+                        <input type="checkbox">
+                        Acta de matrimonio/union libre
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>
+                        Solicitante es jubilado de Inabima?
+                    </label>
+                    <br>
+                    <label>
+                        Si
+                        <input type="radio" value="true" name="inabima" [(ngModel)]="Solicitud.esjubiladoinabima">
+                    </label>
+                    &nbsp;
+                    <label>
+                        No
+                        <input type="radio" value="false" name="inabima" [(ngModel)]="Solicitud.esjubiladoinabima">
+                    </label>
+
+                   
+                </div>
+            </div>
+
+            <div class="row" *ngIf="Solicitud.esjubiladoinabima == 'true'">
+                <div class="col-md-12">
+                    <label>
+                        <input type="checkbox">
+                        Estado de cuenta Jubilado de Inabima-Hacienda
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+
+<fieldset>
+    <legend>Motivo de la Solicitud</legend>
+    <textarea class="form-control" rows="4"></textarea>
+    <br>
+</fieldset>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class=" pull-right">
+            <input type="button" class="btn btn-success" value="Registrar Solicitud" (click) = "registrarSolicitud()">
+        </div>
     </div>
 </div>

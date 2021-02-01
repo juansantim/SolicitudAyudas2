@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './common/loading/loading.component';
+import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 
 
 
@@ -23,7 +24,8 @@ import { LoadingComponent } from './common/loading/loading.component';
     LoginComponent,
     InicioComponent,
     RegistroSolicitudComponent,
-    LoadingComponent
+    LoadingComponent,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,
