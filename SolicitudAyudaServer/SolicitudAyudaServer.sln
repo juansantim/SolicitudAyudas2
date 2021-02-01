@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolicitudAyudaServer", "SolicitudAyudaServer\SolicitudAyudaServer.csproj", "{12C0773A-8984-4870-9E00-28FE8D4D1228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolicitudAyuda.Model", "SolicitudAyuda.Model\SolicitudAyuda.Model.csproj", "{2EF7A4A1-6517-4370-838C-7DD809A8A077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolicitudAyuda.Model", "SolicitudAyuda.Model\SolicitudAyuda.Model.csproj", "{2EF7A4A1-6517-4370-838C-7DD809A8A077}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EC8E1F35-CD0F-4A09-BF52-18A4518AA670}"
+	ProjectSection(SolutionItems) = preProject
+		Requerimientos.txt = Requerimientos.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

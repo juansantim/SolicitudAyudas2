@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -13,70 +14,33 @@ export class RegistroSolicitudComponent implements OnInit {
 
    }
 
-  seccionales: ["Uno", "Dos", "Tres"];
-  selectedSeccioan:any;
+  seccionales:Array<any>;
+  selectedSeccional:any;
   cargandoSeccionales: boolean;
+
+  isLoading(){
+    return this.cargandoSeccionales;
+  }
+
+  typeaheadOnSelect(e: TypeaheadMatch): void {
+    this.selectedSeccional = e.item;
+  }
 
   ngOnInit() {
     this.cargandoSeccionales = true;
 
-    this.dataService.GetSeccionales().subscribe(seccionales => {
-      console.log(seccionales);
+    this.dataService.GetSeccionales().subscribe(data => {
+      this.seccionales = data;
+      this.cargandoSeccionales = false;
+    }, err => {
+      this.cargandoSeccionales = false;
     })
   }
 
-  selected: string;
-  states: string[] = [
-    'Alabama',
-    'Alaska',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'Florida',
-    'Georgia',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Dakota',
-    'North Carolina',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Pennsylvania',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming'
-  ];
+  removerSeccional(){
+    this.selectedSeccional=null;
+    this.selected = null;
+  }
 
+  selected: any;
 }

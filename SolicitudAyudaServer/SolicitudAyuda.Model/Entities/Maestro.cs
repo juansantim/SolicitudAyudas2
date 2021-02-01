@@ -16,8 +16,5 @@ namespace SolicitudAyuda.Model.Entities
         public int? SeccionalId { get; set; }
         public Seccional Seccional { get; set; }
         public string Cargo { get; set; }
-
-        //public int? SeccionalPresideId { get; set; }
-
     }
 }

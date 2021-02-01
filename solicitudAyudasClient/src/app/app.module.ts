@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {HttpClientModule } from '@angular/common/http';
+import { LoadingComponent } from './common/loading/loading.component';
 
 
 
@@ -21,7 +22,8 @@ import {HttpClientModule } from '@angular/common/http';
     AppComponent,
     LoginComponent,
     InicioComponent,
-    RegistroSolicitudComponent
+    RegistroSolicitudComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

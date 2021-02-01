@@ -1,0 +1,9 @@
+podamos saber: 
+1- Si un miembro recibió una una ayuda, con su fecha, monto y concepto.
+
+2-Estadísticas:
+	1-Cantidad de ayuda que hemos otorgado
+	2-Monto invertido en esas ayudas 
+	3-Relación de ayuda por concepto
+	4-Relación de ayuda por periodo
+	5-Relación de ayudas por seccional
