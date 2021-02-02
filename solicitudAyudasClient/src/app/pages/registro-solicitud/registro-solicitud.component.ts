@@ -58,6 +58,10 @@ export class RegistroSolicitudComponent implements OnInit {
 
   selected: any;
 
+  esJubiladoInabima(){
+    return  this.Solicitud.esjubiladoinabima === 'true';
+  }
+
   registrarSolicitud(){
     Swal.fire({
       title:'Aviso', 
@@ -69,4 +73,11 @@ export class RegistroSolicitudComponent implements OnInit {
       confirmButtonText:'Imprimir',
     })
   }
+
+  AgregarAdjunto(){
+    this.Solicitud.adjuntos.push({});
+  }
 }
+
+//Mask plugin documentation
+//https://www.npmjs.com/package/ngx-mask

@@ -3,36 +3,42 @@
 </ng-template>
 
 <app-loading [show]="isLoading()"></app-loading>
-<div class="row">
-    <div class="col-md-2">
-        <label>Cedula Solicitante</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="col-md-4">
-        <label>Nombre Completo</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="col-md-2">
-        <label>Telefono</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="col-md-4">
-      
-        <label>Seccional</label>
-        <!-- <input [(ngModel)]="selectedSeccioan" [typeahead]="seccionales"class="form-control"> -->
-        <div class="form-inline">
-            <input class="form-control" [(ngModel)]="selected" [typeahead]="seccionales" [adaptivePosition]="true"
-            [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
-            (typeaheadOnSelect)="typeaheadOnSelect($event)" [disabled]="selectedSeccional">
 
-        <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
+<fieldset>
+    <legend>Datos del solicitante</legend>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Cedula Solicitante</label>
+            <input type="text" class="form-control" mask="000-0000000-0">
         </div>
-    
+        <div class="col-md-4">
+            <label>Nombre Completo</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label>Telefono</label>
+            <input type="text" class="form-control" mask="000-000-0000">
+        </div>
+        <div class="col-md-4">
+
+            <label>Seccional</label>
+            <!-- <input [(ngModel)]="selectedSeccioan" [typeahead]="seccionales"class="form-control"> -->
+            <div class="form-inline">
+                <input class="form-control" [(ngModel)]="selected" [typeahead]="seccionales" [adaptivePosition]="true"
+                    [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
+                    (typeaheadOnSelect)="typeaheadOnSelect($event)" [disabled]="selectedSeccional">
+
+                <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
+            </div>
+
+        </div>
     </div>
-</div>
+</fieldset>
+
+
 <div class="row">
-    <div class="col-md-2">
-        <label>Correo Electronico</label>
+    <div class="col-md-4">
+        <label>Correo Electrónico</label>
         <input class="form-control">
     </div>
     <div class="col-md-2">
@@ -44,9 +50,29 @@
             <option>Humano</option>
         </select>
     </div>
+
+    <div class="col-md-2">
+        <label>Fecha Nacimiento</label>
+        <input class="form-control" bsDatepicker>
+    </div>
+    <div class="col-md-2">
+        <label>Sexo</label>
+        <select class="form-control">
+            <option>--Seleccione--</option>
+            <option>Femenino</option>
+            <option>Masculino</option>
+        </select>
+    </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
+        <label>Monto De la Ayuda</label>
+        <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
+            thousandSeparator=",">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
 
         <fieldset>
             <legend>Requisitos</legend>
@@ -76,9 +102,9 @@
                 Estado de cuenta del MINERD
             </label>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-12">
                     <label>Quien recibira ayuda?</label>
-                    <select class="form-control" [(ngModel)] = "Solicitud.ayudapara">
+                    <select class="form-control" [(ngModel)]="Solicitud.ayudapara">
                         <option value="0">--Seleccione--</option>
                         <option value="1">El Solicitante</option>
                         <option value="2">Hijo/Hija</option>
@@ -127,11 +153,11 @@
                         <input type="radio" value="false" name="inabima" [(ngModel)]="Solicitud.esjubiladoinabima">
                     </label>
 
-                   
+
                 </div>
             </div>
 
-            <div class="row" *ngIf="Solicitud.esjubiladoinabima == 'true'">
+            <div class="row" *ngIf="esJubiladoInabima()">
                 <div class="col-md-12">
                     <label>
                         <input type="checkbox">
@@ -141,6 +167,15 @@
             </div>
         </fieldset>
 
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Archivos Adjuntos</legend>
+            <ul>
+                <li *ngFor="let file of Solicitud.adjuntos"></li>
+            </ul>
+           <app-file-uploader></app-file-uploader>
+        </fieldset>
     </div>
 </div>
 
@@ -154,7 +189,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class=" pull-right">
-            <input type="button" class="btn btn-success" value="Registrar Solicitud" (click) = "registrarSolicitud()">
+            <input type="button" class="btn btn-success" value="Registrar Solicitud" (click)="registrarSolicitud()">
         </div>
     </div>
 </div>

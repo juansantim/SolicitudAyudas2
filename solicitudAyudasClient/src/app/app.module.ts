@@ -15,7 +15,11 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './common/loading/loading.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FileUploaderComponent } from './common/file-uploader/file-uploader.component'
 
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 
 @NgModule({
@@ -25,7 +29,8 @@ import { EstadisticasComponent } from './pages/estadisticas/estadisticas.compone
     InicioComponent,
     RegistroSolicitudComponent,
     LoadingComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+    FileUploaderComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,9 @@ import { EstadisticasComponent } from './pages/estadisticas/estadisticas.compone
     BrowserAnimationsModule,
     FormsModule,
     TypeaheadModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    NgxMaskModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   providers: [
     AuthGuardDefault,

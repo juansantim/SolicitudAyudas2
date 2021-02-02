@@ -1,0 +1,7 @@
+<input type="file" class="form-control" 
+style="visibility: hidden;" id="fileuploader"
+accept=".jpeg, .pdf">
+<ul *ngIf="files.length > 0">
+    <li *ngFor="let file of files">{{file.name}}</li>
+</ul>
+<button class="btn btn-primary" (click)="AgregarAdjunto()" >+</button>
