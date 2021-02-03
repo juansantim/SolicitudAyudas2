@@ -9,6 +9,8 @@ namespace SolicitudAyuda.Model
 {
     public class DataContext : DbContext
     {
+        public DbSet<TipoSolicitud> TiposSolicitiudes { get; set; }
+        public DbSet<RequisitoTipoSolicitud> RequisitosTipoSolicitudes { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
         public DbSet<Seccional> Seccionales { get; set; }
@@ -22,7 +24,9 @@ namespace SolicitudAyuda.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProvinciaETC());
-            modelBuilder.ApplyConfiguration(new MunicipioETC());            
+            modelBuilder.ApplyConfiguration(new MunicipioETC());
+            modelBuilder.ApplyConfiguration(new RequisitoTipoSolicitudETC());
+            modelBuilder.ApplyConfiguration(new TipoSolicitudETC());
         }
     }
 }

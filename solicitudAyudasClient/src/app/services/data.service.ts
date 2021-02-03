@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataService {
+  GetTiposSolicitudesConRequisitos():Observable<any> {
+    return this.http.get('/api/TipoSolicitud/ConRequisitos');
+  }
   GetSeccionales():Observable<any> {
     return this.http.get('/api/seccionales');
   }

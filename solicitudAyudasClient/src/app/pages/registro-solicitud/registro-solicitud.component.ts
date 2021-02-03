@@ -20,6 +20,9 @@ export class RegistroSolicitudComponent implements OnInit {
   seccionales: Array<any>;
   selectedSeccional: any;
   cargandoSeccionales: boolean;
+  tiposSolicitudes: Array<any>;
+  TipoDeAyuda: any;
+  RequisitosSolicitud: Array<any>;
 
   isLoading() {
     return this.cargandoSeccionales;
@@ -33,6 +36,7 @@ export class RegistroSolicitudComponent implements OnInit {
     this.cargandoSeccionales = true;
     this.Solicitud = new SolicitudAyuda();
 
+
     // this.dataService.GetSeccionales().subscribe(data => {
     //   this.seccionales = data;
     //   this.cargandoSeccionales = false;
@@ -40,12 +44,18 @@ export class RegistroSolicitudComponent implements OnInit {
     //   this.cargandoSeccionales = false;
     // })
 
+    this.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
+      this.tiposSolicitudes = data;
+    }, err => {
+      console.log(err);
+    })
+
     this.cargandoSeccionales = false;
     this.seccionales = [
-      {nombre: "Municipio Azua"},
-      {nombre: "Municipio Guayabal"},
-      {nombre: "Municipio Las Yayas"},
-      {nombre: "Municipio Padre las casas"}
+      { nombre: "Municipio Azua" },
+      { nombre: "Municipio Guayabal" },
+      { nombre: "Municipio Las Yayas" },
+      { nombre: "Municipio Padre las casas" }
     ]
 
   }
@@ -58,24 +68,31 @@ export class RegistroSolicitudComponent implements OnInit {
 
   selected: any;
 
-  esJubiladoInabima(){
-    return  this.Solicitud.esjubiladoinabima === 'true';
+  esJubiladoInabima() {
+    return this.Solicitud.esjubiladoinabima === 'true';
   }
 
-  registrarSolicitud(){
+  registrarSolicitud() {
     Swal.fire({
-      title:'Aviso', 
-      text:'Solicitud de ayuda Nro# 2134 registrara satisfactoriamente', 
-      icon:'info',
-      showConfirmButton:true,
+      title: 'Aviso',
+      text: 'Solicitud de ayuda Nro# 2134 registrara satisfactoriamente',
+      icon: 'info',
+      showConfirmButton: true,
       showCloseButton: true,
       showCancelButton: true,
-      confirmButtonText:'Imprimir',
+      confirmButtonText: 'Imprimir',
     })
   }
 
-  AgregarAdjunto(){
+  AgregarAdjunto() {
     this.Solicitud.adjuntos.push({});
+  }
+
+  onChangeTipoSolicitud(tipoSolicitud) {
+    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitud)[0]
+    console.log(tipoSolictud);
+
+    this.RequisitosSolicitud = tipoSolictud.requisitos;
   }
 }
 
