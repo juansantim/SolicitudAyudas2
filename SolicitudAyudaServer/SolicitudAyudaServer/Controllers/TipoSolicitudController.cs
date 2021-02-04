@@ -30,7 +30,7 @@ namespace SolicitudAyudaServer.Controllers
                     {
                         r.Id,
                         r.Nombre,
-                        Checked = false,
+                        value = "",
                         values = Getvalues(r)
                     })
                 });

@@ -22,7 +22,7 @@
         <div class="col-md-2">
             <label>Sexo</label>
             <select class="form-control">
-                <option>--Seleccione--</option>
+                <option>--SELECCIONE--</option>
                 <option>Femenino</option>
                 <option>Masculino</option>
             </select>
@@ -50,7 +50,7 @@
     <div class="col-md-6">
         <label>Tipo de Ayuda</label>
         <select class="form-control" [(ngModel)]="TipoDeAyuda" (change) = "onChangeTipoSolicitud($event.target.value)">
-            <option value="0">--Seleccione--</option>
+            <option value="0">--SELECCIONE--</option>
             <option *ngFor="let s of tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
         </select>
     </div>
@@ -104,7 +104,7 @@
            <div class="row" *ngFor="let r of RequisitosSolicitud">
                <div class="col-md-12" *ngIf="r.values.length == 0">
                 <label>
-                    <input type="checkbox" [(ngModel)] = "r.checked">
+                    <input type="checkbox" [(ngModel)] = "r.value">
                     {{r.nombre}}
                 </label>
                </div>
@@ -112,8 +112,8 @@
                <div class="col-md-12" *ngIf="r.values.length > 0">
                 <label>
                     <label>{{r.nombre}}</label>
-                    <select class="form-control">
-                        <option>--seleccione-</option>
+                    <select class="form-control"[(ngModel)] = "r.value">
+                        <option>--SELECCIONE--</option>
                         <option *ngFor="let o of r.values" value="{{o}}">{{o}}</option>
                     </select>
                 </label>
@@ -126,7 +126,7 @@
                 <div class="col-md-12">
                     <label>Quien recibira ayuda?</label>
                     <select class="form-control" [(ngModel)]="Solicitud.ayudapara">
-                        <option value="0">--Seleccione--</option>
+                        <option value="0">--SELECCIONE--</option>
                         <option value="1">El Solicitante</option>
                         <option value="2">Hijo/Hija</option>
                         <option value="3">Padre/Madre</option>

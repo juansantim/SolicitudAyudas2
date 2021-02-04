@@ -10,8 +10,8 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210203225746_updateTipoSolictudes")]
-    partial class updateTipoSolictudes
+    [Migration("20210204010517_boon")]
+    partial class boon
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,11 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("PossibleValues")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)")
+                        .HasColumnName("PossibleValues");
+
                     b.Property<int>("TipoSolicitudId")
                         .HasColumnType("int");
 
@@ -109,6 +114,64 @@ namespace SolicitudAyuda.Model.Migrations
                     b.HasIndex("TipoSolicitudId");
 
                     b.ToTable("RequisitosTiposSolicitud");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Comunicacion solicitud del interesado dirigida al CEN",
+                            PossibleValues = "",
+                            TipoSolicitudId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Copia de cedula",
+                            PossibleValues = "",
+                            TipoSolicitudId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Expediente clinico que demuestre diagnostico actualizado",
+                            PossibleValues = "",
+                            TipoSolicitudId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Carta aval de la seccional a la que pertenece",
+                            PossibleValues = "",
+                            TipoSolicitudId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "ARS a que pertenece",
+                            PossibleValues = "ARS CMD,ARS APS,ARS SIMAG,ARS GRUPO MEDICO ASOCIADO,ARS YUNEN,ARS UNIVERSAL,ARS MONUMENTAL,ARS FUTURO,ARS PRIMERA,ARS ASEMAP,ARS SEMMA,ARS RENACER,ARS PALIC-SALUD,ARS PLAN SALUD,ARS SENASA,ARS RESERVAS,ARS METASALUD,ARS SENASA - REGIMEN SUBSIDIADO",
+                            TipoSolicitudId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Comunicacion solicitud del interesado dirigida al CEN",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "Copia de cedula",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Nombre = "Carta aval de la seccional a la que pertenece",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        });
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Seccional", b =>
@@ -148,6 +211,18 @@ namespace SolicitudAyuda.Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TiposSolictudes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Salud"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Construccion"
+                        });
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Maestro", b =>

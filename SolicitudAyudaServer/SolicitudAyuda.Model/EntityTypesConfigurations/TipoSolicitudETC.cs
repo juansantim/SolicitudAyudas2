@@ -13,6 +13,18 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         {
             entity.Property(e => e.Nombre).HasMaxLength(150);
             entity.HasMany(e => e.Requisitos).WithOne(r => r.TipoSolicitud).HasForeignKey(r => r.TipoSolicitudId);
+
+            entity.HasData(
+                new TipoSolicitud
+                {
+                    Id = 1,
+                    Nombre = "Salud",                    
+                },
+                new TipoSolicitud
+                {
+                    Id = 2,
+                    Nombre = "Construccion",                    
+                });
         }
     }
 }
