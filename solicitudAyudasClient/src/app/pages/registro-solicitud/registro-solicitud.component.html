@@ -34,12 +34,18 @@
 </fieldset>
 <div class="row">
     <div class="col-md-12">
-        <label>Seccional</label>
-        <!-- <input [(ngModel)]="selectedSeccioan" [typeahead]="seccionales"class="form-control"> -->
+        <label>Seccional</label>        
         <div>
-            <input class="form-control" [(ngModel)]="selected" [typeahead]="seccionales" [adaptivePosition]="true"
-                [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
-                (typeaheadOnSelect)="typeaheadOnSelect($event)" [disabled]="selectedSeccional">
+            <input class="form-control" 
+            [(ngModel)]="selected" 
+            [typeahead]="seccionales" 
+            [adaptivePosition]="true"
+            [typeaheadItemTemplate]="customItemTemplate" 
+            typeaheadOptionField="nombre"
+            (typeaheadOnSelect)="typeaheadOnSelect($event)" 
+            [disabled]="selectedSeccional"
+            placeholder="Empiece a escribir y seleccione uno de la lista desplegada"
+            >
 
             <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
         </div>
