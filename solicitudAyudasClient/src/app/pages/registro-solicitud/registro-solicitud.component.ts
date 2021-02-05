@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
@@ -11,8 +12,28 @@ import Swal from 'sweetalert2'
 })
 export class RegistroSolicitudComponent implements OnInit {
 
-  constructor(private dataService: DataService) {
+  //form controls:
+  solicitudAyudaForm = new FormGroup({
+    cedula: new FormControl(''),
+    seccional: new FormControl(''),
+    tipoDeAyuda: new FormControl(''),
+    nombreCompleto: new FormControl(''),
+    fechaNacimiento: new FormControl(''),
+    quienRecibeAyuda: new FormControl(''),
+    telefonoCelular: new FormControl(''),
+    telefonoResidencia: new FormControl(''),
+    telefonoLaboral: new FormControl(''),
+    email: new FormControl(''),
+    sexo: new FormControl(''),
+    direccion: new FormControl(''),
+    montoAyuda: new FormControl(''),
+  });
 
+
+
+  //end of form controls
+  constructor(private dataService: DataService, private fb: FormBuilder) {
+    //this.fb
   }
 
   Solicitud: SolicitudAyuda;
@@ -92,8 +113,44 @@ export class RegistroSolicitudComponent implements OnInit {
     var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitud)[0]
     console.log(tipoSolictud);
 
-    this.RequisitosSolicitud = tipoSolictud.requisitos;
+    let keys = [];
+
+    Object.keys(this.solicitudAyudaForm.controls).forEach(key => {
+      keys.push(key);
+    });
+
+    keys.filter((k) => {
+      k.startsWith("rd")
+    }).forEach(key => {
+      this.solicitudAyudaForm.removeControl(key);
+    })
+
+    if (tipoSolictud.requisitos.length > 0) {
+      tipoSolictud.requisitos.forEach(element => {
+        this.solicitudAyudaForm.addControl(element.formName, new FormControl())
+      });
+
+    }
+    console.log(this.solicitudAyudaForm.controls);
+    this.RequisitosSolicitud = tipoSolictud.requisitos;    
   }
+
+  GetErrors(fieldName, errorName){
+    var control = this.solicitudAyudaForm.get(fieldName);
+
+    if(control.pristine || !control.errors){
+      return false;
+    }
+    else{
+      return control.errors[errorName];
+    }
+
+  }
+
+  onSubmit(){
+    console.log('form submitted')
+  }
+
 }
 
 //Mask plugin documentation

@@ -29,7 +29,8 @@ namespace SolicitudAyudaServer.Controllers
                     Requisitos = ts.Requisitos.Select(r => new
                     {
                         r.Id,
-                        r.Nombre,
+                        r.Descripcion,
+                        r.FormName,
                         value = "",
                         values = Getvalues(r)
                     })

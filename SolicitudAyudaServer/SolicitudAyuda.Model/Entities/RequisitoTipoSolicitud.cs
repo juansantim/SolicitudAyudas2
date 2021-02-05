@@ -10,8 +10,9 @@ namespace SolicitudAyuda.Model.Entities
     {
         public int Id { get; set; }
         public int TipoSolicitudId { get; set; }
+        public string FormName { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
-        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
         public string PossibleValues { get; set; }
     }
 }

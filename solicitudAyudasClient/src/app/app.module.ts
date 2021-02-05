@@ -10,16 +10,21 @@ import { AuthGuardDefault } from './security/AuthGuardDefault'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppHttpInterceptor } from './HttpInterceptor/AppHttpInterceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './common/loading/loading.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
+
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileUploaderComponent } from './common/file-uploader/file-uploader.component'
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { ValidationErrorMessageComponent } from './common/validation-error-message/validation-error-message.component';
 
 
 @NgModule({
@@ -30,7 +35,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     RegistroSolicitudComponent,
     LoadingComponent,
     EstadisticasComponent,
-    FileUploaderComponent
+    FileUploaderComponent,
+    ValidationErrorMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +47,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     HttpClientModule,
     NgxMaskModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ReactiveFormsModule,
+    AlertModule.forRoot()
   ],
   providers: [
     AuthGuardDefault,

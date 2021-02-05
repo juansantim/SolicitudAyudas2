@@ -2,221 +2,254 @@
     <label>{{model.nombre}}</label>
 </ng-template>
 
-<app-loading [show]="isLoading()"></app-loading>
+values: {{solicitudAyudaForm.value | json}} <br/>
+status: {{solicitudAyudaForm.value.status}} <br/>
 
-<fieldset>
-    <legend>Datos del solicitante</legend>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Cedula Solicitante</label>
-            <input type="text" class="form-control" mask="000-0000000-0">
-        </div>
-        <div class="col-md-4">
-            <label>Nombre Completo</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="col-md-2">
-            <label>Fecha Nacimiento</label>
-            <input class="form-control" bsDatepicker>
-        </div>
-        <div class="col-md-2">
-            <label>Sexo</label>
-            <select class="form-control">
-                <option>--SELECCIONE--</option>
-                <option>Femenino</option>
-                <option>Masculino</option>
-            </select>
-        </div>
-
+<form [formGroup]="solicitudAyudaForm" (ngSubmit)="onSubmit()">
+    <app-loading [show]="isLoading()"></app-loading>
     
-  
-    </div>
-</fieldset>
-<div class="row">
-    <div class="col-md-12">
-        <label>Seccional</label>        
-        <div>
-            <input class="form-control" 
-            [(ngModel)]="selected" 
-            [typeahead]="seccionales" 
-            [adaptivePosition]="true"
-            [typeaheadItemTemplate]="customItemTemplate" 
-            typeaheadOptionField="nombre"
-            (typeaheadOnSelect)="typeaheadOnSelect($event)" 
-            [disabled]="selectedSeccional"
-            placeholder="Empiece a escribir y seleccione uno de la lista desplegada"
-            >
-
-            <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
+    <fieldset>
+        <legend>Datos del solicitante</legend>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Cedula Solicitante</label>
+                <input type="text" class="form-control" mask="000-0000000-0" formControlName="cedula" required minlength="11">
+                
+                <app-validation-error-message *ngIf="GetErrors('cedula', 'required')" textMessage = "La cedula es requerida"></app-validation-error-message>
+                <app-validation-error-message *ngIf="GetErrors('cedula', 'minlength')" textMessage = "La cedula debe contener 11 digitos"></app-validation-error-message>
+                
+            </div>
+            <div class="col-md-4">
+                <label>Nombre Completo</label>
+                <input type="text" class="form-control" formControlName="nombreCompleto"  minlength="5" required>
+                <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'minlength')" textMessage = "El nombre debe contener al menos 5 letras"></app-validation-error-message>
+                <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'required')" textMessage = "El nombre es obligatorio"></app-validation-error-message>
+            </div>
+            <div class="col-md-2">
+                <label>Fecha Nacimiento</label>
+                <input class="form-control" bsDatepicker formControlName="fechaNacimiento" required>
+                <app-validation-error-message *ngIf="GetErrors('fechaNacimiento', 'required')" textMessage = "La fecha de nacimiento es obligatoria"></app-validation-error-message>
+            </div>
+            <div class="col-md-2">
+                <label>Sexo</label>
+                <select class="form-control" formControlName="sexo" required>
+                    <option [ngValue] = "null">--SELECCIONE--</option>
+                    <option value="F">Femenino</option>
+                    <option value="M">Masculino</option>
+                </select>
+                <app-validation-error-message *ngIf="GetErrors('sexo', 'required')" textMessage = "El sexo es obligatorio"></app-validation-error-message>
+                {{solicitudAyudaForm.get('sexo').value}}
+            </div>
+    
+        
+      
         </div>
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <label>Tipo de Ayuda</label>
-        <select class="form-control" [(ngModel)]="TipoDeAyuda" (change) = "onChangeTipoSolicitud($event.target.value)">
-            <option value="0">--SELECCIONE--</option>
-            <option *ngFor="let s of tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
-        </select>
-    </div>
-    <div class="col-md-6">
-        <label>Monto De la Ayuda</label>
-        <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
-            thousandSeparator=",">
-    </div>
-</div>
-
-<fieldset>
-    <legend>Datos de Contacto</legend>
-    <div class="row">
-        <div class="col-md-2">
-            <label>Telefono Celular</label>
-            <input type="text" class="form-control" mask="000-000-0000">
-        </div>
-        <div class="col-md-2">
-            <label>Telefono Residencial</label>
-            <input type="text" class="form-control" mask="000-000-0000">
-        </div>
-        <div class="col-md-2">
-            <label>Telefono Laboral</label>
-            <input type="text" class="form-control" mask="000-000-0000">
-        </div>
-        <div class="col-md-4">
-            <label>Correo Electrónico</label>
-            <input class="form-control">
-        </div>   
-    </div>
+    </fieldset>
     <div class="row">
         <div class="col-md-12">
-            <label>Direccion</label>
-            <textarea class="form-control" cols="2"></textarea>
-        </div>
-  
-    </div>
-</fieldset>
+            <label>Seccional</label>        
+            <div>
+                <input class="form-control" 
+                formControlName="seccional"
+                [typeahead]="seccionales" 
+                [adaptivePosition]="true"
+                [typeaheadItemTemplate]="customItemTemplate" 
+                typeaheadOptionField="nombre"
+                (typeaheadOnSelect)="typeaheadOnSelect($event)" 
+                [disabled]="selectedSeccional"
+                placeholder="Empiece a escribir y seleccione uno de la lista desplegada"
+                required
+                >
+    
+                <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
 
-
-<div class="row">
-  
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-
-        <fieldset>
-            <legend>Requisitos</legend>
-
-           <div class="row" *ngFor="let r of RequisitosSolicitud">
-               <div class="col-md-12" *ngIf="r.values.length == 0">
-                <label>
-                    <input type="checkbox" [(ngModel)] = "r.value">
-                    {{r.nombre}}
-                </label>
-               </div>
-
-               <div class="col-md-12" *ngIf="r.values.length > 0">
-                <label>
-                    <label>{{r.nombre}}</label>
-                    <select class="form-control"[(ngModel)] = "r.value">
-                        <option>--SELECCIONE--</option>
-                        <option *ngFor="let o of r.values" value="{{o}}">{{o}}</option>
-                    </select>
-                </label>
-               </div>
-         
-            <br>
-           </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Quien recibira ayuda?</label>
-                    <select class="form-control" [(ngModel)]="Solicitud.ayudapara">
-                        <option value="0">--SELECCIONE--</option>
-                        <option value="1">El Solicitante</option>
-                        <option value="2">Hijo/Hija</option>
-                        <option value="3">Padre/Madre</option>
-                        <option value="4">Conyuge o Esposa/Esposo</option>
-                    </select>
-                </div>
+                <app-validation-error-message *ngIf="GetErrors('seccional', 'required')" textMessage = "la seccional es obligatoria"></app-validation-error-message>
             </div>
-            <div class="row" *ngIf="Solicitud.ayudapara == 2">
-                <div class="col-md-12">
-                    <label>
-                        <input type="checkbox">
-                        Acta de Nacimiento de Hijo/Hija
-                    </label>
-                </div>
-            </div>
-            <div class="row" *ngIf="Solicitud.ayudapara == 3">
-                <div class="col-md-12">
-                    <label>
-                        <input type="checkbox">
-                        Copia cedula de padra/madre
-                    </label>
-                </div>
-            </div>
-            <div class="row" *ngIf="Solicitud.ayudapara == 4">
-                <div class="col-md-12">
-                    <label>
-                        <input type="checkbox">
-                        Acta de matrimonio/union libre
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label>
-                        Solicitante es jubilado de Inabima?
-                    </label>
-                    <br>
-                    <label>
-                        Si
-                        <input type="radio" value="true" name="inabima" [(ngModel)]="Solicitud.esjubiladoinabima">
-                    </label>
-                    &nbsp;
-                    <label>
-                        No
-                        <input type="radio" value="false" name="inabima" [(ngModel)]="Solicitud.esjubiladoinabima">
-                    </label>
-
-
-                </div>
-            </div>
-
-            <div class="row" *ngIf="esJubiladoInabima()">
-                <div class="col-md-12">
-                    <label>
-                        <input type="checkbox">
-                        Estado de cuenta Jubilado de Inabima-Hacienda
-                    </label>
-                </div>
-            </div>
-        </fieldset>
-
-    </div>
-    <div class="col-md-6">
-        <fieldset>
-            <legend>Archivos Adjuntos</legend>
-            <ul>
-                <li *ngFor="let file of Solicitud.adjuntos"></li>
-            </ul>
-           <app-file-uploader></app-file-uploader>
-        </fieldset>
-    </div>
-</div>
-
-
-<fieldset>
-    <legend>Motivo de la Solicitud</legend>
-    <textarea class="form-control" rows="4"></textarea>
-    <br>
-</fieldset>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class=" pull-right">
-            <input type="button" class="btn btn-success" value="Registrar Solicitud" (click)="registrarSolicitud()">
+    
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Tipo de Ayuda</label>
+            <select class="form-control" formControlName="tipoDeAyuda" (change) = "onChangeTipoSolicitud($event.target.value)" required>
+                <option  [ngValue] = "null">--SELECCIONE--</option>
+                <option *ngFor="let s of tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
+            </select>
+            <app-validation-error-message *ngIf="GetErrors('tipoDeAyuda', 'required')" textMessage = "Tipo de Ayuda es obligatorio"></app-validation-error-message>
+        </div>
+        <div class="col-md-6">
+            <label>Monto De la Ayuda</label>
+            <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
+                thousandSeparator="," formControlName="montoAyuda" required>
+                <app-validation-error-message *ngIf="GetErrors('montoAyuda', 'required')" textMessage = "Monto de Ayuda es obligatorio"></app-validation-error-message>
+        </div>
+    </div>
+    
+    <fieldset>
+        <legend>Datos de Contacto</legend>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Telefono Celular</label>
+                <input type="text" class="form-control" mask="000-000-0000" formControlName = "telefonoCelular">
+                <app-validation-error-message *ngIf="GetErrors('telefonoCelular', 'required')" textMessage = "Celular es requerido"></app-validation-error-message>
+            </div>
+            <div class="col-md-2">
+                <label>Telefono Residencial</label>
+                <input type="text" class="form-control" mask="000-000-0000" formControlName = "telefonoResidencia">
+            </div>
+            <div class="col-md-2">
+                <label>Telefono Laboral</label>
+                <input type="text" class="form-control" mask="000-000-0000" formControlName="telefonoLaboral" required>
+                <app-validation-error-message *ngIf="GetErrors('telefonoLaboral', 'required')" textMessage = "Telefono laboral es requerido"></app-validation-error-message>
+            </div>
+            <div class="col-md-4">
+                <label>Correo Electrónico</label>
+                <input type="email" class="form-control" formControlName="email">
+                <app-validation-error-message *ngIf="GetErrors('email', 'email')" textMessage = "El email es inválido, favor corregir"></app-validation-error-message>
+
+                {{solicitudAyudaForm.get('email').errors}}
+            </div>   
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Direccion</label>
+                <textarea class="form-control" cols="2" required formControlName="direccion" required></textarea>
+                <app-validation-error-message *ngIf="GetErrors('direccion', 'required')" textMessage = "La direccion es requerida"></app-validation-error-message>
+            </div>
+      
+        </div>
+    </fieldset>
+    
+    
+    <div class="row">
+      
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+    
+            <fieldset>
+                <legend>Requisitos</legend>
+    
+               <div class="row" *ngFor="let r of RequisitosSolicitud">
+                   <div class="col-md-12" *ngIf="r.values.length == 0">
+                    <label>
+                        <input type="checkbox" [formControlName]="r.formName" required >
+                        {{r.descripcion}}
+                    </label>
+                    <app-validation-error-message *ngIf="GetErrors(r.formName, 'required')" textMessage = "La verificación es obligatoria"></app-validation-error-message>
+                   </div>
+    
+                   <div class="col-md-12" *ngIf="r.values.length > 0" >
+                    <label>
+                        <label>{{r.nombre}}</label>
+                        <select class="form-control" [formControlName]="r.formName" required>
+                            <option  [ngValue] = "null">--SELECCIONE--</option>
+                            <option  *ngFor="let o of r.values" value="{{o}}">{{o}}</option>
+                        </select>
+                        <app-validation-error-message *ngIf="GetErrors(r.formName, 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
+                    </label>
+                   </div>
+             
+                <br>
+               </div>
+    
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Quien recibira ayuda?</label>
+                        <select class="form-control" formControlName="quienRecibeAyuda" required>
+                            <option  [ngValue] = "null">--SELECCIONE--</option>
+                            <option value="1">El Solicitante</option>
+                            <option value="2">Hijo/Hija</option>
+                            <option value="3">Padre/Madre</option>
+                            <option value="4">Conyuge o Esposa/Esposo</option>
+                        </select>
+
+                        <app-validation-error-message *ngIf="GetErrors('quienRecibeAyuda', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
+                    </div>
+                </div>
+                <div class="row" *ngIf="Solicitud.ayudapara == 2">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="checkbox">
+                            Acta de Nacimiento de Hijo/Hija
+                        </label>
+                    </div>
+                </div>
+                <div class="row" *ngIf="Solicitud.ayudapara == 3">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="checkbox">
+                            Copia cedula de padra/madre
+                        </label>
+                    </div>
+                </div>
+                <div class="row" *ngIf="Solicitud.ayudapara == 4">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="checkbox">
+                            Acta de matrimonio/union libre
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>
+                            Solicitante es jubilado de Inabima?
+                        </label>
+                        <br>
+                        <label>
+                            Si
+                            <input type="radio" value="true" name="inabima" >
+                        </label>
+                        &nbsp;
+                        <label>
+                            No
+                            <input type="radio" value="false" name="inabima">
+                        </label>
+    
+    
+                    </div>
+                </div>
+    
+                <div class="row" *ngIf="esJubiladoInabima()">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="checkbox">
+                            Estado de cuenta Jubilado de Inabima-Hacienda
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+    
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Archivos Adjuntos</legend>
+                <ul>
+                    <li *ngFor="let file of Solicitud.adjuntos"></li>
+                </ul>
+               <app-file-uploader></app-file-uploader>
+            </fieldset>
+        </div>
+    </div>
+    
+    
+    <fieldset>
+        <legend>Motivo de la Solicitud</legend>
+        <textarea class="form-control" rows="4"></textarea>
+        <br>
+    </fieldset>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class=" pull-right">
+                <input type="button" class="btn btn-success" value="Registrar Solicitud" (click)="registrarSolicitud()">
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+
