@@ -21,6 +21,8 @@ namespace SolicitudAyuda.Model
             
         }
 
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProvinciaETC());

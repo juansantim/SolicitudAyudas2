@@ -1,0 +1,130 @@
+[
+   {
+      "id":"1",
+      "Nombre":"DISTRITO NACIONAL"
+   },
+   {
+      "id":"2",
+      "Nombre":"LA ALTAGRACIA"
+   },
+   {
+      "id":"3",
+      "Nombre":"AZUA"
+   },
+   {
+      "id":"4",
+      "Nombre":"BAHORUCO"
+   },
+   {
+      "id":"5",
+      "Nombre":"BARAHONA"
+   },
+   {
+      "id":"6",
+      "Nombre":"DAJABON"
+   },
+   {
+      "id":"7",
+      "Nombre":"DUARTE"
+   },
+   {
+      "id":"8",
+      "Nombre":"EL SEIBO"
+   },
+   {
+      "id":"9",
+      "Nombre":"ELIAS PIÑA"
+   },
+   {
+      "id":"10",
+      "Nombre":"ESPAILLAT"
+   },
+   {
+      "id":"11",
+      "Nombre":"HATO MAYOR DEL REY"
+   },
+   {
+      "id":"12",
+      "Nombre":"INDEPENDENCIA"
+   },
+   {
+      "id":"13",
+      "Nombre":"LA ROMANA"
+   },
+   {
+      "id":"14",
+      "Nombre":"LA VEGA"
+   },
+   {
+      "id":"15",
+      "Nombre":"MARIA TRINIDAD SANCHEZ"
+   },
+   {
+      "id":"16",
+      "Nombre":"MONSEÑOR NOUEL"
+   },
+   {
+      "id":"17",
+      "Nombre":"MONTECRISTI"
+   },
+   {
+      "id":"18",
+      "Nombre":"MONTE PLATA"
+   },
+   {
+      "id":"19",
+      "Nombre":"PEDERNALES"
+   },
+   {
+      "id":"20",
+      "Nombre":"PERAVIA"
+   },
+   {
+      "id":"21",
+      "Nombre":"PUERTO PLATA"
+   },
+   {
+      "id":"22",
+      "Nombre":"HERMANAS MIRABAL (SALCEDO)"
+   },
+   {
+      "id":"23",
+      "Nombre":"SAMANA"
+   },
+   {
+      "id":"24",
+      "Nombre":"SAN CRISTOBAL"
+   },
+   {
+      "id":"25",
+      "Nombre":"SAN JUAN DE LA MAGUANA"
+   },
+   {
+      "id":"26",
+      "Nombre":"SAN PEDRO DE MACORIS"
+   },
+   {
+      "id":"27",
+      "Nombre":"SANCHEZ RAMIREZ"
+   },
+   {
+      "id":"28",
+      "Nombre":"SANTIAGO DE LOS CABALLEROS"
+   },
+   {
+      "id":"29",
+      "Nombre":"SANTIAGO RODRIGUEZ"
+   },
+   {
+      "id":"30",
+      "Nombre":"VALVERDE"
+   },
+   {
+      "id":"31",
+      "Nombre":"SAN JOSE DE OCOA"
+   },
+   {
+      "id":"32",
+      "Nombre":"SANTO DOMINGO"
+   }
+]

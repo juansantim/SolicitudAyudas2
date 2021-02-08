@@ -2,8 +2,8 @@
     <label>{{model.nombre}}</label>
 </ng-template>
 
-values: {{solicitudAyudaForm.value | json}} <br/>
-status: {{solicitudAyudaForm.value.status}} <br/>
+<!-- values: {{solicitudAyudaForm.value | json}} <br/>
+status: {{solicitudAyudaForm.value.status}} <br/> -->
 
 <form [formGroup]="solicitudAyudaForm" (ngSubmit)="onSubmit()">
     <app-loading [show]="isLoading()"></app-loading>
@@ -37,8 +37,7 @@ status: {{solicitudAyudaForm.value.status}} <br/>
                     <option value="F">Femenino</option>
                     <option value="M">Masculino</option>
                 </select>
-                <app-validation-error-message *ngIf="GetErrors('sexo', 'required')" textMessage = "El sexo es obligatorio"></app-validation-error-message>
-                {{solicitudAyudaForm.get('sexo').value}}
+                <app-validation-error-message *ngIf="GetErrors('sexo', 'required')" textMessage = "El sexo es obligatorio"></app-validation-error-message>                
             </div>
     
         
@@ -78,7 +77,7 @@ status: {{solicitudAyudaForm.value.status}} <br/>
             <app-validation-error-message *ngIf="GetErrors('tipoDeAyuda', 'required')" textMessage = "Tipo de Ayuda es obligatorio"></app-validation-error-message>
         </div>
         <div class="col-md-6">
-            <label>Monto De la Ayuda</label>
+            <label style="font-weight: bold;">Monto de la Ayuda</label>
             <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
                 thousandSeparator="," formControlName="montoAyuda" required>
                 <app-validation-error-message *ngIf="GetErrors('montoAyuda', 'required')" textMessage = "Monto de Ayuda es obligatorio"></app-validation-error-message>
@@ -106,8 +105,6 @@ status: {{solicitudAyudaForm.value.status}} <br/>
                 <label>Correo Electrónico</label>
                 <input type="email" class="form-control" formControlName="email">
                 <app-validation-error-message *ngIf="GetErrors('email', 'email')" textMessage = "El email es inválido, favor corregir"></app-validation-error-message>
-
-                {{solicitudAyudaForm.get('email').errors}}
             </div>   
         </div>
         <div class="row">
@@ -157,39 +154,41 @@ status: {{solicitudAyudaForm.value.status}} <br/>
                 <div class="row">
                     <div class="col-md-12">
                         <label>Quien recibira ayuda?</label>
-                        <select class="form-control" formControlName="quienRecibeAyuda" required>
-                            <option  [ngValue] = "null">--SELECCIONE--</option>
-                            <option value="1">El Solicitante</option>
-                            <option value="2">Hijo/Hija</option>
-                            <option value="3">Padre/Madre</option>
-                            <option value="4">Conyuge o Esposa/Esposo</option>
+                        <select class="form-control" formControlName="quienRecibeAyuda" required (change) = "onChangeQuienRecibiraAyuda($event.target.value)">                
+                            <option *ngFor="let x of QuienRecibiraAyuda" value="{{x.value}}">{{x.name}} </option>
                         </select>
 
                         <app-validation-error-message *ngIf="GetErrors('quienRecibeAyuda', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
                     </div>
                 </div>
-                <div class="row" *ngIf="Solicitud.ayudapara == 2">
+                <div class="row" *ngIf="solicitudAyudaForm.get('quienRecibeAyuda').value == 2">
                     <div class="col-md-12">
                         <label>
-                            <input type="checkbox">
+                            <input type="checkbox" name="RBActaNacimiento" required formControlName="RBActaNacimiento">
                             Acta de Nacimiento de Hijo/Hija
                         </label>
+
+                        <app-validation-error-message *ngIf="GetErrors('RBActaNacimiento', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
                     </div>
                 </div>
-                <div class="row" *ngIf="Solicitud.ayudapara == 3">
+                <div class="row" *ngIf="solicitudAyudaForm.get('quienRecibeAyuda').value == 3">
                     <div class="col-md-12">
                         <label>
-                            <input type="checkbox">
+                            <input type="checkbox" name="RBPadreMadre" formControlName="RBPadreMadre" required>
                             Copia cedula de padra/madre
                         </label>
+
+                        <app-validation-error-message *ngIf="GetErrors('RBPadreMadre', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
                     </div>
                 </div>
-                <div class="row" *ngIf="Solicitud.ayudapara == 4">
+                <div class="row" *ngIf="solicitudAyudaForm.get('quienRecibeAyuda').value == 4">
                     <div class="col-md-12">
                         <label>
-                            <input type="checkbox">
+                            <input type="checkbox" name="RBConyuge" formControlName="RBConyuge" required>
                             Acta de matrimonio/union libre
                         </label>
+
+                        <app-validation-error-message *ngIf="GetErrors('RBConyuge', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
                     </div>
                 </div>
                 <div class="row">
@@ -200,12 +199,12 @@ status: {{solicitudAyudaForm.value.status}} <br/>
                         <br>
                         <label>
                             Si
-                            <input type="radio" value="true" name="inabima" >
+                            <input type="radio" value="true" name="esJubiladoInabima" formControlName="esJubiladoInabima" (change) = "onChangeSolicitadoaJubilado($event.target.value)" >
                         </label>
                         &nbsp;
                         <label>
                             No
-                            <input type="radio" value="false" name="inabima">
+                            <input type="radio" value="false" name="esJubiladoInabima" formControlName="esJubiladoInabima" (change) = "onChangeSolicitadoaJubilado($event.target.value)">
                         </label>
     
     
@@ -215,9 +214,11 @@ status: {{solicitudAyudaForm.value.status}} <br/>
                 <div class="row" *ngIf="esJubiladoInabima()">
                     <div class="col-md-12">
                         <label>
-                            <input type="checkbox">
+                            <input type="checkbox" formControlName="estadoCuenta" required>
                             Estado de cuenta Jubilado de Inabima-Hacienda
                         </label>
+
+                        <app-validation-error-message *ngIf="GetErrors('estadoCuenta', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
                     </div>
                 </div>
             </fieldset>
@@ -225,26 +226,28 @@ status: {{solicitudAyudaForm.value.status}} <br/>
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend>Archivos Adjuntos</legend>
-                <ul>
-                    <li *ngFor="let file of Solicitud.adjuntos"></li>
-                </ul>
-               <app-file-uploader></app-file-uploader>
+                <legend>Archivos Adjuntos</legend>                
+                <app-file-uploader (FilesChage)="SetFiles($event)"></app-file-uploader>
             </fieldset>
+
+            <app-validation-error-message *ngIf="!archivos.length" textMessage = "Favor cargar los archivos con los requisitos indicados"></app-validation-error-message>
+
         </div>
     </div>
     
     
     <fieldset>
         <legend>Motivo de la Solicitud</legend>
-        <textarea class="form-control" rows="4"></textarea>
+        <textarea class="form-control" rows="4" formControlName="motivoSolicitud"></textarea>
+        <app-validation-error-message *ngIf="GetErrors('motivoSolicitud', 'required')" textMessage = "Este dato es obligatorio"></app-validation-error-message>
         <br>
+
     </fieldset>
     
     <div class="row">
         <div class="col-md-12">
             <div class=" pull-right">
-                <input type="button" class="btn btn-success" value="Registrar Solicitud" (click)="registrarSolicitud()">
+                <input type="submit" class="btn btn-success" value="Registrar Solicitud" >
             </div>
         </div>
     </div>

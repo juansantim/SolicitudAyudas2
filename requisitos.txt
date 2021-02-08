@@ -1,0 +1,72 @@
+El alcance del proyecto es el siguiente:
+
+Desarrollo de aplicacion para la gestion de la solicitud y aprobacion de ayudas de los afiliados a la ADP. 
+El sistema debe contar con las siguientes funcionalidades:
+
+- Consultar al afiliado y visualizar solicitudes anteriores. Generar reporte de historial de solicitudes de afiliado por rango de fecha y monto total
+aprobado en rango de fechas.
+
+- Permitir el registro de solicitudes de ayuda por los siguientes motivos:
+	-Salud: 
+		Cancer
+		Covid
+		Cirugias
+		Entre otros (identificar)
+
+	-Infraestructura
+		Arreglo de vivienda por inundacion
+		Entre otros (identificar)
+
+- En el registro de ayudas, cada tipo de solicitud debe contener un conjunto de requisitos que deben ser validados y cotejados por el usuario que registra la solicitud.
+El sistema debe proporcionar la lista de requisitos a ser validados y poder ser marcados como validados por el usuario.
+
+- El registro de las ayudas, debe permitir adjuntar archivos conteniendo imagenes y/o documentos PDF con las requisitos de la misma.
+
+- El registro de ayudas, debe permitir registrar texto con motivacion de solicitud del afiliado.
+
+- Debe haber usuarios con permiso a registrar solicitudes de ayuda eligiendo la seccional, Tambien habra usuarios asinados a una seccional
+especifica que no podran cambiar la seccional para registrar la solicitud.
+
+- Tener identificadas todas las seccionales de ADP a nivel nacional para seleccionar en solicitud de ayudas.
+
+- Si el afiliado proporciona un correo electrónico, se le notificará en los siguientes escenarios:
+	- cuando se registre la solicitud.
+	- cuando se apruebe la solicitud.
+	- cuando se rechace la solicitud.
+
+- Las solicitude de ayuda no pasan a estatus "aprobada" hasta tanto sea marcada como aprobada por todos los miembros de la comision de aprobación;
+cada integrante de la comision de aprobacion, debe tener un usuario con los permisos necesarios para aprobar solicitud. Si al menos uno de los
+miembros de la comision, no aprueba la solicitud, la misma será marcada como "rechazada", 
+
+Estadisticas:
+
+1-Cantidad y Monto de ayuda que hemos otorgado 
+	* Por rango de fechas
+	* Por Secional (con opcion a generar todas)
+	* Porcentaje por seccional
+3-Relación de ayuda por concepto y monto (Tipo Ayuda):
+	* Por rango de fechas
+	* Por Secional (con opcion a generar todas)
+	* Porcentaje por seccional
+
+Gestion de usuario en app:
+- Permitir registrar usuarios identificados por seccional para el registro de solicitudes de ayuda.
+- Restringir acceso a crear solicitudes a una seccional o a todas las seccionales
+- Permitir registrar nuevos usuarios a la plataforma validando las cuentas a travez de su correo electronico
+- Permitir deshabilitar cuentas de usuarios existentes.
+
+Esquema de Costo que utilizaremos:
+Costo de desarrollo: 2,000.00 USD, 40% al inicio del proyecto y 60% al final. 
+Tiempo estimado de desarrollo y puesta en produccion: 60 dias a partir de la firma del contrato. 
+Iguala de 200 USD mensual que incluye mantenimiento y cambios menores de los requerimientos anteriormente descritos. 
+(recomendamos por los primeros 6 meses).
+
+Costo estimado en Mensual en la Nube:
+(pendiente a calcular)
+
+Puesta en produccion incluye:
+- Despliegue de Aplicacion en la Nube Microsoft Azure
+- Creacion de Primeros Usuarios
+- Manual de Usuario
+
+

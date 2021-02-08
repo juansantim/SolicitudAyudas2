@@ -1,6 +1,11 @@
 <input type="file" class="form-control"  style="visibility: hidden;" id="fileuploader" accept=".jpeg, .pdf">
 <ul *ngIf="files.length > 0">
-    <li *ngFor="let file of files">{{file.name}}</li> 
-    <button class="btn btn-danger"> <i class="fas fa-trash"></i></button>    
+    <li *ngFor="let file of files;  let i = index">
+       {{file.name}} |   <span style="color: blue;">{{(file.size / 1024)/1024 | number}} MB </span> 
+        <button type="button" class="btn btn-danger" (click) = "remove(i)"> <i class="fas fa-trash"></i></button>    
+    </li> 
+    
 </ul>
-<button class="btn btn-primary" (click)="AgregarAdjunto()" ><i class="fas fa-plus-circle"></i></button>
+<label *ngIf="files.length">Espacio total | {{(GetEspacioTotal() / 1024) /1024 | number}} MB <br/></label>
+
+<button type="button" class="btn btn-primary" (click)="AgregarAdjunto()" ><i class="fas fa-plus-circle"></i></button>

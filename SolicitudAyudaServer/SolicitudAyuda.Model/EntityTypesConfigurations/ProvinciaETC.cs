@@ -13,6 +13,11 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         {
             entity.Property(p => p.Nombre).HasMaxLength(30);
             entity.HasMany(p => p.Municipios).WithOne(m => m.Provincia).HasForeignKey(m =>m.ProvinciaId);
+
+            
+            
+            var strProvincias = System.IO.File.ReadAllText("")
+
         }
     }
 }

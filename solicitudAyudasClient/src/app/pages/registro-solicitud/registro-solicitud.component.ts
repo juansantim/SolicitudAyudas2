@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { collectionItem } from 'src/app/model/collectionItem';
 import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2'
@@ -23,27 +24,38 @@ export class RegistroSolicitudComponent implements OnInit {
     telefonoCelular: new FormControl(''),
     telefonoResidencia: new FormControl(''),
     telefonoLaboral: new FormControl(''),
-    email: new FormControl(''),
+    email: new FormControl('', Validators.email),
     sexo: new FormControl(''),
     direccion: new FormControl(''),
     montoAyuda: new FormControl(''),
+    esJubiladoInabima: new FormControl(''),
+    estadoCuenta: new FormControl('', Validators.required),
+    motivoSolicitud: new FormControl('', Validators.required)
   });
 
 
+  QuienRecibiraAyuda:Array<collectionItem> = [
+    new collectionItem('--SELECCIONE--', null, ''), 
+    new collectionItem('El Solicitante', 1, ''), 
+    new collectionItem('Hijo/Hija', 2, 'RBActaNacimiento'), 
+    new collectionItem('Padre/Madre', 3, 'RBPadreMadre'), 
+    new collectionItem('Conyuge o Esposa/Esposo', 4, 'RBConyuge'),
+  ]
 
   //end of form controls
   constructor(private dataService: DataService, private fb: FormBuilder) {
-    //this.fb
+   console.log(this.QuienRecibiraAyuda);
   }
 
   Solicitud: SolicitudAyuda;
-
   seccionales: Array<any>;
   selectedSeccional: any;
   cargandoSeccionales: boolean;
   tiposSolicitudes: Array<any>;
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
+
+  archivos:File[] = [];
 
   isLoading() {
     return this.cargandoSeccionales;
@@ -90,7 +102,7 @@ export class RegistroSolicitudComponent implements OnInit {
   selected: any;
 
   esJubiladoInabima() {
-    return this.Solicitud.esjubiladoinabima === 'true';
+    return this.solicitudAyudaForm.get('esJubiladoInabima').value === 'true';
   }
 
   registrarSolicitud() {
@@ -147,8 +159,48 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
+
+  onChangeQuienRecibiraAyuda(value){
+    console.log(value);
+     
+    let quienRecibira = this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
+
+    //let keys = this.QuienRecibiraAyuda.filter(x => x.formControlName != value &&  x.formControlName != '' );
+
+    this.QuienRecibiraAyuda.forEach(key => {      
+      this.solicitudAyudaForm.removeControl(key.formControlName);
+    });
+
+    if(quienRecibira.formControlName){
+      let fc = new FormControl(quienRecibira.formControlName,  Validators.required);
+      fc.setValue(null);
+
+      this.solicitudAyudaForm.addControl(quienRecibira.formControlName, fc);
+    }
+  }
+
+  onChangeSolicitadoaJubilado(value){
+    console.log(value);
+  }
+
+  
   onSubmit(){
-    console.log('form submitted')
+    console.log('submitting...')
+    if(this.solicitudAyudaForm.valid && this.archivos.length){
+
+    }
+    else{
+      Object.keys(this.solicitudAyudaForm.controls).forEach(key => {
+        this.solicitudAyudaForm.get(key).markAsDirty();
+      });
+
+      Swal.fire('Error en formulario', 'Existen errores en el formulario, favor verificar mensajes en rojo.', 'error')
+    }  
+      
+  }
+
+  SetFiles(fileList){
+    this.archivos = fileList;
   }
 
 }

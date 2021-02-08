@@ -15,6 +15,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             
             entity.HasMany(e => e.Maestros).WithOne(m => m.Seccional).IsRequired(true);
 
+            //string data
+            //entity.HasData()
 
         }
     }
