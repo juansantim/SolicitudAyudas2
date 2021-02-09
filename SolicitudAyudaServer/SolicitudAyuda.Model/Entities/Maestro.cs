@@ -9,9 +9,8 @@ namespace SolicitudAyuda.Model.Entities
     public class Maestro
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string PrimeroApellido { get; set; }
-        public string SegundoApellido { get; set; }
+        public string Cedula { get; set; }
+        public string NombreCompleto { get; set; }
         public string Sexo { get; set; }
         public int? SeccionalId { get; set; }
         public Seccional Seccional { get; set; }

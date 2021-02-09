@@ -29,6 +29,8 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new MunicipioETC());
             modelBuilder.ApplyConfiguration(new RequisitoTipoSolicitudETC());
             modelBuilder.ApplyConfiguration(new TipoSolicitudETC());
+            modelBuilder.ApplyConfiguration(new SeccionalETC());
+            
         }
     }
 }

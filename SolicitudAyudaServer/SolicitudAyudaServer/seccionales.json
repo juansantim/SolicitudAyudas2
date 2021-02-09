@@ -1,1344 +1,1344 @@
 [
-    {
-        "Id": 1,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Azua",
-        "NOMBRE_Y_APELLIDOS": "Luis Escanio  ",
-        "Personal": "829-639-9945",
-        "cargo": "presidente",
-        "MunicipioId": 10
-    },
-    {
-        "Id": 2,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Guayabal",
-        "NOMBRE_Y_APELLIDOS": "Tomás  Cabral   Santana",
-        "FLOTA": "829-755-8494",
-        "Personal": "849-357-3610",
-        "cargo": "presidente",
-        "MunicipioId": 105
-    },
-    {
-        "Id": 3,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Las Yayas",
-        "NOMBRE_Y_APELLIDOS": "Cesar  Manolin Turbi  Aristi",
-        "FLOTA": "829-755-8495",
-        "cargo": "presidente",
-        "MunicipioId": 125
-    },
-    {
-        "Id": 4,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Padre Las Casas",
-        "NOMBRE_Y_APELLIDOS": "Robert Ramirez ",
-        "Personal": "809-762-8020",
-        "cargo": "Presidente",
-        "MunicipioId": 17
-    },
-    {
-        "Id": 5,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Peralta",
-        "NOMBRE_Y_APELLIDOS": "Francis   Rodríguez ",
-        "FLOTA": "829-755-8497",
-        "Personal": "829-310-9202",
-        "cargo": "Presidente",
-        "MunicipioId": 106
-    },
-    {
-        "Id": 6,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Sabana Yegua",
-        "NOMBRE_Y_APELLIDOS": "Pedro  Jesús   Vargas",
-        "FLOTA": "829-755-8498",
-        "Personal": "809-763-2159",
-        "cargo": "presidente",
-        "MunicipioId": 107
-    },
-    {
-        "Id": 7,
-        "Provincia": "Azua",
-        "Municipio": "Municipio Tabara Arriba",
-        "NOMBRE_Y_APELLIDOS": "Ernesto   Arturo   Ramírez ",
-        "FLOTA": "829-755-8499",
-        "Personal": "809-915-5601",
-        "cargo": "presidente",
-        "MunicipioId": 126
-    },
-    {
-        "Id": 8,
-        "Provincia": "BARAHONA",
-        "Municipio": "BARAHONA",
-        "NOMBRE_Y_APELLIDOS": "Miguel  Feliz ",
-        "Personal": "829-679-2301",
-        "cargo": "presidente",
-        "MunicipioId": 18
-    },
-    {
-        "Id": 9,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Cabral",
-        "NOMBRE_Y_APELLIDOS": "Dawin  Tomas Feliz  Felix ",
-        "FLOTA": "829-467-5948",
-        "Personal": "829-319-1374",
-        "cargo": "Presidente",
-        "MunicipioId": 19
-    },
-    {
-        "Id": 10,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Enriquillo",
-        "NOMBRE_Y_APELLIDOS": "Carlos  Onesy Castillo ",
-        "FLOTA": "809-467-5949",
-        "cargo": "presidente",
-        "MunicipioId": 21
-    },
-    {
-        "Id": 11,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Jaquimeye",
-        "NOMBRE_Y_APELLIDOS": "Yanira   Matos  Pineda",
-        "FLOTA": "809-467-5950",
-        "Personal": "809-488-0551",
-        "cargo": "presidente",
-        "MunicipioId": 167
-    },
-    {
-        "Id": 12,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio La Cienaga",
-        "NOMBRE_Y_APELLIDOS": "Franklin  Jiménez   Feliz ",
-        "FLOTA": "809-467-5951",
-        "Personal": "829-630-6565",
-        "cargo": "presidente",
-        "MunicipioId": 160
-    },
-    {
-        "Id": 13,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Las Salinas",
-        "NOMBRE_Y_APELLIDOS": "Danilo  Feliz  Feliz",
-        "FLOTA": "809-467-5952",
-        "Personal": "829-698-8290",
-        "cargo": "presidente",
-        "MunicipioId": 137
-    },
-    {
-        "Id": 14,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Paraíso",
-        "NOMBRE_Y_APELLIDOS": "Wilkin  Antonio Mateo Cuello ",
-        "FLOTA": "809-467-5953",
-        "cargo": "presidiente",
-        "MunicipioId": 80
-    },
-    {
-        "Id": 15,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio El Peñón",
-        "NOMBRE_Y_APELLIDOS": "Salvador  Antonio  Pérez Segura  ",
-        "FLOTA": "809-467-5954",
-        "cargo": "presidente",
-        "MunicipioId": 130
-    },
-    {
-        "Id": 16,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Polo",
-        "NOMBRE_Y_APELLIDOS": "Noel  Antonio  Feliz  ",
-        "FLOTA": "809-467-5955",
-        "cargo": "presidente",
-        "MunicipioId": 111
-    },
-    {
-        "Id": 17,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio Vicente Noble",
-        "NOMBRE_Y_APELLIDOS": "Genaro  Matos ",
-        "FLOTA": "809-467-5956",
-        "Personal": "849-408-98112",
-        "cargo": "presidente",
-        "MunicipioId": 79
-    },
-    {
-        "Id": 18,
-        "Provincia": "BARAHONA",
-        "Municipio": "Municipio  Fundación",
-        "NOMBRE_Y_APELLIDOS": "Tomas  López  López ",
-        "FLOTA": "809-467-5922",
-        "Personal": "829-772-1307",
-        "cargo": "presidente",
-        "MunicipioId": 131
-    },
-    {
-        "Id": 19,
-        "Provincia": "BAHORUCO",
-        "Municipio": "Municipio Neyba",
-        "NOMBRE_Y_APELLIDOS": "Casarín  Acosta  Duval ",
-        "FLOTA": "829-755-9499",
-        "Personal": "809-467-5920",
-        "MunicipioId": 22
-    },
-    {
-        "Id": 20,
-        "Provincia": "BAHORUCO",
-        "Municipio": "Municipio Galván",
-        "NOMBRE_Y_APELLIDOS": "Wander  Santiago   Cuevas ",
-        "FLOTA": "809-467-5917",
-        "Personal": "829-903-6214",
-        "MunicipioId": 113
-    },
-    {
-        "Id": 21,
-        "Provincia": "BAHORUCO",
-        "Municipio": "Municipio Tamayo",
-        "NOMBRE_Y_APELLIDOS": "Luis  Ernesto  Medina  ",
-        "FLOTA": "80",
-        "Personal": "809-613-7833",
-        "MunicipioId": 76
-    },
-    {
-        "Id": 22,
-        "Provincia": "BAHORUCO",
-        "Municipio": "Municipio Los Ríos",
-        "NOMBRE_Y_APELLIDOS": "Jhordary Epifanio Rivas  Pérez ",
-        "FLOTA": "809-467-5919",
-        "Personal": "809-798-7799",
-        "MunicipioId": 112
-    },
-    {
-        "Id": 23,
-        "Provincia": "BAHORUCO",
-        "Municipio": "Municipio Villa Jaragua",
-        "NOMBRE_Y_APELLIDOS": "Faustina  Rosario Ferreras ",
-        "FLOTA": "809-467-5921",
-        "Personal": "829-861-2240",
-        "MunicipioId": 78
-    },
-    {
-        "Id": 24,
-        "Provincia": "ELIAS PIÑAS",
-        "Municipio": "Municipio Comendador",
-        "NOMBRE_Y_APELLIDOS": "Gilberto  Díaz Cabral   ",
-        "FLOTA": "829-755-8483",
-        "Personal": "849-859-7247",
-        "MunicipioId": 16
-    },
-    {
-        "Id": 25,
-        "Provincia": "ELIAS PIÑAS",
-        "Municipio": "Municipio Banica",
-        "NOMBRE_Y_APELLIDOS": "Quirico   Ramírez ",
-        "FLOTA": "829-755-8482",
-        "Personal": "829-320-2579",
-        "MunicipioId": 15
-    },
-    {
-        "Id": 26,
-        "Provincia": "ELIAS PIÑAS",
-        "Municipio": "Municipio Hondo Valle",
-        "NOMBRE_Y_APELLIDOS": "Wilkin   De Oleo   Montero ",
-        "FLOTA": "829-755-8485",
-        "MunicipioId": 75
-    },
-    {
-        "Id": 27,
-        "Provincia": "ELIAS PIÑAS",
-        "Municipio": "Municipio Pedro Santana",
-        "NOMBRE_Y_APELLIDOS": "Carlos  Rony  de  la  Rosa  urbaez",
-        "FLOTA": "829-755-8486",
-        "Personal": "829-377-2208",
-        "MunicipioId": 74
-    },
-    {
-        "Id": 28,
-        "Provincia": "ELIAS PIÑAS",
-        "Municipio": "Municipio El Llano",
-        "NOMBRE_Y_APELLIDOS": "Daniel  Ospino  Valdez   Sánchez ",
-        "FLOTA": "829-755-8484",
-        "MunicipioId": 110
-    },
-    {
-        "Id": 29,
-        "Provincia": "PEDERNALES",
-        "NOMBRE_Y_APELLIDOS": "Santa Ursula   Herrera  Batista ",
-        "FLOTA": "829-755-8510",
-        "Personal": "849-360-0590",
-        "MunicipioId": 69
-    },
-    {
-        "Id": 30,
-        "Provincia": "PEDERNALES",
-        "Municipio": "Municipio Oviedo",
-        "NOMBRE_Y_APELLIDOS": "Juanita  Feliz  Terrero ",
-        "FLOTA": "829-755-8509",
-        "Personal": "809-973-8213",
-        "MunicipioId": 91
-    },
-    {
-        "Id": 31,
-        "Provincia": "PERAVIA",
-        "Municipio": "Bani",
-        "NOMBRE_Y_APELLIDOS": "Nelson  Starling  Jiménez ",
-        "FLOTA": "809-467-5882",
-        "Personal": "809-751-8014",
-        "MunicipioId": 3
-    },
-    {
-        "Id": 32,
-        "Provincia": "PERAVIA",
-        "Municipio": "Municipio Nizao",
-        "NOMBRE_Y_APELLIDOS": "Diego   Antonio   Perdomo ",
-        "FLOTA": "809-467-5883",
-        "Personal": "829-349-0427",
-        "MunicipioId": 84
-    },
-    {
-        "Id": 33,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio San Cristóbal",
-        "NOMBRE_Y_APELLIDOS": "Julio Cesar de Jesús Tejeda",
-        "FLOTA": "829-755-8462",
-        "Personal": "809-643-9964",
-        "MunicipioId": 2
-    },
-    {
-        "Id": 34,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Cambita",
-        "NOMBRE_Y_APELLIDOS": "Isaías   Solano   Guzmán ",
-        "FLOTA": "829-755-8457",
-        "MunicipioId": 315
-    },
-    {
-        "Id": 35,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Haina",
-        "NOMBRE_Y_APELLIDOS": "Dominga  Valdez ",
-        "FLOTA": "829-755-8458",
-        "Personal": "849-451--3922",
-        "MunicipioId": 93
-    },
-    {
-        "Id": 36,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Los Cacaos",
-        "NOMBRE_Y_APELLIDOS": "Juan  Medina Mateo",
-        "FLOTA": "829-755-8459",
-        "Personal": "809-660-4520",
-        "MunicipioId": 139
-    },
-    {
-        "Id": 37,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Nigua",
-        "NOMBRE_Y_APELLIDOS": "Evelyn Annery  Santana ",
-        "FLOTA": "829-755-8460",
-        "Personal": "829-222-9891",
-        "MunicipioId": 140
-    },
-    {
-        "Id": 38,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Palenque ",
-        "NOMBRE_Y_APELLIDOS": "Leonida  Tolentino ",
-        "FLOTA": "829-755-8461",
-        "Personal": "829-755-7559",
-        "MunicipioId": 83
-    },
-    {
-        "Id": 39,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Villa Altagracia",
-        "NOMBRE_Y_APELLIDOS": "Santiago  Arciniegas  de  Jesús ",
-        "FLOTA": "829-755-8463",
-        "MunicipioId": 68
-    },
-    {
-        "Id": 40,
-        "Provincia": "SAN CRISTOBAL",
-        "Municipio": "Municipio Yaguaté",
-        "NOMBRE_Y_APELLIDOS": "Pablo  Sierra ",
-        "FLOTA": "829-755-8464",
-        "Personal": "829-721-6661",
-        "MunicipioId": 82
-    },
-    {
-        "Id": 41,
-        "Provincia": "SAN JOSE DE OCOA ",
-        "Municipio": "Municipio Rancho Arriba",
-        "NOMBRE_Y_APELLIDOS": "Juan Antonio  ",
-        "FLOTA": "809-467-5943",
-        "Personal": "809-610-1532",
-        "MunicipioId": 152
-    },
-    {
-        "Id": 42,
-        "Provincia": "SAN JOSE DE OCOA ",
-        "Municipio": "Municipio Sabana Larga",
-        "NOMBRE_Y_APELLIDOS": "Manuel  Patrocino",
-        "FLOTA": "809-467-5444",
-        "Personal": "809-853-3643",
-        "MunicipioId": 150
-    },
-    {
-        "Id": 43,
-        "Provincia": "SAN JUAN",
-        "NOMBRE_Y_APELLIDOS": "Salvador Ramón  Moreta ",
-        "FLOTA": "829-755-8450",
-        "MunicipioId": 12
-    },
-    {
-        "Id": 44,
-        "Provincia": "SAN JUAN",
-        "Municipio": "Municipio Bohechio",
-        "NOMBRE_Y_APELLIDOS": " Ramón   Lebrón  Hernández ",
-        "FLOTA": "829-755-8447",
-        "Personal": "809-462-9645",
-        "MunicipioId": 109
-    },
-    {
-        "Id": 45,
-        "Provincia": "SAN JUAN",
-        "Municipio": "Municipio El Cercado",
-        "NOMBRE_Y_APELLIDOS": "Víctor J.  Heredia  Sánchez ",
-        "FLOTA": "829-755-8448",
-        "Personal": "829-855-0264",
-        "MunicipioId": 14
-    },
-    {
-        "Id": 46,
-        "Provincia": "SAN JUAN",
-        "Municipio": "Municipio Juan de Herrera",
-        "NOMBRE_Y_APELLIDOS": "Anyelina  Familia Jiménez ",
-        "FLOTA": "829-755-8449                       ",
-        "Personal": "829-799-2116",
-        "MunicipioId": 129
-    },
-    {
-        "Id": 47,
-        "Provincia": "SAN JUAN",
-        "Municipio": "Municipio Vallejuelo",
-        "NOMBRE_Y_APELLIDOS": "Dawin  Onil Mateo   Castillo ",
-        "FLOTA": "829-879-0531",
-        "Personal": "829-879-0531",
-        "MunicipioId": 108
-    },
-    {
-        "Id": 48,
-        "Provincia": "SAN JUAN",
-        "Municipio": "Municipio Las Matas de Farfán",
-        "NOMBRE_Y_APELLIDOS": "Darvin  Efren  peña   Roas",
-        "FLOTA": "829-755-8452",
-        "Personal": "829-633-4955",
-        "MunicipioId": 11
-    },
-    {
-        "Id": 49,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Jimani",
-        "NOMBRE_Y_APELLIDOS": "Nelina Trinidad Trinidad",
-        "FLOTA": "809-779-3453",
-        "MunicipioId": 77
-    },
-    {
-        "Id": 50,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Municipio Duverge",
-        "NOMBRE_Y_APELLIDOS": "Jaime Pérez",
-        "FLOTA": "809-467-5908",
-        "Personal": "809-670-0950",
-        "MunicipioId": 20
-    },
-    {
-        "Id": 51,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Municipio Cristóbal",
-        "NOMBRE_Y_APELLIDOS": "Máximo Antonio  Matos",
-        "FLOTA": "809-467-5907",
-        "Personal": "809-425-9247",
-        "MunicipioId": 128
-    },
-    {
-        "Id": 52,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Municipio La Descubierta",
-        "NOMBRE_Y_APELLIDOS": "Yovany Medina  Ferreras",
-        "FLOTA": "809-467-5910",
-        "Personal": "809-853-5133",
-        "MunicipioId": 70
-    },
-    {
-        "Id": 53,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Municipio Mella",
-        "NOMBRE_Y_APELLIDOS": "Luis Medrano ",
-        "FLOTA": "809-467-5912",
-        "Personal": "809-915-1767",
-        "MunicipioId": 114
-    },
-    {
-        "Id": 54,
-        "Provincia": " INDEPENDENCIA",
-        "Municipio": "Municipio Poster Rio",
-        "NOMBRE_Y_APELLIDOS": "Jenny  González  Medina",
-        "Personal": "849-850-0431",
-        "MunicipioId": 99
-    },
-    {
-        "Id": 55,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio  San Francisco",
-        "NOMBRE_Y_APELLIDOS": "Sixto   Gabin ",
-        "FLOTA": "829-755-9485",
-        "Personal": " 849-407-5895",
-        "MunicipioId": 56
-    },
-    {
-        "Id": 56,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio Castillo",
-        "NOMBRE_Y_APELLIDOS": "Ernesto Martínez ",
-        "FLOTA": "829-755-8528",
-        "MunicipioId": 59
-    },
-    {
-        "Id": 57,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio Arenoso",
-        "NOMBRE_Y_APELLIDOS": "Ramón Manuel Rivas ",
-        "FLOTA": "809-467-5890",
-        "Personal": "829-342-1102",
-        "MunicipioId": 119
-    },
-    {
-        "Id": 58,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio Hostos",
-        "NOMBRE_Y_APELLIDOS": "Nicolás Suarez  Polanco ",
-        "FLOTA": "809-467-5892",
-        "Personal": "809-783-7550",
-        "MunicipioId": 63
-    },
-    {
-        "Id": 59,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio Las Guaranas",
-        "NOMBRE_Y_APELLIDOS": "Melba Francisco payano",
-        "FLOTA": "809-467-5893",
-        "MunicipioId": 143
-    },
-    {
-        "Id": 60,
-        "Provincia": "DUARTE",
-        "Municipio": "Municipio Pimentel",
-        "NOMBRE_Y_APELLIDOS": "Junior Martínez ",
-        "FLOTA": "809-467-5894",
-        "Personal": "809-984-7776",
-        "MunicipioId": 57
-    },
-    {
-        "Id": 61,
-        "Provincia": "DUARTE",
-        "Municipio": "Villa Rivas",
-        "NOMBRE_Y_APELLIDOS": "Luis German Mena",
-        "FLOTA": "809-467-5896",
-        "MunicipioId": 58
-    },
-    {
-        "Id": 62,
-        "Provincia": "DAJABON",
-        "Municipio": "Dajabón",
-        "NOMBRE_Y_APELLIDOS": "Rosalba  Milagros Peña",
-        "FLOTA": "809-467-5927",
-        "Personal": "809-513-4431",
-        "MunicipioId": 44
-    },
-    {
-        "Id": 63,
-        "Provincia": "DAJABON",
-        "Municipio": "El Pino",
-        "NOMBRE_Y_APELLIDOS": "Emmanuel  Fortuna ",
-        "FLOTA": "809-467-5928",
-        "MunicipioId": 151
-    },
-    {
-        "Id": 64,
-        "Provincia": "DAJABON",
-        "Municipio": "Loma de Cabrera",
-        "NOMBRE_Y_APELLIDOS": "Marcelino Abad ",
-        "FLOTA": "809-467-5929",
-        "Personal": "809-665-0993",
-        "MunicipioId": 73
-    },
-    {
-        "Id": 65,
-        "Provincia": "DAJABON",
-        "Municipio": "Partido",
-        "NOMBRE_Y_APELLIDOS": "Francisco  Mercedes ",
-        "FLOTA": "809-467-5930",
-        "MunicipioId": 115
-    },
-    {
-        "Id": 66,
-        "Provincia": "DAJABON",
-        "Municipio": "Restauración",
-        "NOMBRE_Y_APELLIDOS": "Francisco   Ignacio  Polanco   ",
-        "FLOTA": "809-467-5931",
-        "MunicipioId": 43
-    },
-    {
-        "Id": 67,
-        "Provincia": "ESPALLAT",
-        "Municipio": "Moca",
-        "NOMBRE_Y_APELLIDOS": "Ledwin  Santana",
-        "FLOTA": "829-755-8491",
-        "Personal": "829-346-0550",
-        "MunicipioId": 54
-    },
-    {
-        "Id": 68,
-        "Provincia": "ESPALLAT",
-        "Municipio": "Cayetano Germosen",
-        "NOMBRE_Y_APELLIDOS": "Leonides Gutiérrez ",
-        "FLOTA": "829-755-8487",
-        "Personal": "809-757-0988",
-        "MunicipioId": 88
-    },
-    {
-        "Id": 69,
-        "Provincia": "ESPALLAT",
-        "Municipio": "Gaspar Hernández",
-        "NOMBRE_Y_APELLIDOS": "Yeni Tavares  Cabrera",
-        "FLOTA": "829-755-8488",
-        "Personal": "809-387-9304",
-        "MunicipioId": 61
-    },
-    {
-        "Id": 70,
-        "Provincia": "ESPALLAT",
-        "Municipio": "Jamao Al Norte",
-        "NOMBRE_Y_APELLIDOS": "Fernando  Peralta ",
-        "FLOTA": "829-755-8489",
-        "Personal": "809-705-0693",
-        "MunicipioId": 133
-    },
-    {
-        "Id": 71,
-        "Provincia": "ESPALLAT",
-        "Municipio": "José Contreras (Villa Trina)",
-        "NOMBRE_Y_APELLIDOS": "Avel Camacho ",
-        "FLOTA": "829-755-8490",
-        "Personal": "829980-8372",
-        "MunicipioId": 89
-    },
-    {
-        "Id": 72,
-        "Provincia": "LA VEGA",
-        "Municipio": "LA VEGA",
-        "NOMBRE_Y_APELLIDOS": "Pablo  Rosario Abreu ",
-        "FLOTA": "829-755-8518",
-        "MunicipioId": 47
-    },
-    {
-        "Id": 73,
-        "Provincia": "LA VEGA",
-        "Municipio": "Constanza",
-        "NOMBRE_Y_APELLIDOS": "Francisco  Alberto Capellán ",
-        "FLOTA": "829-755-8515",
-        "Personal": "829-638-4715",
-        "MunicipioId": 53
-    },
-    {
-        "Id": 74,
-        "Provincia": "LA VEGA",
-        "Municipio": "Jarabacoa",
-        "NOMBRE_Y_APELLIDOS": "José  Agustín Hernández ",
-        "FLOTA": "829-755-8516",
-        "Personal": "809-886-0321",
-        "MunicipioId": 50
-    },
-    {
-        "Id": 75,
-        "Provincia": "LA VEGA",
-        "Municipio": "Jima Abajo",
-        "NOMBRE_Y_APELLIDOS": "Inocencio Antonio  Díaz ",
-        "FLOTA": "829-755-8517",
-        "Personal": "809-698-7197",
-        "MunicipioId": 122
-    },
-    {
-        "Id": 76,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Nagua",
-        "NOMBRE_Y_APELLIDOS": "José  Guillermo Vásquez  ",
-        "FLOTA": "809-467-5902",
-        "MunicipioId": 71
-    },
-    {
-        "Id": 77,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Cabrera",
-        "NOMBRE_Y_APELLIDOS": "Angelica María   Melo  S",
-        "FLOTA": "809-467-5900",
-        "MunicipioId": 60
-    },
-    {
-        "Id": 78,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "El Factor",
-        "NOMBRE_Y_APELLIDOS": "Ramón  Alvarado ",
-        "FLOTA": "809-467-5901",
-        "Personal": "829-423-3875",
-        "MunicipioId": 136
-    },
-    {
-        "Id": 79,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Rio San Juan",
-        "NOMBRE_Y_APELLIDOS": "Ada Gil  José ",
-        "FLOTA": "809-467-5903",
-        "Personal": "809-754-9632",
-        "MunicipioId": 81
-    },
-    {
-        "Id": 80,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Bonao",
-        "NOMBRE_Y_APELLIDOS": "Nolberto  Ortiz  de  la  Cruz ",
-        "FLOTA": "829-755-8525",
-        "MunicipioId": 48
-    },
-    {
-        "Id": 81,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Maimón",
-        "NOMBRE_Y_APELLIDOS": "Fernando   Reyes ",
-        "FLOTA": "829-755-8526",
-        "Personal": "849-262-6863",
-        "MunicipioId": 118
-    },
-    {
-        "Id": 82,
-        "Provincia": "MARÍA TRINIDAD SANCHEZ",
-        "Municipio": "Piedra Blanca",
-        "NOMBRE_Y_APELLIDOS": "Eduardo   Cruz ",
-        "FLOTA": "829-755-8527",
-        "Personal": "829-650-4652",
-        "MunicipioId": 123
-    },
-    {
-        "Id": 83,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Monte Cristi",
-        "NOMBRE_Y_APELLIDOS": "Milagro  peña",
-        "FLOTA": "829-755-4976",
-        "Personal": "829-219-8086",
-        "MunicipioId": 41
-    },
-    {
-        "Id": 84,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Castañuela",
-        "NOMBRE_Y_APELLIDOS": "Reyna  Carida Pérez ",
-        "FLOTA": "809-467-5937",
-        "Personal": "809-994-6056",
-        "MunicipioId": 101
-    },
-    {
-        "Id": 85,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Guayubin",
-        "NOMBRE_Y_APELLIDOS": "Franklin  Antonio  Núñez ",
-        "FLOTA": "809-467-5938",
-        "MunicipioId": 45
-    },
-    {
-        "Id": 86,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Las Matas de Santa Cruz",
-        "NOMBRE_Y_APELLIDOS": "Mario   Fernández ",
-        "FLOTA": "809-467-5939",
-        "Personal": "829-709-6371",
-        "MunicipioId": 117
-    },
-    {
-        "Id": 87,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Manzanillo)Pepillo Salcedo",
-        "NOMBRE_Y_APELLIDOS": "Alina   Almonte ",
-        "FLOTA": "809-467-5941",
-        "Personal": "8\/829-639-0980",
-        "MunicipioId": 86
-    },
-    {
-        "Id": 88,
-        "Provincia": "Monte Cristi",
-        "Municipio": "Villa Vázquez",
-        "NOMBRE_Y_APELLIDOS": "José  Agustín   Martínez ",
-        "FLOTA": "809467-5942",
-        "Personal": "829-520-0589",
-        "MunicipioId": 72
-    },
-    {
-        "Id": 89,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Puerto Plata",
-        "NOMBRE_Y_APELLIDOS": "Luis   Balbuena ",
-        "FLOTA": "829-755-8475",
-        "Personal": "829-292-2116",
-        "MunicipioId": 37
-    },
-    {
-        "Id": 90,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Altamira",
-        "NOMBRE_Y_APELLIDOS": "Leonardo  Raúl  Marte",
-        "FLOTA": "829-755-8470",
-        "MunicipioId": 39
-    },
-    {
-        "Id": 91,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Gaunanico",
-        "NOMBRE_Y_APELLIDOS": "Fortuna  Mena ",
-        "FLOTA": "829-755-8471",
-        "MunicipioId": 120
-    },
-    {
-        "Id": 92,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Imbert",
-        "NOMBRE_Y_APELLIDOS": "Mario  peralta   Domínguez ",
-        "FLOTA": "829-755-8472",
-        "Personal": "829-820-9008",
-        "MunicipioId": 38
-    },
-    {
-        "Id": 93,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Los Hidalgos",
-        "NOMBRE_Y_APELLIDOS": "Francisco  Antonio  Bobadilla ",
-        "FLOTA": "829-755-8473",
-        "MunicipioId": 102
-    },
-    {
-        "Id": 94,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Luperón",
-        "NOMBRE_Y_APELLIDOS": "Feliz   González ",
-        "FLOTA": "829-755-8474",
-        "Personal": "829-546-4889",
-        "MunicipioId": 40
-    },
-    {
-        "Id": 95,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Sosua",
-        "NOMBRE_Y_APELLIDOS": "Altagracia Frías  Paredes",
-        "FLOTA": "829-755-8249",
-        "Personal": "809-603-6127",
-        "MunicipioId": 97
-    },
-    {
-        "Id": 96,
-        "Provincia": "PUERTO PLATA",
-        "Municipio": "Villa Isabela",
-        "NOMBRE_Y_APELLIDOS": "Simeón  Acevedo",
-        "FLOTA": "829-755-8477",
-        "MunicipioId": 121
-    },
-    {
-        "Id": 97,
-        "Provincia": "SALCEDO (HERMANAS MIRABAL)",
-        "Municipio": "Salcedo",
-        "NOMBRE_Y_APELLIDOS": "José  Luis  Ortega   ",
-        "FLOTA": "809-467-5897",
-        "MunicipioId": 55
-    },
-    {
-        "Id": 98,
-        "Provincia": "SALCEDO (HERMANAS MIRABAL)",
-        "Municipio": "Tenares",
-        "NOMBRE_Y_APELLIDOS": "Jacob Ysaac  Casado   García",
-        "FLOTA": "809-467-5898",
-        "MunicipioId": 64
-    },
-    {
-        "Id": 99,
-        "Provincia": "SALCEDO (HERMANAS MIRABAL)",
-        "Municipio": "Villa Tapia",
-        "NOMBRE_Y_APELLIDOS": "Vinicio Castillo de  Jesús",
-        "FLOTA": "809-467-5899",
-        "MunicipioId": 51
-    },
-    {
-        "Id": 100,
-        "Provincia": "SAMANA",
-        "Municipio": "Samaná",
-        "NOMBRE_Y_APELLIDOS": "Ricardo   Guerrero ",
-        "FLOTA": "809-467-5880",
-        "MunicipioId": 65
-    },
-    {
-        "Id": 101,
-        "Provincia": "SAMANA",
-        "Municipio": "Las Terrenas",
-        "NOMBRE_Y_APELLIDOS": "Mery Paulino",
-        "FLOTA": "849-857-2829",
-        "MunicipioId": 134
-    },
-    {
-        "Id": 102,
-        "Provincia": "SAMANA",
-        "Municipio": "Sánchez",
-        "NOMBRE_Y_APELLIDOS": "Raisa M. Breton P",
-        "FLOTA": "809-467-5917",
-        "Personal": "829-727-0759",
-        "MunicipioId": 66
-    },
-    {
-        "Id": 103,
-        "Provincia": "SAMANA",
-        "Municipio": "Cotui",
-        "NOMBRE_Y_APELLIDOS": "Alejandro  Sánchez M ",
-        "Personal": "829-760-8074",
-        "MunicipioId": 49
-    },
-    {
-        "Id": 104,
-        "Provincia": "SAMANA",
-        "Municipio": "Sevicos",
-        "NOMBRE_Y_APELLIDOS": "Mayelin  Almonte  Cordero ",
-        "FLOTA": "829-755-8453",
-        "MunicipioId": 65
-    },
-    {
-        "Id": 105,
-        "Provincia": "SAMANA",
-        "Municipio": "Fantino",
-        "NOMBRE_Y_APELLIDOS": "Miguel Angel Morillo",
-        "FLOTA": "829-647-9712",
-        "MunicipioId": 87
-    },
-    {
-        "Id": 106,
-        "Provincia": "SAMANA",
-        "Municipio": "Villa La Mata",
-        "NOMBRE_Y_APELLIDOS": "Ramon Aberlado  ",
-        "Personal": "829-213-6412",
-        "MunicipioId": 155
-    },
-    {
-        "Id": 107,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Santiago",
-        "NOMBRE_Y_APELLIDOS": "Miguel Antonio Jorge  Luciano",
-        "FLOTA": "829-679-2317",
-        "MunicipioId": 31
-    },
-    {
-        "Id": 108,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Janico",
-        "NOMBRE_Y_APELLIDOS": "Ramo  Emilio  Núñez ",
-        "FLOTA": "829-755-8383",
-        "Personal": "829-904-3258",
-        "MunicipioId": 35
-    },
-    {
-        "Id": 109,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Licey al medio",
-        "NOMBRE_Y_APELLIDOS": "Miguel de los  Santos  Cruceta ",
-        "FLOTA": "829-755-9486",
-        "MunicipioId": 95
-    },
-    {
-        "Id": 110,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Navarrete",
-        "NOMBRE_Y_APELLIDOS": "Marcelino  Polanco ",
-        "FLOTA": "829-755-9487 ",
-        "MunicipioId": 96
-    },
-    {
-        "Id": 111,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Pedro García",
-        "NOMBRE_Y_APELLIDOS": "Ramón  Antonio Rodríguez ",
-        "FLOTA": "829-755-9488",
-        "MunicipioId": 142
-    },
-    {
-        "Id": 112,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "San José de la Matas",
-        "NOMBRE_Y_APELLIDOS": "Gerónimo Santana",
-        "FLOTA": "829-755-9489",
-        "Personal": "809-820-1394",
-        "MunicipioId": 36
-    },
-    {
-        "Id": 113,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Tamboril",
-        "NOMBRE_Y_APELLIDOS": "Lino  Antonio  Álvarez ",
-        "FLOTA": "829-755-9491",
-        "MunicipioId": 32
-    },
-    {
-        "Id": 114,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Villa González",
-        "NOMBRE_Y_APELLIDOS": "Hemy R. Rodríguez ",
-        "Personal": "829-762-4547",
-        "MunicipioId": 94
-    },
-    {
-        "Id": 115,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Puñal",
-        "NOMBRE_Y_APELLIDOS": "Raminiel Fernández ",
-        "FLOTA": "829-755-9493",
-        "Personal": "809-630-5384",
-        "MunicipioId": 350
-    },
-    {
-        "Id": 116,
-        "Provincia": "PROVINCIA SANTIAGO",
-        "Municipio": "Sur Oeste Santiago",
-        "NOMBRE_Y_APELLIDOS": "Rosa Teresa  Espinal",
-        "FLOTA": "829-755-9448",
-        "Personal": "809-659-8876",
-        "MunicipioId": 31
-    },
-    {
-        "Id": 117,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "Moción",
-        "NOMBRE_Y_APELLIDOS": "Mercedes Miguelina  Esteben ",
-        "FLOTA": "829-755-8511",
-        "Personal": "809-986-4704",
-        "MunicipioId": 42
-    },
-    {
-        "Id": 118,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "Sabaneta",
-        "NOMBRE_Y_APELLIDOS": "Ángel  Francisco   Cuello ",
-        "FLOTA": "829-755-8512",
-        "MunicipioId": 292
-    },
-    {
-        "Id": 119,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "Los Almácigos",
-        "NOMBRE_Y_APELLIDOS": "Edwin  Rafael  Gómez ",
-        "FLOTA": "829-755-8513",
-        "MunicipioId": 116
-    },
-    {
-        "Id": 120,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "de Mao",
-        "NOMBRE_Y_APELLIDOS": "Ángel  María  Urbaez ",
-        "FLOTA": "829-755-9483",
-        "MunicipioId": 34
-    },
-    {
-        "Id": 121,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "Laguna Salada",
-        "NOMBRE_Y_APELLIDOS": "Rosa  Mercedes   Fernández ",
-        "FLOTA": "829-755-9482",
-        "Personal": "829-979-8878",
-        "MunicipioId": 92
-    },
-    {
-        "Id": 122,
-        "Provincia": "SANTIAGO RODRIGUEZ ",
-        "Municipio": "Esperanza",
-        "NOMBRE_Y_APELLIDOS": "Arelys Almonte ",
-        "FLOTA": "829-755-9481",
-        "Personal": "809-962--5373",
-        "MunicipioId": 33
-    },
-    {
-        "Id": 123,
-        "Provincia": "Distrito  Nacional ",
-        "Municipio": "Zona Norte",
-        "NOMBRE_Y_APELLIDOS": "Franklin  Ferreras ",
-        "Personal": "809-796-8494",
-        "MunicipioId": 1
-    },
-    {
-        "Id": 124,
-        "Provincia": "Distrito  Nacional ",
-        "Municipio": "Zona Sur",
-        "NOMBRE_Y_APELLIDOS": "Julio  Pérez ",
-        "FLOTA": "829-755-8521",
-        "MunicipioId": 1
-    },
-    {
-        "Id": 125,
-        "Provincia": "Distrito  Nacional ",
-        "Municipio": "Zona oeste",
-        "NOMBRE_Y_APELLIDOS": "Yadira  Duval ",
-        "FLOTA": "829-755-8520",
-        "Personal": "809-756-4207",
-        "MunicipioId": 1
-    },
-    {
-        "Id": 126,
-        "Provincia": "Distrito  Nacional ",
-        "Municipio": "Zona Noroeste",
-        "NOMBRE_Y_APELLIDOS": "Welin Ramírez ",
-        "Personal": "829-762-6810",
-        "MunicipioId": 1
-    },
-    {
-        "Id": 127,
-        "Provincia": "SAN PEDRO",
-        "Municipio": "San Pedro",
-        "NOMBRE_Y_APELLIDOS": "Kenedy García  Alvarado",
-        "Personal": "829-659-8862",
-        "MunicipioId": 23
-    },
-    {
-        "Id": 128,
-        "Provincia": "SAN PEDRO",
-        "Municipio": "Consuelo",
-        "NOMBRE_Y_APELLIDOS": "Bruno Ortiz",
-        "FLOTA": "849-451-0330",
-        "Personal": "809-907-3534",
-        "MunicipioId": 138
-    },
-    {
-        "Id": 129,
-        "Provincia": "SAN PEDRO",
-        "Municipio": "Los Llanos",
-        "NOMBRE_Y_APELLIDOS": "Yaira Giraldo Mena",
-        "FLOTA": "829-755-9426",
-        "MunicipioId": 24
-    },
-    {
-        "Id": 130,
-        "Provincia": "SAN PEDRO",
-        "Municipio": "Quisqueya",
-        "NOMBRE_Y_APELLIDOS": "Manuel Antonio Sala",
-        "FLOTA": "829-755-9427",
-        "MunicipioId": 146
-    },
-    {
-        "Id": 131,
-        "Provincia": "SAN PEDRO",
-        "Municipio": "Ramón Santana",
-        "NOMBRE_Y_APELLIDOS": "Norberto  Rodríguez ",
-        "FLOTA": "829-755-9428",
-        "Personal": "809-988-6126",
-        "MunicipioId": 30
-    },
-    {
-        "Id": 132,
-        "Provincia": "LA ROMANA",
-        "Municipio": "De La Romana",
-        "NOMBRE_Y_APELLIDOS": "Guillermo  Núñez Rosario",
-        "FLOTA": "829-755-8531",
-        "Personal": "809-838-8694",
-        "MunicipioId": 26
-    },
-    {
-        "Id": 133,
-        "Provincia": "LA ROMANA",
-        "Municipio": "Guaymate",
-        "NOMBRE_Y_APELLIDOS": "Bélgica  Amada   Feliciano",
-        "FLOTA": "829-755-8530",
-        "Personal": "829-371-4362",
-        "MunicipioId": 103
-    },
-    {
-        "Id": 134,
-        "Provincia": "LA ROMANA",
-        "Municipio": "Villa Hermosa",
-        "NOMBRE_Y_APELLIDOS": "Raul  Omar   Rosario",
-        "FLOTA": "829-755-7450",
-        "Personal": "829-288-0864",
-        "MunicipioId": 295
-    },
-    {
-        "Id": 135,
-        "Provincia": "LA ALTAGRACIA",
-        "Municipio": "Higuey",
-        "NOMBRE_Y_APELLIDOS": "Esteban  Castillo Garrido",
-        "FLOTA": "829-755-8478",
-        "Personal": "809-267-4241",
-        "MunicipioId": 28
-    },
-    {
-        "Id": 136,
-        "Provincia": "LA ALTAGRACIA",
-        "Municipio": "San Rafael del Yuma",
-        "NOMBRE_Y_APELLIDOS": "Carmen  Alexis Medina ",
-        "FLOTA": "829-706-6862",
-        "MunicipioId": 85
-    },
-    {
-        "Id": 137,
-        "Provincia": "HATO MAYOR",
-        "Municipio": "Hato Mayor",
-        "NOMBRE_Y_APELLIDOS": "Darling  Peguero Rosario",
-        "FLOTA": "829-755-8468",
-        "Personal": "829-659-9959",
-        "MunicipioId": 27
-    },
-    {
-        "Id": 138,
-        "Provincia": "HATO MAYOR",
-        "Municipio": "El Valle",
-        "NOMBRE_Y_APELLIDOS": "Francisco Almonte  Contreras ",
-        "FLOTA": "829-755-8467",
-        "Personal": "829-650-4607",
-        "MunicipioId": 100
-    },
-    {
-        "Id": 139,
-        "Provincia": "HATO MAYOR",
-        "Municipio": "Sabana de la Mar",
-        "NOMBRE_Y_APELLIDOS": "Gladys  Sánchez de  la  Cruz   ",
-        "FLOTA": "829-755-8469",
-        "Personal": "829-762-3858",
-        "MunicipioId": 27
-    },
-    {
-        "Id": 140,
-        "Provincia": "EL SEYBO",
-        "Municipio": "El Seribo",
-        "NOMBRE_Y_APELLIDOS": "Omar  Peralta ",
-        "Personal": "829-728-4682",
-        "MunicipioId": 25
-    },
-    {
-        "Id": 141,
-        "Provincia": "EL SEYBO",
-        "Municipio": "Miches",
-        "NOMBRE_Y_APELLIDOS": "Sorivel Núñez  Domínguez ",
-        "FLOTA": "829-755-8481",
-        "Personal": "809-654-6881\/809-553-9531",
-        "MunicipioId": 29
-    },
-    {
-        "Id": 142,
-        "Provincia": "MONTE PLATA",
-        "Municipio": "Monte Plata",
-        "NOMBRE_Y_APELLIDOS": "Alinita Contreras Hinojosa   ",
-        "FLOTA": "809-467-5932",
-        "Personal": "809-551-6525",
-        "MunicipioId": 8
-    },
-    {
-        "Id": 143,
-        "Provincia": "MONTE PLATA",
-        "Municipio": "Bayaguana",
-        "NOMBRE_Y_APELLIDOS": "Joselin  Ogando",
-        "FLOTA": "809-467-5903",
-        "Personal": "829-380-6574",
-        "MunicipioId": 4
-    },
-    {
-        "Id": 144,
-        "Provincia": "MONTE PLATA",
-        "Municipio": "Peralvillo",
-        "NOMBRE_Y_APELLIDOS": "Hamilton  Gregorio  Pérez ",
-        "FLOTA": "809-467-5935",
-        "Personal": "809-913-1680",
-        "MunicipioId": 153
-    },
-    {
-        "Id": 145,
-        "Provincia": "MONTE PLATA",
-        "Municipio": "Sabana Grande de Boyá",
-        "NOMBRE_Y_APELLIDOS": "Berquis Rosario  Veras",
-        "FLOTA": "809-467-5934",
-        "Personal": "829-452-5443",
-        "MunicipioId": 8
-    },
-    {
-        "Id": 146,
-        "Provincia": "MONTE PLATA",
-        "Municipio": "Yamasa",
-        "NOMBRE_Y_APELLIDOS": "Sujely Manzueta  Quezada ",
-        "Personal": "829-222-1581",
-        "MunicipioId": 5
-    },
-    {
-        "Id": 147,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Boca Chica ",
-        "NOMBRE_Y_APELLIDOS": "Clemente  peguero  ",
-        "FLOTA": "829-755-8500",
-        "MunicipioId": 226
-    },
-    {
-        "Id": 148,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "San Antonio de Guerrera",
-        "NOMBRE_Y_APELLIDOS": "Riquermi    Frias   Amador ",
-        "FLOTA": "829-755-8502",
-        "MunicipioId": 227
-    },
-    {
-        "Id": 149,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Los Alcarrizos",
-        "NOMBRE_Y_APELLIDOS": "Diovel   Franco   Vizcaino",
-        "FLOTA": "829-880-5449",
-        "Personal": "849-214-1103",
-        "MunicipioId": 229
-    },
-    {
-        "Id": 150,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Mendoza San  Luis ",
-        "NOMBRE_Y_APELLIDOS": "Wander    García ",
-        "FLOTA": "829-755-8504",
-        "Personal": "809-210-0310",
-        "MunicipioId": 291
-    },
-    {
-        "Id": 151,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Pedro Brand ",
-        "NOMBRE_Y_APELLIDOS": "Amada   Mateo   Marte",
-        "FLOTA": "809-754-2763",
-        "Personal": "809-754-2763",
-        "MunicipioId": 228
-    },
-    {
-        "Id": 152,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Santo Domingo Este ",
-        "NOMBRE_Y_APELLIDOS": "Wilkin   Ferreras ",
-        "FLOTA": "829-755-8501",
-        "MunicipioId": 223
-    },
-    {
-        "Id": 153,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Santo Domingo Norte ",
-        "NOMBRE_Y_APELLIDOS": "Juan  Bautista   Brito",
-        "FLOTA": "829-755-8508",
-        "Personal": "829-292-2131",
-        "MunicipioId": 225
-    },
-    {
-        "Id": 154,
-        "Provincia": " Santo   Domingo",
-        "Municipio": "Santo Domingo Oeste ",
-        "NOMBRE_Y_APELLIDOS": "Adhamilka Espinal ",
-        "FLOTA": "829-755-8505",
-        "Personal": "809-899-9347",
-        "MunicipioId": 224
-    }
+  {
+    "Id": 1,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Azua",
+    "NOMBRE_Y_APELLIDOS": "Luis Escanio  ",
+    "Personal": "829-639-9945",
+    "cargo": "presidente",
+    "MunicipioId": 10
+  },
+  {
+    "Id": 2,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Guayabal",
+    "NOMBRE_Y_APELLIDOS": "Tomás  Cabral   Santana",
+    "FLOTA": "829-755-8494",
+    "Personal": "849-357-3610",
+    "cargo": "presidente",
+    "MunicipioId": 105
+  },
+  {
+    "Id": 3,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Las Yayas",
+    "NOMBRE_Y_APELLIDOS": "Cesar  Manolin Turbi  Aristi",
+    "FLOTA": "829-755-8495",
+    "cargo": "presidente",
+    "MunicipioId": 125
+  },
+  {
+    "Id": 4,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Padre Las Casas",
+    "NOMBRE_Y_APELLIDOS": "Robert Ramirez ",
+    "Personal": "809-762-8020",
+    "cargo": "Presidente",
+    "MunicipioId": 17
+  },
+  {
+    "Id": 5,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Peralta",
+    "NOMBRE_Y_APELLIDOS": "Francis   Rodríguez ",
+    "FLOTA": "829-755-8497",
+    "Personal": "829-310-9202",
+    "cargo": "Presidente",
+    "MunicipioId": 106
+  },
+  {
+    "Id": 6,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Sabana Yegua",
+    "NOMBRE_Y_APELLIDOS": "Pedro  Jesús   Vargas",
+    "FLOTA": "829-755-8498",
+    "Personal": "809-763-2159",
+    "cargo": "presidente",
+    "MunicipioId": 107
+  },
+  {
+    "Id": 7,
+    "Provincia": "Azua",
+    "Municipio": "Municipio Tabara Arriba",
+    "NOMBRE_Y_APELLIDOS": "Ernesto   Arturo   Ramírez ",
+    "FLOTA": "829-755-8499",
+    "Personal": "809-915-5601",
+    "cargo": "presidente",
+    "MunicipioId": 126
+  },
+  {
+    "Id": 8,
+    "Provincia": "BARAHONA",
+    "Municipio": "BARAHONA",
+    "NOMBRE_Y_APELLIDOS": "Miguel  Feliz ",
+    "Personal": "829-679-2301",
+    "cargo": "presidente",
+    "MunicipioId": 18
+  },
+  {
+    "Id": 9,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Cabral",
+    "NOMBRE_Y_APELLIDOS": "Dawin  Tomas Feliz  Felix ",
+    "FLOTA": "829-467-5948",
+    "Personal": "829-319-1374",
+    "cargo": "Presidente",
+    "MunicipioId": 19
+  },
+  {
+    "Id": 10,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Enriquillo",
+    "NOMBRE_Y_APELLIDOS": "Carlos  Onesy Castillo ",
+    "FLOTA": "809-467-5949",
+    "cargo": "presidente",
+    "MunicipioId": 21
+  },
+  {
+    "Id": 11,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Jaquimeye",
+    "NOMBRE_Y_APELLIDOS": "Yanira   Matos  Pineda",
+    "FLOTA": "809-467-5950",
+    "Personal": "809-488-0551",
+    "cargo": "presidente",
+    "MunicipioId": 167
+  },
+  {
+    "Id": 12,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio La Cienaga",
+    "NOMBRE_Y_APELLIDOS": "Franklin  Jiménez   Feliz ",
+    "FLOTA": "809-467-5951",
+    "Personal": "829-630-6565",
+    "cargo": "presidente",
+    "MunicipioId": 160
+  },
+  {
+    "Id": 13,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Las Salinas",
+    "NOMBRE_Y_APELLIDOS": "Danilo  Feliz  Feliz",
+    "FLOTA": "809-467-5952",
+    "Personal": "829-698-8290",
+    "cargo": "presidente",
+    "MunicipioId": 137
+  },
+  {
+    "Id": 14,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Paraíso",
+    "NOMBRE_Y_APELLIDOS": "Wilkin  Antonio Mateo Cuello ",
+    "FLOTA": "809-467-5953",
+    "cargo": "presidiente",
+    "MunicipioId": 80
+  },
+  {
+    "Id": 15,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio El Peñón",
+    "NOMBRE_Y_APELLIDOS": "Salvador  Antonio  Pérez Segura  ",
+    "FLOTA": "809-467-5954",
+    "cargo": "presidente",
+    "MunicipioId": 130
+  },
+  {
+    "Id": 16,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Polo",
+    "NOMBRE_Y_APELLIDOS": "Noel  Antonio  Feliz  ",
+    "FLOTA": "809-467-5955",
+    "cargo": "presidente",
+    "MunicipioId": 111
+  },
+  {
+    "Id": 17,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio Vicente Noble",
+    "NOMBRE_Y_APELLIDOS": "Genaro  Matos ",
+    "FLOTA": "809-467-5956",
+    "Personal": "849-408-98112",
+    "cargo": "presidente",
+    "MunicipioId": 79
+  },
+  {
+    "Id": 18,
+    "Provincia": "BARAHONA",
+    "Municipio": "Municipio  Fundación",
+    "NOMBRE_Y_APELLIDOS": "Tomas  López  López ",
+    "FLOTA": "809-467-5922",
+    "Personal": "829-772-1307",
+    "cargo": "presidente",
+    "MunicipioId": 131
+  },
+  {
+    "Id": 19,
+    "Provincia": "BAHORUCO",
+    "Municipio": "Municipio Neyba",
+    "NOMBRE_Y_APELLIDOS": "Casarín  Acosta  Duval ",
+    "FLOTA": "829-755-9499",
+    "Personal": "809-467-5920",
+    "MunicipioId": 22
+  },
+  {
+    "Id": 20,
+    "Provincia": "BAHORUCO",
+    "Municipio": "Municipio Galván",
+    "NOMBRE_Y_APELLIDOS": "Wander  Santiago   Cuevas ",
+    "FLOTA": "809-467-5917",
+    "Personal": "829-903-6214",
+    "MunicipioId": 113
+  },
+  {
+    "Id": 21,
+    "Provincia": "BAHORUCO",
+    "Municipio": "Municipio Tamayo",
+    "NOMBRE_Y_APELLIDOS": "Luis  Ernesto  Medina  ",
+    "FLOTA": "80",
+    "Personal": "809-613-7833",
+    "MunicipioId": 76
+  },
+  {
+    "Id": 22,
+    "Provincia": "BAHORUCO",
+    "Municipio": "Municipio Los Ríos",
+    "NOMBRE_Y_APELLIDOS": "Jhordary Epifanio Rivas  Pérez ",
+    "FLOTA": "809-467-5919",
+    "Personal": "809-798-7799",
+    "MunicipioId": 112
+  },
+  {
+    "Id": 23,
+    "Provincia": "BAHORUCO",
+    "Municipio": "Municipio Villa Jaragua",
+    "NOMBRE_Y_APELLIDOS": "Faustina  Rosario Ferreras ",
+    "FLOTA": "809-467-5921",
+    "Personal": "829-861-2240",
+    "MunicipioId": 78
+  },
+  {
+    "Id": 24,
+    "Provincia": "ELIAS PIÑAS",
+    "Municipio": "Municipio Comendador",
+    "NOMBRE_Y_APELLIDOS": "Gilberto  Díaz Cabral   ",
+    "FLOTA": "829-755-8483",
+    "Personal": "849-859-7247",
+    "MunicipioId": 16
+  },
+  {
+    "Id": 25,
+    "Provincia": "ELIAS PIÑAS",
+    "Municipio": "Municipio Banica",
+    "NOMBRE_Y_APELLIDOS": "Quirico   Ramírez ",
+    "FLOTA": "829-755-8482",
+    "Personal": "829-320-2579",
+    "MunicipioId": 15
+  },
+  {
+    "Id": 26,
+    "Provincia": "ELIAS PIÑAS",
+    "Municipio": "Municipio Hondo Valle",
+    "NOMBRE_Y_APELLIDOS": "Wilkin   De Oleo   Montero ",
+    "FLOTA": "829-755-8485",
+    "MunicipioId": 75
+  },
+  {
+    "Id": 27,
+    "Provincia": "ELIAS PIÑAS",
+    "Municipio": "Municipio Pedro Santana",
+    "NOMBRE_Y_APELLIDOS": "Carlos  Rony  de  la  Rosa  urbaez",
+    "FLOTA": "829-755-8486",
+    "Personal": "829-377-2208",
+    "MunicipioId": 74
+  },
+  {
+    "Id": 28,
+    "Provincia": "ELIAS PIÑAS",
+    "Municipio": "Municipio El Llano",
+    "NOMBRE_Y_APELLIDOS": "Daniel  Ospino  Valdez   Sánchez ",
+    "FLOTA": "829-755-8484",
+    "MunicipioId": 110
+  },
+  {
+    "Id": 29,
+    "Provincia": "PEDERNALES",
+    "NOMBRE_Y_APELLIDOS": "Santa Ursula   Herrera  Batista ",
+    "FLOTA": "829-755-8510",
+    "Personal": "849-360-0590",
+    "MunicipioId": 69
+  },
+  {
+    "Id": 30,
+    "Provincia": "PEDERNALES",
+    "Municipio": "Municipio Oviedo",
+    "NOMBRE_Y_APELLIDOS": "Juanita  Feliz  Terrero ",
+    "FLOTA": "829-755-8509",
+    "Personal": "809-973-8213",
+    "MunicipioId": 91
+  },
+  {
+    "Id": 31,
+    "Provincia": "PERAVIA",
+    "Municipio": "Bani",
+    "NOMBRE_Y_APELLIDOS": "Nelson  Starling  Jiménez ",
+    "FLOTA": "809-467-5882",
+    "Personal": "809-751-8014",
+    "MunicipioId": 3
+  },
+  {
+    "Id": 32,
+    "Provincia": "PERAVIA",
+    "Municipio": "Municipio Nizao",
+    "NOMBRE_Y_APELLIDOS": "Diego   Antonio   Perdomo ",
+    "FLOTA": "809-467-5883",
+    "Personal": "829-349-0427",
+    "MunicipioId": 84
+  },
+  {
+    "Id": 33,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio San Cristóbal",
+    "NOMBRE_Y_APELLIDOS": "Julio Cesar de Jesús Tejeda",
+    "FLOTA": "829-755-8462",
+    "Personal": "809-643-9964",
+    "MunicipioId": 2
+  },
+  {
+    "Id": 34,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Cambita",
+    "NOMBRE_Y_APELLIDOS": "Isaías   Solano   Guzmán ",
+    "FLOTA": "829-755-8457",
+    "MunicipioId": 315
+  },
+  {
+    "Id": 35,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Haina",
+    "NOMBRE_Y_APELLIDOS": "Dominga  Valdez ",
+    "FLOTA": "829-755-8458",
+    "Personal": "849-451--3922",
+    "MunicipioId": 93
+  },
+  {
+    "Id": 36,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Los Cacaos",
+    "NOMBRE_Y_APELLIDOS": "Juan  Medina Mateo",
+    "FLOTA": "829-755-8459",
+    "Personal": "809-660-4520",
+    "MunicipioId": 139
+  },
+  {
+    "Id": 37,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Nigua",
+    "NOMBRE_Y_APELLIDOS": "Evelyn Annery  Santana ",
+    "FLOTA": "829-755-8460",
+    "Personal": "829-222-9891",
+    "MunicipioId": 140
+  },
+  {
+    "Id": 38,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Palenque ",
+    "NOMBRE_Y_APELLIDOS": "Leonida  Tolentino ",
+    "FLOTA": "829-755-8461",
+    "Personal": "829-755-7559",
+    "MunicipioId": 83
+  },
+  {
+    "Id": 39,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Villa Altagracia",
+    "NOMBRE_Y_APELLIDOS": "Santiago  Arciniegas  de  Jesús ",
+    "FLOTA": "829-755-8463",
+    "MunicipioId": 68
+  },
+  {
+    "Id": 40,
+    "Provincia": "SAN CRISTOBAL",
+    "Municipio": "Municipio Yaguaté",
+    "NOMBRE_Y_APELLIDOS": "Pablo  Sierra ",
+    "FLOTA": "829-755-8464",
+    "Personal": "829-721-6661",
+    "MunicipioId": 82
+  },
+  {
+    "Id": 41,
+    "Provincia": "SAN JOSE DE OCOA ",
+    "Municipio": "Municipio Rancho Arriba",
+    "NOMBRE_Y_APELLIDOS": "Juan Antonio  ",
+    "FLOTA": "809-467-5943",
+    "Personal": "809-610-1532",
+    "MunicipioId": 152
+  },
+  {
+    "Id": 42,
+    "Provincia": "SAN JOSE DE OCOA ",
+    "Municipio": "Municipio Sabana Larga",
+    "NOMBRE_Y_APELLIDOS": "Manuel  Patrocino",
+    "FLOTA": "809-467-5444",
+    "Personal": "809-853-3643",
+    "MunicipioId": 150
+  },
+  {
+    "Id": 43,
+    "Provincia": "SAN JUAN",
+    "NOMBRE_Y_APELLIDOS": "Salvador Ramón  Moreta ",
+    "FLOTA": "829-755-8450",
+    "MunicipioId": 12
+  },
+  {
+    "Id": 44,
+    "Provincia": "SAN JUAN",
+    "Municipio": "Municipio Bohechio",
+    "NOMBRE_Y_APELLIDOS": " Ramón   Lebrón  Hernández ",
+    "FLOTA": "829-755-8447",
+    "Personal": "809-462-9645",
+    "MunicipioId": 109
+  },
+  {
+    "Id": 45,
+    "Provincia": "SAN JUAN",
+    "Municipio": "Municipio El Cercado",
+    "NOMBRE_Y_APELLIDOS": "Víctor J.  Heredia  Sánchez ",
+    "FLOTA": "829-755-8448",
+    "Personal": "829-855-0264",
+    "MunicipioId": 14
+  },
+  {
+    "Id": 46,
+    "Provincia": "SAN JUAN",
+    "Municipio": "Municipio Juan de Herrera",
+    "NOMBRE_Y_APELLIDOS": "Anyelina  Familia Jiménez ",
+    "FLOTA": "829-755-8449                       ",
+    "Personal": "829-799-2116",
+    "MunicipioId": 129
+  },
+  {
+    "Id": 47,
+    "Provincia": "SAN JUAN",
+    "Municipio": "Municipio Vallejuelo",
+    "NOMBRE_Y_APELLIDOS": "Dawin  Onil Mateo   Castillo ",
+    "FLOTA": "829-879-0531",
+    "Personal": "829-879-0531",
+    "MunicipioId": 108
+  },
+  {
+    "Id": 48,
+    "Provincia": "SAN JUAN",
+    "Municipio": "Municipio Las Matas de Farfán",
+    "NOMBRE_Y_APELLIDOS": "Darvin  Efren  peña   Roas",
+    "FLOTA": "829-755-8452",
+    "Personal": "829-633-4955",
+    "MunicipioId": 11
+  },
+  {
+    "Id": 49,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Jimani",
+    "NOMBRE_Y_APELLIDOS": "Nelina Trinidad Trinidad",
+    "FLOTA": "809-779-3453",
+    "MunicipioId": 77
+  },
+  {
+    "Id": 50,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Municipio Duverge",
+    "NOMBRE_Y_APELLIDOS": "Jaime Pérez",
+    "FLOTA": "809-467-5908",
+    "Personal": "809-670-0950",
+    "MunicipioId": 20
+  },
+  {
+    "Id": 51,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Municipio Cristóbal",
+    "NOMBRE_Y_APELLIDOS": "Máximo Antonio  Matos",
+    "FLOTA": "809-467-5907",
+    "Personal": "809-425-9247",
+    "MunicipioId": 128
+  },
+  {
+    "Id": 52,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Municipio La Descubierta",
+    "NOMBRE_Y_APELLIDOS": "Yovany Medina  Ferreras",
+    "FLOTA": "809-467-5910",
+    "Personal": "809-853-5133",
+    "MunicipioId": 70
+  },
+  {
+    "Id": 53,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Municipio Mella",
+    "NOMBRE_Y_APELLIDOS": "Luis Medrano ",
+    "FLOTA": "809-467-5912",
+    "Personal": "809-915-1767",
+    "MunicipioId": 114
+  },
+  {
+    "Id": 54,
+    "Provincia": " INDEPENDENCIA",
+    "Municipio": "Municipio Poster Rio",
+    "NOMBRE_Y_APELLIDOS": "Jenny  González  Medina",
+    "Personal": "849-850-0431",
+    "MunicipioId": 99
+  },
+  {
+    "Id": 55,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio  San Francisco",
+    "NOMBRE_Y_APELLIDOS": "Sixto   Gabin ",
+    "FLOTA": "829-755-9485",
+    "Personal": " 849-407-5895",
+    "MunicipioId": 56
+  },
+  {
+    "Id": 56,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio Castillo",
+    "NOMBRE_Y_APELLIDOS": "Ernesto Martínez ",
+    "FLOTA": "829-755-8528",
+    "MunicipioId": 59
+  },
+  {
+    "Id": 57,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio Arenoso",
+    "NOMBRE_Y_APELLIDOS": "Ramón Manuel Rivas ",
+    "FLOTA": "809-467-5890",
+    "Personal": "829-342-1102",
+    "MunicipioId": 119
+  },
+  {
+    "Id": 58,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio Hostos",
+    "NOMBRE_Y_APELLIDOS": "Nicolás Suarez  Polanco ",
+    "FLOTA": "809-467-5892",
+    "Personal": "809-783-7550",
+    "MunicipioId": 63
+  },
+  {
+    "Id": 59,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio Las Guaranas",
+    "NOMBRE_Y_APELLIDOS": "Melba Francisco payano",
+    "FLOTA": "809-467-5893",
+    "MunicipioId": 143
+  },
+  {
+    "Id": 60,
+    "Provincia": "DUARTE",
+    "Municipio": "Municipio Pimentel",
+    "NOMBRE_Y_APELLIDOS": "Junior Martínez ",
+    "FLOTA": "809-467-5894",
+    "Personal": "809-984-7776",
+    "MunicipioId": 57
+  },
+  {
+    "Id": 61,
+    "Provincia": "DUARTE",
+    "Municipio": "Villa Rivas",
+    "NOMBRE_Y_APELLIDOS": "Luis German Mena",
+    "FLOTA": "809-467-5896",
+    "MunicipioId": 58
+  },
+  {
+    "Id": 62,
+    "Provincia": "DAJABON",
+    "Municipio": "Dajabón",
+    "NOMBRE_Y_APELLIDOS": "Rosalba  Milagros Peña",
+    "FLOTA": "809-467-5927",
+    "Personal": "809-513-4431",
+    "MunicipioId": 44
+  },
+  {
+    "Id": 63,
+    "Provincia": "DAJABON",
+    "Municipio": "El Pino",
+    "NOMBRE_Y_APELLIDOS": "Emmanuel  Fortuna ",
+    "FLOTA": "809-467-5928",
+    "MunicipioId": 151
+  },
+  {
+    "Id": 64,
+    "Provincia": "DAJABON",
+    "Municipio": "Loma de Cabrera",
+    "NOMBRE_Y_APELLIDOS": "Marcelino Abad ",
+    "FLOTA": "809-467-5929",
+    "Personal": "809-665-0993",
+    "MunicipioId": 73
+  },
+  {
+    "Id": 65,
+    "Provincia": "DAJABON",
+    "Municipio": "Partido",
+    "NOMBRE_Y_APELLIDOS": "Francisco  Mercedes ",
+    "FLOTA": "809-467-5930",
+    "MunicipioId": 115
+  },
+  {
+    "Id": 66,
+    "Provincia": "DAJABON",
+    "Municipio": "Restauración",
+    "NOMBRE_Y_APELLIDOS": "Francisco   Ignacio  Polanco   ",
+    "FLOTA": "809-467-5931",
+    "MunicipioId": 43
+  },
+  {
+    "Id": 67,
+    "Provincia": "ESPALLAT",
+    "Municipio": "Moca",
+    "NOMBRE_Y_APELLIDOS": "Ledwin  Santana",
+    "FLOTA": "829-755-8491",
+    "Personal": "829-346-0550",
+    "MunicipioId": 54
+  },
+  {
+    "Id": 68,
+    "Provincia": "ESPALLAT",
+    "Municipio": "Cayetano Germosen",
+    "NOMBRE_Y_APELLIDOS": "Leonides Gutiérrez ",
+    "FLOTA": "829-755-8487",
+    "Personal": "809-757-0988",
+    "MunicipioId": 88
+  },
+  {
+    "Id": 69,
+    "Provincia": "ESPALLAT",
+    "Municipio": "Gaspar Hernández",
+    "NOMBRE_Y_APELLIDOS": "Yeni Tavares  Cabrera",
+    "FLOTA": "829-755-8488",
+    "Personal": "809-387-9304",
+    "MunicipioId": 61
+  },
+  {
+    "Id": 70,
+    "Provincia": "ESPALLAT",
+    "Municipio": "Jamao Al Norte",
+    "NOMBRE_Y_APELLIDOS": "Fernando  Peralta ",
+    "FLOTA": "829-755-8489",
+    "Personal": "809-705-0693",
+    "MunicipioId": 133
+  },
+  {
+    "Id": 71,
+    "Provincia": "ESPALLAT",
+    "Municipio": "José Contreras (Villa Trina)",
+    "NOMBRE_Y_APELLIDOS": "Avel Camacho ",
+    "FLOTA": "829-755-8490",
+    "Personal": "829980-8372",
+    "MunicipioId": 89
+  },
+  {
+    "Id": 72,
+    "Provincia": "LA VEGA",
+    "Municipio": "LA VEGA",
+    "NOMBRE_Y_APELLIDOS": "Pablo  Rosario Abreu ",
+    "FLOTA": "829-755-8518",
+    "MunicipioId": 47
+  },
+  {
+    "Id": 73,
+    "Provincia": "LA VEGA",
+    "Municipio": "Constanza",
+    "NOMBRE_Y_APELLIDOS": "Francisco  Alberto Capellán ",
+    "FLOTA": "829-755-8515",
+    "Personal": "829-638-4715",
+    "MunicipioId": 53
+  },
+  {
+    "Id": 74,
+    "Provincia": "LA VEGA",
+    "Municipio": "Jarabacoa",
+    "NOMBRE_Y_APELLIDOS": "José  Agustín Hernández ",
+    "FLOTA": "829-755-8516",
+    "Personal": "809-886-0321",
+    "MunicipioId": 50
+  },
+  {
+    "Id": 75,
+    "Provincia": "LA VEGA",
+    "Municipio": "Jima Abajo",
+    "NOMBRE_Y_APELLIDOS": "Inocencio Antonio  Díaz ",
+    "FLOTA": "829-755-8517",
+    "Personal": "809-698-7197",
+    "MunicipioId": 122
+  },
+  {
+    "Id": 76,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Nagua",
+    "NOMBRE_Y_APELLIDOS": "José  Guillermo Vásquez  ",
+    "FLOTA": "809-467-5902",
+    "MunicipioId": 71
+  },
+  {
+    "Id": 77,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Cabrera",
+    "NOMBRE_Y_APELLIDOS": "Angelica María   Melo  S",
+    "FLOTA": "809-467-5900",
+    "MunicipioId": 60
+  },
+  {
+    "Id": 78,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "El Factor",
+    "NOMBRE_Y_APELLIDOS": "Ramón  Alvarado ",
+    "FLOTA": "809-467-5901",
+    "Personal": "829-423-3875",
+    "MunicipioId": 136
+  },
+  {
+    "Id": 79,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Rio San Juan",
+    "NOMBRE_Y_APELLIDOS": "Ada Gil  José ",
+    "FLOTA": "809-467-5903",
+    "Personal": "809-754-9632",
+    "MunicipioId": 81
+  },
+  {
+    "Id": 80,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Bonao",
+    "NOMBRE_Y_APELLIDOS": "Nolberto  Ortiz  de  la  Cruz ",
+    "FLOTA": "829-755-8525",
+    "MunicipioId": 48
+  },
+  {
+    "Id": 81,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Maimón",
+    "NOMBRE_Y_APELLIDOS": "Fernando   Reyes ",
+    "FLOTA": "829-755-8526",
+    "Personal": "849-262-6863",
+    "MunicipioId": 118
+  },
+  {
+    "Id": 82,
+    "Provincia": "MARÍA TRINIDAD SANCHEZ",
+    "Municipio": "Piedra Blanca",
+    "NOMBRE_Y_APELLIDOS": "Eduardo   Cruz ",
+    "FLOTA": "829-755-8527",
+    "Personal": "829-650-4652",
+    "MunicipioId": 123
+  },
+  {
+    "Id": 83,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Monte Cristi",
+    "NOMBRE_Y_APELLIDOS": "Milagro  peña",
+    "FLOTA": "829-755-4976",
+    "Personal": "829-219-8086",
+    "MunicipioId": 41
+  },
+  {
+    "Id": 84,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Castañuela",
+    "NOMBRE_Y_APELLIDOS": "Reyna  Carida Pérez ",
+    "FLOTA": "809-467-5937",
+    "Personal": "809-994-6056",
+    "MunicipioId": 101
+  },
+  {
+    "Id": 85,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Guayubin",
+    "NOMBRE_Y_APELLIDOS": "Franklin  Antonio  Núñez ",
+    "FLOTA": "809-467-5938",
+    "MunicipioId": 45
+  },
+  {
+    "Id": 86,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Las Matas de Santa Cruz",
+    "NOMBRE_Y_APELLIDOS": "Mario   Fernández ",
+    "FLOTA": "809-467-5939",
+    "Personal": "829-709-6371",
+    "MunicipioId": 117
+  },
+  {
+    "Id": 87,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Manzanillo)Pepillo Salcedo",
+    "NOMBRE_Y_APELLIDOS": "Alina   Almonte ",
+    "FLOTA": "809-467-5941",
+    "Personal": "8\/829-639-0980",
+    "MunicipioId": 86
+  },
+  {
+    "Id": 88,
+    "Provincia": "Monte Cristi",
+    "Municipio": "Villa Vázquez",
+    "NOMBRE_Y_APELLIDOS": "José  Agustín   Martínez ",
+    "FLOTA": "809467-5942",
+    "Personal": "829-520-0589",
+    "MunicipioId": 72
+  },
+  {
+    "Id": 89,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Puerto Plata",
+    "NOMBRE_Y_APELLIDOS": "Luis   Balbuena ",
+    "FLOTA": "829-755-8475",
+    "Personal": "829-292-2116",
+    "MunicipioId": 37
+  },
+  {
+    "Id": 90,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Altamira",
+    "NOMBRE_Y_APELLIDOS": "Leonardo  Raúl  Marte",
+    "FLOTA": "829-755-8470",
+    "MunicipioId": 39
+  },
+  {
+    "Id": 91,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Gaunanico",
+    "NOMBRE_Y_APELLIDOS": "Fortuna  Mena ",
+    "FLOTA": "829-755-8471",
+    "MunicipioId": 120
+  },
+  {
+    "Id": 92,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Imbert",
+    "NOMBRE_Y_APELLIDOS": "Mario  peralta   Domínguez ",
+    "FLOTA": "829-755-8472",
+    "Personal": "829-820-9008",
+    "MunicipioId": 38
+  },
+  {
+    "Id": 93,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Los Hidalgos",
+    "NOMBRE_Y_APELLIDOS": "Francisco  Antonio  Bobadilla ",
+    "FLOTA": "829-755-8473",
+    "MunicipioId": 102
+  },
+  {
+    "Id": 94,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Luperón",
+    "NOMBRE_Y_APELLIDOS": "Feliz   González ",
+    "FLOTA": "829-755-8474",
+    "Personal": "829-546-4889",
+    "MunicipioId": 40
+  },
+  {
+    "Id": 95,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Sosua",
+    "NOMBRE_Y_APELLIDOS": "Altagracia Frías  Paredes",
+    "FLOTA": "829-755-8249",
+    "Personal": "809-603-6127",
+    "MunicipioId": 97
+  },
+  {
+    "Id": 96,
+    "Provincia": "PUERTO PLATA",
+    "Municipio": "Villa Isabela",
+    "NOMBRE_Y_APELLIDOS": "Simeón  Acevedo",
+    "FLOTA": "829-755-8477",
+    "MunicipioId": 121
+  },
+  {
+    "Id": 97,
+    "Provincia": "SALCEDO (HERMANAS MIRABAL)",
+    "Municipio": "Salcedo",
+    "NOMBRE_Y_APELLIDOS": "José  Luis  Ortega   ",
+    "FLOTA": "809-467-5897",
+    "MunicipioId": 55
+  },
+  {
+    "Id": 98,
+    "Provincia": "SALCEDO (HERMANAS MIRABAL)",
+    "Municipio": "Tenares",
+    "NOMBRE_Y_APELLIDOS": "Jacob Ysaac  Casado   García",
+    "FLOTA": "809-467-5898",
+    "MunicipioId": 64
+  },
+  {
+    "Id": 99,
+    "Provincia": "SALCEDO (HERMANAS MIRABAL)",
+    "Municipio": "Villa Tapia",
+    "NOMBRE_Y_APELLIDOS": "Vinicio Castillo de  Jesús",
+    "FLOTA": "809-467-5899",
+    "MunicipioId": 51
+  },
+  {
+    "Id": 100,
+    "Provincia": "SAMANA",
+    "Municipio": "Samaná",
+    "NOMBRE_Y_APELLIDOS": "Ricardo   Guerrero ",
+    "FLOTA": "809-467-5880",
+    "MunicipioId": 65
+  },
+  {
+    "Id": 101,
+    "Provincia": "SAMANA",
+    "Municipio": "Las Terrenas",
+    "NOMBRE_Y_APELLIDOS": "Mery Paulino",
+    "FLOTA": "849-857-2829",
+    "MunicipioId": 134
+  },
+  {
+    "Id": 102,
+    "Provincia": "SAMANA",
+    "Municipio": "Sánchez",
+    "NOMBRE_Y_APELLIDOS": "Raisa M. Breton P",
+    "FLOTA": "809-467-5917",
+    "Personal": "829-727-0759",
+    "MunicipioId": 66
+  },
+  {
+    "Id": 103,
+    "Provincia": "SAMANA",
+    "Municipio": "Cotui",
+    "NOMBRE_Y_APELLIDOS": "Alejandro  Sánchez M ",
+    "Personal": "829-760-8074",
+    "MunicipioId": 49
+  },
+  {
+    "Id": 104,
+    "Provincia": "SAMANA",
+    "Municipio": "Sevicos",
+    "NOMBRE_Y_APELLIDOS": "Mayelin  Almonte  Cordero ",
+    "FLOTA": "829-755-8453",
+    "MunicipioId": 65
+  },
+  {
+    "Id": 105,
+    "Provincia": "SAMANA",
+    "Municipio": "Fantino",
+    "NOMBRE_Y_APELLIDOS": "Miguel Angel Morillo",
+    "FLOTA": "829-647-9712",
+    "MunicipioId": 87
+  },
+  {
+    "Id": 106,
+    "Provincia": "SAMANA",
+    "Municipio": "Villa La Mata",
+    "NOMBRE_Y_APELLIDOS": "Ramon Aberlado  ",
+    "Personal": "829-213-6412",
+    "MunicipioId": 155
+  },
+  {
+    "Id": 107,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Santiago",
+    "NOMBRE_Y_APELLIDOS": "Miguel Antonio Jorge  Luciano",
+    "FLOTA": "829-679-2317",
+    "MunicipioId": 31
+  },
+  {
+    "Id": 108,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Janico",
+    "NOMBRE_Y_APELLIDOS": "Ramo  Emilio  Núñez ",
+    "FLOTA": "829-755-8383",
+    "Personal": "829-904-3258",
+    "MunicipioId": 35
+  },
+  {
+    "Id": 109,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Licey al medio",
+    "NOMBRE_Y_APELLIDOS": "Miguel de los  Santos  Cruceta ",
+    "FLOTA": "829-755-9486",
+    "MunicipioId": 95
+  },
+  {
+    "Id": 110,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Navarrete",
+    "NOMBRE_Y_APELLIDOS": "Marcelino  Polanco ",
+    "FLOTA": "829-755-9487 ",
+    "MunicipioId": 96
+  },
+  {
+    "Id": 111,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Pedro García",
+    "NOMBRE_Y_APELLIDOS": "Ramón  Antonio Rodríguez ",
+    "FLOTA": "829-755-9488",
+    "MunicipioId": 142
+  },
+  {
+    "Id": 112,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "San José de la Matas",
+    "NOMBRE_Y_APELLIDOS": "Gerónimo Santana",
+    "FLOTA": "829-755-9489",
+    "Personal": "809-820-1394",
+    "MunicipioId": 36
+  },
+  {
+    "Id": 113,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Tamboril",
+    "NOMBRE_Y_APELLIDOS": "Lino  Antonio  Álvarez ",
+    "FLOTA": "829-755-9491",
+    "MunicipioId": 32
+  },
+  {
+    "Id": 114,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Villa González",
+    "NOMBRE_Y_APELLIDOS": "Hemy R. Rodríguez ",
+    "Personal": "829-762-4547",
+    "MunicipioId": 94
+  },
+  {
+    "Id": 115,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Puñal",
+    "NOMBRE_Y_APELLIDOS": "Raminiel Fernández ",
+    "FLOTA": "829-755-9493",
+    "Personal": "809-630-5384",
+    "MunicipioId": 350
+  },
+  {
+    "Id": 116,
+    "Provincia": "PROVINCIA SANTIAGO",
+    "Municipio": "Sur Oeste Santiago",
+    "NOMBRE_Y_APELLIDOS": "Rosa Teresa  Espinal",
+    "FLOTA": "829-755-9448",
+    "Personal": "809-659-8876",
+    "MunicipioId": 31
+  },
+  {
+    "Id": 117,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "Moción",
+    "NOMBRE_Y_APELLIDOS": "Mercedes Miguelina  Esteben ",
+    "FLOTA": "829-755-8511",
+    "Personal": "809-986-4704",
+    "MunicipioId": 42
+  },
+  {
+    "Id": 118,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "Sabaneta",
+    "NOMBRE_Y_APELLIDOS": "Ángel  Francisco   Cuello ",
+    "FLOTA": "829-755-8512",
+    "MunicipioId": 292
+  },
+  {
+    "Id": 119,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "Los Almácigos",
+    "NOMBRE_Y_APELLIDOS": "Edwin  Rafael  Gómez ",
+    "FLOTA": "829-755-8513",
+    "MunicipioId": 116
+  },
+  {
+    "Id": 120,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "de Mao",
+    "NOMBRE_Y_APELLIDOS": "Ángel  María  Urbaez ",
+    "FLOTA": "829-755-9483",
+    "MunicipioId": 34
+  },
+  {
+    "Id": 121,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "Laguna Salada",
+    "NOMBRE_Y_APELLIDOS": "Rosa  Mercedes   Fernández ",
+    "FLOTA": "829-755-9482",
+    "Personal": "829-979-8878",
+    "MunicipioId": 92
+  },
+  {
+    "Id": 122,
+    "Provincia": "SANTIAGO RODRIGUEZ ",
+    "Municipio": "Esperanza",
+    "NOMBRE_Y_APELLIDOS": "Arelys Almonte ",
+    "FLOTA": "829-755-9481",
+    "Personal": "809-962--5373",
+    "MunicipioId": 33
+  },
+  {
+    "Id": 123,
+    "Provincia": "Distrito  Nacional ",
+    "Municipio": "Zona Norte",
+    "NOMBRE_Y_APELLIDOS": "Franklin  Ferreras ",
+    "Personal": "809-796-8494",
+    "MunicipioId": 1
+  },
+  {
+    "Id": 124,
+    "Provincia": "Distrito  Nacional ",
+    "Municipio": "Zona Sur",
+    "NOMBRE_Y_APELLIDOS": "Julio  Pérez ",
+    "FLOTA": "829-755-8521",
+    "MunicipioId": 1
+  },
+  {
+    "Id": 125,
+    "Provincia": "Distrito  Nacional ",
+    "Municipio": "Zona oeste",
+    "NOMBRE_Y_APELLIDOS": "Yadira  Duval ",
+    "FLOTA": "829-755-8520",
+    "Personal": "809-756-4207",
+    "MunicipioId": 1
+  },
+  {
+    "Id": 126,
+    "Provincia": "Distrito  Nacional ",
+    "Municipio": "Zona Noroeste",
+    "NOMBRE_Y_APELLIDOS": "Welin Ramírez ",
+    "Personal": "829-762-6810",
+    "MunicipioId": 1
+  },
+  {
+    "Id": 127,
+    "Provincia": "SAN PEDRO",
+    "Municipio": "San Pedro",
+    "NOMBRE_Y_APELLIDOS": "Kenedy García  Alvarado",
+    "Personal": "829-659-8862",
+    "MunicipioId": 23
+  },
+  {
+    "Id": 128,
+    "Provincia": "SAN PEDRO",
+    "Municipio": "Consuelo",
+    "NOMBRE_Y_APELLIDOS": "Bruno Ortiz",
+    "FLOTA": "849-451-0330",
+    "Personal": "809-907-3534",
+    "MunicipioId": 138
+  },
+  {
+    "Id": 129,
+    "Provincia": "SAN PEDRO",
+    "Municipio": "Los Llanos",
+    "NOMBRE_Y_APELLIDOS": "Yaira Giraldo Mena",
+    "FLOTA": "829-755-9426",
+    "MunicipioId": 24
+  },
+  {
+    "Id": 130,
+    "Provincia": "SAN PEDRO",
+    "Municipio": "Quisqueya",
+    "NOMBRE_Y_APELLIDOS": "Manuel Antonio Sala",
+    "FLOTA": "829-755-9427",
+    "MunicipioId": 146
+  },
+  {
+    "Id": 131,
+    "Provincia": "SAN PEDRO",
+    "Municipio": "Ramón Santana",
+    "NOMBRE_Y_APELLIDOS": "Norberto  Rodríguez ",
+    "FLOTA": "829-755-9428",
+    "Personal": "809-988-6126",
+    "MunicipioId": 30
+  },
+  {
+    "Id": 132,
+    "Provincia": "LA ROMANA",
+    "Municipio": "De La Romana",
+    "NOMBRE_Y_APELLIDOS": "Guillermo  Núñez Rosario",
+    "FLOTA": "829-755-8531",
+    "Personal": "809-838-8694",
+    "MunicipioId": 26
+  },
+  {
+    "Id": 133,
+    "Provincia": "LA ROMANA",
+    "Municipio": "Guaymate",
+    "NOMBRE_Y_APELLIDOS": "Bélgica  Amada   Feliciano",
+    "FLOTA": "829-755-8530",
+    "Personal": "829-371-4362",
+    "MunicipioId": 103
+  },
+  {
+    "Id": 134,
+    "Provincia": "LA ROMANA",
+    "Municipio": "Villa Hermosa",
+    "NOMBRE_Y_APELLIDOS": "Raul  Omar   Rosario",
+    "FLOTA": "829-755-7450",
+    "Personal": "829-288-0864",
+    "MunicipioId": 295
+  },
+  {
+    "Id": 135,
+    "Provincia": "LA ALTAGRACIA",
+    "Municipio": "Higuey",
+    "NOMBRE_Y_APELLIDOS": "Esteban Castillo Garrido",
+    "FLOTA": "829-755-8478",
+    "Personal": "809-267-4241",
+    "MunicipioId": 28
+  },
+  {
+    "Id": 136,
+    "Provincia": "LA ALTAGRACIA",
+    "Municipio": "San Rafael del Yuma",
+    "NOMBRE_Y_APELLIDOS": "Carmen  Alexis Medina ",
+    "FLOTA": "829-706-6862",
+    "MunicipioId": 85
+  },
+  {
+    "Id": 137,
+    "Provincia": "HATO MAYOR",
+    "Municipio": "Hato Mayor",
+    "NOMBRE_Y_APELLIDOS": "Darling  Peguero Rosario",
+    "FLOTA": "829-755-8468",
+    "Personal": "829-659-9959",
+    "MunicipioId": 27
+  },
+  {
+    "Id": 138,
+    "Provincia": "HATO MAYOR",
+    "Municipio": "El Valle",
+    "NOMBRE_Y_APELLIDOS": "Francisco Almonte  Contreras ",
+    "FLOTA": "829-755-8467",
+    "Personal": "829-650-4607",
+    "MunicipioId": 100
+  },
+  {
+    "Id": 139,
+    "Provincia": "HATO MAYOR",
+    "Municipio": "Sabana de la Mar",
+    "NOMBRE_Y_APELLIDOS": "Gladys  Sánchez de  la  Cruz   ",
+    "FLOTA": "829-755-8469",
+    "Personal": "829-762-3858",
+    "MunicipioId": 27
+  },
+  {
+    "Id": 140,
+    "Provincia": "EL SEYBO",
+    "Municipio": "El Seribo",
+    "NOMBRE_Y_APELLIDOS": "Omar  Peralta ",
+    "Personal": "829-728-4682",
+    "MunicipioId": 25
+  },
+  {
+    "Id": 141,
+    "Provincia": "EL SEYBO",
+    "Municipio": "Miches",
+    "NOMBRE_Y_APELLIDOS": "Sorivel Núñez  Domínguez ",
+    "FLOTA": "829-755-8481",
+    "Personal": "809-654-6881\/809-553-9531",
+    "MunicipioId": 29
+  },
+  {
+    "Id": 142,
+    "Provincia": "MONTE PLATA",
+    "Municipio": "Monte Plata",
+    "NOMBRE_Y_APELLIDOS": "Alinita Contreras Hinojosa   ",
+    "FLOTA": "809-467-5932",
+    "Personal": "809-551-6525",
+    "MunicipioId": 8
+  },
+  {
+    "Id": 143,
+    "Provincia": "MONTE PLATA",
+    "Municipio": "Bayaguana",
+    "NOMBRE_Y_APELLIDOS": "Joselin  Ogando",
+    "FLOTA": "809-467-5903",
+    "Personal": "829-380-6574",
+    "MunicipioId": 4
+  },
+  {
+    "Id": 144,
+    "Provincia": "MONTE PLATA",
+    "Municipio": "Peralvillo",
+    "NOMBRE_Y_APELLIDOS": "Hamilton  Gregorio  Pérez ",
+    "FLOTA": "809-467-5935",
+    "Personal": "809-913-1680",
+    "MunicipioId": 153
+  },
+  {
+    "Id": 145,
+    "Provincia": "MONTE PLATA",
+    "Municipio": "Sabana Grande de Boyá",
+    "NOMBRE_Y_APELLIDOS": "Berquis Rosario  Veras",
+    "FLOTA": "809-467-5934",
+    "Personal": "829-452-5443",
+    "MunicipioId": 8
+  },
+  {
+    "Id": 146,
+    "Provincia": "MONTE PLATA",
+    "Municipio": "Yamasa",
+    "NOMBRE_Y_APELLIDOS": "Sujely Manzueta  Quezada ",
+    "Personal": "829-222-1581",
+    "MunicipioId": 5
+  },
+  {
+    "Id": 147,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Boca Chica ",
+    "NOMBRE_Y_APELLIDOS": "Clemente  peguero  ",
+    "FLOTA": "829-755-8500",
+    "MunicipioId": 226
+  },
+  {
+    "Id": 148,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "San Antonio de Guerrera",
+    "NOMBRE_Y_APELLIDOS": "Riquermi    Frias   Amador ",
+    "FLOTA": "829-755-8502",
+    "MunicipioId": 227
+  },
+  {
+    "Id": 149,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Los Alcarrizos",
+    "NOMBRE_Y_APELLIDOS": "Diovel   Franco   Vizcaino",
+    "FLOTA": "829-880-5449",
+    "Personal": "849-214-1103",
+    "MunicipioId": 229
+  },
+  {
+    "Id": 150,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Mendoza San  Luis ",
+    "NOMBRE_Y_APELLIDOS": "Wander    García ",
+    "FLOTA": "829-755-8504",
+    "Personal": "809-210-0310",
+    "MunicipioId": 291
+  },
+  {
+    "Id": 151,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Pedro Brand ",
+    "NOMBRE_Y_APELLIDOS": "Amada   Mateo   Marte",
+    "FLOTA": "809-754-2763",
+    "Personal": "809-754-2763",
+    "MunicipioId": 228
+  },
+  {
+    "Id": 152,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Santo Domingo Este ",
+    "NOMBRE_Y_APELLIDOS": "Wilkin   Ferreras ",
+    "FLOTA": "829-755-8501",
+    "MunicipioId": 223
+  },
+  {
+    "Id": 153,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Santo Domingo Norte ",
+    "NOMBRE_Y_APELLIDOS": "Juan  Bautista   Brito",
+    "FLOTA": "829-755-8508",
+    "Personal": "829-292-2131",
+    "MunicipioId": 225
+  },
+  {
+    "Id": 154,
+    "Provincia": " Santo   Domingo",
+    "Municipio": "Santo Domingo Oeste ",
+    "NOMBRE_Y_APELLIDOS": "Adhamilka Espinal ",
+    "FLOTA": "829-755-8505",
+    "Personal": "809-899-9347",
+    "MunicipioId": 224
+  }
 ]
