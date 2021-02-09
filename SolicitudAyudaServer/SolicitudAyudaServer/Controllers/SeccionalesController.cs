@@ -21,7 +21,7 @@ namespace SolicitudAyudaServer.Controllers
             return db.Seccionales.Select(s => new 
             {
                 s.Id,
-                Nombre = s.Municipio.Nombre + s.Municipio.Provincia.Nombre
+                Nombre = $"{s.Municipio.Nombre} - {s.Municipio.Provincia.Nombre}"
             }).ToList();
         }
     }

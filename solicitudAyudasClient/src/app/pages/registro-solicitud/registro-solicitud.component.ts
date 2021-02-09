@@ -70,12 +70,12 @@ export class RegistroSolicitudComponent implements OnInit {
     this.Solicitud = new SolicitudAyuda();
 
 
-    // this.dataService.GetSeccionales().subscribe(data => {
-    //   this.seccionales = data;
-    //   this.cargandoSeccionales = false;
-    // }, err => {
-    //   this.cargandoSeccionales = false;
-    // })
+    this.dataService.GetSeccionales().subscribe(data => {
+      this.seccionales = data;
+      this.cargandoSeccionales = false;
+    }, err => {
+      this.cargandoSeccionales = false;
+    })
 
     this.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
       this.tiposSolicitudes = data;
@@ -84,12 +84,6 @@ export class RegistroSolicitudComponent implements OnInit {
     })
 
     this.cargandoSeccionales = false;
-    this.seccionales = [
-      { nombre: "Municipio Azua" },
-      { nombre: "Municipio Guayabal" },
-      { nombre: "Municipio Las Yayas" },
-      { nombre: "Municipio Padre las casas" }
-    ]
 
   }
 
