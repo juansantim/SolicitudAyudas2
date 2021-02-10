@@ -24,7 +24,9 @@ namespace SolicitudAyuda.Model
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {         
+            modelBuilder.HasSequence<int>("NumeroExpendiente");
+
             modelBuilder.ApplyConfiguration(new ProvinciaETC());
             modelBuilder.ApplyConfiguration(new MunicipioETC());
             modelBuilder.ApplyConfiguration(new RequisitoTipoSolicitudETC());

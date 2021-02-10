@@ -10,12 +10,9 @@ namespace SolicitudAyuda.Model.Entities
     {
         public int Id { get; set; }
         public int SolicitudAyudaId { get; set; }
-
+        public SolicitudAyuda SolicitudAyuda { get; set; }
         public int RequisitoTiposSolicitudId { get; set; }
         public virtual RequisitoTipoSolicitud RequisitoTipoSolicitud { get; set; }
-
-        public bool Checked { get; set; }
-
-        public SolicitudAyuda SolicitudAyuda { get; set; }
+        public string Value { get; set; }
     }
 }

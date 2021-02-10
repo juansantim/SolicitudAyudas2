@@ -24,5 +24,7 @@ namespace SolicitudAyuda.Model.Entities
         public DateTime? FechaInactivacion { get; set; }
 
         public int? UsuarioIdInactivacion { get; set; }
+
+        public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
     }
 }

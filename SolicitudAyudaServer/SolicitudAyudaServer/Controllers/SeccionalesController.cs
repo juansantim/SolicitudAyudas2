@@ -15,13 +15,14 @@ namespace SolicitudAyudaServer.Controllers
         {
             this.db = db;
         }
+
         [Route("api/seccionales")]
         public dynamic Get() 
         {
             return db.Seccionales.Select(s => new 
             {
                 s.Id,
-                Nombre = $"{s.Municipio.Nombre} - {s.Municipio.Provincia.Nombre}"
+                Nombre = $"{s.Municipio.Provincia.Nombre} - {s.Nombre}"
             }).ToList();
         }
     }

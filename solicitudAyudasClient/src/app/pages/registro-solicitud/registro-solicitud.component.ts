@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { promise } from 'protractor';
+import { from } from 'rxjs';
 import { collectionItem } from 'src/app/model/collectionItem';
 import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
-import Swal from 'sweetalert2'
+
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -34,17 +39,17 @@ export class RegistroSolicitudComponent implements OnInit {
   });
 
 
-  QuienRecibiraAyuda:Array<collectionItem> = [
-    new collectionItem('--SELECCIONE--', null, ''), 
-    new collectionItem('El Solicitante', 1, ''), 
-    new collectionItem('Hijo/Hija', 2, 'RBActaNacimiento'), 
-    new collectionItem('Padre/Madre', 3, 'RBPadreMadre'), 
+  QuienRecibiraAyuda: Array<collectionItem> = [
+    new collectionItem('--SELECCIONE--', null, ''),
+    new collectionItem('El Solicitante', 1, ''),
+    new collectionItem('Hijo/Hija', 2, 'RBActaNacimiento'),
+    new collectionItem('Padre/Madre', 3, 'RBPadreMadre'),
     new collectionItem('Conyuge o Esposa/Esposo', 4, 'RBConyuge'),
   ]
 
   //end of form controls
   constructor(private dataService: DataService, private fb: FormBuilder) {
-   console.log(this.QuienRecibiraAyuda);
+    console.log(this.QuienRecibiraAyuda);
   }
 
   Solicitud: SolicitudAyuda;
@@ -55,7 +60,7 @@ export class RegistroSolicitudComponent implements OnInit {
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
 
-  archivos:File[] = [];
+  archivos: File[] = [];
 
   isLoading() {
     return this.cargandoSeccionales;
@@ -87,6 +92,18 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
+  SearchCedula() {
+    var fieldCedula = this.solicitudAyudaForm.get('cedula');
+    if (fieldCedula.valid) {
+      let cedula = this.solicitudAyudaForm.get('cedula').value
+      console.log(cedula)
+    }
+    else {
+      console.log(fieldCedula.errors);
+      Swal.fire('Error al buscar maestro', 'Favor completar la cédula antes de consultar', 'error');
+    }
+
+  }
 
   removerSeccional() {
     this.selectedSeccional = null;
@@ -138,62 +155,137 @@ export class RegistroSolicitudComponent implements OnInit {
 
     }
     console.log(this.solicitudAyudaForm.controls);
-    this.RequisitosSolicitud = tipoSolictud.requisitos;    
+    this.RequisitosSolicitud = tipoSolictud.requisitos;
   }
 
-  GetErrors(fieldName, errorName){
+  GetErrors(fieldName, errorName) {
     var control = this.solicitudAyudaForm.get(fieldName);
 
-    if(control.pristine || !control.errors){
+    if (control.pristine || !control.errors) {
       return false;
     }
-    else{
+    else {
       return control.errors[errorName];
     }
 
   }
 
 
-  onChangeQuienRecibiraAyuda(value){
+  onChangeQuienRecibiraAyuda(value) {
     console.log(value);
-     
+
     let quienRecibira = this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
 
     //let keys = this.QuienRecibiraAyuda.filter(x => x.formControlName != value &&  x.formControlName != '' );
 
-    this.QuienRecibiraAyuda.forEach(key => {      
+    this.QuienRecibiraAyuda.forEach(key => {
       this.solicitudAyudaForm.removeControl(key.formControlName);
     });
 
-    if(quienRecibira.formControlName){
-      let fc = new FormControl(quienRecibira.formControlName,  Validators.required);
+    if (quienRecibira.formControlName) {
+      let fc = new FormControl(quienRecibira.formControlName, Validators.required);
       fc.setValue(null);
 
       this.solicitudAyudaForm.addControl(quienRecibira.formControlName, fc);
     }
   }
 
-  onChangeSolicitadoaJubilado(value){
+  onChangeSolicitadoaJubilado(value) {
+    let field = this.solicitudAyudaForm.get('estadoCuenta');
+    if(value == 'true'){
+      field.clearValidators();
+      field.setValidators(Validators.required)
+      field.updateValueAndValidity();
+    }
+    else{
+      field.clearValidators();
+      field.updateValueAndValidity();
+    }
     console.log(value);
   }
 
-  
-  onSubmit(){
-    console.log('submitting...')
-    if(this.solicitudAyudaForm.valid && this.archivos.length){
+
+  onSubmit() { 
+
+   
+    Object.keys(this.solicitudAyudaForm.controls).forEach(controlName => {
+      let control = this.solicitudAyudaForm.get(controlName)
+      if(!control.valid){
+        console.log(control, controlName);
+        
+      }
+    });
+
+    if (this.solicitudAyudaForm.valid && this.archivos.length) {
+
+      Swal.fire({        
+        icon: 'warning',
+        title: 'Seguro que desea continuar?',
+        text: 'Esta seguro que desea registrar la solicitud con los datos digitados?',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        showConfirmButton: true,    
+        confirmButtonText: 'Enviar Solicitud',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        preConfirm:  () => {
+          let form = new FormData();
+          form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
+          
+          form.append("Celular", this.solicitudAyudaForm.get('telefonoCelular').value);
+          form.append("TelefonoCasa", this.solicitudAyudaForm.get('telefonoResidencia').value);
+          form.append("TelefonoTrabajo", this.solicitudAyudaForm.get('telefonoLaboral').value);
+          form.append("Email", this.solicitudAyudaForm.get('email').value);
+
+          form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
+          form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
+
+          let requisitos = [];
+          this.RequisitosSolicitud.forEach(r => {
+            let controlRequisito = this.solicitudAyudaForm.get(r.formName);
+            requisitos.push({
+              RequisitoTiposSolicitudId: r.id,
+              Value: controlRequisito.value
+            })
+          })
+
+          form.append("Requisitos", JSON.stringify(requisitos))
+
+          console.log(requisitos);
+          
+          this.archivos.forEach(f => {
+            form.append(f.name, f, f.name);
+          })
+
+          return axios.post('/api/Solicitud/post', form,  {withCredentials: true})
+          .catch(error => {
+            Swal.showValidationMessage(`Request failed: ${error}`)
+          })
+        }
+      }).then(result => {
+        if(result.isConfirmed){
+          console.log(result.value);          
+        }
+      })
+
+      
 
     }
-    else{
+    else {
       Object.keys(this.solicitudAyudaForm.controls).forEach(key => {
         this.solicitudAyudaForm.get(key).markAsDirty();
       });
 
       Swal.fire('Error en formulario', 'Existen errores en el formulario, favor verificar mensajes en rojo.', 'error')
-    }  
-      
+    }
+
   }
 
-  SetFiles(fileList){
+  GetAllErrors(){
+
+  }
+
+  SetFiles(fileList) {
     this.archivos = fileList;
   }
 

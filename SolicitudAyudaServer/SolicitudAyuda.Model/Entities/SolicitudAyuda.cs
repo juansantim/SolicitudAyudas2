@@ -11,17 +11,20 @@ namespace SolicitudAyuda.Model.Entities
         public int Id { get; set; }
         public int NumeroExpediente { get; set; }
         public string CedulaSolicitante { get; set; }
+        
         public int MaestroId { get; set; }
-        public string Telefono { get; set; }
-        public string Email { get; set; }
         public Maestro Maestro { get; set; }
+
+        public string Celular { get; set; }
+        public string TelefonoCasa { get; set; }
+        public string TelefonoTrabajo { get; set; }
+        public string Email { get; set; }        
+
         public DateTime FechaSolicitud { get; set; }
         public int TipoSolicitudId { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
         public List<RequisitoSolicitud> Requisitos { get; set; }
         public List<AdjuntosSolicitud> Adjuntos { get; set; }
-        public int ARSId { get; set; }
-        public ARS ARS { get; set; }
         public string Concepto { get; set; }
         public decimal MontoSolicitado { get; set; }
         public decimal? MontoAprobado { get; set; }

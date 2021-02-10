@@ -9,8 +9,8 @@ namespace SolicitudAyuda.Model.Entities
     public class AdjuntosSolicitud
     {
         public int Id { get; set; }
-        public int SolicitudId { get; set; }
-        public SolicitudAyuda SolicitudAyuda { get; set; }
+        public int SolicitudAyudaId { get; set; }
+        public SolicitudAyuda SolicitudAyuda { get; set; }        
         public string DisplayName { get; set; }
         public string URL { get; set; }
         public decimal SizeMB { get; set; }
