@@ -1,14 +1,31 @@
 <body class="text-center">
     
     <main class="form-signin">
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="login()" (keydown.enter)="$event.preventDefault()">
         <img class="mb-4" src="assets/img/LOGO_ADP-01.png" alt="" width="200" height="100">
         <h1 class="h3 mb-3 fw-normal">Sistema unificado de Registro de Ayudas</h1>
-        <label for="inputEmail" class="visually-hidden">Correo Electrónico</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Direccion de Correo Electrónico" required="" autofocus="">
+        <label for="inputEmail" clasas="visually-hidden">Usuario / Correo Electróico</label>
+        cargando?{{cargando}}
+        <input type="email" id="inputEmail" class="form-control" placeholder="Direccion de Correo Electrónico" required autofocus formControlName="usuario">
+        <app-validation-error-message 
+        fieldName = "usuario" 
+        errorName ="required" 
+        [formGroup] = "loginForm"
+        error textMessage="Nombre de usuario o email requerido"></app-validation-error-message>
+
         <label for="inputPassword" class="visually-hidden">Contraseña</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required="">
-        <button class="w-100 btn btn-lg btn-primary" type="submit" (click)="login()">Iniciar Sesion</button>
+        
+        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required formControlName="password">
+        <app-validation-error-message 
+        fieldName = "password" 
+        errorName ="required" 
+        [formGroup] = "loginForm"
+        error textMessage="La contraseña es requerida"></app-validation-error-message>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit" (click)="login()" [disabled] = "cargando">Iniciar Sesion</button>
+
+        <br><app-loading [show] = "cargando"></app-loading>
+
         <p>
             <br>
             <a href="#">He olvidado mi Contraseña</a>

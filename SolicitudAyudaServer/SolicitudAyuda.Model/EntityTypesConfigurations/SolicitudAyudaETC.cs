@@ -24,8 +24,14 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
 
             entity.Property(sa => sa.CedulaSolicitante).IsRequired();
 
+            entity.HasOne(sa => sa.Seccional).WithMany(sc => sc.SolicitudesAyuda)
+                .HasForeignKey(sa => sa.SeccionalId)
+                .OnDelete(DeleteBehavior.NoAction);
+                
+
+
             entity .Property(o => o.NumeroExpediente)
-                .HasDefaultValueSql("NEXT VALUE FOR shared.NumeroExpendiente");
+                .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
         }
     }
 }

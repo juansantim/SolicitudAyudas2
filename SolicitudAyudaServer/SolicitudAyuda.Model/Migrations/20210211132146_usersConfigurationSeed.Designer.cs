@@ -10,8 +10,8 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210210001319_initial")]
-    partial class initial
+    [Migration("20210211132146_usersConfigurationSeed")]
+    partial class usersConfigurationSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,84 @@ namespace SolicitudAyuda.Model.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
+
+            modelBuilder.HasSequence<int>("NumeroExpendiente", "dbo")
+                .StartsAt(0L);
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.AdjuntosSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SizeMB")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SolicitudAyudaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolicitudAyudaId");
+
+                    b.ToTable("AdjuntosSolicitudesAyuda");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.EstadoSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EstadoSolicitudes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "La solicitud se encuentra en cola para ser atendida.",
+                            Nombre = "Solicitado"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Descripcion = "La solicitud ha sido aprobada y se encuentra en proceso de ser aplicada.",
+                            Nombre = "Aprobado"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Descripcion = "La solicitud no procede según las políticas establecidas.",
+                            Nombre = "Rechazado"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Descripcion = "Solicitud fue descartada.",
+                            Nombre = "Anulado"
+                        });
+                });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Maestro", b =>
                 {
@@ -2562,6 +2640,34 @@ namespace SolicitudAyuda.Model.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("RequisitoTipoSolicitudId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequisitoTiposSolicitudId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SolicitudAyudaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequisitoTipoSolicitudId");
+
+                    b.HasIndex("SolicitudAyudaId");
+
+                    b.ToTable("RequisitosSolicitudes");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoTipoSolicitud", b =>
                 {
                     b.Property<int>("Id")
@@ -3605,6 +3711,76 @@ namespace SolicitudAyuda.Model.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.SolicitudAyuda", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CedulaSolicitante")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Celular")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Concepto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EstadId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaSolicitud")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MaestroId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("MontoAprobado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MontoSolicitado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("NumeroExpediente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
+
+                    b.Property<int>("SeccionalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TelefonoCasa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonoTrabajo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoSolicitudId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstadId");
+
+                    b.HasIndex("MaestroId");
+
+                    b.HasIndex("SeccionalId");
+
+                    b.HasIndex("TipoSolicitudId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("SolicitudesAyuda");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.TipoSolicitud", b =>
                 {
                     b.Property<int>("Id")
@@ -3633,6 +3809,82 @@ namespace SolicitudAyuda.Model.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("DebeCambiarPassword")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Disponible")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaInactivacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Login")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("NombreCompleto")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("TempPassword")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("UsuarioIdInactivacion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DebeCambiarPassword = false,
+                            Disponible = false,
+                            FechaCreacion = new DateTime(2021, 2, 11, 9, 21, 45, 115, DateTimeKind.Local).AddTicks(6459),
+                            Login = "Sistema",
+                            NombreCompleto = "El Sistema",
+                            Password = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DebeCambiarPassword = false,
+                            Disponible = true,
+                            FechaCreacion = new DateTime(2021, 2, 11, 9, 21, 45, 116, DateTimeKind.Local).AddTicks(9345),
+                            Login = "jsanti",
+                            NombreCompleto = "Juan Santi",
+                            Password = "ai????n5&`?6"
+                        });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.AdjuntosSolicitud", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
+                        .WithMany("Adjuntos")
+                        .HasForeignKey("SolicitudAyudaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SolicitudAyuda");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Maestro", b =>
                 {
                     b.HasOne("SolicitudAyuda.Model.Entities.Seccional", "Seccional")
@@ -3653,6 +3905,23 @@ namespace SolicitudAyuda.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("Provincia");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoSolicitud", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.RequisitoTipoSolicitud", "RequisitoTipoSolicitud")
+                        .WithMany()
+                        .HasForeignKey("RequisitoTipoSolicitudId");
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
+                        .WithMany("Requisitos")
+                        .HasForeignKey("SolicitudAyudaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequisitoTipoSolicitud");
+
+                    b.Navigation("SolicitudAyuda");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoTipoSolicitud", b =>
@@ -3677,6 +3946,59 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Municipio");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.SolicitudAyuda", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.EstadoSolicitud", "Estado")
+                        .WithMany("SolicitudesAyuda")
+                        .HasForeignKey("EstadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Maestro", "Maestro")
+                        .WithMany("Solicitudes")
+                        .HasForeignKey("MaestroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Seccional", "Seccional")
+                        .WithMany("SolicitudesAyuda")
+                        .HasForeignKey("SeccionalId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.TipoSolicitud", "TipoSolicitud")
+                        .WithMany("Solicitudes")
+                        .HasForeignKey("TipoSolicitudId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Usuario", "Usuario")
+                        .WithMany("SolicitudesAyuda")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Maestro");
+
+                    b.Navigation("Seccional");
+
+                    b.Navigation("TipoSolicitud");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.EstadoSolicitud", b =>
+                {
+                    b.Navigation("SolicitudesAyuda");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Maestro", b =>
+                {
+                    b.Navigation("Solicitudes");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Provincia", b =>
                 {
                     b.Navigation("Municipios");
@@ -3685,11 +4007,27 @@ namespace SolicitudAyuda.Model.Migrations
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Seccional", b =>
                 {
                     b.Navigation("Maestros");
+
+                    b.Navigation("SolicitudesAyuda");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.SolicitudAyuda", b =>
+                {
+                    b.Navigation("Adjuntos");
+
+                    b.Navigation("Requisitos");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.TipoSolicitud", b =>
                 {
                     b.Navigation("Requisitos");
+
+                    b.Navigation("Solicitudes");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Usuario", b =>
+                {
+                    b.Navigation("SolicitudesAyuda");
                 });
 #pragma warning restore 612, 618
         }

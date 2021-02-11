@@ -13,5 +13,12 @@ export class DataService {
     return this.http.get('/api/seccionales');
   }
 
+  Login(usuario:string, password:string): Observable<any>{
+    return this.http.post('/api/Account', {
+      Login: usuario,
+      Password: password
+    });
+  }
+
   constructor(private http:HttpClient) { }
 }

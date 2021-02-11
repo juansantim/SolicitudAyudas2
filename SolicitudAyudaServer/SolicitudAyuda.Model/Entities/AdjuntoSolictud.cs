@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Text;
 
 namespace SolicitudAyuda.Model.Entities
@@ -14,5 +15,9 @@ namespace SolicitudAyuda.Model.Entities
         public string DisplayName { get; set; }
         public string URL { get; set; }
         public decimal SizeMB { get; set; }
+        public string ContentType { get; set; }
+
+        [NotMapped]
+        public Stream Content { get; set; }
     }
 }

@@ -52,7 +52,7 @@ status: {{GetAllErrors()}} <br/>
         </div>
     </fieldset>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Seccional</label>     
             <div class="input-group">
      
@@ -72,6 +72,12 @@ status: {{GetAllErrors()}} <br/>
                 textMessage="la seccional es obligatoria"></app-validation-error-message>
 
 
+        </div>
+        <div class="col-md-6">
+            <label>Cargo</label>
+            <input type="text" class="form-control" formControlName ="cargo" required minlength="5">
+            <app-validation-error-message *ngIf="GetErrors('cargo', 'required')" textMessage="El cargo es oblogatorio"></app-validation-error-message>
+            <app-validation-error-message *ngIf="GetErrors('cargo', 'minlength')" textMessage="El cargo debe contener al menos 5 letras"></app-validation-error-message>
         </div>
     </div>
     <div class="row">

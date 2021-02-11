@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -35,8 +36,11 @@ export class RegistroSolicitudComponent implements OnInit {
     montoAyuda: new FormControl(''),
     esJubiladoInabima: new FormControl(''),
     estadoCuenta: new FormControl('', Validators.required),
-    motivoSolicitud: new FormControl('', Validators.required)
+    motivoSolicitud: new FormControl('', Validators.required),
+    cargo: new FormControl('', Validators.required)
   });
+
+
 
 
   QuienRecibiraAyuda: Array<collectionItem> = [
@@ -48,7 +52,7 @@ export class RegistroSolicitudComponent implements OnInit {
   ]
 
   //end of form controls
-  constructor(private dataService: DataService, private fb: FormBuilder) {
+  constructor(private dataService: DataService, private fb: FormBuilder, private util:UtilsService) {
     console.log(this.QuienRecibiraAyuda);
   }
 
@@ -192,12 +196,12 @@ export class RegistroSolicitudComponent implements OnInit {
 
   onChangeSolicitadoaJubilado(value) {
     let field = this.solicitudAyudaForm.get('estadoCuenta');
-    if(value == 'true'){
+    if (value == 'true') {
       field.clearValidators();
       field.setValidators(Validators.required)
       field.updateValueAndValidity();
     }
-    else{
+    else {
       field.clearValidators();
       field.updateValueAndValidity();
     }
@@ -205,40 +209,43 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
 
-  onSubmit() { 
+  onSubmit() {
 
-   
+
     Object.keys(this.solicitudAyudaForm.controls).forEach(controlName => {
       let control = this.solicitudAyudaForm.get(controlName)
-      if(!control.valid){
+      if (!control.valid) {
         console.log(control, controlName);
-        
+
       }
     });
 
     if (this.solicitudAyudaForm.valid && this.archivos.length) {
 
-      Swal.fire({        
+      Swal.fire({
         icon: 'warning',
         title: 'Seguro que desea continuar?',
         text: 'Esta seguro que desea registrar la solicitud con los datos digitados?',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
-        showConfirmButton: true,    
+        showConfirmButton: true,
         confirmButtonText: 'Enviar Solicitud',
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
-        preConfirm:  () => {
+        preConfirm: () => {
           let form = new FormData();
+          form.append("SeccionalId", this.selectedSeccional.id);
           form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
-          
           form.append("Celular", this.solicitudAyudaForm.get('telefonoCelular').value);
           form.append("TelefonoCasa", this.solicitudAyudaForm.get('telefonoResidencia').value);
           form.append("TelefonoTrabajo", this.solicitudAyudaForm.get('telefonoLaboral').value);
           form.append("Email", this.solicitudAyudaForm.get('email').value);
+          form.append("TipoSolicitudId",  this.solicitudAyudaForm.get('tipoDeAyuda.abndeq').value);
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
+
+          form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
 
           let requisitos = [];
           this.RequisitosSolicitud.forEach(r => {
@@ -249,26 +256,48 @@ export class RegistroSolicitudComponent implements OnInit {
             })
           })
 
-          form.append("Requisitos", JSON.stringify(requisitos))
+          form.append("Requisitos", JSON.stringify(requisitos));
+
+          form.append("MaestroDTO", JSON.stringify({
+            Cedula: this.solicitudAyudaForm.get('cedula').value,
+            NombreCompleto: this.solicitudAyudaForm.get('nombreCompleto').value,
+            FechaNacimiento: this.solicitudAyudaForm.get('fechaNacimiento').value,
+            Sexo: this.solicitudAyudaForm.get('sexo').value,
+            SeccionalId: this.selectedSeccional.id,
+            Cargo: this.solicitudAyudaForm.get('cargo').value
+          }))
+
 
           console.log(requisitos);
-          
+
           this.archivos.forEach(f => {
             form.append(f.name, f, f.name);
           })
 
-          return axios.post('/api/Solicitud/post', form,  {withCredentials: true})
-          .catch(error => {
-            Swal.showValidationMessage(`Request failed: ${error}`)
-          })
+          return axios.post('/api/Solicitud/post', form, { withCredentials: true })
+            .then(response => {
+              let responseMessage = response.data;
+
+              if (responseMessage.success) {
+                Swal.fire('Soliciud de ayuda registrada satisfactoriamente', `El numero de soliciutd registrado es ${responseMessage.Data.solicitudId}`, 'success');
+              }
+              else{
+                let ul = this.util.GetUnorderedList(responseMessage.errors);
+                Swal.showValidationMessage(`Request failed: ${ ul}`);                
+              }
+
+            })
+            .catch(error => {
+              Swal.showValidationMessage(`Request failed: ${error}`)
+            })
         }
       }).then(result => {
-        if(result.isConfirmed){
-          console.log(result.value);          
+        if (result.isConfirmed) {
+          console.log(result.value);
         }
       })
 
-      
+
 
     }
     else {
@@ -281,7 +310,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
-  GetAllErrors(){
+  GetAllErrors() {
 
   }
 

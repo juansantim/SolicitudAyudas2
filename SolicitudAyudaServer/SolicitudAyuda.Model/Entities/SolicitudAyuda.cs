@@ -15,6 +15,9 @@ namespace SolicitudAyuda.Model.Entities
         public int MaestroId { get; set; }
         public Maestro Maestro { get; set; }
 
+        public int SeccionalId { get; set; }
+        public Seccional Seccional { get; set; }
+
         public string Celular { get; set; }
         public string TelefonoCasa { get; set; }
         public string TelefonoTrabajo { get; set; }
@@ -33,5 +36,11 @@ namespace SolicitudAyuda.Model.Entities
 
         public int EstadId { get; set; }
         public EstadoSolicitud Estado { get; set; }
+
+        public SolicitudAyuda()
+        {
+            Requisitos = new List<RequisitoSolicitud>();
+            Adjuntos = new List<AdjuntosSolicitud>();
+        }
     }
 }

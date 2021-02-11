@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolicitudAyuda.Model;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SolicitudAyudaServer.Controllers
 {
+    [Authorize]
     public class SeccionalesController: ControllerBase
     {
         private readonly DataContext db;

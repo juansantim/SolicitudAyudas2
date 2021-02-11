@@ -25,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ValidationErrorMessageComponent } from './common/validation-error-message/validation-error-message.component';
+import { AppCookieService } from './services/app-cookie.service';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ValidationErrorMessageComponent } from './common/validation-error-messa
     AlertModule.forRoot()
   ],
   providers: [
+    AppCookieService,
     AuthGuardDefault,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
   ],

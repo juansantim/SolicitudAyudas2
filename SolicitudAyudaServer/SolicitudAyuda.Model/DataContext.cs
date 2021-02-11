@@ -14,7 +14,9 @@ namespace SolicitudAyuda.Model
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
         public DbSet<Seccional> Seccionales { get; set; }
-
+        public DbSet<SolicitudAyuda.Model.Entities.SolicitudAyuda> Solicitudes { get; set; }
+        public DbSet<Maestro> Maestros { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -22,17 +24,20 @@ namespace SolicitudAyuda.Model
         }
 
         
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {         
-            modelBuilder.HasSequence<int>("NumeroExpendiente");
+        {
+            modelBuilder.HasSequence<int>("NumeroExpendiente", schema: "dbo")
+                .StartsAt(0)
+                .IncrementsBy(1);
 
             modelBuilder.ApplyConfiguration(new ProvinciaETC());
             modelBuilder.ApplyConfiguration(new MunicipioETC());
             modelBuilder.ApplyConfiguration(new RequisitoTipoSolicitudETC());
             modelBuilder.ApplyConfiguration(new TipoSolicitudETC());
             modelBuilder.ApplyConfiguration(new SeccionalETC());
-            
+            modelBuilder.ApplyConfiguration(new SolicitudAyudaETC());
+            modelBuilder.ApplyConfiguration(new EstadoSolicitudETC());
+            modelBuilder.ApplyConfiguration(new UsuarioETC());
         }
     }
 }

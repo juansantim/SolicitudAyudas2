@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SolicitudAyuda.Model.Migrations
 {
@@ -6,6 +7,28 @@ namespace SolicitudAyuda.Model.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "dbo");
+
+            migrationBuilder.CreateSequence<int>(
+                name: "NumeroExpendiente",
+                schema: "dbo",
+                startValue: 0L);
+
+            migrationBuilder.CreateTable(
+                name: "EstadoSolicitudes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EstadoSolicitudes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Provincias",
                 columns: table => new
@@ -30,6 +53,26 @@ namespace SolicitudAyuda.Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiposSolictudes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DebeCambiarPassword = table.Column<bool>(type: "bit", nullable: false),
+                    TempPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disponible = table.Column<bool>(type: "bit", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaInactivacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UsuarioIdInactivacion = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,43 +161,161 @@ namespace SolicitudAyuda.Model.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SolicitudesAyuda",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeroExpediente = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR dbo.NumeroExpendiente"),
+                    CedulaSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaestroId = table.Column<int>(type: "int", nullable: false),
+                    SeccionalId = table.Column<int>(type: "int", nullable: false),
+                    Celular = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TelefonoCasa = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TelefonoTrabajo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaSolicitud = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TipoSolicitudId = table.Column<int>(type: "int", nullable: false),
+                    Concepto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MontoSolicitado = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MontoAprobado = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    EstadId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SolicitudesAyuda", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SolicitudesAyuda_EstadoSolicitudes_EstadId",
+                        column: x => x.EstadId,
+                        principalTable: "EstadoSolicitudes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SolicitudesAyuda_Maestros_MaestroId",
+                        column: x => x.MaestroId,
+                        principalTable: "Maestros",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SolicitudesAyuda_Seccionales_SeccionalId",
+                        column: x => x.SeccionalId,
+                        principalTable: "Seccionales",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SolicitudesAyuda_TiposSolictudes_TipoSolicitudId",
+                        column: x => x.TipoSolicitudId,
+                        principalTable: "TiposSolictudes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SolicitudesAyuda_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AdjuntosSolicitudesAyuda",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SolicitudAyudaId = table.Column<int>(type: "int", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SizeMB = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdjuntosSolicitudesAyuda", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdjuntosSolicitudesAyuda_SolicitudesAyuda_SolicitudAyudaId",
+                        column: x => x.SolicitudAyudaId,
+                        principalTable: "SolicitudesAyuda",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequisitosSolicitudes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SolicitudAyudaId = table.Column<int>(type: "int", nullable: false),
+                    RequisitoTiposSolicitudId = table.Column<int>(type: "int", nullable: false),
+                    RequisitoTipoSolicitudId = table.Column<int>(type: "int", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequisitosSolicitudes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RequisitosSolicitudes_RequisitosTiposSolicitud_RequisitoTipoSolicitudId",
+                        column: x => x.RequisitoTipoSolicitudId,
+                        principalTable: "RequisitosTiposSolicitud",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RequisitosSolicitudes_SolicitudesAyuda_SolicitudAyudaId",
+                        column: x => x.SolicitudAyudaId,
+                        principalTable: "SolicitudesAyuda",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "EstadoSolicitudes",
+                columns: new[] { "Id", "Descripcion", "Nombre" },
+                values: new object[,]
+                {
+                    { 1, "La solicitud se encuentra en cola para ser atendida.", "Solicitado" },
+                    { 2, "La solicitud ha sido aprobada y se encuentra en proceso de ser aplicada.", "Aprobado" },
+                    { 3, "La solicitud no procede según las políticas establecidas.", "Rechazado" },
+                    { 5, "Solicitud fue descartada.", "Anulado" }
+                });
+
             migrationBuilder.InsertData(
                 table: "Provincias",
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
                 {
-                    { 1, "DISTRITO NACIONAL" },
-                    { 32, "SANTO DOMINGO" },
-                    { 31, "SAN JOSE DE OCOA" },
-                    { 30, "VALVERDE" },
-                    { 29, "SANTIAGO RODRIGUEZ" },
-                    { 28, "SANTIAGO DE LOS CABALLEROS" },
-                    { 27, "SANCHEZ RAMIREZ" },
-                    { 26, "SAN PEDRO DE MACORIS" },
-                    { 25, "SAN JUAN DE LA MAGUANA" },
-                    { 24, "SAN CRISTOBAL" },
-                    { 23, "SAMANA" },
-                    { 22, "HERMANAS MIRABAL (SALCEDO)" },
-                    { 21, "PUERTO PLATA" },
-                    { 20, "PERAVIA" },
                     { 19, "PEDERNALES" },
+                    { 20, "PERAVIA" },
+                    { 21, "PUERTO PLATA" },
+                    { 22, "HERMANAS MIRABAL (SALCEDO)" },
+                    { 23, "SAMANA" },
+                    { 24, "SAN CRISTOBAL" },
+                    { 25, "SAN JUAN DE LA MAGUANA" },
+                    { 27, "SANCHEZ RAMIREZ" },
                     { 18, "MONTE PLATA" },
+                    { 28, "SANTIAGO DE LOS CABALLEROS" },
+                    { 29, "SANTIAGO RODRIGUEZ" },
+                    { 30, "VALVERDE" },
+                    { 31, "SAN JOSE DE OCOA" },
+                    { 32, "SANTO DOMINGO" },
+                    { 26, "SAN PEDRO DE MACORIS" },
                     { 17, "MONTECRISTI" },
-                    { 16, "MONSEÑOR NOUEL" },
-                    { 2, "LA ALTAGRACIA" },
-                    { 3, "AZUA" },
-                    { 4, "BAHORUCO" },
-                    { 5, "BARAHONA" },
-                    { 6, "DAJABON" },
-                    { 7, "DUARTE" },
-                    { 8, "EL SEIBO" },
-                    { 10, "ESPAILLAT" },
-                    { 11, "HATO MAYOR DEL REY" },
-                    { 12, "INDEPENDENCIA" },
-                    { 13, "LA ROMANA" },
-                    { 14, "LA VEGA" },
                     { 15, "MARIA TRINIDAD SANCHEZ" },
-                    { 9, "ELIAS PIÑA" }
+                    { 7, "DUARTE" },
+                    { 14, "LA VEGA" },
+                    { 13, "LA ROMANA" },
+                    { 12, "INDEPENDENCIA" },
+                    { 11, "HATO MAYOR DEL REY" },
+                    { 10, "ESPAILLAT" },
+                    { 9, "ELIAS PIÑA" },
+                    { 8, "EL SEIBO" },
+                    { 16, "MONSEÑOR NOUEL" },
+                    { 6, "DAJABON" },
+                    { 5, "BARAHONA" },
+                    { 4, "BAHORUCO" },
+                    { 3, "AZUA" },
+                    { 2, "LA ALTAGRACIA" },
+                    { 1, "DISTRITO NACIONAL" }
                 });
 
             migrationBuilder.InsertData(
@@ -819,6 +980,11 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AdjuntosSolicitudesAyuda_SolicitudAyudaId",
+                table: "AdjuntosSolicitudesAyuda",
+                column: "SolicitudAyudaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Maestros_SeccionalId",
                 table: "Maestros",
                 column: "SeccionalId");
@@ -829,6 +995,16 @@ namespace SolicitudAyuda.Model.Migrations
                 column: "ProvinciaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequisitosSolicitudes_RequisitoTipoSolicitudId",
+                table: "RequisitosSolicitudes",
+                column: "RequisitoTipoSolicitudId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequisitosSolicitudes_SolicitudAyudaId",
+                table: "RequisitosSolicitudes",
+                column: "SolicitudAyudaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RequisitosTiposSolicitud_TipoSolicitudId",
                 table: "RequisitosTiposSolicitud",
                 column: "TipoSolicitudId");
@@ -837,27 +1013,71 @@ namespace SolicitudAyuda.Model.Migrations
                 name: "IX_Seccionales_MunicipioId",
                 table: "Seccionales",
                 column: "MunicipioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolicitudesAyuda_EstadId",
+                table: "SolicitudesAyuda",
+                column: "EstadId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolicitudesAyuda_MaestroId",
+                table: "SolicitudesAyuda",
+                column: "MaestroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolicitudesAyuda_SeccionalId",
+                table: "SolicitudesAyuda",
+                column: "SeccionalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolicitudesAyuda_TipoSolicitudId",
+                table: "SolicitudesAyuda",
+                column: "TipoSolicitudId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolicitudesAyuda_UsuarioId",
+                table: "SolicitudesAyuda",
+                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Maestros");
+                name: "AdjuntosSolicitudesAyuda");
+
+            migrationBuilder.DropTable(
+                name: "RequisitosSolicitudes");
 
             migrationBuilder.DropTable(
                 name: "RequisitosTiposSolicitud");
 
             migrationBuilder.DropTable(
-                name: "Seccionales");
+                name: "SolicitudesAyuda");
+
+            migrationBuilder.DropTable(
+                name: "EstadoSolicitudes");
+
+            migrationBuilder.DropTable(
+                name: "Maestros");
 
             migrationBuilder.DropTable(
                 name: "TiposSolictudes");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Seccionales");
 
             migrationBuilder.DropTable(
                 name: "Municipios");
 
             migrationBuilder.DropTable(
                 name: "Provincias");
+
+            migrationBuilder.DropSequence(
+                name: "NumeroExpendiente",
+                schema: "dbo");
         }
     }
 }

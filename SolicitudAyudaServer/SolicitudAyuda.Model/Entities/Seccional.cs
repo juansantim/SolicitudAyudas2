@@ -14,5 +14,11 @@ namespace SolicitudAyuda.Model.Entities
         public Municipio Municipio { get; set; }
         public int? PresidenteId { get; set; }
         public List<Maestro> Maestros { get; set; }
+        public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
+
+        public Seccional()
+        {
+            SolicitudesAyuda = new List<SolicitudAyuda>();
+        }
     }
 }

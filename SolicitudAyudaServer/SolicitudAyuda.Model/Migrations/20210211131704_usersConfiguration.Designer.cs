@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SolicitudAyuda.Model;
 
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210211131704_usersConfiguration")]
+    partial class usersConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3820,10 +3822,6 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<bool>("Disponible")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
@@ -3859,22 +3857,10 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             DebeCambiarPassword = false,
                             Disponible = false,
-                            Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 11, 11, 10, 24, 651, DateTimeKind.Local).AddTicks(761),
+                            FechaCreacion = new DateTime(2021, 2, 11, 9, 17, 3, 152, DateTimeKind.Local).AddTicks(4602),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DebeCambiarPassword = false,
-                            Disponible = true,
-                            Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 11, 11, 10, 24, 652, DateTimeKind.Local).AddTicks(4483),
-                            Login = "jsanti",
-                            NombreCompleto = "Juan Santi",
-                            Password = "ai????n5&`?6"
                         });
                 });
 
