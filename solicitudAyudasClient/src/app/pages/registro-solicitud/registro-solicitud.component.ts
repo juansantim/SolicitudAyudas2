@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { UtilsService } from 'src/app/services/utils.service';
+import { AppCookieService } from 'src/app/services/app-cookie.service';
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -52,7 +53,7 @@ export class RegistroSolicitudComponent implements OnInit {
   ]
 
   //end of form controls
-  constructor(private dataService: DataService, private fb: FormBuilder, private util:UtilsService) {
+  constructor(private dataService: DataService, private fb: FormBuilder, private util:UtilsService, private cookieService: AppCookieService) {
     console.log(this.QuienRecibiraAyuda);
   }
 
@@ -120,17 +121,6 @@ export class RegistroSolicitudComponent implements OnInit {
     return this.solicitudAyudaForm.get('esJubiladoInabima').value === 'true';
   }
 
-  registrarSolicitud() {
-    Swal.fire({
-      title: 'Aviso',
-      text: 'Solicitud de ayuda Nro# 2134 registrara satisfactoriamente',
-      icon: 'info',
-      showConfirmButton: true,
-      showCloseButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Imprimir',
-    })
-  }
 
   AgregarAdjunto() {
     this.Solicitud.adjuntos.push({});
@@ -240,7 +230,7 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("TelefonoCasa", this.solicitudAyudaForm.get('telefonoResidencia').value);
           form.append("TelefonoTrabajo", this.solicitudAyudaForm.get('telefonoLaboral').value);
           form.append("Email", this.solicitudAyudaForm.get('email').value);
-          form.append("TipoSolicitudId",  this.solicitudAyudaForm.get('tipoDeAyuda.abndeq').value);
+          form.append("TipoSolicitudId",  this.solicitudAyudaForm.get('tipoDeAyuda').value);
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
@@ -273,13 +263,22 @@ export class RegistroSolicitudComponent implements OnInit {
           this.archivos.forEach(f => {
             form.append(f.name, f, f.name);
           })
+          
+          let headers = {'Authorization': `Bearer ${this.cookieService.get('token')}`}
 
-          return axios.post('/api/Solicitud/post', form, { withCredentials: true })
+          return axios.post('/api/Solicitud/post', form, { withCredentials: true, headers })
             .then(response => {
               let responseMessage = response.data;
 
               if (responseMessage.success) {
-                Swal.fire('Soliciud de ayuda registrada satisfactoriamente', `El numero de soliciutd registrado es ${responseMessage.Data.solicitudId}`, 'success');
+                Swal.fire({
+                  title: 'Soliciud de ayuda registrada satisfactoriamente', 
+                  text:`El numero de solicitud registrado es ${responseMessage.data.solicitudId} desea imprimir?`, 
+                  icon:'success',
+                  showCancelButton: true,
+                  cancelButtonText: 'No Imprimir',                  
+                  confirmButtonText: 'Imprimir',                  
+                  showConfirmButton: true});
               }
               else{
                 let ul = this.util.GetUnorderedList(responseMessage.errors);

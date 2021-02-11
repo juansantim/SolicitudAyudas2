@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using SolicitudAyuda.Model.Entities;
 
 namespace SolicitudAyudaServer.Controllers
 {
+    [Authorize]
     public class SolicitudController : ControllerBase
     {
         private IConfiguration _config;
@@ -36,6 +38,10 @@ namespace SolicitudAyudaServer.Controllers
 
                 solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(requisitosJson);
                 solicitud.EstadId = 1;
+
+                var usuarioId = int.Parse(User.Claims.Single(cl => cl.Type == "UsuarioId").Value);
+                solicitud.UsuarioId = usuarioId;
+                solicitud.FechaSolicitud = DateTime.Now;
 
                 Maestro maestro;
 
