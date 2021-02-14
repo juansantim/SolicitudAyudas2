@@ -40,9 +40,7 @@ namespace SolicitudAyudaServer
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddScoped<ISolicitudesService, SolicitudesService>(config => {
-                return config.GetService<SolicitudesService>();
-            });
+            services.AddScoped<ISolicitudesService, SolicitudesService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

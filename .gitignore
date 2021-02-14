@@ -54,3 +54,4 @@ packages/**
 *.resharper
 *.ncrunch*
 *.ndproj
+SolicitudAyudaServer/SolicitudAyudaServer/Uploads/

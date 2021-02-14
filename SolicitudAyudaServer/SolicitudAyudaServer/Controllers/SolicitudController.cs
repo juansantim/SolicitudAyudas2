@@ -12,6 +12,7 @@ using SolicitudAyuda.Model;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services;
+using SolicitudAyuda.Model.Services.Signatures;
 
 namespace SolicitudAyudaServer.Controllers
 {
@@ -20,9 +21,9 @@ namespace SolicitudAyudaServer.Controllers
     {
         private IConfiguration _config;
         private DataContext _db;
-        private readonly SolicitudesService service;
+        private readonly ISolicitudesService service;
 
-        public SolicitudController(IConfiguration configuration, DataContext db, SolicitudesService service)
+        public SolicitudController(IConfiguration configuration, DataContext db, ISolicitudesService service)
         {
             this._config = configuration;
             this._db = db;

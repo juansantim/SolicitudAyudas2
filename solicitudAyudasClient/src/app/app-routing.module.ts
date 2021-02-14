@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuardDefault] },
   { path: 'registrarSolicitud', component: RegistroSolicitudComponent, canActivate: [AuthGuardDefault] },
-  { path: 'detalle', component: DetalleSolicitudComponent, canActivate: [AuthGuardDefault] },
+  { path: 'detalle/:solicitudId', component: DetalleSolicitudComponent, canActivate: [AuthGuardDefault], },
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
 ];
 

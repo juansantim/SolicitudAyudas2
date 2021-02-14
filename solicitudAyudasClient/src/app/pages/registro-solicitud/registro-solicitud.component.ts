@@ -16,6 +16,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
+import { Router } from '@angular/router';
 defineLocale('es-do', esDoLocale);
 
 @Component({
@@ -60,7 +61,7 @@ export class RegistroSolicitudComponent implements OnInit {
   //end of form controls
   constructor(private dataService: DataService, private fb: FormBuilder, 
     private util: UtilsService, private cookieService: AppCookieService,
-    private localeService: BsLocaleService) {
+    private localeService: BsLocaleService, private router: Router) {
     console.log(this.QuienRecibiraAyuda);
   }
 
@@ -293,16 +294,18 @@ export class RegistroSolicitudComponent implements OnInit {
           return axios.post('/api/Solicitud/post', form, { withCredentials: true, headers })
             .then(response => {
               let responseMessage = response.data;
-
+              
               if (responseMessage.success) {
+                let solicitudId = responseMessage.data.solicitudId;
+
                 Swal.fire({
-                  title: 'Soliciud de ayuda registrada satisfactoriamente',
-                  text: `El numero de solicitud registrado es ${responseMessage.data.solicitudId} desea imprimir?`,
-                  icon: 'success',
-                  showCancelButton: true,
-                  cancelButtonText: 'No Imprimir',
-                  confirmButtonText: 'Imprimir',
+                  title: 'Solicitud de ayuda registrada satisfactoriamente',
+                  text: `El número de solicitud registrado es ${solicitudId}.`,
+                  icon: 'success',                  
+                  confirmButtonText: 'Ok',
                   showConfirmButton: true
+                }).then(alertResult => {         
+                  this.router.navigate(['/detalle', solicitudId]);
                 });
               }
               else {

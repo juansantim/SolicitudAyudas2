@@ -9,7 +9,7 @@ import { AppLocalStorageService } from './app-local-storage.service';
 export class DataService {
   
   GetDetalleSolicitud(solicitudId):Observable<any> {
-    return this.http.get(`/api/Solicitud/detalle?id=${solicitudId}`)
+    return this.http.get(`/api/Solicitud/detalle?solicitudId=${solicitudId}`)
   }
   GetTiposSolicitudesConRequisitos():Observable<any> {
     return this.http.get('/api/TipoSolicitud/ConRequisitos');

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services.Signatures;
 using System;
@@ -21,7 +22,11 @@ namespace SolicitudAyuda.Model.Services
 
         public dynamic GetDetalleSolicitud(int solicitudId)
         {
-            var solicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
+            var solicitud = db.Solicitudes
+                .Include(sl => sl.Requisitos)
+                .Include(sl => sl.Adjuntos)
+                .Include(sl => sl.Seccional)                
+                .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
 
             return new
             {
@@ -39,13 +44,21 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TelefonoTrabajo,
                 solicitud.Email,
                 solicitud.Direccion,
-                Requisitos = solicitud.Requisitos.Select(rq => new { 
-                    rq.Id,
-                    rq.RequisitoTipoSolicitud.Descripcion,
-                    rq.Value
-                }),
+                Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad))
                 
+            };
+        }
+
+        private dynamic GetRequisitosParaDetalle(RequisitoSolicitud requisito)
+        {
+            var tipo = db.RequisitosTipoSolicitudes.Single(rq => rq.Id == requisito.RequisitoTiposSolicitudId);
+
+            return new 
+            {
+                requisito.Id,
+                Nombre = tipo.Descripcion,
+                requisito.Value
             };
         }
 

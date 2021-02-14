@@ -19,6 +19,7 @@ export class AppComponent {
       icon:'warning',
       showConfirmButton: true,
       confirmButtonText: 'Cerrar Sesión',
+      confirmButtonColor:'red',
       showCancelButton: true,
       cancelButtonText: 'Cancelar'
     }).then(dialogResult => {
