@@ -11,6 +11,7 @@ namespace SolicitudAyuda.Model.Entities
         public int Id { get; set; }
         public string Cedula { get; set; }
         public string NombreCompleto { get; set; }
+        public DateTime FechaNacimiento { get; set; }
         public string Sexo { get; set; }
         public int? SeccionalId { get; set; }
         public Seccional Seccional { get; set; }

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SolicitudAyuda.Model;
+using SolicitudAyuda.Model.Services;
+using SolicitudAyuda.Model.Services.Signatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,10 @@ namespace SolicitudAyudaServer
             {
                 var connectionString = Configuration.GetConnectionString("adp");
                 options.UseSqlServer(connectionString);
+            });
+
+            services.AddScoped<ISolicitudesService, SolicitudesService>(config => {
+                return config.GetService<SolicitudesService>();
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

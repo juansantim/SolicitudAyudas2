@@ -36,6 +36,7 @@ namespace SolicitudAyuda.Model.Entities
 
         public int EstadId { get; set; }
         public EstadoSolicitud Estado { get; set; }
+        public string Direccion { get; internal set; }
 
         public SolicitudAyuda()
         {

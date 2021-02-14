@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using SolicitudAyuda.Model;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
+using SolicitudAyuda.Model.Services;
 
 namespace SolicitudAyudaServer.Controllers
 {
@@ -19,10 +20,13 @@ namespace SolicitudAyudaServer.Controllers
     {
         private IConfiguration _config;
         private DataContext _db;
-        public SolicitudController(IConfiguration configuration, DataContext db)
+        private readonly SolicitudesService service;
+
+        public SolicitudController(IConfiguration configuration, DataContext db, SolicitudesService service)
         {
             this._config = configuration;
             this._db = db;
+            this.service = service;
         }
 
         [HttpPost]
@@ -30,7 +34,7 @@ namespace SolicitudAyudaServer.Controllers
         public dynamic post([FromForm] SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
         {
             HttpResponse response = new HttpResponse();
-            
+
             try
             {
                 var requisitosJson = HttpContext.Request.Form["Requisitos"].ToString();
@@ -57,7 +61,8 @@ namespace SolicitudAyudaServer.Controllers
                         NombreCompleto = maestroDto.NombreCompleto,
                         Cargo = maestroDto.Cargo,
                         SeccionalId = maestroDto.SeccionalId,
-                        Sexo = maestroDto.Sexo
+                        Sexo = maestroDto.Sexo,
+                        FechaNacimiento = maestroDto.FechaNacimiento
                     };
                 }
 
@@ -95,7 +100,7 @@ namespace SolicitudAyudaServer.Controllers
 
                     scope.Complete();
                 }
-                
+
                 response.Data = new { solicitudId = solicitud.Id };
             }
             catch (Exception ex)
@@ -104,6 +109,15 @@ namespace SolicitudAyudaServer.Controllers
             }
 
             return response;
+        }
+
+        [HttpGet]
+        [Route("api/Solicitud/detalle")]
+        public dynamic getDetalleSolicitud(int solicitudId)
+        {
+            var solicitud = service.GetDetalleSolicitud(solicitudId);
+
+            return solicitud;
         }
 
         public static byte[] GetBytes(Stream input)

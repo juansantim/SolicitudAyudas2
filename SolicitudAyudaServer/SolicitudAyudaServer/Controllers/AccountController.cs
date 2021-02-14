@@ -28,6 +28,7 @@ namespace SolicitudAyudaServer.Controllers
             this._config = receivedConfig;
             this.db = db;
         }
+        
         [AllowAnonymous]
         [HttpPost]
         public IActionResult login([FromBody] LoginModel loginModel)
@@ -65,5 +66,19 @@ namespace SolicitudAyudaServer.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        [Authorize]
+        [Route("heartbeat")]
+
+        public IActionResult heartbeat() {
+            var result = new
+            {
+                alive = "Ok"
+            };
+
+            return new JsonResult(result);
+        }
+
+
     }
 }

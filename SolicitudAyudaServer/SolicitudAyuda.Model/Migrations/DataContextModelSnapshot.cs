@@ -110,6 +110,9 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<string>("Cedula")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NombreCompleto")
                         .HasColumnType("nvarchar(max)");
 
@@ -3860,7 +3863,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 11, 11, 10, 24, 651, DateTimeKind.Local).AddTicks(761),
+                            FechaCreacion = new DateTime(2021, 2, 14, 12, 56, 4, 172, DateTimeKind.Local).AddTicks(7888),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -3871,7 +3874,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 11, 11, 10, 24, 652, DateTimeKind.Local).AddTicks(4483),
+                            FechaCreacion = new DateTime(2021, 2, 14, 12, 56, 4, 174, DateTimeKind.Local).AddTicks(666),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"
