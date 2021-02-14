@@ -32,7 +32,8 @@ status: {{GetAllErrors()}} <br/>
             </div>
             <div class="col-md-2">
                 <label>Fecha Nacimiento</label>
-                <input class="form-control" bsDatepicker formControlName="fechaNacimiento" required>
+                <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaNacimiento" required
+                [bsConfig]="bsConfig">
                 <app-validation-error-message *ngIf="GetErrors('fechaNacimiento', 'required')"
                     textMessage="La fecha de nacimiento es obligatoria"></app-validation-error-message>
             </div>
@@ -54,12 +55,10 @@ status: {{GetAllErrors()}} <br/>
     <div class="row">
         <div class="col-md-6">
             <label>Seccional</label>     
-            <div class="input-group">
-     
+            <div class="input-group">                
                 <input class="form-control" formControlName="seccional" [typeahead]="seccionales"                        
                     [adaptivePosition]="true" [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
-                    (typeaheadOnSelect)="typeaheadOnSelect($event)" 
-                    [attr.disabled] = "selectedSeccional"
+                    (typeaheadOnSelect)="typeaheadOnSelect($event)"                     
                     placeholder="Empiece a escribir y seleccione uno de la lista desplegada" required>
                     <div class="input-group-append">
 

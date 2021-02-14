@@ -12,6 +12,11 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AppCookieService } from 'src/app/services/app-cookie.service';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { esDoLocale } from 'ngx-bootstrap/locale';
+defineLocale('es-do', esDoLocale);
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -53,7 +58,9 @@ export class RegistroSolicitudComponent implements OnInit {
   ]
 
   //end of form controls
-  constructor(private dataService: DataService, private fb: FormBuilder, private util:UtilsService, private cookieService: AppCookieService) {
+  constructor(private dataService: DataService, private fb: FormBuilder, 
+    private util: UtilsService, private cookieService: AppCookieService,
+    private localeService: BsLocaleService) {
     console.log(this.QuienRecibiraAyuda);
   }
 
@@ -73,18 +80,30 @@ export class RegistroSolicitudComponent implements OnInit {
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
     this.selectedSeccional = e.item;
+    this.setSeccionalesDisabled();
+  }
+
+  setSeccionalesDisabled() {
+    this.solicitudAyudaForm.get('seccional').disable();
+  }
+
+  setSeccionalesEnabled() {
+    this.solicitudAyudaForm.get('seccional').enable();
   }
 
   ngOnInit() {
-    this.cargandoSeccionales = true;
+    this.setSeccionalesDisabled();
     this.Solicitud = new SolicitudAyuda();
+
+    this.localeService.use('es-do');
 
 
     this.dataService.GetSeccionales().subscribe(data => {
       this.seccionales = data;
-      this.cargandoSeccionales = false;
+      this.setSeccionalesEnabled();
     }, err => {
-      this.cargandoSeccionales = false;
+      //this.solicitudAyudaForm.get('seccional').setErrors(Validators.)
+      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
     })
 
     this.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
@@ -110,9 +129,13 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
+  bsConfig = { dateInputFormat: 'DD/MM/YYYY' }
+
   removerSeccional() {
     this.selectedSeccional = null;
     this.selected = null;
+    this.setSeccionalesEnabled();
+    this.solicitudAyudaForm.get('seccional').setValue(null);
   }
 
   selected: any;
@@ -230,12 +253,13 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("TelefonoCasa", this.solicitudAyudaForm.get('telefonoResidencia').value);
           form.append("TelefonoTrabajo", this.solicitudAyudaForm.get('telefonoLaboral').value);
           form.append("Email", this.solicitudAyudaForm.get('email').value);
-          form.append("TipoSolicitudId",  this.solicitudAyudaForm.get('tipoDeAyuda').value);
+          form.append("TipoSolicitudId", this.solicitudAyudaForm.get('tipoDeAyuda').value);
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
+          form.append("Direccion", this.solicitudAyudaForm.get('direccion').value);
 
           let requisitos = [];
           this.RequisitosSolicitud.forEach(r => {
@@ -263,8 +287,8 @@ export class RegistroSolicitudComponent implements OnInit {
           this.archivos.forEach(f => {
             form.append(f.name, f, f.name);
           })
-          
-          let headers = {'Authorization': `Bearer ${this.cookieService.get('token')}`}
+
+          let headers = { 'Authorization': `Bearer ${this.cookieService.get('token')}` }
 
           return axios.post('/api/Solicitud/post', form, { withCredentials: true, headers })
             .then(response => {
@@ -272,17 +296,18 @@ export class RegistroSolicitudComponent implements OnInit {
 
               if (responseMessage.success) {
                 Swal.fire({
-                  title: 'Soliciud de ayuda registrada satisfactoriamente', 
-                  text:`El numero de solicitud registrado es ${responseMessage.data.solicitudId} desea imprimir?`, 
-                  icon:'success',
+                  title: 'Soliciud de ayuda registrada satisfactoriamente',
+                  text: `El numero de solicitud registrado es ${responseMessage.data.solicitudId} desea imprimir?`,
+                  icon: 'success',
                   showCancelButton: true,
-                  cancelButtonText: 'No Imprimir',                  
-                  confirmButtonText: 'Imprimir',                  
-                  showConfirmButton: true});
+                  cancelButtonText: 'No Imprimir',
+                  confirmButtonText: 'Imprimir',
+                  showConfirmButton: true
+                });
               }
-              else{
+              else {
                 let ul = this.util.GetUnorderedList(responseMessage.errors);
-                Swal.showValidationMessage(`Request failed: ${ ul}`);                
+                Swal.showValidationMessage(`Request failed: ${ul}`);
               }
 
             })

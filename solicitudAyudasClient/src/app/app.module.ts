@@ -25,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ValidationErrorMessageComponent } from './common/validation-error-message/validation-error-message.component';
+import { DetalleSolicitudComponent } from './pages/detalle-solicitud/detalle-solicitud.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ValidationErrorMessageComponent } from './common/validation-error-messa
     LoadingComponent,
     EstadisticasComponent,
     FileUploaderComponent,
-    ValidationErrorMessageComponent
+    ValidationErrorMessageComponent,
+    DetalleSolicitudComponent
   ],
   imports: [
     BrowserModule,
