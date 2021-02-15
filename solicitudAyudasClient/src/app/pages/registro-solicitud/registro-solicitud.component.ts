@@ -59,7 +59,7 @@ export class RegistroSolicitudComponent implements OnInit {
   ]
 
   //end of form controls
-  constructor(private dataService: DataService, private fb: FormBuilder, 
+  constructor(private dataService: DataService, private fb: FormBuilder,
     private util: UtilsService, private cookieService: AppCookieService,
     private localeService: BsLocaleService, private router: Router) {
     console.log(this.QuienRecibiraAyuda);
@@ -283,48 +283,90 @@ export class RegistroSolicitudComponent implements OnInit {
           }))
 
 
-          console.log(requisitos);
-
           this.archivos.forEach(f => {
             form.append(f.name, f, f.name);
           })
 
-          let headers = { 'Authorization': `Bearer ${this.cookieService.get('token')}` }
+          // let promise = new Promise((reject, resolve) => {
+          //   this.dataService.CrearSolicitud(from).subscribe(response => {
+          //     resolve(response)
+          //   }, error => {
+          //     reject(error)
+          //   })
+          // })
 
-          return axios.post('/api/Solicitud/post', form, { withCredentials: true, headers })
-            .then(response => {
-              let responseMessage = response.data;
-              
-              if (responseMessage.success) {
-                let solicitudId = responseMessage.data.solicitudId;
+          let headers = { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 'Access-Control-Allow-Origin': '*' }
 
-                Swal.fire({
-                  title: 'Solicitud de ayuda registrada satisfactoriamente',
-                  text: `El número de solicitud registrado es ${solicitudId}.`,
-                  icon: 'success',                  
-                  confirmButtonText: 'Ok',
-                  showConfirmButton: true
-                }).then(alertResult => {         
-                  this.router.navigate(['/detalle', solicitudId]);
-                });
-              }
-              else {
-                let ul = this.util.GetUnorderedList(responseMessage.errors);
-                Swal.showValidationMessage(`Request failed: ${ul}`);
-              }
+          let url = this.dataService.GetUrl('Solicitud/post');
+          
+          return fetch(url, {
+            method:'POST',
+            headers: headers,
+            body: form,
+          })
+          .then(response=> {
+            return response.json()
+          })
+          .then(response => {
+            let responseMessage = response;
 
-            })
-            .catch(error => {
-              Swal.showValidationMessage(`Request failed: ${error}`)
-            })
+            if (responseMessage.success) {
+              let solicitudId = responseMessage.data.solicitudId;
+
+              Swal.fire({
+                title: 'Solicitud de ayuda registrada satisfactoriamente',
+                text: `El número de solicitud registrado es ${solicitudId}.`,
+                icon: 'success',
+                confirmButtonText: 'Ok',
+                showConfirmButton: true
+              }).then(alertResult => {
+                this.router.navigate(['/detalle', solicitudId]);
+              });
+            }
+            else {
+              let ul = this.util.GetUnorderedList(responseMessage.errors);
+              Swal.showValidationMessage(`Request failed: ${ul}`);
+            }
+
+          })
+          .catch(error => {
+            Swal.showValidationMessage(`Request failed: ${error}`)
+          })
+
+          // return axios.post(this.dataService.GetUrl('Solicitud/post'), form, { withCredentials: true, headers })
+          //   .then(response => {
+          //     let responseMessage = response.data;
+
+          //     if (responseMessage.success) {
+          //       let solicitudId = responseMessage.data.solicitudId;
+
+          //       Swal.fire({
+          //         title: 'Solicitud de ayuda registrada satisfactoriamente',
+          //         text: `El número de solicitud registrado es ${solicitudId}.`,
+          //         icon: 'success',
+          //         confirmButtonText: 'Ok',
+          //         showConfirmButton: true
+          //       }).then(alertResult => {
+          //         this.router.navigate(['/detalle', solicitudId]);
+          //       });
+          //     }
+          //     else {
+          //       let ul = this.util.GetUnorderedList(responseMessage.errors);
+          //       Swal.showValidationMessage(`Request failed: ${ul}`);
+          //     }
+
+          //   })
+          //   .catch(error => {
+          //     Swal.showValidationMessage(`Request failed: ${error}`)
+          //   })
+
+
         }
       }).then(result => {
         if (result.isConfirmed) {
           console.log(result.value);
         }
       })
-
-
 
     }
     else {

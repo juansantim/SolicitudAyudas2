@@ -3729,6 +3729,10 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<string>("Concepto")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direccion")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -3863,7 +3867,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 14, 12, 56, 4, 172, DateTimeKind.Local).AddTicks(7888),
+                            FechaCreacion = new DateTime(2021, 2, 14, 23, 13, 12, 1, DateTimeKind.Local).AddTicks(1860),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -3874,7 +3878,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 14, 12, 56, 4, 174, DateTimeKind.Local).AddTicks(666),
+                            FechaCreacion = new DateTime(2021, 2, 14, 23, 13, 12, 2, DateTimeKind.Local).AddTicks(5185),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"

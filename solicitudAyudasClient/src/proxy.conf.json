@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://localhost:44309/",
+      "target": "https://solicitudayudasadp.azurewebsites.net/",
       "secure": false
     },
     "logLevel": "debug"

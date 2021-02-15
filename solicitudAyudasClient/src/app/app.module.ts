@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ValidationErrorMessageComponent } from './common/validation-error-message/validation-error-message.component';
 import { DetalleSolicitudComponent } from './pages/detalle-solicitud/detalle-solicitud.component';
+import { EstadoSolicitudComponent } from './pages/detalle-solicitud/estado-solicitud/estado-solicitud.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { DetalleSolicitudComponent } from './pages/detalle-solicitud/detalle-sol
     EstadisticasComponent,
     FileUploaderComponent,
     ValidationErrorMessageComponent,
-    DetalleSolicitudComponent
+    DetalleSolicitudComponent,
+    EstadoSolicitudComponent
   ],
   imports: [
     BrowserModule,

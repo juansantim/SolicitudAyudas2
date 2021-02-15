@@ -1,19 +1,84 @@
-<h1>Se encuentra visualizando la solicitud numero {{solicitud.id}}</h1>
+<div *ngIf="cargandoSolicitud">
+    <app-loading [show] = "true"></app-loading>
+</div>
+<div *ngIf="!cargandoSolicitud">
+    <h1>Se encuentra visualizando la solicitud numero {{solicitud.id}}</h1>
+    <fieldset>
+        <legend>Datos de Solicitante</legend>
+        <div class="row">
+            <div class="col">
+                <label>Cedula</label>
+                <span class="form-control">{{solicitud.cedulaSolicitante}}</span>
+            </div>
+            <div class="col">
+                <label> Nombre Completo </label>
+                <span class="form-control">{{solicitud.nombreSolicitante}}</span>
+            </div>
+            <div class="col">
+                <label> Sexo </label>
+                <span class="form-control">{{solicitud.sexoSolicitante}}</span>
+            </div>
+            <div class="col">
+                <label> Edad </label>
+                <span class="form-control">{{solicitud.edad}}</span>
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col">
+                <label>Seccional</label>
+                <span class="form-control">{{solicitud.seccional}}</span>
+            </div>
+            <div class="col">
+                <label> Cargo </label>
+                <span class="form-control">{{solicitud.cargo}}</span>
+            </div>
+        
+        </div> 
+        <div class="row">
+            <div class="col">
+                <label>Tipo Solicitud</label>
+                <span class="form-control">{{solicitud.tipoSolicitud}}</span>
+            </div>
+            <div class="col">
+                <label> Monto Solicitado </label>
+                <span class="form-control">{{solicitud.montoSolicitado | currency}}</span>
+            </div>
+            <div class="col">
+                <label> Monto Aprobado </label>
+                <span class="form-control">{{solicitud.montoAprobado | currency}}</span>
+            </div>
+        
+        </div> 
+
+    </fieldset>
+    
+
+</div>
 
 <fieldset>
-    <legend>Datos de Solicitante</legend>
+    <legend>Requisiatos</legend>
     <div class="row">
         <div class="col">
-            <label for="">Cedula</label>
-            <span>{{solicitud.cedula}}</span>
+          <ul>
+              <li *ngFor="let r of solicitud.requisitos">
+                {{r.nombre}} | <label class="badge badge-primary"> {{ getValorRequisito(r)}}</label>
+              </li>
+          </ul>  
         </div>
         <div class="col">
-            <label> Nombre Completo </label>
+            <ul>
+                <li *ngFor="let r of solicitud.adjuntos">
+                  <a href="#">{{r.displayName}}</a>
+                </li>
+            </ul>  
         </div>
-        <div class="col">
-            <label> Sexo </label>
-        </div>
-    </div>    
+    </div>
 </fieldset>
+
+<div class="row">
+    {{solicitud.estadoId}}
+    <app-estado-solicitud [estadoId] = "solicitud.estadId" [nombre] = "solicitud.estado"></app-estado-solicitud>
+</div>
+
 
 {{solicitud | json}}

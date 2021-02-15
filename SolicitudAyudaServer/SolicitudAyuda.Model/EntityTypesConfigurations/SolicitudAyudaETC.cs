@@ -27,9 +27,9 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.HasOne(sa => sa.Seccional).WithMany(sc => sc.SolicitudesAyuda)
                 .HasForeignKey(sa => sa.SeccionalId)
                 .OnDelete(DeleteBehavior.NoAction);
-                
 
-
+            entity.Property(sa => sa.Direccion).HasMaxLength(255);
+            
             entity .Property(o => o.NumeroExpediente)
                 .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
         }

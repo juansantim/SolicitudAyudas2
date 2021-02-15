@@ -25,7 +25,9 @@ namespace SolicitudAyuda.Model.Services
             var solicitud = db.Solicitudes
                 .Include(sl => sl.Requisitos)
                 .Include(sl => sl.Adjuntos)
-                .Include(sl => sl.Seccional)                
+                .Include(sl => sl.Seccional)  
+                .Include(sl => sl.TipoSolicitud)
+                .Include(sl => sl.Estado)
                 .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
 
             return new
@@ -44,6 +46,9 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TelefonoTrabajo,
                 solicitud.Email,
                 solicitud.Direccion,
+                solicitud.EstadId,
+                estado = solicitud.Estado.Nombre,
+                tipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad))
                 
