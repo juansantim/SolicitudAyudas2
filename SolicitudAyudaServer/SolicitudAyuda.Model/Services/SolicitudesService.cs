@@ -74,6 +74,7 @@ namespace SolicitudAyuda.Model.Services
             return new
             {
                 ad.Id,
+                ad.ContentType,
                 ad.SizeMB,                
                 ad.DisplayName
             };

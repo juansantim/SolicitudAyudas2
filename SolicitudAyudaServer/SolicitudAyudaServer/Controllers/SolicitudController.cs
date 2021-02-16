@@ -81,7 +81,7 @@ namespace SolicitudAyudaServer.Controllers
                         {
                             SizeMB = (file.Length / 1024) / 1024,
                             DisplayName = file.FileName,
-                            URL = $"{filesUrl}\\{physicalFileName}.{extension}",
+                            URL = $"{filesUrl}\\{physicalFileName}{extension}",
                             ContentType = file.ContentType,
                             Content = file.OpenReadStream()
                         });

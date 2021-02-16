@@ -25,9 +25,15 @@ export class AuthGuardDefault implements CanActivate {
         observer.next(true);
         observer.complete();
       }, error => {
-        observer.next(false);
-        this.cookieService.remove('token');
-        this.router.navigate(['login']);
+        console.log(error);
+        if(error.status == 401){
+          observer.next(false);
+          this.cookieService.remove('token');
+          this.router.navigate(['login']);
+        }
+        if(error.status == 0){
+          this.router.navigate(['servicionodisponible']);
+        }
       })
 
     });

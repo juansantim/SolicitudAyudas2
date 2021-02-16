@@ -17,6 +17,7 @@ namespace SolicitudAyuda.Model
         public DbSet<SolicitudAyuda.Model.Entities.SolicitudAyuda> Solicitudes { get; set; }
         public DbSet<Maestro> Maestros { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<AdjuntosSolicitud> AdjuntosSolicitudes { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {

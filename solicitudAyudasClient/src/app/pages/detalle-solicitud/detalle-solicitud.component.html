@@ -67,8 +67,13 @@
         </div>
         <div class="col">
             <ul>
+                
                 <li *ngFor="let r of solicitud.adjuntos">
-                  <a href="#">{{r.displayName}}</a>
+                    <!-- {{r | json}} -->
+                  <app-downloable-file [fileId] ="r.id" 
+                  [fileName] = "r.displayName" 
+                  [fileSize] = "r.sizeMB" 
+                  [contentType] = "r.contentType"></app-downloable-file>
                 </li>
             </ul>  
         </div>

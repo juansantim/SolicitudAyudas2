@@ -27,6 +27,9 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { ValidationErrorMessageComponent } from './common/validation-error-message/validation-error-message.component';
 import { DetalleSolicitudComponent } from './pages/detalle-solicitud/detalle-solicitud.component';
 import { EstadoSolicitudComponent } from './pages/detalle-solicitud/estado-solicitud/estado-solicitud.component';
+import { UnavailableComponent } from './pages/unavailable/unavailable.component';
+import { ConsultaComponent } from './pages/consulta/consulta.component';
+import { DownloableFileComponent } from './common/downloable-file/downloable-file.component';
 
 
 @NgModule({
@@ -40,7 +43,10 @@ import { EstadoSolicitudComponent } from './pages/detalle-solicitud/estado-solic
     FileUploaderComponent,
     ValidationErrorMessageComponent,
     DetalleSolicitudComponent,
-    EstadoSolicitudComponent
+    EstadoSolicitudComponent,
+    UnavailableComponent,
+    ConsultaComponent,
+    DownloableFileComponent
   ],
   imports: [
     BrowserModule,
