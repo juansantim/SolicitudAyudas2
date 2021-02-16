@@ -14,9 +14,11 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { AppCookieService } from 'src/app/services/app-cookie.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
+import { Router } from '@angular/router';
+
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
-import { Router } from '@angular/router';
+
 defineLocale('es-do', esDoLocale);
 
 @Component({

@@ -30,6 +30,7 @@ import { EstadoSolicitudComponent } from './pages/detalle-solicitud/estado-solic
 import { UnavailableComponent } from './pages/unavailable/unavailable.component';
 import { ConsultaComponent } from './pages/consulta/consulta.component';
 import { DownloableFileComponent } from './common/downloable-file/downloable-file.component';
+import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { DownloableFileComponent } from './common/downloable-file/downloable-fil
     EstadoSolicitudComponent,
     UnavailableComponent,
     ConsultaComponent,
-    DownloableFileComponent
+    DownloableFileComponent,
+    FiltroComponent
   ],
   imports: [
     BrowserModule,

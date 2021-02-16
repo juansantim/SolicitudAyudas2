@@ -56,9 +56,12 @@ status: {{GetAllErrors()}} <br/>
         <div class="col-md-6">
             <label>Seccional</label>     
             <div class="input-group">                
-                <input class="form-control" formControlName="seccional" [typeahead]="seccionales"                        
-                    [adaptivePosition]="true" [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
-                    (typeaheadOnSelect)="typeaheadOnSelect($event)"                     
+                <input class="form-control" formControlName="seccional" 
+                    [typeahead]="seccionales"
+                    [adaptivePosition]="true" 
+                    [typeaheadItemTemplate]="customItemTemplate" 
+                    typeaheadOptionField="nombre"
+                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                     placeholder="Empiece a escribir y seleccione uno de la lista desplegada" required>
                     <div class="input-group-append">
 
