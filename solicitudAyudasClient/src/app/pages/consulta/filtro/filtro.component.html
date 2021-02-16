@@ -2,122 +2,128 @@
     <label>{{model.nombre}}</label>
 </ng-template>
 
+<form [formGroup] = "form">
+    <div class="card">
 
-<div class="card">
-
-    <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-            
-            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
-                aria-controls="collapseOne">
-                <i class="fas fa-filter"></i> Visualizar filtros de consulta                
-            </button>
-            <button class="btn btn-primary float-right">Buscar</button>
-            <span *ngIf="filtrarPorCedula"> <br/>Cedula: {{cedula}}</span>
-            <span *ngIf="filtrarPorSeccional"> <br/>Seccional: {{selectedSeccional?selectedSeccional.nombre: ''}}</span>
-            
-            
-        </h5>
-    </div>
-    
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-            <div class="card card-body">
-    
-                <div class="row">
-                    <div class="col">
-                        <label>Cedula Solicitante</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox" [(ngModel)] = "filtrarPorCedula">
-                                </div>
-                            </div>
-                            <input [disabled]="!filtrarPorCedula"  type="text" class="form-control" [(ngModel)] = "cedula" mask="000-0000000-0">
-                        </div>
-                    </div>
-                   
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <i class="fas fa-filter"></i> Visualizar filtros de consulta                
+                </button>
+                
+                <button type="button" (click) = "onSubmit()" class="btn btn-primary float-right">Buscar</button>
+                            
+            </h5>
+            <div class="row">
+                <div class="col">
+                    <span *ngIf="filtrarPorCedula && form.get('cedula').valid"> <br/>Cedula: {{form.get('cedula').valid? form.get('cedula').value: ''}}</span>
+                    <span *ngIf="filtrarPorSeccional && selectedSeccional"> <br/>Seccional: {{form.get('seccional').value ? form.get('seccional').value: ''}}</span>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <label>Seccional</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox" [(ngModel)] = "filtrarPorSeccional">
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" [(ngModel)] = "seccional"
-                            [typeahead]="seccionales"
-                            [adaptivePosition]="true" 
-                            [typeaheadItemTemplate]="customItemTemplate" 
-                            typeaheadOptionField="nombre"
-                            (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                            [disabled] = "!filtrarPorSeccional">
-
-                            <button class="btn btn-danger" *ngIf="selectedSeccional">Remover</button>
-    
-                        </div>
-                    </div>
-                </div>
+                
+                
+            </div>
+        </div>
         
-                <div class="row">
-                    <div class="col">
-                        <label>Solicitud Desde</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox">
-                                </div>
-                            </div>
-                            <input type="text" class="form-control"  bsDatepicker #dp1="bsDatepicker">
-                        </div>
-                    </div>                
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label>Solicitud Hasta</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox">
-                                </div>
-                            </div>
-                            <input type="text" class="form-control"  bsDatepicker #dp2="bsDatepicker">
-                        </div>
-                    </div>
-                </div>
+        <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <div class="card card-body">
         
-                <div class="row">
-                    <div class="col">
-                        <label>Aprobacion Desde</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox">
+                    <div class="row">
+                        <div class="col">
+                            <label>Cedula Solicitante</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" formControlName ="cedulaChk">
+                                    </div>
                                 </div>
+                                <input type="text" class="form-control" formControlName="cedula" mask="000-0000000-0">
                             </div>
-                            <input type="text" class="form-control"  bsDatepicker #dp3="bsDatepicker">
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Seccional</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox"  formControlName ="seccinalChk">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" 
+                                formControlName="seccional"
+                                [typeahead]="seccionales"
+                                [adaptivePosition]="true" 
+                                [typeaheadItemTemplate]="customItemTemplate" 
+                                typeaheadOptionField="nombre"
+                                (typeaheadOnSelect)="typeaheadOnSelect($event)">
+
+                                <button class="btn btn-danger" *ngIf="selectedSeccional" (click) = "removerSeccional()">Remover</button>
+        
+                            </div>
                         </div>
                     </div>
             
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label>Aprobacion Hasta</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox">
+                    <div class="row">
+                        <div class="col">
+                            <label>Solicitud Desde</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" formControlName="solicitudDesdeChk">
+                                    </div>
                                 </div>
+                                <input type="text" class="form-control" formControlName="solicitudDesde" bsDatepicker #dp1="bsDatepicker">
                             </div>
-                            <input type="text" class="form-control"  bsDatepicker #dp4="bsDatepicker">
+                        </div>                
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Solicitud Hasta</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox"  formControlName="solicitudHastaChk">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" formControlName="solicitudHasta"  bsDatepicker #dp2="bsDatepicker">
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col">
+                            <label>Aprobacion Desde</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" formControlName="aprobacionDesdeChk">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control"  bsDatepicker #dp3="bsDatepicker" formControlName="aprobacionDesde">
+                            </div>
+                        </div>
+                
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Aprobacion Hasta</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" formControlName="aprobacionHastaChk">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control"  bsDatepicker #dp4="bsDatepicker" formControlName="aprobacionHasta">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    
+</form>
 
-aqui: {{seccional | json}}

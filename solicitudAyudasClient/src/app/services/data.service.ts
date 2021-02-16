@@ -3,11 +3,16 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { AppLocalStorageService } from './app-local-storage.service';
 import { environment } from '../../environments/environment';
+import { FiltroData } from '../model/FiltroData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  ConsultaSolicitudes(filtro: FiltroData):Observable<any> {
+    let url = this.GetUrl('Solicitud/paginada');
+    return this.http.post(url, filtro);
+  }
 
 
 

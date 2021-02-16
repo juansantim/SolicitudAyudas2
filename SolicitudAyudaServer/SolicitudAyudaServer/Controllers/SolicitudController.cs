@@ -121,6 +121,14 @@ namespace SolicitudAyudaServer.Controllers
             return solicitud;
         }
 
+        [HttpPost]
+        [Route("api/Solicitud/paginada")]
+        public dynamic getData([FromBody] dynamic filtro) 
+        {
+            var filtro2 = JsonConvert.DeserializeObject<FiltroSolicitudesDTO>(filtro.ToString());
+            return service.GetDataConsulta(filtro2);
+        }
+
         public static byte[] GetBytes(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];

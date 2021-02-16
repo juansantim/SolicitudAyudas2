@@ -1,1 +1,27 @@
 <app-filtro></app-filtro>
+
+<div class="table-responsive-sm">
+    <table class="table">
+      <thead>
+          <th>Nro</th>
+          <th>Cedula</th>
+          <th>Solicitante</th>
+          <th>Concepto</th>
+          <th>Monto</th>
+          <th>Estado</th>
+      </thead>
+      <tbody>
+          <tr *ngFor="let s of data">
+              <td>{{s.id}}</td>
+              <td>{{s.cedula}}</td>
+              <td>{{s.solicitante}}</td>
+              <td>{{s.tipoSolicitud}}</td>
+              <td>{{s.montoSolicitado | currency}}</td>
+              <td>{{s.estado}}</td>
+              
+          </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-pagination [itemsPerPage] = "itemsPerPage" [totalItems] = "totalItems"></app-pagination>

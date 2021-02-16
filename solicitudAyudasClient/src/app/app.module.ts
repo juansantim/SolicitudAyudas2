@@ -31,6 +31,8 @@ import { UnavailableComponent } from './pages/unavailable/unavailable.component'
 import { ConsultaComponent } from './pages/consulta/consulta.component';
 import { DownloableFileComponent } from './common/downloable-file/downloable-file.component';
 import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
+import { PaginationComponent } from './pages/consulta/pagination/pagination.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
     UnavailableComponent,
     ConsultaComponent,
     DownloableFileComponent,
-    FiltroComponent
+    FiltroComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
     NgxMaskModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ReactiveFormsModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [
     
