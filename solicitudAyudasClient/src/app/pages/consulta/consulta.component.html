@@ -6,6 +6,7 @@
           <th>Nro</th>
           <th>Cedula</th>
           <th>Solicitante</th>
+          <th>Seccional</th>
           <th>Concepto</th>
           <th>Monto</th>
           <th>Estado</th>
@@ -15,13 +16,18 @@
               <td>{{s.id}}</td>
               <td>{{s.cedula}}</td>
               <td>{{s.solicitante}}</td>
+              <td>{{s.seccional}}</td>
               <td>{{s.tipoSolicitud}}</td>
               <td>{{s.montoSolicitado | currency}}</td>
               <td>{{s.estado}}</td>
-              
+              <td> <a [routerLink]="['../detalle/' + s.id]" >Ir a Detalle</a>  </td>
           </tr>
       </tbody>
     </table>
   </div>
 
-  <app-pagination [itemsPerPage] = "itemsPerPage" [totalItems] = "totalItems"></app-pagination>
+  <app-pagination [itemsPerPage] = "itemsPerPage" [totalItems] = "totalItems" (onPageChanged) = "pageChanged($event)"></app-pagination>
+  <div style="align-content: center;">
+    <app-loading [show] = "loading" ></app-loading>
+  </div>
+  

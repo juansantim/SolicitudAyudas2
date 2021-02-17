@@ -1,1 +1,6 @@
-<pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize] = "10"></pagination>
+<div class="nav justify-content-center">    
+        <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize] = "10"></pagination>
+    
+        <label class="badget" style="vertical-align: middle;"> |  {{totalPages()}}</label>
+    
+</div>

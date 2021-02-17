@@ -2,46 +2,56 @@
     <label>{{model.nombre}}</label>
 </ng-template>
 
-<form [formGroup] = "form">
+<form [formGroup]="form">
     <div class="card">
 
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
-                
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    <i class="fas fa-filter"></i> Visualizar filtros de consulta                
+
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+                    aria-controls="collapseOne">
+                    <i class="fas fa-filter"></i> Visualizar filtros de consulta
                 </button>
-                
-                <button type="button" (click) = "onSubmit()" class="btn btn-primary float-right">Buscar</button>
-                            
+
+                <button type="button" (click)="onSubmit()" class="btn btn-primary float-right"
+                    [disabled]="loading">Buscar</button>
+
             </h5>
-            <div class="row">
+
+            <div class="mb-0" id="filtersSelected">
                 <div class="col">
-                    <span *ngIf="filtrarPorCedula && form.get('cedula').valid"> <br/>Cedula: {{form.get('cedula').valid? form.get('cedula').value: ''}}</span>
-                    <span *ngIf="filtrarPorSeccional && selectedSeccional"> <br/>Seccional: {{form.get('seccional').value ? form.get('seccional').value: ''}}</span>
+                   <app-selected-filter [control] = "form.get('cedula')" name="Cedula"></app-selected-filter>
+                   <app-selected-filter [control] = "form.get('seccional')" *ngIf="selectedSeccional" name="Seccional" ></app-selected-filter>                   
+                   <app-selected-filter [control] = "form.get('solicitudDesde')" name="Solicitud Desde" format = "dd/MM/yyyy"></app-selected-filter>
+                   <app-selected-filter [control] = "form.get('solicitudHasta')" name="Solicitud Hasta" format = "dd/MM/yyyy"></app-selected-filter>
+                   
+                   <app-selected-filter [control] = "form.get('aprobacionDesde')" name="Aprobacion Desde" format = "dd/MM/yyyy"></app-selected-filter>
+                   <app-selected-filter [control] = "form.get('aprobacionHasta')" name="Aprobacion Hasta" format = "dd/MM/yyyy"></app-selected-filter>
                 </div>
-                
-                
+
+
             </div>
+
+     
         </div>
-        
+
         <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div class="card card-body">
-        
+
                     <div class="row">
                         <div class="col">
                             <label>Cedula Solicitante</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName ="cedulaChk">
+                                        <input type="checkbox" formControlName="cedulaChk">
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" formControlName="cedula" mask="000-0000000-0">
                             </div>
                         </div>
-                       
+
                     </div>
                     <div class="row">
                         <div class="col">
@@ -49,23 +59,22 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox"  formControlName ="seccinalChk">
+                                        <input type="checkbox" formControlName="seccinalChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" 
-                                formControlName="seccional"
-                                [typeahead]="seccionales"
-                                [adaptivePosition]="true" 
-                                [typeaheadItemTemplate]="customItemTemplate" 
-                                typeaheadOptionField="nombre"
-                                (typeaheadOnSelect)="typeaheadOnSelect($event)">
+                                <input type="text" class="form-control" formControlName="seccional" minlength="a"
+                                    [typeahead]="seccionales" [adaptivePosition]="true"
+                                    [readonly] = "selectedSeccional"
+                                    [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
+                                    (typeaheadOnSelect)="typeaheadOnSelect($event)">
 
-                                <button class="btn btn-danger" *ngIf="selectedSeccional" (click) = "removerSeccional()">Remover</button>
-        
+                                <button class="btn btn-danger" *ngIf="selectedSeccional"
+                                    (click)="removerSeccional()">Remover</button>
+
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="row">
                         <div class="col">
                             <label>Solicitud Desde</label>
@@ -75,9 +84,10 @@
                                         <input type="checkbox" formControlName="solicitudDesdeChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="solicitudDesde" bsDatepicker #dp1="bsDatepicker">
+                                <input type="text" class="form-control" formControlName="solicitudDesde" bsDatepicker
+                                    #dp1="bsDatepicker">
                             </div>
-                        </div>                
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -85,14 +95,15 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox"  formControlName="solicitudHastaChk">
+                                        <input type="checkbox" formControlName="solicitudHastaChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="solicitudHasta"  bsDatepicker #dp2="bsDatepicker">
+                                <input type="text" class="form-control" formControlName="solicitudHasta" bsDatepicker
+                                    #dp2="bsDatepicker">
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="row">
                         <div class="col">
                             <label>Aprobacion Desde</label>
@@ -102,10 +113,11 @@
                                         <input type="checkbox" formControlName="aprobacionDesdeChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control"  bsDatepicker #dp3="bsDatepicker" formControlName="aprobacionDesde">
+                                <input type="text" class="form-control" bsDatepicker #dp3="bsDatepicker"
+                                    formControlName="aprobacionDesde">
                             </div>
                         </div>
-                
+
                     </div>
                     <div class="row">
                         <div class="col">
@@ -116,7 +128,8 @@
                                         <input type="checkbox" formControlName="aprobacionHastaChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control"  bsDatepicker #dp4="bsDatepicker" formControlName="aprobacionHasta">
+                                <input type="text" class="form-control" bsDatepicker #dp4="bsDatepicker"
+                                    formControlName="aprobacionHasta">
                             </div>
                         </div>
                     </div>
@@ -124,6 +137,5 @@
             </div>
         </div>
     </div>
-    
-</form>
 
+</form>

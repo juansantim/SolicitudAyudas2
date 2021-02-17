@@ -9,6 +9,8 @@ import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
 import { ConsultaService } from '../consulta.service';
 
+import * as $ from 'jquery';
+
 defineLocale('es-do', esDoLocale);
 
 @Component({
@@ -24,6 +26,9 @@ export class FiltroComponent implements OnInit {
   seccionales = [];
 
   today:Date;
+
+  loading:boolean;
+
   constructor(private localeService: BsLocaleService, private dataService:DataService,  private consultaService:ConsultaService) { }
 
   form = new FormGroup({    
@@ -71,6 +76,10 @@ export class FiltroComponent implements OnInit {
     this.SetDisabled('aprobacionDesde');
     this.SetDisabled('aprobacionHasta');
 
+    this.consultaService.SetLoading.subscribe(loading => {
+      this.loading = loading;
+    })
+
   }
 
 
@@ -103,7 +112,8 @@ export class FiltroComponent implements OnInit {
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
     this.selectedSeccional = e.item;
-    this.form.get('seccional').disable();
+    this.form.get('seccional').setValue(e.item.nombre)
+    //this.form.get('seccional').disable();        
   }
 
  
@@ -119,6 +129,11 @@ export class FiltroComponent implements OnInit {
     
     filtro.aprobacionDesde= raw.aprobacionDesde;
     filtro.aprobacionHasta=raw.aprobacionHasta;
+
+    let collapses = $('#collapseOne');    
+    collapses.removeClass('show');
+    collapses.addClass('hide');
+
 
     this.consultaService.aplicarFiltro(filtro);
 

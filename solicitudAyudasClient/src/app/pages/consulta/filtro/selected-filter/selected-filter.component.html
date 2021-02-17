@@ -1,0 +1,4 @@
+<div *ngIf="control.value && control.valid">
+    {{name}}: <span *ngIf="format"> {{control.value | date: format }}</span>
+    <span *ngIf="!format">{{control.value}}</span>
+</div>

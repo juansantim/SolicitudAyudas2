@@ -33,6 +33,7 @@ import { DownloableFileComponent } from './common/downloable-file/downloable-fil
 import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
 import { PaginationComponent } from './pages/consulta/pagination/pagination.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter/selected-filter.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     ConsultaComponent,
     DownloableFileComponent,
     FiltroComponent,
-    PaginationComponent
+    PaginationComponent,
+    SelectedFilterComponent
   ],
   imports: [
     BrowserModule,

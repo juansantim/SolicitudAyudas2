@@ -8,6 +8,7 @@ import { FiltroData } from 'src/app/model/FiltroData';
 export class ConsultaService {
 
   aplicarFiltroEvent: Subject<FiltroData> = new Subject<FiltroData>();
+  SetLoading: Subject<boolean> = new Subject<boolean>();
   
   constructor() { }
 
