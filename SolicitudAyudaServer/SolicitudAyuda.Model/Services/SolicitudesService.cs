@@ -126,6 +126,7 @@ namespace SolicitudAyuda.Model.Services
                 Cedula = sc.CedulaSolicitante,
                 TipoSolicitud = sc.TipoSolicitud.Nombre,
                 Solicitante = sc.Maestro.NombreCompleto,
+                Seccional = sc.Seccional.Nombre,
                 Estado = sc.Estado.Nombre,
                 MontoSolicitado = sc.MontoSolicitado,
                 MontoAprobado = sc.MontoAprobado ?? 0

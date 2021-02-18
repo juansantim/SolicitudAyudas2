@@ -9,27 +9,16 @@ namespace SolicitudAyuda.Model.Entities
     public class Usuario
     {
         public int Id { get; set; }
-
         public string NombreCompleto { get; set; }
-
         public string Login { get; set; }
-
         public string Email { get; set; }
-
         public string Password { get; set; }
-
         public bool DebeCambiarPassword { get; set; }
-
         public string TempPassword { get; set; }
-
         public bool Disponible { get; set; }
-
         public DateTime? FechaCreacion { get; set; }
-
         public DateTime? FechaInactivacion { get; set; }
-
         public int? UsuarioIdInactivacion { get; set; }
-
         public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
     }
 }

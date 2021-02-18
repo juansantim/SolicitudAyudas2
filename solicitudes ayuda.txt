@@ -1,7 +1,7 @@
 1. Si se van a subir los archivos.
 
 2. confirmar si se quiere imprimir la solicitud.
-	- Imprimir en ambios formatos
+	- Imprimir en ambos formatos
 
 3. confirmar si se desea notificar con correo electronico al solicitante cuando se regiestre 
 y al final cuando se apruebia la solicitud.
@@ -19,13 +19,14 @@ y al final cuando se apruebia la solicitud.
 Salud:	
 	* Cancer
 	* Covid
+
 Infraestructura:
 	* Inundacion.
 	* Mejora vivienda
 	
 ------Reunion---------
 
-* Cada seccional podra tener su usuario para el registro dee las solicitudes.
+* Cada seccional podra tener su usuario para el registro de las solicitudes.
 
 * debe permitir adjuntar varios archivos con los requisitos
 
@@ -33,7 +34,6 @@ Infraestructura:
 
 * debe existir una consulta de ayudas por cedula. esta debe mostrar todas las solicitudes previas
 que ha recibido el maestro y en que fecha y monto aprobado.
-
 
 * las solicitudes son aprobadas por una comision. las mismas deben ser aprobadas por cada miembro
 de la comision para pasar a estado "aprobado". Si un miembro de la comision desaprueba la solicitud,

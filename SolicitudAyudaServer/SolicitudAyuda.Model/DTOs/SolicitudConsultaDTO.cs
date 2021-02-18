@@ -8,6 +8,7 @@ namespace SolicitudAyuda.Model.DTOs
     {
         public int Id { get; set; }
         public string Cedula { get; set; }
+        public string Seccional { get; set; }
         public string TipoSolicitud { get; set; }
         public string Solicitante { get; set; }
         public decimal MontoSolicitado { get; set; }

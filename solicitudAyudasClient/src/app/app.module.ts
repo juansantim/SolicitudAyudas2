@@ -34,6 +34,7 @@ import { FiltroComponent } from './pages/consulta/filtro/filtro.component';
 import { PaginationComponent } from './pages/consulta/pagination/pagination.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter/selected-filter.component';
+import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter
     DownloableFileComponent,
     FiltroComponent,
     PaginationComponent,
-    SelectedFilterComponent
+    SelectedFilterComponent,
+    AccionesComponent
   ],
   imports: [
     BrowserModule,
