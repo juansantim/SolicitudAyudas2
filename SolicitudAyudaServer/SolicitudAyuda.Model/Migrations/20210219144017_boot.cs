@@ -30,6 +30,18 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Permisos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permisos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Provincias",
                 columns: table => new
                 {
@@ -120,6 +132,33 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PermisosUsuarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    PermisoId = table.Column<int>(type: "int", nullable: false),
+                    Disponible = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PermisosUsuarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PermisosUsuarios_Permisos_PermisoId",
+                        column: x => x.PermisoId,
+                        principalTable: "Permisos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PermisosUsuarios_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Seccionales",
                 columns: table => new
                 {
@@ -184,7 +223,8 @@ namespace SolicitudAyuda.Model.Migrations
                     MontoSolicitado = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MontoAprobado = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    EstadId = table.Column<int>(type: "int", nullable: false)
+                    EstadId = table.Column<int>(type: "int", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -283,43 +323,61 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Permisos",
+                columns: new[] { "Id", "Nombre" },
+                values: new object[,]
+                {
+                    { 7, "Generar Estadísticas" },
+                    { 6, "Ver record de Afiliado" },
+                    { 4, "Rechazar Solicitudes" },
+                    { 5, "Anular Solicitudes" },
+                    { 2, "Crear Solicitudes" },
+                    { 1, "Consultar Solicitudes" },
+                    { 3, "Aprobar Solicitudes" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Provincias",
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
                 {
+                    { 24, "SAN CRISTOBAL" },
                     { 19, "PEDERNALES" },
                     { 20, "PERAVIA" },
                     { 21, "PUERTO PLATA" },
                     { 22, "HERMANAS MIRABAL (SALCEDO)" },
                     { 23, "SAMANA" },
-                    { 24, "SAN CRISTOBAL" },
                     { 25, "SAN JUAN DE LA MAGUANA" },
+                    { 30, "VALVERDE" },
                     { 27, "SANCHEZ RAMIREZ" },
-                    { 18, "MONTE PLATA" },
                     { 28, "SANTIAGO DE LOS CABALLEROS" },
                     { 29, "SANTIAGO RODRIGUEZ" },
-                    { 30, "VALVERDE" },
+                    { 18, "MONTE PLATA" },
                     { 31, "SAN JOSE DE OCOA" },
                     { 32, "SANTO DOMINGO" },
                     { 26, "SAN PEDRO DE MACORIS" },
                     { 17, "MONTECRISTI" },
-                    { 16, "MONSEÑOR NOUEL" },
+                    { 13, "LA ROMANA" },
                     { 15, "MARIA TRINIDAD SANCHEZ" },
                     { 1, "DISTRITO NACIONAL" },
                     { 2, "LA ALTAGRACIA" },
                     { 3, "AZUA" },
                     { 4, "BAHORUCO" },
                     { 5, "BARAHONA" },
+                    { 16, "MONSEÑOR NOUEL" },
                     { 7, "DUARTE" },
                     { 6, "DAJABON" },
                     { 9, "ELIAS PIÑA" },
                     { 10, "ESPAILLAT" },
                     { 11, "HATO MAYOR DEL REY" },
                     { 12, "INDEPENDENCIA" },
-                    { 13, "LA ROMANA" },
-                    { 14, "LA VEGA" },
-                    { 8, "EL SEIBO" }
+                    { 14, "LA VEGA" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Provincias",
+                columns: new[] { "Id", "Nombre" },
+                values: new object[] { 8, "EL SEIBO" });
 
             migrationBuilder.InsertData(
                 table: "TiposSolictudes",
@@ -335,8 +393,8 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "DebeCambiarPassword", "Disponible", "Email", "FechaCreacion", "FechaInactivacion", "Login", "NombreCompleto", "Password", "TempPassword", "UsuarioIdInactivacion" },
                 values: new object[,]
                 {
-                    { 1, false, false, "", new DateTime(2021, 2, 14, 12, 56, 4, 172, DateTimeKind.Local).AddTicks(7888), null, "Sistema", "El Sistema", "", null, null },
-                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 14, 12, 56, 4, 174, DateTimeKind.Local).AddTicks(666), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null }
+                    { 1, false, false, "", new DateTime(2021, 2, 19, 10, 40, 16, 748, DateTimeKind.Local).AddTicks(8264), null, "Sistema", "El Sistema", "", null, null },
+                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 19, 10, 40, 16, 750, DateTimeKind.Local).AddTicks(437), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -416,9 +474,9 @@ namespace SolicitudAyuda.Model.Migrations
                     { 253, "PALO VERDE (EL AHOGADO) (DM)", 17 },
                     { 241, "CANA CHAPETON (DM)", 17 },
                     { 173, "HATILLO PALMA (DM)", 17 },
-                    { 171, "VILLA ELISA (DM)", 17 },
                     { 117, "LAS MATAS DE SANTA CRUZ", 17 },
                     { 101, "CASTAÃ‘UELAS", 17 },
+                    { 86, "PEPILLO SALCEDO", 17 },
                     { 72, "VILLA VASQUEZ", 17 },
                     { 8, "MONTE PLATA", 18 },
                     { 188, "LA ISABELA (DM)", 21 },
@@ -564,7 +622,7 @@ namespace SolicitudAyuda.Model.Migrations
                     { 233, "ANGELINA (DM)", 27 },
                     { 45, "GUAYUBIN", 17 },
                     { 41, "MONTECRISTI", 17 },
-                    { 86, "PEPILLO SALCEDO", 17 },
+                    { 171, "VILLA ELISA (DM)", 17 },
                     { 362, "JAYACO (DM)", 16 },
                     { 272, "QUITA CORAZA (DM)", 5 },
                     { 222, "LOS PATOS (DM)", 5 },
@@ -597,11 +655,11 @@ namespace SolicitudAyuda.Model.Migrations
                     { 298, "MONSERRAT (DM)", 4 },
                     { 284, "ARROYO DULCE (DM)", 5 },
                     { 301, "BAHORUCO (DM)", 5 },
-                    { 383, "LA SALVIA-LOS QUEMADOS (DM)", 16 },
+                    { 183, "CRISTO REY DE GUARAGUAO (DM)", 7 },
                     { 182, "AGUA SANTA DEL YUNA (DM)", 7 },
                     { 143, "LAS GUARANAS", 7 },
                     { 119, "ARENOSO", 7 },
-                    { 63, "EUGENIO MARIA DE HOSTOS", 7 },
+                    { 383, "LA SALVIA-LOS QUEMADOS (DM)", 16 },
                     { 59, "CASTILLO", 7 },
                     { 58, "VILLA RIVA", 7 },
                     { 57, "PIMENTEL", 7 },
@@ -675,7 +733,7 @@ namespace SolicitudAyuda.Model.Migrations
                     { 267, "LOS JOVILLOS (DM)", 3 },
                     { 189, "LA PEÃ‘A (DM)", 7 },
                     { 205, "CENOVI (DM)", 7 },
-                    { 183, "CRISTO REY DE GUARAGUAO (DM)", 7 },
+                    { 63, "EUGENIO MARIA DE HOSTOS", 7 },
                     { 266, "LAS COLES (DM)", 7 },
                     { 163, "TIREO ARRIBA (DM)", 14 },
                     { 122, "JIMA ABAJO", 14 },
@@ -699,10 +757,10 @@ namespace SolicitudAyuda.Model.Migrations
                     { 316, "BOCA DE CACHON (DM)", 12 },
                     { 293, "LA COLONIA (DM)", 12 },
                     { 238, "EL LIMON (DM)", 12 },
-                    { 178, "GUAYABAL (DM)", 12 },
+                    { 265, "LAS TARANAS (DM)", 7 },
                     { 128, "CRISTOBAL", 12 },
                     { 114, "MELLA", 12 },
-                    { 265, "LAS TARANAS (DM)", 7 },
+                    { 99, "POSTRER RIO", 12 },
                     { 77, "JIMANI", 12 },
                     { 379, "BATEY 8 (DM)", 12 },
                     { 70, "LA DESCUBIERTA", 12 },
@@ -737,13 +795,13 @@ namespace SolicitudAyuda.Model.Migrations
                 values: new object[,]
                 {
                     { 20, "DUVERGE", 12 },
-                    { 99, "POSTRER RIO", 12 },
+                    { 178, "GUAYABAL (DM)", 12 },
                     { 202, "MATA PALACIO (DM)", 11 },
                     { 280, "SABANA LARGA (DM)", 9 },
-                    { 215, "GUAYABO DULCE (DM)", 11 },
+                    { 159, "RIO LIMPIO (DM)", 9 },
                     { 144, "JUAN SANTIAGO", 9 },
                     { 110, "EL LLANO", 9 },
-                    { 75, "HONDO VALLE", 9 },
+                    { 215, "GUAYABO DULCE (DM)", 11 },
                     { 74, "PEDRO SANTANA", 9 },
                     { 16, "COMENDADOR", 9 },
                     { 15, "BANICA", 9 },
@@ -761,23 +819,23 @@ namespace SolicitudAyuda.Model.Migrations
                     { 290, "SABANA GRANDE (DM)", 7 },
                     { 324, "LA GINA (DM)", 8 },
                     { 338, "SABANA CRUZ (DM)", 9 },
-                    { 159, "RIO LIMPIO (DM)", 9 },
+                    { 75, "HONDO VALLE", 9 },
                     { 361, "SABANA HIGUERO (DM)", 9 },
                     { 169, "ELUPINA CORDERO DE LAS CAÃ‘ITAS (DM)", 11 },
                     { 168, "YERBA BUENA (DM)", 11 },
                     { 100, "EL VALLE", 11 },
                     { 67, "SABANA DE LA MAR", 11 },
-                    { 27, "HATO MAYOR", 11 },
-                    { 342, "VILLA MAGANTE (DM)", 10 },
                     { 359, "GUAYABO (DM)", 9 },
+                    { 342, "VILLA MAGANTE (DM)", 10 },
+                    { 285, "CANCA LA REYNA (DM)", 10 },
                     { 275, "ORTEGA (DM)", 10 },
                     { 274, "MONTE DE LA JAGUA (DM)", 10 },
                     { 273, "HIGUERITO (DM)", 10 },
-                    { 285, "CANCA LA REYNA (DM)", 10 },
+                    { 27, "HATO MAYOR", 11 },
                     { 236, "LAS LAGUNAS ABAJO (DM)", 10 },
-                    { 368, "RANCHO DE LA GUARDIA (DM)", 9 },
-                    { 240, "VERAGUA (DM)", 10 },
-                    { 61, "GASPAR HERNANDEZ", 10 }
+                    { 208, "JUAN LOPEZ ABAJO (EL MAMEY) (DM)", 10 },
+                    { 162, "JOBA ARRIBA (DM)", 10 },
+                    { 149, "SAN VICTOR (DM)", 10 }
                 });
 
             migrationBuilder.InsertData(
@@ -785,13 +843,27 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "Nombre", "ProvinciaId" },
                 values: new object[,]
                 {
-                    { 88, "CAYETANO GERMOSEN", 10 },
-                    { 54, "MOCA", 10 },
                     { 133, "JAMAO AL NORTE", 10 },
-                    { 149, "SAN VICTOR (DM)", 10 },
-                    { 162, "JOBA ARRIBA (DM)", 10 },
-                    { 208, "JUAN LOPEZ ABAJO (EL MAMEY) (DM)", 10 },
-                    { 89, "JOSE CONTRERAS (DM)", 10 }
+                    { 89, "JOSE CONTRERAS (DM)", 10 },
+                    { 88, "CAYETANO GERMOSEN", 10 },
+                    { 61, "GASPAR HERNANDEZ", 10 },
+                    { 54, "MOCA", 10 },
+                    { 368, "RANCHO DE LA GUARDIA (DM)", 9 },
+                    { 240, "VERAGUA (DM)", 10 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PermisosUsuarios",
+                columns: new[] { "Id", "Disponible", "PermisoId", "UsuarioId" },
+                values: new object[,]
+                {
+                    { 5, true, 5, 1 },
+                    { 4, true, 4, 1 },
+                    { 3, true, 3, 1 },
+                    { 2, true, 2, 1 },
+                    { 1, true, 1, 1 },
+                    { 7, true, 7, 1 },
+                    { 6, true, 6, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -800,13 +872,13 @@ namespace SolicitudAyuda.Model.Migrations
                 values: new object[,]
                 {
                     { 7, "Copia de cedula", "rdcopiacedula", "", 2 },
-                    { 1, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 1 },
-                    { 2, "Copia de cedula", "rdcopiacedula", "", 1 },
-                    { 3, "Expediente clinico que demuestre diagnostico actualizado", "rdexpendiente", "", 1 },
-                    { 4, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 1 },
+                    { 8, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 2 },
                     { 5, "ARS a que pertenece", "rdars", "ARS CMD,ARS APS,ARS SIMAG,ARS GRUPO MEDICO ASOCIADO,ARS YUNEN,ARS UNIVERSAL,ARS MONUMENTAL,ARS FUTURO,ARS PRIMERA,ARS ASEMAP,ARS SEMMA,ARS RENACER,ARS PALIC-SALUD,ARS PLAN SALUD,ARS SENASA,ARS RESERVAS,ARS METASALUD,ARS SENASA - REGIMEN SUBSIDIADO", 1 },
+                    { 4, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 1 },
+                    { 3, "Expediente clinico que demuestre diagnostico actualizado", "rdexpendiente", "", 1 },
+                    { 1, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 1 },
                     { 6, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 2 },
-                    { 8, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 2 }
+                    { 2, "Copia de cedula", "rdcopiacedula", "", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -1007,6 +1079,16 @@ namespace SolicitudAyuda.Model.Migrations
                 column: "ProvinciaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PermisosUsuarios_PermisoId",
+                table: "PermisosUsuarios",
+                column: "PermisoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PermisosUsuarios_UsuarioId",
+                table: "PermisosUsuarios",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RequisitosSolicitudes_RequisitoTipoSolicitudId",
                 table: "RequisitosSolicitudes",
                 column: "RequisitoTipoSolicitudId");
@@ -1058,7 +1140,13 @@ namespace SolicitudAyuda.Model.Migrations
                 name: "AdjuntosSolicitudesAyuda");
 
             migrationBuilder.DropTable(
+                name: "PermisosUsuarios");
+
+            migrationBuilder.DropTable(
                 name: "RequisitosSolicitudes");
+
+            migrationBuilder.DropTable(
+                name: "Permisos");
 
             migrationBuilder.DropTable(
                 name: "RequisitosTiposSolicitud");

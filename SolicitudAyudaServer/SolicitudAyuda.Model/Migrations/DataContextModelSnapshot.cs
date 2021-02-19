@@ -2463,6 +2463,133 @@ namespace SolicitudAyuda.Model.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Permiso", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permisos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Consultar Solicitudes"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Crear Solicitudes"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Aprobar Solicitudes"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Rechazar Solicitudes"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "Anular Solicitudes"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Ver record de Afiliado"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "Generar Estadísticas"
+                        });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.PermisoUsuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("Disponible")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PermisoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermisoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("PermisosUsuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Disponible = true,
+                            PermisoId = 1,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Disponible = true,
+                            PermisoId = 2,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Disponible = true,
+                            PermisoId = 3,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Disponible = true,
+                            PermisoId = 4,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Disponible = true,
+                            PermisoId = 5,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Disponible = true,
+                            PermisoId = 6,
+                            UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Disponible = true,
+                            PermisoId = 7,
+                            UsuarioId = 1
+                        });
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Provincia", b =>
                 {
                     b.Property<int>("Id")
@@ -3867,7 +3994,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 14, 23, 13, 12, 1, DateTimeKind.Local).AddTicks(1860),
+                            FechaCreacion = new DateTime(2021, 2, 19, 10, 40, 16, 748, DateTimeKind.Local).AddTicks(8264),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -3878,7 +4005,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 14, 23, 13, 12, 2, DateTimeKind.Local).AddTicks(5185),
+                            FechaCreacion = new DateTime(2021, 2, 19, 10, 40, 16, 750, DateTimeKind.Local).AddTicks(437),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"
@@ -3916,6 +4043,25 @@ namespace SolicitudAyuda.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("Provincia");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.PermisoUsuario", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.Permiso", "Permiso")
+                        .WithMany("PermisosUsuarios")
+                        .HasForeignKey("PermisoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Usuario", "Usuario")
+                        .WithMany("PermisosUsuario")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permiso");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoSolicitud", b =>
@@ -4010,6 +4156,11 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Solicitudes");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Permiso", b =>
+                {
+                    b.Navigation("PermisosUsuarios");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Provincia", b =>
                 {
                     b.Navigation("Municipios");
@@ -4038,6 +4189,8 @@ namespace SolicitudAyuda.Model.Migrations
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Usuario", b =>
                 {
+                    b.Navigation("PermisosUsuario");
+
                     b.Navigation("SolicitudesAyuda");
                 });
 #pragma warning restore 612, 618

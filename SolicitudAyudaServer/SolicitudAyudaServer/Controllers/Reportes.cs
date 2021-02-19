@@ -48,6 +48,8 @@ namespace SolicitudAyudaServer.Controllers
             var dataBand = (DataBand)webReport.Report.FindObject("Data1");            
             dataBand.DataSource = webReport.Report.GetDataSource("Data");
 
+            //webReport.Report.SetParameterValue()
+
             //var source = new FastReport.Data.TableDataSource();
             //source.Table = dataSet;
             //source.Name = "Data";

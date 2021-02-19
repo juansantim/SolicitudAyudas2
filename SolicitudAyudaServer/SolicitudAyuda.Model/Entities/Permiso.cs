@@ -13,5 +13,12 @@ namespace SolicitudAyuda.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         public string Nombre { get; set; }
+
+        public List<PermisoUsuario> PermisosUsuarios { get; set; }
+        public Permiso()
+        {
+            PermisosUsuarios = new List<PermisoUsuario>();
+        }
+
     }
 }

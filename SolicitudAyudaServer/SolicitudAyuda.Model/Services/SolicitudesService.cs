@@ -34,6 +34,7 @@ namespace SolicitudAyuda.Model.Services
             return new
             {
                 solicitud.Id,
+                solicitud.NumeroExpediente,
                 solicitud.CedulaSolicitante,
                 Seccional = solicitud.Seccional.Nombre,
                 NombreSolicitante = solicitud.Maestro.NombreCompleto,

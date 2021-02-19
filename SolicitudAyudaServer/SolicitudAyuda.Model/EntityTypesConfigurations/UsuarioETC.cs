@@ -16,6 +16,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(u => u.NombreCompleto).HasMaxLength(100);
             entity.Property(u => u.Password).HasMaxLength(40);
             entity.Property(u => u.TempPassword).HasMaxLength(10);
+            entity.HasMany(u => u.PermisosUsuario).WithOne(PermisoUsuario => PermisoUsuario.Usuario).HasForeignKey(pu => pu.UsuarioId);
 
             entity.HasData(new Usuario 
             {

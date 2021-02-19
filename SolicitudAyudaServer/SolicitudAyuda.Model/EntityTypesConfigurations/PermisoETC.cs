@@ -12,6 +12,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         public void Configure(EntityTypeBuilder<Permiso> entity)
         {
             entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.HasMany(p => p.PermisosUsuarios).WithOne(pu => pu.Permiso).HasForeignKey(pu => pu.PermisoId);
 
             var seed = new List<Permiso>
             {

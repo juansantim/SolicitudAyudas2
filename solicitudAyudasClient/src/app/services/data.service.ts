@@ -9,6 +9,10 @@ import { FiltroData } from '../model/FiltroData';
   providedIn: 'root'
 })
 export class DataService {
+  GetPermisos():Observable<any> {
+    let url = this.GetUrl('Account/getpermisos');
+    return this.http.get(url);
+  }
   ConsultaSolicitudes(filtro: FiltroData):Observable<any> {
     let url = this.GetUrl('Solicitud/paginada');
     return this.http.post(url, filtro);

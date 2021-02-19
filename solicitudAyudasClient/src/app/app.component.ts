@@ -11,6 +11,8 @@ import { AppCookieService } from './services/app-cookie.service';
 export class AppComponent {
   title = 'solicitudAyudasClient';
   showNav = false;
+  usuario:any;
+  activatedRoute:string;
 
   cerrarSesion(){
     Swal.fire({
@@ -25,6 +27,7 @@ export class AppComponent {
     }).then(dialogResult => {
       if(dialogResult.isConfirmed){
         this.cookieService.remove('token');
+        localStorage.removeItem('usuario');
         this.showNav = false;
         this.router.navigate(['/login']);
       }
@@ -32,6 +35,21 @@ export class AppComponent {
         console.log('nope')
       }
     })
+  }
+
+  ngOnInit(){
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    this.router.events.subscribe(ev => {
+      if(ev instanceof NavigationEnd){
+        console.log(ev);
+        this.activatedRoute = ev.url;
+      }
+    })
+  }
+  
+  GetActive(){
+  
   }
 
   constructor(private router: Router, private cookieService:AppCookieService)

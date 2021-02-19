@@ -1,5 +1,5 @@
 <nav *ngIf="showNav" class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/">Inicio</a>
+  <a class="navbar-brand" routerLink="/" routerLinkActive="active" >Inicio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,21 +7,21 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/registrarSolicitud">Solicitar Ayuda <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link" routerLink="/consulta">Consulta Solicitudes <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link" routerLink="/registrarSolicitud">Estadisticas <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link" routerLink="/registrarSolicitud">Gestion de Usuarios <span class="sr-only">(current)</span></a>
-      </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" routerLink="/registrarSolicitud" routerLinkActive="active" >Solicitar Ayuda <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/consulta" routerLinkActive="active">Consulta Solicitudes <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/estadisticas" routerLinkActive="active">Estadisticas <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/usuarios" routerLinkActive="active">Gestion de Usuarios <span class="sr-only">(current)</span></a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li> -->
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -34,10 +34,11 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      </li> -->
     </ul>
+    <label class="my-2 my-sm-0" style="color: white; margin-right: 5px;">{{usuario.nombreCompleto}}</label>
     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click) = "cerrarSesion()">Cerrar Sesión</button>
     <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -45,17 +46,10 @@
     </form> -->
   </div>
 </nav>
-<main class="container">
+<main class="container">  
   <router-outlet></router-outlet>
-
-  <script>
-    $(document).ready(function () {
-      alert('jquery is here')
-    });
-  </script>
 </main>
 
-<iframe id="frameForDownload" style="display: none;"></iframe>
 
 
 <!-- Optional JavaScript -->

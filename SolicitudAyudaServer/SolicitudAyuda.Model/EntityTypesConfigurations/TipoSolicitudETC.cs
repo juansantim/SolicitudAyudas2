@@ -14,6 +14,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(e => e.Nombre).HasMaxLength(150);
             entity.HasMany(e => e.Requisitos).WithOne(r => r.TipoSolicitud).HasForeignKey(r => r.TipoSolicitudId);
 
+            entity.HasOne(e => e.ComisionAprobacion).WithMany(sa => sa.TiposSolicitudes).HasForeignKey(sa => sa.ComisionAprobacionId);
+
             entity.HasData(
                 new TipoSolicitud
                 {

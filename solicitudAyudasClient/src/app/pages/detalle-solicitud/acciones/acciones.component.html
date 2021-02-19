@@ -1,1 +1,12 @@
-<p>acciones works!</p>
+<div class="card card-body bg-light">
+    <div *ngIf="permisos.length">
+        <span *ngIf="Show(3)"> <button class="btn btn-success">Aprobar</button> |</span>
+        <span *ngIf="Show(5)"><button class="btn btn-secondary">Anular</button> |</span>
+        <span *ngIf="Show(4)"><button class="btn btn-danger" >Rechazar</button></span>
+    </div>
+    
+    
+    <div *ngIf="!permisos.length">
+        <label>Ninguna accion que aplicar </label>
+    </div>
+</div>

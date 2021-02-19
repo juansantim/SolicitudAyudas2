@@ -28,7 +28,7 @@ namespace SolicitudAyudaServer.Controllers
             this._config = receivedConfig;
             this.db = db;
         }
-        
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult login([FromBody] LoginModel loginModel)
@@ -40,10 +40,18 @@ namespace SolicitudAyudaServer.Controllers
             if (usuario != null)
             {
                 var tokenString = GenerateJSONWebToken(usuario);
-                
-                return Ok(new { token = tokenString });
+
+                return Ok(new
+                {
+                    token = tokenString,
+                    Usuario = new
+                    {
+                        email = usuario.Email,
+                        nombreCompleto = usuario.NombreCompleto
+                    }
+                });
             }
-            else 
+            else
             {
                 return Unauthorized();
             }
@@ -69,14 +77,29 @@ namespace SolicitudAyudaServer.Controllers
 
         [Authorize]
         [Route("heartbeat")]
-
-        public IActionResult heartbeat() {
+        public IActionResult heartbeat()
+        {
             var result = new
             {
                 alive = "Ok"
             };
 
             return new JsonResult(result);
+        }
+
+
+
+
+        [HttpGet]
+        [Authorize]
+        [Route("getpermisos")]
+        public IActionResult getPermisos()
+        {
+            var usuarioId = int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
+
+            var permisos = db.PermisosUsuarios.Where(pu => pu.UsuarioId == usuarioId).ToList();
+
+            return new JsonResult(permisos.Select(pu =>  pu.PermisoId).Distinct());
         }
 
 

@@ -19,6 +19,8 @@ namespace SolicitudAyuda.Model
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<AdjuntosSolicitud> AdjuntosSolicitudes { get; set; }
 
+        public DbSet<PermisoUsuario> PermisosUsuarios { get; set; }
+
         public DataContext(DbContextOptions options) : base(options)
         {
             
@@ -39,6 +41,8 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new SolicitudAyudaETC());
             modelBuilder.ApplyConfiguration(new EstadoSolicitudETC());
             modelBuilder.ApplyConfiguration(new UsuarioETC());
+            modelBuilder.ApplyConfiguration(new PermisoETC());
+            modelBuilder.ApplyConfiguration(new PermisoUsuarioETC());
         }
     }
 }

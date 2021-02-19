@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Requerimientos.txt = Requerimientos.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolicitudAyuda.Reportes", "SolicitudAyuda.Reportes\SolicitudAyuda.Reportes.csproj", "{B6278B4E-87A6-4A5E-A68F-E8CBA7AFFC85}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +26,6 @@ Global
 		{2EF7A4A1-6517-4370-838C-7DD809A8A077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EF7A4A1-6517-4370-838C-7DD809A8A077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EF7A4A1-6517-4370-838C-7DD809A8A077}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B6278B4E-87A6-4A5E-A68F-E8CBA7AFFC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6278B4E-87A6-4A5E-A68F-E8CBA7AFFC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6278B4E-87A6-4A5E-A68F-E8CBA7AFFC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6278B4E-87A6-4A5E-A68F-E8CBA7AFFC85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
