@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FastReport.OpenSource" Version="2021.1.17" />
+    <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2021.1.17" />
+    <PackageReference Include="FastReport.OpenSource.Web" Version="2021.1.17" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
@@ -24,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Reports\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
 

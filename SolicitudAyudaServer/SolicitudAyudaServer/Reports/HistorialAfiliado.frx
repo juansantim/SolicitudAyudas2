@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="02/18/2021 17:56:41" ReportInfo.Modified="02/18/2021 19:54:35" ReportInfo.CreatorVersion="2021.1.16.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqOm2viFyIARcFzQ84xSApBcCCwcIZfP0aS2Pw18olEBxu5g1YCFFWV5vTBwr2sRgDRQXgPlo+cjurbIVZjYwAtN7egNabSjPWY71MGqg4V2RdewYsu9h8ZoEDyea71yeHJ/U3rfXaOI88pXkT4GOgnNHaGR6zOhUBVvqFxUhZSEgUY9s4x/1Ea4aUlwWAKpUdMdQDuxH8rpewnGXA4BWu3v+wZdBzdFvrNPbvl6e1s0BfVjLkytD89Lb+Ol2OERNk">
+      <TableDataSource Name="Table" Alias="Data" DataType="System.Int32" Enabled="true" SelectCommand="select top 100 s.NumeroExpediente as NumeroSolicitud,&#13;&#10;	   s.FechaSolicitud,&#13;&#10;	   t.Nombre as TipoSolicitud,&#13;&#10;	   s.MontoSolicitado,&#13;&#10;	   s.MontoAprobado&#13;&#10;from SolicitudesAyuda s&#13;&#10;	  inner join EstadoSolicitudes e on s.EstadId = e.Id&#13;&#10;	  inner join TiposSolictudes t on s.TipoSolicitudId = t.Id">
+        <Column Name="NumeroSolicitud" DataType="System.Int32"/>
+        <Column Name="FechaSolicitud" DataType="System.DateTime"/>
+        <Column Name="TipoSolicitud" DataType="System.String"/>
+        <Column Name="MontoSolicitado" DataType="System.Decimal"/>
+        <Column Name="MontoAprobado" DataType="System.Decimal"/>
+        <CommandParameter Name="Usuario" DataType="22"/>
+        <CommandParameter Name="Cedula" DataType="22"/>
+        <CommandParameter Name="NombreCompleto" DataType="22"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text11" Left="217.35" Width="189" Height="18.9" Text="Historial de Solicitudes" Font="Arial, 10pt, style=Bold"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="28.35">
+      <TextObject Name="Text2" Left="18.9" Width="122.85" Height="18.9" Text="NumeroSolicitud" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="160.65" Width="113.4" Height="18.9" Text="FechaSolicitud" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text6" Left="283.5" Width="113.4" Height="18.9" Text="TipoSolicitud" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text8" Left="415.8" Width="113.4" Height="18.9" Text="MontoSolicitado" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text10" Left="538.65" Width="122.85" Height="18.9" Text="MontoAprobado" Font="Arial, 10pt, style=Bold"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="18.9" DataSource="Table">
+      <TextObject Name="Text1" Left="18.9" Width="94.5" Height="18.9" Text="[Data.NumeroSolicitud]" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="160.65" Width="94.5" Height="18.9" Text="[Data.FechaSolicitud]" Format="Date" Format.Format="d" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="283.5" Width="94.5" Height="18.9" Text="[Data.TipoSolicitud]" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="415.8" Width="94.5" Height="18.9" Text="[Data.MontoSolicitado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text9" Left="538.65" Width="94.5" Height="18.9" Text="[Data.MontoAprobado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="97.05" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>

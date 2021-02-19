@@ -38,8 +38,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 new Permiso{
                     Id  = 6,
                     Nombre = "Ver record de Afiliado"
-                }
-                ,
+                },
                 new Permiso{
                     Id  = 7 ,
                     Nombre = "Generar Estadísticas"
