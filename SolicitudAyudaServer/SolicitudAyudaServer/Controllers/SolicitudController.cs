@@ -155,56 +155,78 @@ namespace SolicitudAyudaServer.Controllers
 
         [HttpPost]
         [Route("api/Solicitud/AprobarSolicitud")]
-        public string AprobarSolicitud(AprobarSolicitudDTO solicitudDto)
+        [Produces("application/json")]
+        public HttpResponse AprobarSolicitud()
         {
-            var solicitud = _db.Solicitudes.Include(s => s.TipoSolicitud).ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == solicitudDto.SolicitudId);
+            HttpResponse response = new HttpResponse();
 
-            IEnumerable<int> usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
-
-            var usuariosComision = solicitud.TipoSolicitud.ComisionAprobacion.UsuariosComisionAprobacion.Select(s => s.UsuarioId);
-
-            var usuarioId = int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
-
-            if (usuariosYaAprobaron.Any(ua => ua == usuarioId))
+            try
             {
-                throw new InvalidOperationException("Ya usted aprobó esta solicitud");
-            }
-            else if (!usuariosComision.Any(uc => uc == usuarioId))
-            {
-                throw new InvalidOperationException("Usted no puede aprobar este tipo ayuda");
-            }
-            else
-            {
-                solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
+                var solicitudId = int.Parse(Request.Form["solicitudId"]);
+
+                if (solicitudId == 0)
                 {
-                    FechaAprobacion = DateTime.Now,
-                    UsuarioId = usuarioId,
-                });
-
-                usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
-
-                var hayPendientes = false;
-                foreach (var uc in usuariosComision)
-                {
-                    if (!usuariosYaAprobaron.Any(ua => ua == uc))
-                    {
-                        hayPendientes = true;
-                    }
+                    throw new InvalidOperationException("Numero de soliciud inválido");
                 }
 
-                if (hayPendientes)
+                var solicitud = _db.Solicitudes
+                    .Include(s => s.AprobacionesSolicitud)
+                    .Include(s => s.TipoSolicitud)
+                    .ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == solicitudId);
+
+                IEnumerable<int> usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
+
+                var usuariosComision = solicitud.TipoSolicitud.ComisionAprobacion.UsuariosComisionAprobacion.Select(s => s.UsuarioId);
+
+                var usuarioId = int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
+
+                if (usuariosYaAprobaron.Any(ua => ua == usuarioId))
                 {
-                    solicitud.EstadId = 2;
+                    throw new InvalidOperationException("Ya usted aprobó esta solicitud");
+                }
+                else if (!usuariosComision.Any(uc => uc == usuarioId))
+                {
+                    throw new InvalidOperationException("Usted no puede aprobar este tipo ayuda");
                 }
                 else
                 {
-                    solicitud.EstadId = 3;
-                }
+                    solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
+                    {
+                        FechaAprobacion = DateTime.Now,
+                        UsuarioId = usuarioId,
+                    });
 
-                _db.SaveChanges();
+                    usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
+
+                    var hayPendientes = false;
+                    foreach (var uc in usuariosComision)
+                    {
+                        if (!usuariosYaAprobaron.Any(ua => ua == uc))
+                        {
+                            hayPendientes = true;
+                        }
+                    }
+
+                    if (hayPendientes)
+                    {
+                        solicitud.EstadId = 2;
+                    }
+                    else
+                    {
+                        solicitud.EstadId = 3;
+                    }
+
+                    _db.SaveChanges();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                response.Errors.Add(ex.Message);
             }
 
-            return "Ok";
+            return response;
+
         }
 
         private static IEnumerable<int> GetUsuariosAprobaron(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)

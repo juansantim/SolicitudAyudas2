@@ -5,7 +5,7 @@ in control: {{tipoSolicitudAyuda}}
 <div class="card card-body bg-light" *ngIf="!loading">
     <div>
         <span> <button class="btn btn-success">Imprimir</button> |</span>
-        <span *ngIf="puedeGestionar"> <button class="btn btn-success">Aprobar</button> |</span>
+        <span *ngIf="puedeGestionar"> <button class="btn btn-success" (click) = "AprobarSoliciud()">Aprobar</button> |</span>
         <span *ngIf="puedeGestionar"><button class="btn btn-secondary">Anular</button> |</span>
         <span *ngIf="puedeGestionar"><button class="btn btn-danger" >Rechazar</button></span>
     </div>

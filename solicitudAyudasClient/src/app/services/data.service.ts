@@ -1,18 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, JsonpClientBackend } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { AppLocalStorageService } from './app-local-storage.service';
 import { environment } from '../../environments/environment';
 import { FiltroData } from '../model/FiltroData';
+import { AppCookieService } from './app-cookie.service';
+import { FormatWidth } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   
-  AprobarSolicitud(solicitudId: number):Observable<any> {
-    let url = this.GetUrl(`/Solicitud/AprobarSolicitud`);
-    return this.http.post(url, {SolicitudId: solicitudId});
+  GetHeadersForGetch(){
+    return { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 
+    'Access-Control-Allow-Origin': '*'}
+  }
+
+  AprobarSolicitud(solicitudId: number) {
+    let headers = this.GetHeadersForGetch();
+
+    let form = new FormData();
+    form.append('solicitudId', solicitudId.toString());
+
+    let url = this.GetUrl(`Solicitud/AprobarSolicitud`);
+    
+    return fetch(url, {
+      method:'POST',
+      headers: headers,
+      body: form,
+    });
+
   }
 
   PuedeGestionarTipoSolicitud(tipoSolicitudId):Observable<any> {
@@ -89,5 +107,7 @@ export class DataService {
   }
 
 
-  constructor(private http: HttpClient, private localStorageService: AppLocalStorageService) { }
+  constructor(private http: HttpClient, 
+    private localStorageService: AppLocalStorageService,
+    private cookieService:AppCookieService) { }
 }

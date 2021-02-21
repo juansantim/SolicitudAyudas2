@@ -48,6 +48,7 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new PermisoUsuarioETC());
             modelBuilder.ApplyConfiguration(new UsuarioComisionAprobacionETC());
             modelBuilder.ApplyConfiguration(new ComisionAprobacionETC());
+            modelBuilder.ApplyConfiguration(new AprobacionSolicitudETC());
         }
     }
 }

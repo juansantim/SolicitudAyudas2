@@ -29,7 +29,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 ComisionAprobacionId = 1,
                 Disponible = true,
                 FechaCreacion = DateTime.Now,
-            });
+            });          
         }
     }
 }

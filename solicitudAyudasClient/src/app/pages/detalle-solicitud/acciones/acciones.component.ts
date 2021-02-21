@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { DataService } from 'src/app/services/data.service';
+import { UtilsService } from 'src/app/services/utils.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,39 +13,64 @@ import Swal from 'sweetalert2';
 export class AccionesComponent implements OnInit {
 
   @Input()
-  tipoSolicitudAyuda:string;
+  tipoSolicitudAyuda: string;
 
   @Input()
-  solicitudId:number;
+  solicitudId: number;
 
-  loading:boolean;
+  loading: boolean;
 
-  constructor(private dataService:DataService) { }
+  constructor(private dataService: DataService, private router: Router, private util: UtilsService) { }
 
-  puedeGestionar:boolean;
+  puedeGestionar: boolean;
 
   ngOnInit() {
     // console.log(this.tipoSolicitudAyuda);
     this.dataService.PuedeGestionarTipoSolicitud(this.tipoSolicitudAyuda).subscribe(response => {
-      this.puedeGestionar = response.puedeGestionar      
+      this.puedeGestionar = response.puedeGestionar
     })
   }
 
-  AprobarSoliciud(){
+  AprobarSoliciud() {
 
-    Swal.fire('Confirmación', 'Esta Seguro que desea aprobar esta solicitud de Ayuda?', 'question')
-    .then(alertResult => {
-      /* //Necesitamos preconfirm  aqui para visualizar ajax
-      if(alertResult.isConfirmed){
-        this.dataService.AprobarSolicitud(this.solicitudId).subscribe(response => {
-          Swal.fire('Aprobación de Solicitud', `Solicitud de Ayuda Numero ${this.solicitudId} Aprobada por usted`, 'success')
-        });
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Esta Seguro que desea aprobar esta solicitud de Ayuda?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      showConfirmButton: true,
+      confirmButtonText: 'Aprobar Solicitud',
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false,
+      preConfirm: () => {
+        return this.dataService.AprobarSolicitud(this.solicitudId)
+          .then(response => {
+            return response.json();
+          })
+          .then((result: any) => {
+            if (result.success) {
+              Swal.fire({
+                title: `Aprobación solicitud`,
+                text: 'Soliciud de ayuda aprobada correctamente'
+              }).then(() => {
+                this.router.navigate(['/detalle', this.solicitudId]);
+              })
+            }
+            else {
+              var erros = this.util.GetUnorderedList(result.errors)
+              Swal.showValidationMessage(
+                `Error al procesar solicitud: ${erros}`
+              )
+            }
+          })
+          .catch(error => {
+
+          })
       }
-      
-      */
-    });
+    })
 
-    
+
   }
 
 }

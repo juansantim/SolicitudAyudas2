@@ -180,8 +180,7 @@ namespace SolicitudAyuda.Model.Migrations
                         name: "FK_UsuariosComisionesAprobacion_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -332,6 +331,32 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AprobacionesSolicitudes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SolicitudAyudaId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    FechaAprobacion = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AprobacionesSolicitudes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AprobacionesSolicitudes_SolicitudesAyuda_SolicitudAyudaId",
+                        column: x => x.SolicitudAyudaId,
+                        principalTable: "SolicitudesAyuda",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AprobacionesSolicitudes_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RequisitosSolicitudes",
                 columns: table => new
                 {
@@ -415,7 +440,7 @@ namespace SolicitudAyuda.Model.Migrations
                     { 18, "MONTE PLATA" },
                     { 26, "SAN PEDRO DE MACORIS" },
                     { 17, "MONTECRISTI" },
-                    { 11, "HATO MAYOR DEL REY" },
+                    { 12, "INDEPENDENCIA" },
                     { 15, "MARIA TRINIDAD SANCHEZ" },
                     { 1, "DISTRITO NACIONAL" },
                     { 2, "LA ALTAGRACIA" },
@@ -434,7 +459,7 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
                 {
-                    { 12, "INDEPENDENCIA" },
+                    { 11, "HATO MAYOR DEL REY" },
                     { 13, "LA ROMANA" },
                     { 14, "LA VEGA" },
                     { 8, "EL SEIBO" }
@@ -445,10 +470,11 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "DebeCambiarPassword", "Disponible", "Email", "FechaCreacion", "FechaInactivacion", "Login", "NombreCompleto", "Password", "TempPassword", "UsuarioIdInactivacion" },
                 values: new object[,]
                 {
-                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 2, 21, 9, 44, 18, 556, DateTimeKind.Local).AddTicks(3202), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
-                    { 1, false, false, "", new DateTime(2021, 2, 21, 9, 44, 18, 550, DateTimeKind.Local).AddTicks(914), null, "Sistema", "El Sistema", "", null, null },
-                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 21, 9, 44, 18, 551, DateTimeKind.Local).AddTicks(5290), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
-                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 2, 21, 9, 44, 18, 556, DateTimeKind.Local).AddTicks(3781), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null }
+                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(4025), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null },
+                    { 1, false, false, "", new DateTime(2021, 2, 21, 18, 45, 15, 38, DateTimeKind.Local).AddTicks(8307), null, "Sistema", "El Sistema", "", null, null },
+                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 40, DateTimeKind.Local).AddTicks(6033), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
+                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(3525), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
+                    { 5, false, true, "miembro3@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(4192), null, "miembro3", "miembro comision 3", "ai????n5&`?6", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -935,8 +961,8 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "ComisionAprobacionId", "Disponible", "FechaCreacion", "UsuarioCreacionId", "UsuarioId" },
                 values: new object[,]
                 {
-                    { 1, 1, true, new DateTime(2021, 2, 21, 9, 44, 18, 561, DateTimeKind.Local).AddTicks(628), 0, 3 },
-                    { 2, 1, true, new DateTime(2021, 2, 21, 9, 44, 18, 561, DateTimeKind.Local).AddTicks(1612), 0, 4 }
+                    { 1, 1, true, new DateTime(2021, 2, 21, 18, 45, 15, 50, DateTimeKind.Local).AddTicks(1911), 0, 3 },
+                    { 2, 1, true, new DateTime(2021, 2, 21, 18, 45, 15, 50, DateTimeKind.Local).AddTicks(2931), 0, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -945,9 +971,9 @@ namespace SolicitudAyuda.Model.Migrations
                 values: new object[,]
                 {
                     { 1, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 1 },
-                    { 13, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 2 },
-                    { 12, "Copia de cedula", "rdcopiacedula", "", 2 },
-                    { 11, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 2 },
+                    { 13, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 3 },
+                    { 12, "Copia de cedula", "rdcopiacedula", "", 3 },
+                    { 11, "Comunicacion solicitud del interesado dirigida al CEN", "rdcomunicacion", "", 3 },
                     { 9, "Carta aval de la seccional a la que pertenece", "rdcartaaval", "", 2 },
                     { 8, "Expediente clinico que demuestre diagnostico actualizado", "rdexpendiente", "", 2 },
                     { 10, "ARS a que pertenece", "rdars", "ARS CMD,ARS APS,ARS SIMAG,ARS GRUPO MEDICO ASOCIADO,ARS YUNEN,ARS UNIVERSAL,ARS MONUMENTAL,ARS FUTURO,ARS PRIMERA,ARS ASEMAP,ARS SEMMA,ARS RENACER,ARS PALIC-SALUD,ARS PLAN SALUD,ARS SENASA,ARS RESERVAS,ARS METASALUD,ARS SENASA - REGIMEN SUBSIDIADO", 2 },
@@ -1147,6 +1173,16 @@ namespace SolicitudAyuda.Model.Migrations
                 column: "SolicitudAyudaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AprobacionesSolicitudes_SolicitudAyudaId",
+                table: "AprobacionesSolicitudes",
+                column: "SolicitudAyudaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AprobacionesSolicitudes_UsuarioId",
+                table: "AprobacionesSolicitudes",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Maestros_SeccionalId",
                 table: "Maestros",
                 column: "SeccionalId");
@@ -1231,6 +1267,9 @@ namespace SolicitudAyuda.Model.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AdjuntosSolicitudesAyuda");
+
+            migrationBuilder.DropTable(
+                name: "AprobacionesSolicitudes");
 
             migrationBuilder.DropTable(
                 name: "PermisosUsuarios");
