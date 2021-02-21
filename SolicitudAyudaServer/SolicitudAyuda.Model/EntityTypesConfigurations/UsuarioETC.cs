@@ -19,6 +19,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.HasMany(u => u.PermisosUsuario).WithOne(PermisoUsuario => PermisoUsuario.Usuario).HasForeignKey(pu => pu.UsuarioId);
 
             entity.HasMany(u => u.UsuariosComisionesAprobacion).WithOne(uc => uc.Usuario).HasForeignKey(uc => uc.UsuarioId);
+            entity.HasMany(u => u.AprobacionesSolicitudes).WithOne(ap => ap.Usuario).HasForeignKey(ap => ap.UsuarioId);
 
             entity.HasData(new Usuario 
             {

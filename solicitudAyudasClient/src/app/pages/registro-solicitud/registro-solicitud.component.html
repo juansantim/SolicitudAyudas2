@@ -2,9 +2,6 @@
     <label>{{model.nombre}}</label>
 </ng-template>
 
-valid: {{solicitudAyudaForm.valid}} <br/> 
-status: {{GetAllErrors()}} <br/> 
-
 <form [formGroup]="solicitudAyudaForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
     <app-loading [show]="isLoading()"></app-loading>
 

@@ -85,10 +85,15 @@
 
 <div class="row">
     {{solicitud.estadoId}}
-    <app-estado-solicitud [estadoId] = "solicitud.estadId" [nombre] = "solicitud.estado"></app-estado-solicitud>
+    <app-estado-solicitud 
+    [estadoId] = "solicitud.estadId" 
+    [nombre] = "solicitud.estado" ></app-estado-solicitud>
 </div>
 
-<app-acciones></app-acciones>
+<app-acciones *ngIf="solicitud.tipoSolicitudId" 
+[tipoSolicitudAyuda] = "solicitud.tipoSolicitudId"
+[solicitudId]= "solicitud.id"
+></app-acciones>
 
 <!-- 
 {{solicitud | json}} -->

@@ -18,6 +18,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.HasMany(sa => sa.Requisitos).WithOne(r => r.SolicitudAyuda).HasForeignKey(x => x.SolicitudAyudaId);
             entity.HasMany(sa => sa.Adjuntos).WithOne(r => r.SolicitudAyuda).HasForeignKey(x => x.SolicitudAyudaId);
 
+            entity.HasMany(sa => sa.AprobacionesSolicitud).WithOne(ap => ap.SolicitudAyuda).HasForeignKey(ap => ap.SolicitudAyudaId);
+
             entity.HasOne(sa => sa.Estado).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.EstadId);
 
             entity.HasOne(sa => sa.Usuario).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.UsuarioId);

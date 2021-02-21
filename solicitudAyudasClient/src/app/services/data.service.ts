@@ -9,16 +9,23 @@ import { FiltroData } from '../model/FiltroData';
   providedIn: 'root'
 })
 export class DataService {
-  GetPermisos():Observable<any> {
-    let url = this.GetUrl('Account/getpermisos');
+  
+  AprobarSolicitud(solicitudId: number):Observable<any> {
+    let url = this.GetUrl(`/Solicitud/AprobarSolicitud`);
+    return this.http.post(url, {SolicitudId: solicitudId});
+  }
+
+  PuedeGestionarTipoSolicitud(tipoSolicitudId):Observable<any> {
+    let url = this.GetUrl(`Account/GetPuedeGestionarTipoSolicitud?tipoSolicitudId=${tipoSolicitudId}`);
     return this.http.get(url);
   }
+
+
+
   ConsultaSolicitudes(filtro: FiltroData):Observable<any> {
     let url = this.GetUrl('Solicitud/paginada');
     return this.http.post(url, filtro);
   }
-
-
 
   Download(fileId: number): Observable<any> {
     let url = `${environment.baseUrl}/files/download?id=${fileId}`;

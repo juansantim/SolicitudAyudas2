@@ -28,6 +28,8 @@ namespace SolicitudAyuda.Model.Entities
         public TipoSolicitud TipoSolicitud { get; set; }
         public List<RequisitoSolicitud> Requisitos { get; set; }
         public List<AdjuntosSolicitud> Adjuntos { get; set; }
+
+        public List<AprobacionSolicitud> AprobacionesSolicitud { get; set; }
         public string Concepto { get; set; }
         public decimal MontoSolicitado { get; set; }
         public decimal? MontoAprobado { get; set; }

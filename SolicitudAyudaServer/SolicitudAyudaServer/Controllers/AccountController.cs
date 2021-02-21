@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SolicitudAyuda.Model;
@@ -87,19 +88,22 @@ namespace SolicitudAyudaServer.Controllers
             return new JsonResult(result);
         }
 
-
-
-
         [HttpGet]
         [Authorize]
-        [Route("getpermisos")]
-        public IActionResult getPermisos()
+        [Route("GetPuedeGestionarTipoSolicitud")]
+        public IActionResult GetPuedeGestionar(int tipoSolicitudId)
         {
             var usuarioId = int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
 
-            var permisos = db.PermisosUsuarios.Where(pu => pu.UsuarioId == usuarioId).ToList();
+            var comisionesUsuario = db.UsuarioComisionAprobacion
+                .Include(uca => uca.ComisionAprobacion)
+                .ThenInclude(sc => sc.TiposSolicitudes)
+                .Where(uca => uca.UsuarioId == usuarioId)
+                .SelectMany(uca => uca.ComisionAprobacion.TiposSolicitudes);
 
-            return new JsonResult(permisos.Select(pu =>  pu.PermisoId).Distinct());
+            var gestiona = comisionesUsuario.Any(t => t.Id == tipoSolicitudId);
+
+            return new JsonResult(new { puedeGestionar = gestiona });
         }
 
 

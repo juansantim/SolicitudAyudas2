@@ -135,7 +135,7 @@ namespace SolicitudAyudaServer.Controllers
 
         public string sendEmail(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
         {
-            if (!string.IsNullOrEmpty(solicitud.Email)) 
+            if (!string.IsNullOrEmpty(solicitud.Email))
             {
                 _db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
                 _db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
@@ -149,12 +149,68 @@ namespace SolicitudAyudaServer.Controllers
 
                 mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
             }
-            
+
             return "Ok";
         }
 
+        [HttpPost]
+        [Route("api/Solicitud/AprobarSolicitud")]
+        public string AprobarSolicitud(AprobarSolicitudDTO solicitudDto)
+        {
+            var solicitud = _db.Solicitudes.Include(s => s.TipoSolicitud).ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == solicitudDto.SolicitudId);
 
+            IEnumerable<int> usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
 
+            var usuariosComision = solicitud.TipoSolicitud.ComisionAprobacion.UsuariosComisionAprobacion.Select(s => s.UsuarioId);
+
+            var usuarioId = int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
+
+            if (usuariosYaAprobaron.Any(ua => ua == usuarioId))
+            {
+                throw new InvalidOperationException("Ya usted aprobó esta solicitud");
+            }
+            else if (!usuariosComision.Any(uc => uc == usuarioId))
+            {
+                throw new InvalidOperationException("Usted no puede aprobar este tipo ayuda");
+            }
+            else
+            {
+                solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
+                {
+                    FechaAprobacion = DateTime.Now,
+                    UsuarioId = usuarioId,
+                });
+
+                usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
+
+                var hayPendientes = false;
+                foreach (var uc in usuariosComision)
+                {
+                    if (!usuariosYaAprobaron.Any(ua => ua == uc))
+                    {
+                        hayPendientes = true;
+                    }
+                }
+
+                if (hayPendientes)
+                {
+                    solicitud.EstadId = 2;
+                }
+                else
+                {
+                    solicitud.EstadId = 3;
+                }
+
+                _db.SaveChanges();
+            }
+
+            return "Ok";
+        }
+
+        private static IEnumerable<int> GetUsuariosAprobaron(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
+        {
+            return solicitud.AprobacionesSolicitud.Select(s => s.UsuarioId);
+        }
 
         public static byte[] GetBytes(Stream input)
         {

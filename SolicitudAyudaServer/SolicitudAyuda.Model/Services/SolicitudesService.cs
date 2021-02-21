@@ -51,6 +51,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.EstadId,
                 estado = solicitud.Estado.Nombre,
                 tipoSolicitud = solicitud.TipoSolicitud.Nombre,
+                solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad))
 

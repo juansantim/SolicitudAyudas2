@@ -22,5 +22,6 @@ namespace SolicitudAyuda.Model.Entities
         public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
         public List<PermisoUsuario> PermisosUsuario { get; set; }
         public List<UsuarioComisionAprobacion> UsuariosComisionesAprobacion { get; set; }
+        public List<AprobacionSolicitud> AprobacionesSolicitudes { get; set; }
     }
 }
