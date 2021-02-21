@@ -30,7 +30,7 @@ namespace SolicitudAyuda.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("NumeroExpendiente", schema: "dbo")
-                .StartsAt(0)
+                .StartsAt(1)
                 .IncrementsBy(1);
 
             modelBuilder.ApplyConfiguration(new ProvinciaETC());
@@ -43,6 +43,8 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new UsuarioETC());
             modelBuilder.ApplyConfiguration(new PermisoETC());
             modelBuilder.ApplyConfiguration(new PermisoUsuarioETC());
+            modelBuilder.ApplyConfiguration(new UsuarioComisionAprobacionETC());
+            modelBuilder.ApplyConfiguration(new ComisionAprobacionETC());
         }
     }
 }

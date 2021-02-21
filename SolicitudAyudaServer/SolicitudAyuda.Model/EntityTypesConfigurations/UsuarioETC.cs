@@ -18,6 +18,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(u => u.TempPassword).HasMaxLength(10);
             entity.HasMany(u => u.PermisosUsuario).WithOne(PermisoUsuario => PermisoUsuario.Usuario).HasForeignKey(pu => pu.UsuarioId);
 
+            entity.HasMany(u => u.UsuariosComisionesAprobacion).WithOne(uc => uc.Usuario).HasForeignKey(uc => uc.UsuarioId);
+
             entity.HasData(new Usuario 
             {
                 Id = 1,
@@ -36,6 +38,30 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Login = "jsanti",
                 Email = "juanv.santim@gmail.com",
                 NombreCompleto = "Juan Santi",
+                Disponible = true,
+                FechaCreacion = DateTime.Now,
+                DebeCambiarPassword = false,
+                Password = MD5Helper.MD5Hash("14021989"),
+            });
+
+            entity.HasData(new Usuario
+            {
+                Id = 3,
+                Login = "miembro1",
+                Email = "miembro1@gmail.com",
+                NombreCompleto = "miembro comision 1",
+                Disponible = true,
+                FechaCreacion = DateTime.Now,
+                DebeCambiarPassword = false,
+                Password = MD5Helper.MD5Hash("14021989"),
+            });
+
+            entity.HasData(new Usuario
+            {
+                Id = 4,
+                Login = "miembro2",
+                Email = "miembro2@gmail.com",
+                NombreCompleto = "miembro comision 2",
                 Disponible = true,
                 FechaCreacion = DateTime.Now,
                 DebeCambiarPassword = false,

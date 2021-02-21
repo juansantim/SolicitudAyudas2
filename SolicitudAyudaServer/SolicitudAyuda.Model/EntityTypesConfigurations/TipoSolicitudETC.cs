@@ -20,12 +20,20 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 new TipoSolicitud
                 {
                     Id = 1,
-                    Nombre = "Salud",                    
+                    Nombre = "Salud - Cancer", 
+                    ComisionAprobacionId = 1
                 },
                 new TipoSolicitud
                 {
                     Id = 2,
+                    Nombre = "Salud - Covid",
+                    ComisionAprobacionId = 1
+                },
+                new TipoSolicitud
+                {
+                    Id = 3,
                     Nombre = "Construccion",                    
+                    ComisionAprobacionId = 2
                 });
         }
     }

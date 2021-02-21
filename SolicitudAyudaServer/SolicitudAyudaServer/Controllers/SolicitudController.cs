@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SolicitudAyuda.Model;
@@ -22,12 +23,13 @@ namespace SolicitudAyudaServer.Controllers
         private IConfiguration _config;
         private DataContext _db;
         private readonly ISolicitudesService service;
-
-        public SolicitudController(IConfiguration configuration, DataContext db, ISolicitudesService service)
+        private readonly ISendEmailService mailService;
+        public SolicitudController(IConfiguration configuration, DataContext db, ISolicitudesService service, ISendEmailService mailService)
         {
             this._config = configuration;
             this._db = db;
             this.service = service;
+            this.mailService = mailService;
         }
 
         [HttpPost]
@@ -102,6 +104,8 @@ namespace SolicitudAyudaServer.Controllers
                     scope.Complete();
                 }
 
+                sendEmail(solicitud);
+
                 response.Data = new { solicitudId = solicitud.Id };
             }
             catch (Exception ex)
@@ -123,11 +127,34 @@ namespace SolicitudAyudaServer.Controllers
 
         [HttpPost]
         [Route("api/Solicitud/paginada")]
-        public dynamic getData([FromBody] dynamic filtro) 
+        public dynamic getData([FromBody] dynamic filtro)
         {
             var filtro2 = JsonConvert.DeserializeObject<FiltroSolicitudesDTO>(filtro.ToString());
             return service.GetDataConsulta(filtro2);
         }
+
+        public string sendEmail(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
+        {
+            if (!string.IsNullOrEmpty(solicitud.Email)) 
+            {
+                _db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
+                _db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
+
+                var body = this.mailService.GetEmailTemplate(MailTemplate.CreacionSolicitud);
+
+                body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
+                body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());
+                body = body.Replace("{@montoSolicitado}", solicitud.MontoSolicitado.ToString("N2"));
+                body = body.Replace("{@concepto}", $"{solicitud.TipoSolicitud.Nombre}: {solicitud.Concepto}");
+
+                mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
+            }
+            
+            return "Ok";
+        }
+
+
+
 
         public static byte[] GetBytes(Stream input)
         {

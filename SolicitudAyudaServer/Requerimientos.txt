@@ -7,3 +7,10 @@ podamos saber:
 	3-Relación de ayuda por concepto
 	4-Relación de ayuda por periodo
 	5-Relación de ayudas por seccional
+
+
+Credenciales de Gmail:
+
+
+email: notificacionesadp1
+password: AdpNotificaciones1914

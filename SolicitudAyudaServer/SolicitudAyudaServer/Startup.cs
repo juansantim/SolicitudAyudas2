@@ -41,6 +41,7 @@ namespace SolicitudAyudaServer
             });
 
             services.AddScoped<ISolicitudesService, SolicitudesService>();
+            services.AddScoped<ISendEmailService, SendGmailMail>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

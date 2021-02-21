@@ -21,5 +21,6 @@ namespace SolicitudAyuda.Model.Entities
         public int? UsuarioIdInactivacion { get; set; }
         public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
         public List<PermisoUsuario> PermisosUsuario { get; set; }
+        public List<UsuarioComisionAprobacion> UsuariosComisionesAprobacion { get; set; }
     }
 }

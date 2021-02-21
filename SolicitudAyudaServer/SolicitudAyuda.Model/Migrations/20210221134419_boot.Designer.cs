@@ -10,7 +10,7 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210219144017_boot")]
+    [Migration("20210221134419_boot")]
     partial class boot
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,8 +21,7 @@ namespace SolicitudAyuda.Model.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.HasSequence<int>("NumeroExpendiente", "dbo")
-                .StartsAt(0L);
+            modelBuilder.HasSequence<int>("NumeroExpendiente", "dbo");
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.AdjuntosSolicitud", b =>
                 {
@@ -51,6 +50,34 @@ namespace SolicitudAyuda.Model.Migrations
                     b.HasIndex("SolicitudAyudaId");
 
                     b.ToTable("AdjuntosSolicitudesAyuda");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ComisionesAprobacion");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Comision de Salud"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Comision de Infraestructura"
+                        });
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.EstadoSolicitud", b =>
@@ -82,12 +109,18 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 2,
+                            Descripcion = "La solicitud ha sido aprobada al menos por 1 miembro de la comisión",
+                            Nombre = "Proceso de Aprobación"
+                        },
+                        new
+                        {
+                            Id = 3,
                             Descripcion = "La solicitud ha sido aprobada y se encuentra en proceso de ser aplicada.",
                             Nombre = "Aprobado"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             Descripcion = "La solicitud no procede según las políticas establecidas.",
                             Nombre = "Rechazado"
                         },
@@ -2886,6 +2919,46 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 8,
+                            Descripcion = "Expediente clinico que demuestre diagnostico actualizado",
+                            FormName = "rdexpendiente",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Descripcion = "Carta aval de la seccional a la que pertenece",
+                            FormName = "rdcartaaval",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Descripcion = "ARS a que pertenece",
+                            FormName = "rdars",
+                            PossibleValues = "ARS CMD,ARS APS,ARS SIMAG,ARS GRUPO MEDICO ASOCIADO,ARS YUNEN,ARS UNIVERSAL,ARS MONUMENTAL,ARS FUTURO,ARS PRIMERA,ARS ASEMAP,ARS SEMMA,ARS RENACER,ARS PALIC-SALUD,ARS PLAN SALUD,ARS SENASA,ARS RESERVAS,ARS METASALUD,ARS SENASA - REGIMEN SUBSIDIADO",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Descripcion = "Comunicacion solicitud del interesado dirigida al CEN",
+                            FormName = "rdcomunicacion",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Descripcion = "Copia de cedula",
+                            FormName = "rdcopiacedula",
+                            PossibleValues = "",
+                            TipoSolicitudId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
                             Descripcion = "Carta aval de la seccional a la que pertenece",
                             FormName = "rdcartaaval",
                             PossibleValues = "",
@@ -3922,11 +3995,16 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("ComisionAprobacionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComisionAprobacionId");
 
                     b.ToTable("TiposSolictudes");
 
@@ -3934,11 +4012,19 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 1,
-                            Nombre = "Salud"
+                            ComisionAprobacionId = 1,
+                            Nombre = "Salud - Cancer"
                         },
                         new
                         {
                             Id = 2,
+                            ComisionAprobacionId = 1,
+                            Nombre = "Salud - Covid"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ComisionAprobacionId = 2,
                             Nombre = "Construccion"
                         });
                 });
@@ -3996,7 +4082,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 19, 10, 40, 16, 748, DateTimeKind.Local).AddTicks(8264),
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 550, DateTimeKind.Local).AddTicks(914),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -4007,10 +4093,83 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 19, 10, 40, 16, 750, DateTimeKind.Local).AddTicks(437),
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 551, DateTimeKind.Local).AddTicks(5290),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DebeCambiarPassword = false,
+                            Disponible = true,
+                            Email = "miembro1@gmail.com",
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 556, DateTimeKind.Local).AddTicks(3202),
+                            Login = "miembro1",
+                            NombreCompleto = "miembro comision 1",
+                            Password = "ai????n5&`?6"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DebeCambiarPassword = false,
+                            Disponible = true,
+                            Email = "miembro2@gmail.com",
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 556, DateTimeKind.Local).AddTicks(3781),
+                            Login = "miembro2",
+                            NombreCompleto = "miembro comision 2",
+                            Password = "ai????n5&`?6"
+                        });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.UsuarioComisionAprobacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ComisionAprobacionId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Disponible")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsuarioCreacionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComisionAprobacionId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UsuariosComisionesAprobacion");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ComisionAprobacionId = 1,
+                            Disponible = true,
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 561, DateTimeKind.Local).AddTicks(628),
+                            UsuarioCreacionId = 0,
+                            UsuarioId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ComisionAprobacionId = 1,
+                            Disponible = true,
+                            FechaCreacion = new DateTime(2021, 2, 21, 9, 44, 18, 561, DateTimeKind.Local).AddTicks(1612),
+                            UsuarioCreacionId = 0,
+                            UsuarioId = 4
                         });
                 });
 
@@ -4148,6 +4307,43 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.TipoSolicitud", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.ComisionAprobacion", "ComisionAprobacion")
+                        .WithMany("TiposSolicitudes")
+                        .HasForeignKey("ComisionAprobacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ComisionAprobacion");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.UsuarioComisionAprobacion", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.ComisionAprobacion", "ComisionAprobacion")
+                        .WithMany("UsuariosComisionAprobacion")
+                        .HasForeignKey("ComisionAprobacionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Usuario", "Usuario")
+                        .WithMany("UsuariosComisionesAprobacion")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ComisionAprobacion");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>
+                {
+                    b.Navigation("TiposSolicitudes");
+
+                    b.Navigation("UsuariosComisionAprobacion");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.EstadoSolicitud", b =>
                 {
                     b.Navigation("SolicitudesAyuda");
@@ -4194,6 +4390,8 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("PermisosUsuario");
 
                     b.Navigation("SolicitudesAyuda");
+
+                    b.Navigation("UsuariosComisionesAprobacion");
                 });
 #pragma warning restore 612, 618
         }
