@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AspNetCore.Reporting;
 using FastReport;
 using FastReport.Export.Html;
 using FastReport.Export.PdfSimple;
@@ -36,38 +37,66 @@ namespace SolicitudAyudaServer.Controllers
 
         public FileResult get()
         {
-            string reportUrl = $"{config["ReportsUrl"]}HistorialAfiliado.frx";
+            //string reportUrl = $"{config["ReportsUrl"]}HistorialAfiliado.frx";
 
-            var dataSet = GetData();
-            
-            WebReport webReport = new WebReport();
-            webReport.Report.Load(reportUrl);
-           // webReport.Report.Dictionary.Clear();
+            //var dataSet = GetData();
 
-            webReport.Report.RegisterData(dataSet, "Data", true);
+            //WebReport webReport = new WebReport();
+            //webReport.Report.Load(reportUrl);
 
-            var dataBand = (DataBand)webReport.Report.FindObject("Data1");            
-            dataBand.DataSource = webReport.Report.GetDataSource("Data");
+            //webReport.Report.RegisterData(dataSet, "Data", true);
 
-            webReport.Report.Prepare();
+            //var dataBand = (DataBand)webReport.Report.FindObject("Data1");            
+            //dataBand.DataSource = webReport.Report.GetDataSource("Data");
 
-            using (MemoryStream ms = new MemoryStream())
+            //webReport.Report.Prepare();
+
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+
+            //    PDFSimpleExport pdfExport = new PDFSimpleExport();
+            //    pdfExport.Export(webReport.Report, ms);
+            //    ms.Flush();
+
+            //    return File(ms.ToArray(), "application/pdf","reporte.pdf");
+            //}
+
+            string path = @"C:\workspace\adp\SolicitudAyudaServer\ReportsProject\Report.rdlc";
+
+            var dt = GetDataTable();
+            string mimetype = "";
+            int extension = 1;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            //parameters.Add("prm", "RDLC report (Set as parameter)");
+            LocalReport lr = new LocalReport(path);
+
+            lr.AddDataSource("DataSet", dt);
+            var result = lr.Execute(RenderType.Pdf, extension, parameters, mimetype);
+            return File(result.MainStream, "application/pdf");
+
+        }
+
+        private DataTable GetDataTable() 
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("Numero", typeof(string));
+            dt.Columns.Add("Solicitante", typeof(string));
+            dt.Columns.Add("Monto", typeof(decimal));
+
+            var solicitudes = db.Solicitudes.Include(s => s.Maestro).ToList();
+
+            foreach (var item in solicitudes)
             {
+                var row = dt.NewRow();
+                row["Numero"] = item.NumeroExpediente;
+                row["Solicitante"] = item.Maestro.NombreCompleto;
+                row["Monto"] = item.MontoSolicitado;
 
-                PDFSimpleExport pdfExport = new PDFSimpleExport();
-                pdfExport.Export(webReport.Report, ms);
-                ms.Flush();
-
-                return File(ms.ToArray(), "application/pdf","reporte.pdf");
+                dt.Rows.Add(row);
             }
 
-
-
-            //parameters.Add(new ReportParameter("Usuario", "juanv.santim"));
-            //parameters.Add(new ReportParameter("Cedula", "xxxxxxxxxx"));
-            //parameters.Add(new ReportParameter("NombreCompleto", "Juan Valentin Santi Mateo"));
-
-            //report.SetParameters(parameters);
+            return dt;
         }
 
         private DataSet GetData() 
