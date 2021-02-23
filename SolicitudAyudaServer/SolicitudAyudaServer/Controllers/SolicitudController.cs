@@ -135,19 +135,25 @@ namespace SolicitudAyudaServer.Controllers
 
         public string sendEmail(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
         {
-            if (!string.IsNullOrEmpty(solicitud.Email))
+            var notifyEmail = bool.Parse(this._config["NotifyEmail"]);
+
+            if (notifyEmail)
             {
-                _db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
-                _db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
+                if (!string.IsNullOrEmpty(solicitud.Email))
+                {
+                    _db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
+                    _db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
 
-                var body = this.mailService.GetEmailTemplate(MailTemplate.CreacionSolicitud);
+                    var body = this.mailService.GetEmailTemplate(MailTemplate.CreacionSolicitud);
 
-                body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
-                body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());
-                body = body.Replace("{@montoSolicitado}", solicitud.MontoSolicitado.ToString("N2"));
-                body = body.Replace("{@concepto}", $"{solicitud.TipoSolicitud.Nombre}: {solicitud.Concepto}");
+                    body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
+                    body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());
+                    body = body.Replace("{@montoSolicitado}", solicitud.MontoSolicitado.ToString("N2"));
+                    body = body.Replace("{@concepto}", $"{solicitud.TipoSolicitud.Nombre}: {solicitud.Concepto}");
 
-                mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
+                    mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
+                }
+
             }
 
             return "Ok";
@@ -218,7 +224,7 @@ namespace SolicitudAyudaServer.Controllers
 
                     _db.SaveChanges();
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -246,6 +252,19 @@ namespace SolicitudAyudaServer.Controllers
                 }
                 return ms.ToArray();
             }
+        }
+
+        [HttpGet]
+        [Route("api/Solicitud/Imprimir")]
+        [AllowAnonymous]
+        public FileResult Imprimir(int solicitudId, int formato)
+        {
+            var data = this.service.ImprimirPDF(solicitudId);
+
+            MemoryStream resultStream = new MemoryStream(data);
+
+            FileStreamResult resultPDF = new FileStreamResult(resultStream, "application/pdf");
+            return resultPDF;
         }
     }
 }

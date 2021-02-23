@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FastReport;
+using FastReport.Export.Html;
 using FastReport.Export.PdfSimple;
 using FastReport.Web;
 using Microsoft.AspNetCore.Authorization;
@@ -48,29 +49,20 @@ namespace SolicitudAyudaServer.Controllers
             var dataBand = (DataBand)webReport.Report.FindObject("Data1");            
             dataBand.DataSource = webReport.Report.GetDataSource("Data");
 
-            //webReport.Report.SetParameterValue()
-
-            //var source = new FastReport.Data.TableDataSource();
-            //source.Table = dataSet;
-            //source.Name = "Data";
-
-            //dataBand.DataSource = source;
-
             webReport.Report.Prepare();
-
-            //dataBand.DataSource = webReport.Report.GetDataSource("Data");
 
             using (MemoryStream ms = new MemoryStream())
             {
+
                 PDFSimpleExport pdfExport = new PDFSimpleExport();
                 pdfExport.Export(webReport.Report, ms);
                 ms.Flush();
-                
-                return File(ms.ToArray(), "application/pdf", Path.GetFileNameWithoutExtension("Master-Detail") + ".pdf");
+
+                return File(ms.ToArray(), "application/pdf","reporte.pdf");
             }
 
 
-            
+
             //parameters.Add(new ReportParameter("Usuario", "juanv.santim"));
             //parameters.Add(new ReportParameter("Cedula", "xxxxxxxxxx"));
             //parameters.Add(new ReportParameter("NombreCompleto", "Juan Valentin Santi Mateo"));

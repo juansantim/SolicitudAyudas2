@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services.Signatures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -118,7 +121,7 @@ namespace SolicitudAyuda.Model.Services
 
             if (itemsCount > 0)
             {
-                result.TotalItems =Convert.ToInt32(itemsCount);
+                result.TotalItems = Convert.ToInt32(itemsCount);
                 //result.TotalItems = Convert.ToInt32(Math.Ceiling(itemsCount / Convert.ToDecimal(filtro.ItemsPerPage)));
             }
 
@@ -135,6 +138,102 @@ namespace SolicitudAyuda.Model.Services
             }).ToList();
 
             return result;
+        }
+
+        public byte[] ImprimirPDF(int solicitudId)
+        {
+            var text = GetsolicitudTxt(solicitudId);
+
+            string systemFont = $"{config["RootUrl"]}fonts\\MODES__.TTF";
+            //Create a base font object making sure to specify IDENTITY-H
+            BaseFont bf = BaseFont.CreateFont(systemFont, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+
+            iTextSharp.text.Font f = new iTextSharp.text.Font(bf, 8, iTextSharp.text.Font.NORMAL);
+
+            MemoryStream memoryStream = new MemoryStream();
+            Document doc = new Document(new iTextSharp.text.Rectangle(216, 792), 10, 10, 0, 0); //inc * 72 (in pixels)
+            PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+            doc.Open();
+            doc.Add(new Paragraph(text, f));
+            doc.Close();
+
+            byte[] data = memoryStream.ToArray();
+
+            return data;
+        }
+
+        private string GetsolicitudTxt(int solicitudId)
+        {
+            StringBuilder bldr = new StringBuilder();
+
+            var solicitud = db.Solicitudes
+                .Include(s => s.Maestro)
+                .Include(s => s.Seccional)
+                .Include(s => s.Estado)
+                .Include(s => s.Requisitos)
+                .Include(s => s.TipoSolicitud)
+                .Single(s => s.Id == solicitudId);
+
+            bldr.Append($"ASOCIACION DOMINICANA DE PROFEDORES {Environment.NewLine}");
+            bldr.Append($"RECEPCION DE SOLICITUD DE AYUDA {Environment.NewLine}");
+            bldr.Append($"NUMERO SOLICITUD: {solicitud.NumeroExpediente} {Environment.NewLine}");
+            bldr.Append($"NOMBRE: {solicitud.Maestro.NombreCompleto.ToUpper()} {Environment.NewLine}");
+            bldr.Append($"SECCIONAL: {solicitud.Seccional.Nombre.ToUpper()} {Environment.NewLine}");
+            bldr.Append($"TIPO SOLICITUD: {solicitud.TipoSolicitud.Nombre.ToUpper()} {Environment.NewLine}");
+            bldr.Append($"MONTO SOLICITADO: {solicitud.MontoSolicitado.ToString("N2")} {Environment.NewLine}");
+            bldr.Append($"FECHA SOLICITUD: {solicitud.FechaSolicitud.ToString("dd/MM/yyyy hh:mm tt")} {Environment.NewLine}");
+            bldr.Append($"DOCUMENTACION ENTREGADA:");
+            bldr.Append($"{Environment.NewLine}");
+            foreach (var item in solicitud.Requisitos)
+            {
+                var tipo = db.RequisitosTipoSolicitudes.Single(t => t.Id == item.RequisitoTiposSolicitudId);
+                if (string.IsNullOrEmpty(tipo.PossibleValues))
+                {
+                    bldr.Append($"->{tipo.Descripcion.ToUpper()}");
+                }
+                else {
+                    bldr.Append($"->{tipo.Descripcion.ToUpper()}: {item.Value}");
+                }
+            
+                bldr.Append($"{Environment.NewLine}");
+                bldr.Append($"{Environment.NewLine}");
+            }
+            bldr.Append($"MOTIVACION: {solicitud.Concepto.ToUpper()} {Environment.NewLine}");
+
+            return bldr.ToString();
+
+        }
+
+        public static string SplitLineToMultiline(string input, int rowLength)
+        {
+            StringBuilder result = new StringBuilder();
+            StringBuilder line = new StringBuilder();
+
+            Queue<string> queue = new Queue<string>(input.Split(' '));
+
+            while (queue.Count > 0)
+            {
+                var word = queue.Dequeue();
+                if (word.Length > rowLength)
+                {
+                    string head = word.Substring(0, rowLength);
+                    string tail = word.Substring(rowLength);
+
+                    word = head;
+                    queue.Enqueue(tail);
+                }
+
+                if (line.Length + word.Length > rowLength)
+                {
+                    result.AppendLine(line.ToString());
+                    line.Clear();
+                }
+
+                line.Append(word + " ");
+            }
+
+            result.Append(line);
+            return result.ToString();
         }
     }
 }

@@ -9,5 +9,6 @@ namespace SolicitudAyuda.Model.Services.Signatures
     {
         dynamic GetDetalleSolicitud(int solicitudId);
         PaginatedResult<SolicitudConsultaDTO> GetDataConsulta(FiltroSolicitudesDTO filtro);
+        byte[] ImprimirPDF(int solicitudId);
     }
 }
