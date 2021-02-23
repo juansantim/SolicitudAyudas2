@@ -42,6 +42,7 @@ namespace SolicitudAyudaServer
 
             services.AddScoped<ISolicitudesService, SolicitudesService>();
             services.AddScoped<ISendEmailService, SendGmailMail>();
+            services.AddScoped<IReportesService, ReportesServiceMicrosoftReporting>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

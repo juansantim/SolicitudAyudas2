@@ -35,7 +35,9 @@ import { PaginationComponent } from './pages/consulta/pagination/pagination.comp
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter/selected-filter.component';
 import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.component';
-
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component'
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.c
     FiltroComponent,
     PaginationComponent,
     SelectedFilterComponent,
-    AccionesComponent
+    AccionesComponent,
+    ResumenSolicitadoPorSucursalComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,9 @@ import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.c
     BsDatepickerModule.forRoot(),
     ReactiveFormsModule,
     AlertModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    CollapseModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [
     

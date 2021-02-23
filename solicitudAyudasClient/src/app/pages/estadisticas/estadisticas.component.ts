@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EstadisticasComponent implements OnInit {
 
+  isCollapsed:boolean;
   constructor() { }
 
   ngOnInit() {

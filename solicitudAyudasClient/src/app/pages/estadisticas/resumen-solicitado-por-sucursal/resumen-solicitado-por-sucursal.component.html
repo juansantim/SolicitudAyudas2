@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col">
+        <label for="desde">Desde</label>
+        <input type="text" name="desde" class="form-control"  bsDatepicker   [maxDate]="toDay()" [(ngModel)] = "desde">
+    </div>
+    <div class="col">
+        <label for="desde">Hasta</label>
+        <input type="text" name="desde" class="form-control"  bsDatepicker  [maxDate]="toDay()" [(ngModel)] = "hasta">
+    </div>
+</div>
+<br>
+<button class="btn btn-primary" (click) = "generar()">Generar informe</button>

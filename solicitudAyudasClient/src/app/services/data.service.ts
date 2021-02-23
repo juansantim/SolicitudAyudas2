@@ -12,6 +12,23 @@ import { FormatWidth } from '@angular/common';
 })
 export class DataService {
   
+  ResumenSolicitudesPorSucursal(desde: Date, hasta: Date) {
+    let url = this.GetUrl('reportes/ResumenSolicitudesPorSeccional')
+    
+    this.http.post(url, {desde, hasta}, {responseType: 'arraybuffer'}).subscribe(file => {
+      this.downLoadFile(file, 'application/pdf')
+    })
+  }
+
+  downLoadFile(data: any, type: string) {
+    let blob = new Blob([data], { type: type });
+    let url = window.URL.createObjectURL(blob);
+    let pwa = window.open(url);
+    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+      alert('Please disable your Pop-up blocker and try again.');
+    }
+  }
+  
   GetHeadersForGetch(){
     return { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 
     'Access-Control-Allow-Origin': '*'}

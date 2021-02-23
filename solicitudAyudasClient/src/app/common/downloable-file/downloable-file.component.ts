@@ -27,8 +27,6 @@ export class DownloableFileComponent implements OnInit {
 
   download(){  
     this.dataService.Download(this.fileId).subscribe(file => {
-      console.log(file);
-      
       this.downLoadFile(file, this.contentType)
       
     })
