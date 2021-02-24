@@ -37,7 +37,9 @@ import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter
 import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component'
+import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component';
+import { ResumenAprobadoPorSeccionalComponent } from './pages/estadisticas/resumen-aprobado-por-seccional/resumen-aprobado-por-seccional.component';
+import { SeccionalComponent } from './common/seccional/seccional.component'
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resume
     PaginationComponent,
     SelectedFilterComponent,
     AccionesComponent,
-    ResumenSolicitadoPorSucursalComponent
+    ResumenSolicitadoPorSucursalComponent,
+    ResumenAprobadoPorSeccionalComponent,
+    SeccionalComponent
   ],
   imports: [
     BrowserModule,

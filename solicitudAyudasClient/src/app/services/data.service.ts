@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, JsonpClientBackend } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AppLocalStorageService } from './app-local-storage.service';
 import { environment } from '../../environments/environment';
 import { FiltroData } from '../model/FiltroData';
@@ -12,11 +12,30 @@ import { FormatWidth } from '@angular/common';
 })
 export class DataService {
   
+  ResumenSolicitudesAprobadoPorSucursal(desde: Date, hasta: Date, seccionalId:number) {
+    this.cargandoReporte.next(true);
+    let url = this.GetUrl('reportes/ResumenSolicitudesAprobadasPorSeccional')
+    
+    this.http.post(url, {desde, hasta, seccionalId}, {responseType: 'arraybuffer'}).subscribe(file => {
+      this.downLoadFile(file, 'application/pdf');
+      this.cargandoReporte.next(false);
+    }, error => {
+      this.cargandoReporte.next(false);
+    })
+  }
+  
+  cargandoReporte = new Subject<boolean>();
+
   ResumenSolicitudesPorSucursal(desde: Date, hasta: Date) {
+
+    this.cargandoReporte.next(true);
     let url = this.GetUrl('reportes/ResumenSolicitudesPorSeccional')
     
     this.http.post(url, {desde, hasta}, {responseType: 'arraybuffer'}).subscribe(file => {
-      this.downLoadFile(file, 'application/pdf')
+      this.downLoadFile(file, 'application/pdf');
+      this.cargandoReporte.next(false);
+    }, error => {
+      this.cargandoReporte.next(false);
     })
   }
 

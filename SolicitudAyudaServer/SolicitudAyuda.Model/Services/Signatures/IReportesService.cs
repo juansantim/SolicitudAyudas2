@@ -6,6 +6,7 @@ namespace SolicitudAyuda.Model.Services.Signatures
 {
     public interface IReportesService
     {
-        byte[] ResumenSolicitudesPorSeccional(DateTime desde, DateTime hasta);
+        byte[] ResumenSolicitudesPorSeccional(DateTime desde, DateTime hasta, int? seccionalId);
+        byte[] ResumenSolicitudesAprobadasPorSeccional(DateTime desde, DateTime hasta, int? seccionalId);
     }
 }

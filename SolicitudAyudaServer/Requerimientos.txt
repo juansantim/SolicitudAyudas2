@@ -11,6 +11,5 @@ podamos saber:
 
 Credenciales de Gmail:
 
-
 email: notificacionesadp1
 password: AdpNotificaciones1914

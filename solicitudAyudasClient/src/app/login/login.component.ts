@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-
     if (this.loginForm.valid) {
 
       let usuario = this.loginForm.get('usuario').value;
@@ -69,7 +68,13 @@ export class LoginComponent implements OnInit {
     }
 
 
+  }
 
+  onKey(event: KeyboardEvent){
+    if(event.key === "Enter"){
+      this.login();
+    }
+    
   }
 
 }

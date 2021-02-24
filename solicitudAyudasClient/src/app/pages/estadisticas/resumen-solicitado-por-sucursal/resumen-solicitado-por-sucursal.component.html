@@ -1,12 +1,16 @@
 <div class="row">
     <div class="col">
         <label for="desde">Desde</label>
-        <input type="text" name="desde" class="form-control"  bsDatepicker   [maxDate]="toDay()" [(ngModel)] = "desde">
+        <input type="text" name="desde" class="form-control"  bsDatepicker   [maxDate]="toDay()" [(ngModel)] = "desde"  [bsConfig]="bsConfig">
     </div>
     <div class="col">
         <label for="desde">Hasta</label>
-        <input type="text" name="desde" class="form-control"  bsDatepicker  [maxDate]="toDay()" [(ngModel)] = "hasta">
+        <input type="text" name="desde" class="form-control"  bsDatepicker  [maxDate]="toDay()" [(ngModel)] = "hasta" [bsConfig]="bsConfig">
     </div>
 </div>
 <br>
-<button class="btn btn-primary" (click) = "generar()">Generar informe</button>
+<button class="btn btn-primary" (click) = "generar()" [disabled] = "cargando">Generar informe</button>
+<app-loading [show] = "cargando"></app-loading>
+
+{{desde |json }}<br>
+{{hasta |json }}

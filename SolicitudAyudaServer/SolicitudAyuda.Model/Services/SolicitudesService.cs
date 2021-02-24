@@ -51,7 +51,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TelefonoTrabajo,
                 solicitud.Email,
                 solicitud.Direccion,
-                solicitud.EstadId,
+                solicitud.EstadoId,
                 estado = solicitud.Estado.Nombre,
                 tipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 solicitud.TipoSolicitudId,

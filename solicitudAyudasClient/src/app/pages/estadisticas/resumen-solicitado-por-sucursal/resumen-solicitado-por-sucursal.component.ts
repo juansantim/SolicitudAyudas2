@@ -4,7 +4,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
 import { DataService } from 'src/app/services/data.service';
 
-defineLocale('es-do', esDoLocale);
+//defineLocale('es-do', esDoLocale);
 
 @Component({
   selector: 'app-resumen-solicitado-por-sucursal',
@@ -15,11 +15,17 @@ export class ResumenSolicitadoPorSucursalComponent implements OnInit {
 
   desde:Date;
   hasta:Date;
+  cargando: boolean;
 
   constructor(private dataService:DataService) { }
 
   ngOnInit() {
+    this.dataService.cargandoReporte.subscribe(value => {
+      this.cargando = value;
+    })
   }
+
+  bsConfig = { dateInputFormat: 'DD/MM/YYYY' }
 
   toDay(){
     return new Date();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SolicitudAyuda.Model.Migrations
 {
-    public partial class boot : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -257,28 +257,28 @@ namespace SolicitudAyuda.Model.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumeroExpediente = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR dbo.NumeroExpendiente"),
-                    CedulaSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CedulaSolicitante = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     MaestroId = table.Column<int>(type: "int", nullable: false),
                     SeccionalId = table.Column<int>(type: "int", nullable: false),
-                    Celular = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TelefonoCasa = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TelefonoTrabajo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Celular = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    TelefonoCasa = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    TelefonoTrabajo = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     FechaSolicitud = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TipoSolicitudId = table.Column<int>(type: "int", nullable: false),
-                    Concepto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Concepto = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     MontoSolicitado = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MontoAprobado = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    EstadId = table.Column<int>(type: "int", nullable: false),
+                    EstadoId = table.Column<int>(type: "int", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SolicitudesAyuda", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SolicitudesAyuda_EstadoSolicitudes_EstadId",
-                        column: x => x.EstadId,
+                        name: "FK_SolicitudesAyuda_EstadoSolicitudes_EstadoId",
+                        column: x => x.EstadoId,
                         principalTable: "EstadoSolicitudes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -470,11 +470,11 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "DebeCambiarPassword", "Disponible", "Email", "FechaCreacion", "FechaInactivacion", "Login", "NombreCompleto", "Password", "TempPassword", "UsuarioIdInactivacion" },
                 values: new object[,]
                 {
-                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(4025), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null },
-                    { 1, false, false, "", new DateTime(2021, 2, 21, 18, 45, 15, 38, DateTimeKind.Local).AddTicks(8307), null, "Sistema", "El Sistema", "", null, null },
-                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 40, DateTimeKind.Local).AddTicks(6033), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
-                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(3525), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
-                    { 5, false, true, "miembro3@gmail.com", new DateTime(2021, 2, 21, 18, 45, 15, 45, DateTimeKind.Local).AddTicks(4192), null, "miembro3", "miembro comision 3", "ai????n5&`?6", null, null }
+                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3676), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null },
+                    { 1, false, false, "", new DateTime(2021, 2, 23, 21, 43, 44, 266, DateTimeKind.Local).AddTicks(7029), null, "Sistema", "El Sistema", "", null, null },
+                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 23, 21, 43, 44, 268, DateTimeKind.Local).AddTicks(29), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
+                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3247), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
+                    { 5, false, true, "miembro3@gmail.com", new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3727), null, "miembro3", "miembro comision 3", "ai????n5&`?6", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -961,8 +961,8 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "ComisionAprobacionId", "Disponible", "FechaCreacion", "UsuarioCreacionId", "UsuarioId" },
                 values: new object[,]
                 {
-                    { 1, 1, true, new DateTime(2021, 2, 21, 18, 45, 15, 50, DateTimeKind.Local).AddTicks(1911), 0, 3 },
-                    { 2, 1, true, new DateTime(2021, 2, 21, 18, 45, 15, 50, DateTimeKind.Local).AddTicks(2931), 0, 4 }
+                    { 1, 1, true, new DateTime(2021, 2, 23, 21, 43, 44, 276, DateTimeKind.Local).AddTicks(8748), 0, 3 },
+                    { 2, 1, true, new DateTime(2021, 2, 23, 21, 43, 44, 276, DateTimeKind.Local).AddTicks(9635), 0, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1223,9 +1223,9 @@ namespace SolicitudAyuda.Model.Migrations
                 column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SolicitudesAyuda_EstadId",
+                name: "IX_SolicitudesAyuda_EstadoId",
                 table: "SolicitudesAyuda",
-                column: "EstadId");
+                column: "EstadoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SolicitudesAyuda_MaestroId",

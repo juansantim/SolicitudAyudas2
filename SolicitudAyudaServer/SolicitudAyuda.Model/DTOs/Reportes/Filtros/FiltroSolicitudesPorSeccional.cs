@@ -8,5 +8,6 @@ namespace SolicitudAyuda.Model.DTOs.Reportes.Filtros
     {
         public DateTime desde { get; set; }
         public DateTime hasta { get; set; }
+        public int? seccionalId { get; set; }
     }
 }

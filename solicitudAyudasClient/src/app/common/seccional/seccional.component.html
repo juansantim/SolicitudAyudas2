@@ -1,0 +1,20 @@
+<ng-template #customItemTemplate let-model="item" let-index="index">
+    <label>{{model.nombre}}</label>
+</ng-template>
+
+<div class="input-group">
+    <input class="form-control"   
+    name="seccional"  
+    [disabled] = "!seccionales.length || selectedSeccional"
+    [typeahead]="seccionales" 
+    [adaptivePosition]="true"
+    [typeaheadItemTemplate]="customItemTemplate" 
+    typeaheadOptionField="nombre"
+    [(ngModel)] = "seccional"
+    (typeaheadOnSelect)="typeaheadOnSelect($event)"
+    placeholder="Empiece a escribir y seleccione uno de la lista desplegada">
+    <div class="input-group-append">
+        <div class="input-group-append">
+            <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
+        </div>
+    </div>

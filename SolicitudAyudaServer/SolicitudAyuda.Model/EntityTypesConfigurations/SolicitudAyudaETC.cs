@@ -11,6 +11,14 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
     {
         public void Configure(EntityTypeBuilder<Entities.SolicitudAyuda> entity)
         {
+            entity.Property(sa => sa.CedulaSolicitante).IsRequired().HasMaxLength(11);            
+            entity.Property(s => s.TelefonoCasa).HasMaxLength(10);
+            entity.Property(s => s.Celular).HasMaxLength(10);
+            entity.Property(s => s.TelefonoTrabajo).HasMaxLength(10);
+            entity.Property(sa => sa.Direccion).HasMaxLength(255);
+            entity.Property(s => s.Email).HasMaxLength(50);
+            entity.Property(s => s.Concepto).HasMaxLength(500);
+
             entity.HasOne(sa => sa.Maestro).WithMany(ma => ma.Solicitudes).HasForeignKey(sa => sa.MaestroId);
 
             entity.HasOne(sa => sa.TipoSolicitud).WithMany(ts => ts.Solicitudes).HasForeignKey(sa => sa.TipoSolicitudId);
@@ -20,17 +28,17 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
 
             entity.HasMany(sa => sa.AprobacionesSolicitud).WithOne(ap => ap.SolicitudAyuda).HasForeignKey(ap => ap.SolicitudAyudaId);
 
-            entity.HasOne(sa => sa.Estado).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.EstadId);
+            entity.HasOne(sa => sa.Estado).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.EstadoId);
 
             entity.HasOne(sa => sa.Usuario).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.UsuarioId);
 
-            entity.Property(sa => sa.CedulaSolicitante).IsRequired();
+            
 
             entity.HasOne(sa => sa.Seccional).WithMany(sc => sc.SolicitudesAyuda)
                 .HasForeignKey(sa => sa.SeccionalId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            entity.Property(sa => sa.Direccion).HasMaxLength(255);
+            
             
             entity .Property(o => o.NumeroExpediente)
                 .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");

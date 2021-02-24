@@ -44,7 +44,7 @@ namespace SolicitudAyudaServer.Controllers
                 var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
 
                 solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(requisitosJson);
-                solicitud.EstadId = 1;
+                solicitud.EstadoId = 1;
 
                 var usuarioId = int.Parse(User.Claims.Single(cl => cl.Type == "UsuarioId").Value);
                 solicitud.UsuarioId = usuarioId;
@@ -215,11 +215,11 @@ namespace SolicitudAyudaServer.Controllers
 
                     if (hayPendientes)
                     {
-                        solicitud.EstadId = 2;
+                        solicitud.EstadoId = 2;
                     }
                     else
                     {
-                        solicitud.EstadId = 3;
+                        solicitud.EstadoId = 3;
                     }
 
                     _db.SaveChanges();

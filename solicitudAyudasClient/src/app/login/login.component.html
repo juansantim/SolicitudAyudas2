@@ -14,7 +14,8 @@
 
         <label for="inputPassword" class="visually-hidden">Contraseña</label>
         
-        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required formControlName="password">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required formControlName="password" (keyup)="onKey($event)">
+        
         <app-validation-error-message 
         fieldName = "password" 
         errorName ="required" 

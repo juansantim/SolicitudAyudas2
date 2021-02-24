@@ -597,6 +597,8 @@ namespace ReportsProject {
             
             private global::System.Data.DataColumn columnEstado;
             
+            private global::System.Data.DataColumn columnMontoAprobado;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public ResumenPorSeccionalDataTable() {
@@ -664,6 +666,14 @@ namespace ReportsProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn MontoAprobadoColumn {
+                get {
+                    return this.columnMontoAprobado;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -699,13 +709,14 @@ namespace ReportsProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ResumenPorSeccionalRow AddResumenPorSeccionalRow(string Seccional, string TipoSolicitud, decimal MontoSolicitado, string Estado) {
+            public ResumenPorSeccionalRow AddResumenPorSeccionalRow(string Seccional, string TipoSolicitud, decimal MontoSolicitado, string Estado, decimal MontoAprobado) {
                 ResumenPorSeccionalRow rowResumenPorSeccionalRow = ((ResumenPorSeccionalRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Seccional,
                         TipoSolicitud,
                         MontoSolicitado,
-                        Estado};
+                        Estado,
+                        MontoAprobado};
                 rowResumenPorSeccionalRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowResumenPorSeccionalRow);
                 return rowResumenPorSeccionalRow;
@@ -732,6 +743,7 @@ namespace ReportsProject {
                 this.columnTipoSolicitud = base.Columns["TipoSolicitud"];
                 this.columnMontoSolicitado = base.Columns["MontoSolicitado"];
                 this.columnEstado = base.Columns["Estado"];
+                this.columnMontoAprobado = base.Columns["MontoAprobado"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -745,6 +757,8 @@ namespace ReportsProject {
                 base.Columns.Add(this.columnMontoSolicitado);
                 this.columnEstado = new global::System.Data.DataColumn("Estado", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEstado);
+                this.columnMontoAprobado = new global::System.Data.DataColumn("MontoAprobado", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMontoAprobado);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1050,6 +1064,22 @@ namespace ReportsProject {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal MontoAprobado {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableResumenPorSeccional.MontoAprobadoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MontoAprobado\' in table \'ResumenPorSeccional\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableResumenPorSeccional.MontoAprobadoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsSeccionalNull() {
                 return this.IsNull(this.tableResumenPorSeccional.SeccionalColumn);
             }
@@ -1094,6 +1124,18 @@ namespace ReportsProject {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetEstadoNull() {
                 this[this.tableResumenPorSeccional.EstadoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsMontoAprobadoNull() {
+                return this.IsNull(this.tableResumenPorSeccional.MontoAprobadoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetMontoAprobadoNull() {
+                this[this.tableResumenPorSeccional.MontoAprobadoColumn] = global::System.Convert.DBNull;
             }
         }
         
