@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
+defineLocale('es-do', esDoLocale);
+
 import { DataService } from 'src/app/services/data.service';
 
-//defineLocale('es-do', esDoLocale);
 
 @Component({
   selector: 'app-resumen-solicitado-por-sucursal',
@@ -25,10 +26,13 @@ export class ResumenSolicitadoPorSucursalComponent implements OnInit {
     })
   }
 
-  bsConfig = { dateInputFormat: 'DD/MM/YYYY' }
 
   toDay(){
     return new Date();
+  }
+
+  timeChange(event){
+    console.log(event);
   }
 
   generar(){

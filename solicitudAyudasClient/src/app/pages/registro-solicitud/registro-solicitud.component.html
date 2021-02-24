@@ -10,8 +10,10 @@
         <div class="row">
             <div class="col-md-4">
                 <label>Cedula Solicitante</label>
-                <input type="text" class="form-control" mask="000-0000000-0" formControlName="cedula" required (keyup.enter) = "SearchCedula()"
-                    minlength="11">
+                <input type="text" class="form-control" mask="000-0000000-0" formControlName="cedula" 
+                required (keyup.enter) = "SearchCedula()"
+                minlength="11"
+                (blur) ="SearchCedula()" [attr.disabled] = "maestro">
 
                 <app-validation-error-message *ngIf="GetErrors('cedula', 'required')"
                     textMessage="La cedula es requerida"></app-validation-error-message>
@@ -21,7 +23,7 @@
             </div>
             <div class="col-md-4">
                 <label>Nombre Completo</label>
-                <input type="text" class="form-control" formControlName="nombreCompleto" minlength="5" required>
+                <input type="text" class="form-control" formControlName="nombreCompleto" minlength="5" required [attr.disabled] = "maestro">
                 <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'minlength')"
                     textMessage="El nombre debe contener al menos 5 letras"></app-validation-error-message>
                 <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'required')"
@@ -29,14 +31,15 @@
             </div>
             <div class="col-md-2">
                 <label>Fecha Nacimiento</label>
-                <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaNacimiento" required 
+                <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaNacimiento" required [attr.disabled] = "maestro" 
                 [bsConfig]="bsConfig">
                 <app-validation-error-message *ngIf="GetErrors('fechaNacimiento', 'required')"
                     textMessage="La fecha de nacimiento es obligatoria"></app-validation-error-message>
+
             </div>
             <div class="col-md-2">
                 <label>Sexo</label>
-                <select class="form-control" formControlName="sexo" required>
+                <select class="form-control" formControlName="sexo" required [attr.disabled] = "maestro">
                     <option [ngValue]="null">--SELECCIONE--</option>
                     <option value="F">Femenino</option>
                     <option value="M">Masculino</option>
@@ -63,7 +66,7 @@
                     <div class="input-group-append">
 
                         <button class="btn btn-danger" *ngIf="selectedSeccional"
-                            (click)="removerSeccional()">Remover</button>
+                            (click)="removerSeccional()" [attr.disabled] = "maestro">Remover</button>
     
                     </div>
             </div>
@@ -74,9 +77,15 @@
         </div>
         <div class="col-md-6">
             <label>Cargo</label>
-            <input type="text" class="form-control" formControlName ="cargo" required minlength="5">
+            <input type="text" class="form-control" formControlName ="cargo" required minlength="5" [attr.disabled] = "maestro">
             <app-validation-error-message *ngIf="GetErrors('cargo', 'required')" textMessage="El cargo es oblogatorio"></app-validation-error-message>
             <app-validation-error-message *ngIf="GetErrors('cargo', 'minlength')" textMessage="El cargo debe contener al menos 5 letras"></app-validation-error-message>
+        </div>
+    </div>
+    <div class="row" *ngIf="maestro">
+        <div class="col">
+            <br>
+            <button type="button" class="btn btn-secondary" (click) = "limpiarMaestro()">Quitar este Maestro</button>
         </div>
     </div>
     <div class="row">

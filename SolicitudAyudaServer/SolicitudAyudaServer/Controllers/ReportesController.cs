@@ -46,7 +46,7 @@ namespace SolicitudAyudaServer.Controllers
         [Route("ResumenSolicitudesAprobadasPorSeccional")]
         public FileResult ResumenSolicitudesAprobadasPorSeccional(FiltroSolicitudesPorSeccional filtro)
         {
-            var bytes = this.service.ResumenSolicitudesPorSeccional(filtro.desde, filtro.hasta, filtro.seccionalId);
+            var bytes = this.service.ResumenSolicitudesAprobadasPorSeccional(filtro.desde, filtro.hasta, filtro.seccionalId);
 
             return File(bytes, "application/pdf", true);
         }

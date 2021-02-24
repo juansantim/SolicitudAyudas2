@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { esDoLocale } from 'ngx-bootstrap/locale';
+defineLocale('es-do', esDoLocale);
+
 @Component({
   selector: 'app-resumen-aprobado-por-seccional',
   templateUrl: './resumen-aprobado-por-seccional.component.html',

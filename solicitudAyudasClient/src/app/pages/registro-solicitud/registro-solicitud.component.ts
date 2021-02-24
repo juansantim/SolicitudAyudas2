@@ -82,6 +82,7 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
+    console.log(e.item);
     this.selectedSeccional = e.item;
     this.setSeccionalesDisabled();
   }
@@ -119,11 +120,57 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
+  maestro:any;
+  cargandoCedula:boolean;
   SearchCedula() {
     var fieldCedula = this.solicitudAyudaForm.get('cedula');
+
     if (fieldCedula.valid) {
       let cedula = this.solicitudAyudaForm.get('cedula').value
-      console.log(cedula)
+      this.cargandoCedula = true;
+
+      this.dataService.GetMaestro(cedula).subscribe(response => {
+        if(response.success){
+          if(response.data){
+            let maestro = response.data;
+            let seccional = {
+              id: maestro.seccionalId,
+              nombre: maestro.seccional
+            };
+
+            let seccionalField = this.solicitudAyudaForm.get('seccional');
+            seccionalField.setValue(seccional.nombre);
+            seccionalField.disable();
+            this.selectedSeccional = seccional;
+
+            let nombreCompletoFiled = this.solicitudAyudaForm.get('nombreCompleto');
+            nombreCompletoFiled.setValue(maestro.nombreCompleto);
+
+            let fechaNacimientoField = this.solicitudAyudaForm.get('fechaNacimiento');
+            let date = new Date(maestro.fechaNacimiento)
+            fechaNacimientoField.setValue(date);
+
+            let sexoField = this.solicitudAyudaForm.get('sexo');
+            sexoField.setValue(maestro.sexo)
+
+            let cargoField = this.solicitudAyudaForm.get('cargo');
+            cargoField.setValue(maestro.cargo);
+            
+            this.maestro = maestro;
+
+          }
+          else{
+            console.log('no hay ningun maestro registrado con esta cedula');
+          }
+
+  
+        }
+        
+        this.cargandoCedula = false;
+      }, error => {
+        this.cargandoCedula = false;
+      })
+      
     }
     else {
       console.log(fieldCedula.errors);
@@ -133,6 +180,30 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
   bsConfig = { dateInputFormat: 'DD/MM/YYYY' }
+
+  limpiarMaestro(){
+    this.maestro = null;
+
+    let seccionalField = this.solicitudAyudaForm.get('seccional');
+    seccionalField.setValue('');
+    seccionalField.enable();
+    
+    this.selectedSeccional = null;
+
+    let nombreCompletoFiled = this.solicitudAyudaForm.get('nombreCompleto');
+    nombreCompletoFiled.setValue('');
+
+    let fechaNacimientoField = this.solicitudAyudaForm.get('fechaNacimiento');    
+    fechaNacimientoField.setValue('');
+
+    let sexoField = this.solicitudAyudaForm.get('sexo');
+    sexoField.setValue('');
+
+    let cargoField = this.solicitudAyudaForm.get('cargo');
+    cargoField.setValue('');
+
+
+  }
 
   removerSeccional() {
     this.selectedSeccional = null;

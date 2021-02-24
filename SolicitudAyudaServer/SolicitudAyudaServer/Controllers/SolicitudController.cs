@@ -36,7 +36,7 @@ namespace SolicitudAyudaServer.Controllers
         [Route("api/Solicitud/post")]
         public dynamic post([FromForm] SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
         {
-            HttpResponse response = new HttpResponse();
+            HttpDataResponse response = new HttpDataResponse();
 
             try
             {
@@ -162,9 +162,9 @@ namespace SolicitudAyudaServer.Controllers
         [HttpPost]
         [Route("api/Solicitud/AprobarSolicitud")]
         [Produces("application/json")]
-        public HttpResponse AprobarSolicitud()
+        public HttpDataResponse AprobarSolicitud()
         {
-            HttpResponse response = new HttpResponse();
+            HttpDataResponse response = new HttpDataResponse();
 
             try
             {

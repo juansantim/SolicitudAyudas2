@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SolicitudAyuda.Model.DTOs
 {
-    public class HttpResponse
+    public class HttpDataResponse
     {
         public bool Success
         {
@@ -16,7 +16,7 @@ namespace SolicitudAyuda.Model.DTOs
         public dynamic Data { get; set; }
         public List<string> Errors { get; set; }
 
-        public HttpResponse()
+        public HttpDataResponse()
         {
             Errors = new List<string>();
         }

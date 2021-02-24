@@ -222,7 +222,6 @@
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Format>N2</Format>
-                                    <Color>#00ffffff</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -235,7 +234,6 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>DimGray</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -433,7 +431,6 @@
                                 <Value>Total</Value>
                                 <Style>
                                   <FontWeight>Bold</FontWeight>
-                                  <Color>#00ffffff</Color>
                                 </Style>
                               </TextRun>
                             </TextRuns>
@@ -446,7 +443,6 @@
                             <Color>LightGrey</Color>
                             <Style>Solid</Style>
                           </Border>
-                          <BackgroundColor>DimGray</BackgroundColor>
                           <PaddingLeft>2pt</PaddingLeft>
                           <PaddingRight>2pt</PaddingRight>
                           <PaddingTop>2pt</PaddingTop>
@@ -470,7 +466,6 @@
                                     <Value>Total</Value>
                                     <Style>
                                       <FontWeight>Bold</FontWeight>
-                                      <Color>#00ffffff</Color>
                                     </Style>
                                   </TextRun>
                                 </TextRuns>
@@ -483,7 +478,6 @@
                                 <Color>LightGrey</Color>
                                 <Style>Solid</Style>
                               </Border>
-                              <BackgroundColor>DimGray</BackgroundColor>
                               <PaddingLeft>2pt</PaddingLeft>
                               <PaddingRight>2pt</PaddingRight>
                               <PaddingTop>2pt</PaddingTop>

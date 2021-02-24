@@ -83,11 +83,17 @@
     </div>
 </fieldset>
 
-<div class="row">
-    {{solicitud.estadoId}}
-    <app-estado-solicitud 
-    [estadoId] = "solicitud.estadId" 
-    [nombre] = "solicitud.estado" ></app-estado-solicitud>
+<div class="row">    
+    <div class="col">
+        <fieldset>
+            <legend>Estado Solicitud</legend>
+            <app-estado-solicitud 
+        [estadoId] = "solicitud.estadId" 
+        [nombre] = "solicitud.estado" ></app-estado-solicitud>
+        </fieldset>
+        
+    </div>
+    
 </div>
 
 <app-acciones *ngIf="solicitud.tipoSolicitudId" 

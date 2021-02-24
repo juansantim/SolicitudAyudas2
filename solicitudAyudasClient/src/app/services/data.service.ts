@@ -11,6 +11,11 @@ import { FormatWidth } from '@angular/common';
   providedIn: 'root'
 })
 export class DataService {
+  GetMaestro(cedula: any):Observable<any> {
+    let url = this.GetUrl(`Maestros/porcedula?cedula=${cedula}`)
+    
+    return this.http.get(url);
+  }
   
   ResumenSolicitudesAprobadoPorSucursal(desde: Date, hasta: Date, seccionalId:number) {
     this.cargandoReporte.next(true);
