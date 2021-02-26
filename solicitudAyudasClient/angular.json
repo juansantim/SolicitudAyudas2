@@ -21,7 +21,17 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "index.js",
+                "input": "./server/",
+                "output": "./"
+              },
+              {
+                "glob": "package.json",
+                "input": "./server/",
+                "output": "./"
+              }
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
