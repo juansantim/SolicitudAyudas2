@@ -6,14 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports\RelacionAyudasAprobadas.rdlc" />
+    <None Remove="Reports\RelacionAyudasPorSecciona.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reports\RelacionAyudasAprobadas.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\RelacionAyudasPorSecciona.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.8.0" />
     <PackageReference Include="FastReport.OpenSource" Version="2021.1.17" />
+    <PackageReference Include="FastReport.OpenSource.Data.MsSql" Version="2021.1.17" />
     <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2021.1.17" />
     <PackageReference Include="FastReport.OpenSource.Web" Version="2021.1.17" />
     <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -35,7 +49,6 @@
   <ItemGroup>
     <Folder Include="fonts\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Reports\" />
   </ItemGroup>
 
 

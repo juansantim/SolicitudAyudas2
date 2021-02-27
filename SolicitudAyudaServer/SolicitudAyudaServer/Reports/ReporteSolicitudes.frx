@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="02/17/2021 12:37:48" ReportInfo.Modified="02/27/2021 01:04:33" ReportInfo.CreatorVersion="2021.1.16.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqdLbQKfMc7+CQIL40mkt7iwBNn1TDAbFcryaX41+6cNmrSYfHRLa+N+MsyjoAZKrxzUnUNG5/t38qJoSf177r0yE4RY/y34/OYPVxoofWaR4kc1QOG/HIZXuusWBAX7CIu9OUBXgOWCItJvGDfmLKpP0ChzVHAlM/Cd67mQakpgPsES7PU2972qKhGlgPCZi+">
+      <TableDataSource Name="Table" Alias="QuerySolicitudes" DataType="System.Int32" Enabled="true" SelectCommand="Select s.CedulaSolicitante, &#13;&#10;	   m.NombreCompleto as Maestro,&#13;&#10;	   Sec.Nombre as Seccional,&#13;&#10;	   ts.Nombre as tipoSolicitud,&#13;&#10;	   s.MontoSolicitado&#13;&#10;from [dbo].[SolicitudesAyuda] s&#13;&#10;	 inner join Maestros m on s.MaestroId = m.Id&#13;&#10;	 inner join Seccionales as sec on s.SeccionalId = sec.Id&#13;&#10;	 inner join TiposSolictudes ts on s.TipoSolicitudId = ts.Id&#13;&#10;Where s.[EstadoId] &lt;&gt; 5&#13;&#10;	 and (@seccionalId is null or s.SeccionalId = @seccionalId)">
+        <Column Name="CedulaSolicitante" DataType="System.String"/>
+        <Column Name="Maestro" DataType="System.String"/>
+        <Column Name="Seccional" DataType="System.String"/>
+        <Column Name="tipoSolicitud" DataType="System.String"/>
+        <Column Name="MontoSolicitado" DataType="System.Decimal"/>
+        <CommandParameter Name="seccionalId" DataType="8" DefaultValue="152"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="215.9" PaperHeight="279.4" RawPaperSize="1" FirstPageSource="15" OtherPagesSource="15" LastPageSource="15" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="740.5" Height="37.8">
+      <TextObject Name="Text1" Left="18.9" Top="9.45" Width="652.05" Height="18.9" Text="Historial de Ayudas" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Underline"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="740.5" Height="18.9" Guides="0">
+      <TextObject Name="Text3" Left="66.15" Width="94.5" Height="18.9" Text="Maestro" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Underline"/>
+      <TextObject Name="Text5" Left="170.1" Width="94.5" Height="18.9" Text="CedulaSolicitante" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Underline"/>
+      <TextObject Name="Text7" Left="274.05" Width="245.7" Height="18.9" Text="tipoSolicitud" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Underline"/>
+      <TextObject Name="Text9" Left="538.65" Width="122.85" Height="18.9" Text="MontoSolicitado" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Underline"/>
+    </PageHeaderBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="64.7" Width="740.5" Height="37.8" Condition="[QuerySolicitudes.Seccional]">
+      <TextObject Name="Text13" Left="66.15" Top="9.45" Width="198.45" Height="18.9" Text="[QuerySolicitudes.Seccional]" Font="Arial, 10pt, style=Bold, Underline"/>
+      <TextObject Name="Text15" Left="538.65" Top="9.45" Width="94.5" Height="18.9" Text="[QuerySolicitudes.MontoSolicitado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt, style=Bold, Underline" Trimming="EllipsisCharacter"/>
+      <DataBand Name="Data1" Top="106.5" Width="740.5" Height="20.35" DataSource="Table">
+        <TextObject Name="Text2" Left="67.15" Top="1.45" Width="94.5" Height="18.9" Text="[QuerySolicitudes.Maestro]" HorzAlign="Center" Font="Arial, 10pt"/>
+        <TextObject Name="Text4" Left="171.1" Top="1.45" Width="94.5" Height="18.9" Text="[QuerySolicitudes.CedulaSolicitante]" HorzAlign="Center" Font="Arial, 10pt, style=Underline"/>
+        <TextObject Name="Text6" Left="275.05" Top="1.45" Width="245.7" Height="18.9" Text="[QuerySolicitudes.tipoSolicitud]" Font="Arial, 10pt, style=Underline"/>
+        <TextObject Name="Text8" Left="558.55" Top="1.45" Width="94.5" Height="18.9" Text="[QuerySolicitudes.MontoSolicitado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="130.85" Width="740.5" Height="18.9">
+        <TextObject Name="Text14" Left="557.55" Width="94.5" Height="18.9" Text="[QuerySolicitudes.MontoSolicitado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt, style=Bold, Underline" Trimming="EllipsisCharacter"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <PageFooterBand Name="PageFooter1" Top="153.75" Width="740.5" Height="18.9">
+      <TextObject Name="Text10" Left="557.55" Width="94.5" Height="18.9" Text="[QuerySolicitudes.MontoSolicitado]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt, style=Bold, Underline" Trimming="EllipsisCharacter"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

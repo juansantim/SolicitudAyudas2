@@ -34,6 +34,7 @@ namespace SolicitudAyudaServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddControllersWithViews();
 
             services.AddDbContextPool<DataContext>(options =>
             {
@@ -86,10 +87,15 @@ namespace SolicitudAyudaServer
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseFastReport();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
