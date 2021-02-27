@@ -1,4 +1,5 @@
 ﻿using AspNetCore.Reporting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model.Services.Signatures;
 using System;
@@ -16,16 +17,16 @@ namespace SolicitudAyuda.Model.Services
         string connectionString;
         private string BaseReportUrl;
 
-        public ReportesServiceMicrosoftReporting(DataContext db, IConfiguration config)
+        public ReportesServiceMicrosoftReporting(DataContext db, IConfiguration config, IHostingEnvironment environment)
         {
             this.db = db;
             this.connectionString = config.GetConnectionString("adp");
-            this.BaseReportUrl = config["ReportsUrl"];
+            this.BaseReportUrl = $"{environment.ContentRootPath}{System.IO.Path.DirectorySeparatorChar}Reports";
         }
 
         public string GetReportPath(string reportName)
         {
-            return $"{BaseReportUrl}\\{reportName}";
+            return $"{BaseReportUrl}{System.IO.Path.DirectorySeparatorChar}{reportName}";
         }
 
         public byte[] ResumenSolicitudesAprobadasPorSeccional(DateTime desde, DateTime hasta, int? seccionalId)

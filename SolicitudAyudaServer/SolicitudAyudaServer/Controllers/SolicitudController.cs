@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,12 +25,19 @@ namespace SolicitudAyudaServer.Controllers
         private DataContext _db;
         private readonly ISolicitudesService service;
         private readonly ISendEmailService mailService;
-        public SolicitudController(IConfiguration configuration, DataContext db, ISolicitudesService service, ISendEmailService mailService)
+        private readonly IFileStorageService fileStorageService;
+
+        public SolicitudController(IConfiguration configuration, 
+            DataContext db, 
+            ISolicitudesService service, 
+            ISendEmailService mailService,
+            IFileStorageService fileStorageService)
         {
             this._config = configuration;
             this._db = db;
             this.service = service;
             this.mailService = mailService;
+            this.fileStorageService = fileStorageService;
         }
 
         [HttpPost]
@@ -71,24 +79,19 @@ namespace SolicitudAyudaServer.Controllers
 
                 solicitud.Maestro = maestro;
 
+                List<FileDataDTO> files = new List<FileDataDTO>();
+
                 if (HttpContext.Request.Form.Files.Count > 0)
                 {
-                    var filesUrl = _config["FilesUrl"];
                     foreach (var file in HttpContext.Request.Form.Files)
                     {
-                        var physicalFileName = Guid.NewGuid();
-                        var extension = System.IO.Path.GetExtension(file.FileName);
-
-                        solicitud.Adjuntos.Add(new AdjuntosSolicitud
+                        files.Add(new FileDataDTO
                         {
-                            SizeMB = (file.Length / 1024) / 1024,
-                            DisplayName = file.FileName,
-                            URL = $"{filesUrl}\\{physicalFileName}{extension}",
-                            ContentType = file.ContentType,
-                            Content = file.OpenReadStream()
+                            OriginalFileName = file.FileName,
+                            Content = file.OpenReadStream(),
+                            ContenType = file.ContentType
                         });
-
-                    }
+                    }                    
                 }
 
                 using (TransactionScope scope = new TransactionScope())
@@ -96,13 +99,10 @@ namespace SolicitudAyudaServer.Controllers
                     _db.Solicitudes.Add(solicitud);
                     _db.SaveChanges();
 
-                    foreach (var item in solicitud.Adjuntos)
-                    {
-                        System.IO.File.WriteAllBytes(item.URL, GetBytes(item.Content));
-                    }
-
                     scope.Complete();
                 }
+
+                fileStorageService.SaveFiles(solicitud, files);
 
                 sendEmail(solicitud);
 

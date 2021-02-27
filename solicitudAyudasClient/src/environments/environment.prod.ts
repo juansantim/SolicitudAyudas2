@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://solicitudayudasadp.azurewebsites.net/api'
+  baseUrl: 'https://ayudasadpserver.azurewebsites.net/api'
 };

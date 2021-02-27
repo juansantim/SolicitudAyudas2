@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SolicitudAyuda.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace SolicitudAyuda.Model.EntityTypesConfigurations
@@ -20,7 +21,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.HasMany(p => p.Municipios).WithOne(m => m.Provincia).HasForeignKey(m =>m.ProvinciaId);
 
 
-            var path = $"{ Environment.CurrentDirectory}\\provincias.json";
+            var path = $"{ Environment.CurrentDirectory}{Path.AltDirectorySeparatorChar}provincias.json";
             Console.WriteLine(path);
             var strProvincias = System.IO.File.ReadAllText(path);
             var provincias = JsonConvert.DeserializeObject<List<Provincia>>(strProvincias);

@@ -5,6 +5,7 @@ using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -15,16 +16,16 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         public void Configure(EntityTypeBuilder<Seccional> entity)
         {
             entity.Property(e => e.Nombre).HasMaxLength(100);
-            
+
             entity.HasMany(e => e.Maestros).WithOne(m => m.Seccional).IsRequired(true);
 
             //data
-            var path = $"{ Environment.CurrentDirectory}\\seccionales.json";
+            var path = $"{ Environment.CurrentDirectory}{Path.AltDirectorySeparatorChar}seccionales.json";
             Console.WriteLine(path);
             var strData = System.IO.File.ReadAllText(path);
             var seccionalesDto = JsonConvert.DeserializeObject<List<SeccionalesSeedDto>>(strData);
 
-            List<Seccional> seccionales = seccionalesDto.Select(a => new Seccional 
+            List<Seccional> seccionales = seccionalesDto.Select(a => new Seccional
             {
                 Id = a.Id,
                 Nombre = a.Municipio,

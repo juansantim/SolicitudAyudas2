@@ -21,14 +21,16 @@ export class DownloableFileComponent implements OnInit {
   @Input()
   contentType:string
 
+  downloading:boolean;
 
   url:string;
   constructor(private dataService:DataService) { }
 
   download(){  
+    this.downloading = true;
     this.dataService.Download(this.fileId).subscribe(file => {
       this.downLoadFile(file, this.contentType)
-      
+      this.downloading = false;
     })
   }
 

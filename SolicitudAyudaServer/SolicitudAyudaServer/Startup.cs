@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,10 @@ namespace SolicitudAyudaServer
             services.AddScoped<ISolicitudesService, SolicitudesService>();
             services.AddScoped<ISendEmailService, SendGmailMail>();
             services.AddScoped<IReportesService, ReportesServiceMicrosoftReporting>();
+
+            services.AddSingleton(x => new BlobServiceClient(Configuration["StorageConnectionString"]));
+
+            services.AddScoped<IFileStorageService, AzureFileStorageService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
