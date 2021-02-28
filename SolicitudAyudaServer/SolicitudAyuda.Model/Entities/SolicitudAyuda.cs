@@ -24,6 +24,7 @@ namespace SolicitudAyuda.Model.Entities
         public string Email { get; set; }        
 
         public DateTime FechaSolicitud { get; set; }
+        public DateTime? FechaAprobacion { get; set; }
         public int TipoSolicitudId { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
         public List<RequisitoSolicitud> Requisitos { get; set; }

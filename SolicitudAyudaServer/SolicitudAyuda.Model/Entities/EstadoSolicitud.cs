@@ -12,6 +12,8 @@ namespace SolicitudAyuda.Model.Entities
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public List<SolicitudAyuda> SolicitudesAyuda  { get; set; }
-        
+        public List<AprobacionSolicitud> AprobacionesSolicitudes { get; set; }
+
+
     }
 }

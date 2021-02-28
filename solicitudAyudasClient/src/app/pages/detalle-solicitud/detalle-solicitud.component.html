@@ -96,6 +96,25 @@
     
 </div>
 
+<fieldset>
+    <legend>Comisión de aprobación:</legend>
+
+    <div class="row" *ngFor="let m of solicitud.datosAprobacion">
+        <div class="col">
+            {{m.usuario}}
+        </div>
+        <div class="col">
+            {{m.estado}}
+        </div>
+        <div class="col">
+            {{m.fecha |date: 'dd/MM/yyyy hh:mm'}}
+        </div>
+        <div class="col">
+            {{m.comentario}}
+        </div>
+    </div>
+</fieldset>
+
 <app-acciones *ngIf="solicitud.tipoSolicitudId" 
 [tipoSolicitudAyuda] = "solicitud.tipoSolicitudId"
 [solicitudId]= "solicitud.id"

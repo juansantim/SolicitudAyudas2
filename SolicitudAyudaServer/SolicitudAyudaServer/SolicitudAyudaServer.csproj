@@ -5,6 +5,10 @@
     <UserSecretsId>0c66b0db-5cae-4b7d-8ac2-793d9ee23a0a</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Reports\RelacionAyudasAprobadas.rdlc" />
     <None Remove="Reports\RelacionAyudasPorSecciona.rdlc" />

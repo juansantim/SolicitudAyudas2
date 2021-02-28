@@ -13,7 +13,9 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         {
             entity.ToTable("AprobacionesSolicitudes");
 
-            entity.HasOne(ap => ap.Usuario).WithMany(u => u.AprobacionesSolicitudes).OnDelete(DeleteBehavior.NoAction);            
+            entity.HasOne(ap => ap.Usuario).WithMany(u => u.AprobacionesSolicitudes).OnDelete(DeleteBehavior.NoAction);
+            
+            entity.HasOne(ap => ap.Estado).WithMany(e => e.AprobacionesSolicitudes);
         }
     }
 }

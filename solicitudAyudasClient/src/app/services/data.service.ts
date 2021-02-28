@@ -58,11 +58,13 @@ export class DataService {
     'Access-Control-Allow-Origin': '*'}
   }
 
-  AprobarSolicitud(solicitudId: number) {
+  EjecutarAccionSolicitud(solicitudId: number, estadoId:number, comentario:string) {
     let headers = this.GetHeadersForGetch();
 
     let form = new FormData();
     form.append('solicitudId', solicitudId.toString());
+    form.append('estadoId', estadoId.toString());
+    form.append('comentario', comentario);
 
     let url = this.GetUrl(`Solicitud/AprobarSolicitud`);
     

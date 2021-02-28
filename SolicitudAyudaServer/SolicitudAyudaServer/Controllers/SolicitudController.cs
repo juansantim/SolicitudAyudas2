@@ -27,9 +27,9 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISendEmailService mailService;
         private readonly IFileStorageService fileStorageService;
 
-        public SolicitudController(IConfiguration configuration, 
-            DataContext db, 
-            ISolicitudesService service, 
+        public SolicitudController(IConfiguration configuration,
+            DataContext db,
+            ISolicitudesService service,
             ISendEmailService mailService,
             IFileStorageService fileStorageService)
         {
@@ -91,7 +91,7 @@ namespace SolicitudAyudaServer.Controllers
                             Content = file.OpenReadStream(),
                             ContenType = file.ContentType
                         });
-                    }                    
+                    }
                 }
 
                 using (TransactionScope scope = new TransactionScope())
@@ -169,6 +169,8 @@ namespace SolicitudAyudaServer.Controllers
             try
             {
                 var solicitudId = int.Parse(Request.Form["solicitudId"]);
+                var comentario = Request.Form["comentario"];
+                var estadoId = int.Parse(Request.Form["estadoId"]);
 
                 if (solicitudId == 0)
                 {
@@ -188,7 +190,7 @@ namespace SolicitudAyudaServer.Controllers
 
                 if (usuariosYaAprobaron.Any(ua => ua == usuarioId))
                 {
-                    throw new InvalidOperationException("Ya usted aprobó esta solicitud");
+                    throw new InvalidOperationException("Ya usted procesó esta solicitud");
                 }
                 else if (!usuariosComision.Any(uc => uc == usuarioId))
                 {
@@ -198,8 +200,10 @@ namespace SolicitudAyudaServer.Controllers
                 {
                     solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
                     {
-                        FechaAprobacion = DateTime.Now,
+                        Fecha = DateTime.Now,
                         UsuarioId = usuarioId,
+                        EstadoId = estadoId,
+                        Comentario = comentario
                     });
 
                     usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);

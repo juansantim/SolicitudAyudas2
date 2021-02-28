@@ -33,40 +33,58 @@ export class AccionesComponent implements OnInit {
 
   AprobarSoliciud() {
 
+    let confirmFn = (comentario, estadoId) => {
+      return this.dataService.EjecutarAccionSolicitud(this.solicitudId, estadoId, comentario)
+        .then(response => {
+          return response.json();
+        })
+        .then((result: any) => {
+          if (result.success) {
+            Swal.fire({
+              title: `Aprobación solicitud`,
+              text: 'Soliciud de ayuda aprobada correctamente'
+            }).then(() => {
+              this.router.navigate(['/detalle', this.solicitudId]);
+            })
+          }
+          else {
+            var erros = this.util.GetUnorderedList(result.errors)
+            Swal.showValidationMessage(
+              `Error al procesar solicitud: ${erros}`
+            )
+          }
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.message            
+          })
+        })
+    }
+
     Swal.fire({
       title: 'Confirmación',
-      text: 'Esta Seguro que desea aprobar esta solicitud de Ayuda?',
+      text: 'Esta Seguro que desea aprobar esta solicitud de Ayuda? Si desea puede agregar un comentario, de lo contrario, puede dejar en blanco',
       icon: 'question',
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: 'No hacer nada',
       showConfirmButton: true,
-      confirmButtonText: 'Aprobar Solicitud',
+      confirmButtonText: 'Aprobar',
+      input: 'text',
+      returnInputValueOnDeny:true,
+      showDenyButton: true,
+      denyButtonText: 'Rechazar',      
       showLoaderOnConfirm: true,
+      showLoaderOnDeny: true,
       allowOutsideClick: false,
-      preConfirm: () => {
-        return this.dataService.AprobarSolicitud(this.solicitudId)
-          .then(response => {
-            return response.json();
-          })
-          .then((result: any) => {
-            if (result.success) {
-              Swal.fire({
-                title: `Aprobación solicitud`,
-                text: 'Soliciud de ayuda aprobada correctamente'
-              }).then(() => {
-                this.router.navigate(['/detalle', this.solicitudId]);
-              })
-            }
-            else {
-              var erros = this.util.GetUnorderedList(result.errors)
-              Swal.showValidationMessage(
-                `Error al procesar solicitud: ${erros}`
-              )
-            }
-          })
-          .catch(error => {
-
-          })
+      allowEnterKey: false,
+      allowEscapeKey: false,
+      preConfirm: (comentario) => {
+        return confirmFn(comentario, 3);
+      },
+      preDeny: (comentario) => {
+        return confirmFn(comentario, 4);
       }
     })
 

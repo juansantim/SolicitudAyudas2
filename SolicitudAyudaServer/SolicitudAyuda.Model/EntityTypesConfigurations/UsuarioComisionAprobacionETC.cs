@@ -29,7 +29,16 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 ComisionAprobacionId = 1,
                 Disponible = true,
                 FechaCreacion = DateTime.Now,
-            });          
+            });
+
+            entity.HasData(new UsuarioComisionAprobacion
+            {
+                Id = 3,
+                UsuarioId = 2,
+                ComisionAprobacionId = 1,
+                Disponible = true,
+                FechaCreacion = DateTime.Now,
+            });
         }
     }
 }

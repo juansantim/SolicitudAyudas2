@@ -32,6 +32,9 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sl => sl.Seccional)
                 .Include(sl => sl.TipoSolicitud)
                 .Include(sl => sl.Estado)
+                .Include(sl=> sl.AprobacionesSolicitud)                
+                .Include(sl => sl.TipoSolicitud)
+                .ThenInclude(ts => ts.ComisionAprobacion)
                 .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
 
             return new
@@ -56,9 +59,53 @@ namespace SolicitudAyuda.Model.Services
                 tipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
-                Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad))
+                Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad)),
+                DatosAprobacion = GetDatosAprobacion(solicitud)
 
             };
+        }
+
+        private dynamic GetDatosAprobacion(Entities.SolicitudAyuda solicitud)
+        {
+            List<StatusUsuarioAprobacionSolicitudDTO> statusAprobacion = new List<StatusUsuarioAprobacionSolicitudDTO>();
+
+            if (solicitud.EstadoId != 4 && solicitud.EstadoId != 5) 
+            {
+                var comision = solicitud.TipoSolicitud.ComisionAprobacion;
+
+                db.Entry(comision).Collection(c => c.UsuariosComisionAprobacion).Load();
+
+                foreach (var miembro in comision.UsuariosComisionAprobacion)
+                {
+                    var usuarioMiembro = db.Usuarios.Single(u => u.Id == miembro.UsuarioId);
+                    var aprobacionUsuario = solicitud.AprobacionesSolicitud.SingleOrDefault(ap => ap.UsuarioId == miembro.UsuarioId);
+
+                    if (aprobacionUsuario != null)
+                    {                        
+                        db.Entry(aprobacionUsuario).Reference(r => r.Estado).Load();
+
+                        statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
+                        {
+                            Usuario = usuarioMiembro.NombreCompleto,
+                            Fecha = aprobacionUsuario.Fecha,
+                            Estado = aprobacionUsuario.Estado.Nombre,
+                            Comentario = aprobacionUsuario.Comentario
+                        });
+                    }
+                    else 
+                    {
+                        statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
+                        {
+                            Usuario = usuarioMiembro.NombreCompleto,
+                            Fecha = null,
+                            Estado = null,
+                            Comentario = "No ha ejecutado ninguna acción"
+                        });
+                    }
+                }
+            }
+
+            return statusAprobacion;
         }
 
         private dynamic GetRequisitosParaDetalle(RequisitoSolicitud requisito)
@@ -134,7 +181,10 @@ namespace SolicitudAyuda.Model.Services
                 Seccional = sc.Seccional.Nombre,
                 Estado = sc.Estado.Nombre,
                 MontoSolicitado = sc.MontoSolicitado,
-                MontoAprobado = sc.MontoAprobado ?? 0
+                MontoAprobado = sc.MontoAprobado ?? 0,
+                FechaSolicitud = sc.FechaSolicitud,
+                FechaAprobacion = sc.FechaAprobacion
+                
             }).ToList();
 
             return result;

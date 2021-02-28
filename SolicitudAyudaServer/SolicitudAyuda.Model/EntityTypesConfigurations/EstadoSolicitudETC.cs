@@ -14,7 +14,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(es => es.Nombre).HasMaxLength(100);
             entity.Property(es => es.Descripcion).HasMaxLength(255);
 
-            
+            entity.HasMany(e => e.AprobacionesSolicitudes).WithOne(ap => ap.Estado).HasForeignKey(ap => ap.EstadoId).OnDelete(DeleteBehavior.NoAction);
+
             entity.HasData(new EstadoSolicitud { Id = 1, Nombre = "Solicitado", Descripcion = "La solicitud se encuentra en cola para ser atendida." });
             entity.HasData(new EstadoSolicitud { Id = 2, Nombre = "Proceso de Aprobación", Descripcion = "La solicitud ha sido aprobada al menos por 1 miembro de la comisión" });
             entity.HasData(new EstadoSolicitud { Id = 3, Nombre = "Aprobado", Descripcion = "La solicitud ha sido aprobada y se encuentra en proceso de ser aplicada." });

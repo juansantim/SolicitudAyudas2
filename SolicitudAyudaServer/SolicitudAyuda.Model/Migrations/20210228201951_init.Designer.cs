@@ -10,7 +10,7 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210224014345_init")]
+    [Migration("20210228201951_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,13 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime?>("FechaAprobacion")
+                    b.Property<string>("Comentario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EstadoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SolicitudAyudaId")
@@ -69,6 +75,8 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
 
                     b.HasIndex("SolicitudAyudaId");
 
@@ -3970,6 +3978,9 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<int>("EstadoId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("FechaAprobacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("FechaSolicitud")
                         .HasColumnType("datetime2");
 
@@ -4113,7 +4124,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 266, DateTimeKind.Local).AddTicks(7029),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 333, DateTimeKind.Local).AddTicks(2746),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -4124,7 +4135,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 268, DateTimeKind.Local).AddTicks(29),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 334, DateTimeKind.Local).AddTicks(6754),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"
@@ -4135,7 +4146,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro1@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3247),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(2791),
                             Login = "miembro1",
                             NombreCompleto = "miembro comision 1",
                             Password = "ai????n5&`?6"
@@ -4146,7 +4157,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro2@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3676),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3218),
                             Login = "miembro2",
                             NombreCompleto = "miembro comision 2",
                             Password = "ai????n5&`?6"
@@ -4157,7 +4168,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro3@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 272, DateTimeKind.Local).AddTicks(3727),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3274),
                             Login = "miembro3",
                             NombreCompleto = "miembro comision 3",
                             Password = "ai????n5&`?6"
@@ -4200,7 +4211,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 276, DateTimeKind.Local).AddTicks(8748),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(731),
                             UsuarioCreacionId = 0,
                             UsuarioId = 3
                         },
@@ -4209,9 +4220,18 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 2, 23, 21, 43, 44, 276, DateTimeKind.Local).AddTicks(9635),
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1848),
                             UsuarioCreacionId = 0,
                             UsuarioId = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ComisionAprobacionId = 1,
+                            Disponible = true,
+                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1878),
+                            UsuarioCreacionId = 0,
+                            UsuarioId = 2
                         });
                 });
 
@@ -4228,6 +4248,12 @@ namespace SolicitudAyuda.Model.Migrations
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.AprobacionSolicitud", b =>
                 {
+                    b.HasOne("SolicitudAyuda.Model.Entities.EstadoSolicitud", "Estado")
+                        .WithMany("AprobacionesSolicitudes")
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
                         .WithMany("AprobacionesSolicitud")
                         .HasForeignKey("SolicitudAyudaId")
@@ -4239,6 +4265,8 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Estado");
 
                     b.Navigation("SolicitudAyuda");
 
@@ -4407,6 +4435,8 @@ namespace SolicitudAyuda.Model.Migrations
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.EstadoSolicitud", b =>
                 {
+                    b.Navigation("AprobacionesSolicitudes");
+
                     b.Navigation("SolicitudesAyuda");
                 });
 
