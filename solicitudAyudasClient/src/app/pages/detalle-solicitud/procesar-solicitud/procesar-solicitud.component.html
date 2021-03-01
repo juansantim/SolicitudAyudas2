@@ -1,0 +1,42 @@
+<div class="modal-header">
+    procesamiento de solicitud
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col">
+            <label style="font-weight: bold;">
+                Que accion desea procesar sobre la solicitud?
+            </label>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label> 
+                <span class="badge badge-success">APROBAR</span> 
+                <input type="radio" name="accion" value="3" class="form-control" [(ngModel)]="accion">
+            </label>
+
+        </div>
+        <div class="col">
+            <label>
+                <span class="badge badge-danger">RECHAZAR</span> 
+                <input type="radio" name="accion" value="4" class="form-control" [(ngModel)]="accion">
+            </label>
+        </div>
+    </div>
+    <div class="row" *ngIf="accion">
+        <div class="col">
+            <label style="font-weight: bold;">Nota</label>
+            <textarea class="form-control" [(ngModel)]="comentario">
+            </textarea>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" *ngIf="accion == 3">Aprobar</button>
+    <button class="btn btn-danger" *ngIf="accion == 4">Rechazar</button>
+    <button class="btn btn-secondary" (click) = "cerrar()" >Cerrar</button>
+</div>

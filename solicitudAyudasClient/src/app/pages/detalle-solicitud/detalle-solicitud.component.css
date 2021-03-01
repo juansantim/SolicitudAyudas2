@@ -4,3 +4,11 @@
 .dato{
     color: blue;
 }
+.borde{
+    border-style: solid;
+    border-width: 0.2px;
+}
+.unerlined{
+    border-bottom: solid;
+    border-bottom-width: 0.2px;
+}

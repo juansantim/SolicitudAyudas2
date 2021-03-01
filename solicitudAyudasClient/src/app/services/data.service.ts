@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { FiltroData } from '../model/FiltroData';
 import { AppCookieService } from './app-cookie.service';
 import { FormatWidth } from '@angular/common';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Injectable({
   providedIn: 'root'
@@ -81,8 +82,6 @@ export class DataService {
     return this.http.get(url);
   }
 
-
-
   ConsultaSolicitudes(filtro: FiltroData):Observable<any> {
     let url = this.GetUrl('Solicitud/paginada');
     return this.http.post(url, filtro);
@@ -149,6 +148,7 @@ export class DataService {
     });
   }
 
+  bsModalRef:BsModalRef;
 
   constructor(private http: HttpClient, 
     private localStorageService: AppLocalStorageService,

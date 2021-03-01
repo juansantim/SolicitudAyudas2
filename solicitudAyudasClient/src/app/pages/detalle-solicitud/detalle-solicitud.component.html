@@ -99,17 +99,23 @@
 <fieldset>
     <legend>Comisión de aprobación:</legend>
 
+    <div class="row" style="font-weight: bold;">
+        <div class="col borde">Miembro</div>
+        <div class="col borde">Estado</div>
+        <div class="col borde">Fecha</div>
+        <div class="col borde">Comentario</div>
+    </div>
     <div class="row" *ngFor="let m of solicitud.datosAprobacion">
-        <div class="col">
+        <div class="col unerlined">
             {{m.usuario}}
         </div>
-        <div class="col">
+        <div class="col unerlined">
             {{m.estado}}
         </div>
-        <div class="col">
-            {{m.fecha |date: 'dd/MM/yyyy hh:mm'}}
+        <div class="col unerlined">
+             {{m.fecha |date: 'dd/MM/yyyy hh:mm'}}
         </div>
-        <div class="col">
+        <div class="col unerlined">
             {{m.comentario}}
         </div>
     </div>

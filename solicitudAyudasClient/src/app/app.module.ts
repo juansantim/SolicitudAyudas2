@@ -39,7 +39,9 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component';
 import { ResumenAprobadoPorSeccionalComponent } from './pages/estadisticas/resumen-aprobado-por-seccional/resumen-aprobado-por-seccional.component';
-import { SeccionalComponent } from './common/seccional/seccional.component'
+import { SeccionalComponent } from './common/seccional/seccional.component';
+import { ProcesarSolicitudComponent } from './pages/detalle-solicitud/procesar-solicitud/procesar-solicitud.component';
+import { ModalModule } from 'ngx-bootstrap/modal'
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { SeccionalComponent } from './common/seccional/seccional.component'
     AccionesComponent,
     ResumenSolicitadoPorSucursalComponent,
     ResumenAprobadoPorSeccionalComponent,
-    SeccionalComponent
+    SeccionalComponent,
+    ProcesarSolicitudComponent
   ],
   imports: [
     BrowserModule,
@@ -77,8 +80,10 @@ import { SeccionalComponent } from './common/seccional/seccional.component'
     AlertModule.forRoot(),
     PaginationModule.forRoot(),
     CollapseModule.forRoot(),
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    ModalModule.forRoot()
   ],
+  entryComponents:[ProcesarSolicitudComponent],
   providers: [
     
     AuthGuardDefault,
