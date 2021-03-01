@@ -160,27 +160,26 @@ namespace SolicitudAyudaServer.Controllers
         }
 
         [HttpPost]
-        [Route("api/Solicitud/AprobarSolicitud")]
+        [Route("api/Solicitud/ProcesarSolicitud")]
         [Produces("application/json")]
-        public HttpDataResponse AprobarSolicitud()
+        public HttpDataResponse ProcesarSolicitud([FromBody] ProcesarSolicitudDTO datosProcesamiento)
         {
             HttpDataResponse response = new HttpDataResponse();
+            //ProcesarSolicitudDTO datosProcesamiento = JsonConvert.DeserializeObject<ProcesarSolicitudDTO>((JsonConvert.SerializeObject(datos)));
 
             try
             {
-                var solicitudId = int.Parse(Request.Form["solicitudId"]);
-                var comentario = Request.Form["comentario"];
-                var estadoId = int.Parse(Request.Form["estadoId"]);
-
-                if (solicitudId == 0)
+                if (datosProcesamiento == null || datosProcesamiento.solicitudId == 0)
                 {
-                    throw new InvalidOperationException("Numero de soliciud inválido");
+                    response.Errors.Add("Número de solicitud inválido");
+
+                    return response;
                 }
 
                 var solicitud = _db.Solicitudes
                     .Include(s => s.AprobacionesSolicitud)
                     .Include(s => s.TipoSolicitud)
-                    .ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == solicitudId);
+                    .ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == datosProcesamiento.solicitudId);
 
                 IEnumerable<int> usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
 
@@ -190,11 +189,11 @@ namespace SolicitudAyudaServer.Controllers
 
                 if (usuariosYaAprobaron.Any(ua => ua == usuarioId))
                 {
-                    throw new InvalidOperationException("Ya usted procesó esta solicitud");
+                    response.Errors.Add("Ya usted procesó esta solicitud");
                 }
                 else if (!usuariosComision.Any(uc => uc == usuarioId))
                 {
-                    throw new InvalidOperationException("Usted no puede aprobar este tipo ayuda");
+                    response.Errors.Add("Usted no puede aprobar este tipo ayuda");
                 }
                 else
                 {
@@ -202,8 +201,8 @@ namespace SolicitudAyudaServer.Controllers
                     {
                         Fecha = DateTime.Now,
                         UsuarioId = usuarioId,
-                        EstadoId = estadoId,
-                        Comentario = comentario
+                        EstadoId = datosProcesamiento.estadoId,
+                        Comentario = datosProcesamiento.comentario
                     });
 
                     usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);

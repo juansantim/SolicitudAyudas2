@@ -44,7 +44,9 @@ export class AccionesComponent implements OnInit {
       backdrop:true,
       ignoreBackdropClick:true,   
       class: 'modal-dialog',   
-      initialState:{}      
+      initialState:{
+        solicitudId: this.solicitudId
+      }      
     })
 
     // let confirmFn = (comentario, estadoId) => {

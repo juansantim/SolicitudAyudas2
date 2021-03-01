@@ -12,6 +12,14 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   providedIn: 'root'
 })
 export class DataService {
+  ProcesarSolicitud(solicitudId:number, estadoId: number, comentario: string):Observable<any> {
+    var url = this.GetUrl('solicitud/ProcesarSolicitud');
+    
+    let datosProcesamiento = {
+      solicitudId, estadoId, comentario
+    };
+    return this.http.post(url, datosProcesamiento);
+  }
   GetMaestro(cedula: any):Observable<any> {
     let url = this.GetUrl(`Maestros/porcedula?cedula=${cedula}`)
     
@@ -59,23 +67,23 @@ export class DataService {
     'Access-Control-Allow-Origin': '*'}
   }
 
-  EjecutarAccionSolicitud(solicitudId: number, estadoId:number, comentario:string) {
-    let headers = this.GetHeadersForGetch();
+  // EjecutarAccionSolicitud(solicitudId: number, estadoId:number, comentario:string) {
+  //   let headers = this.GetHeadersForGetch();
 
-    let form = new FormData();
-    form.append('solicitudId', solicitudId.toString());
-    form.append('estadoId', estadoId.toString());
-    form.append('comentario', comentario);
+  //   let form = new FormData();
+  //   form.append('solicitudId', solicitudId.toString());
+  //   form.append('estadoId', estadoId.toString());
+  //   form.append('comentario', comentario);
 
-    let url = this.GetUrl(`Solicitud/AprobarSolicitud`);
+  //   let url = this.GetUrl(`Solicitud/AprobarSolicitud`);
     
-    return fetch(url, {
-      method:'POST',
-      headers: headers,
-      body: form,
-    });
+  //   return fetch(url, {
+  //     method:'POST',
+  //     headers: headers,
+  //     body: form,
+  //   });
 
-  }
+  // }
 
   PuedeGestionarTipoSolicitud(tipoSolicitudId):Observable<any> {
     let url = this.GetUrl(`Account/GetPuedeGestionarTipoSolicitud?tipoSolicitudId=${tipoSolicitudId}`);

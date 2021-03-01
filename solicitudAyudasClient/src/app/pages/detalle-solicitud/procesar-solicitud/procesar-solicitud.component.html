@@ -1,5 +1,5 @@
 <div class="modal-header">
-    procesamiento de solicitud
+    procesamiento de solicitud {{solicitudId}}
 </div>
 <div class="modal-body">
 
@@ -36,7 +36,7 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" *ngIf="accion == 3">Aprobar</button>
-    <button class="btn btn-danger" *ngIf="accion == 4">Rechazar</button>
-    <button class="btn btn-secondary" (click) = "cerrar()" >Cerrar</button>
+    <button class="btn btn-success" *ngIf="accion == 3" (click) = "procesarSolicitud(accion)" [disabled] ="procesando">Aprobar</button>
+    <button class="btn btn-danger" *ngIf="accion == 4" (click) = "procesarSolicitud(accion)" [disabled] ="procesando">Rechazar</button>
+    <button class="btn btn-secondary" (click) = "cerrar()" [disabled] ="procesando" >Cerrar</button>
 </div>
