@@ -12,6 +12,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   providedIn: 'root'
 })
 export class DataService {
+  ReloadSolicitud = new Subject<number>();
+  
   ProcesarSolicitud(solicitudId:number, estadoId: number, comentario: string):Observable<any> {
     var url = this.GetUrl('solicitud/ProcesarSolicitud');
     

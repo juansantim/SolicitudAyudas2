@@ -32,21 +32,53 @@ export class ProcesarSolicitudComponent implements OnInit {
   }
 
   procesarSolicitud(estadoId){
-    this.procesando = true;
-    estadoId = parseInt(estadoId);
-    this.dataService.ProcesarSolicitud(this.solicitudId, estadoId, this.comentario).subscribe(response => {
-      if(response.success){
+    let act = "";
+    let icon = "info";
+
+    if(estadoId == 3){
+      act = "aprobar";
+      
+    }
+    else if(estadoId == 4){
+      act = "rechazar";
+    }
+
+
+    Swal.fire({
+      title: 'Aviso',
+      text: `Seguro que desea ${act } esta solicitud?`,
+      icon: 'info',
+      showConfirmButton: true,
+      confirmButtonText: act,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar"
+    }).then(alertResult => {
+      if(alertResult.isConfirmed){
+        Swal.close();
+
+        this.procesando = true;
+        estadoId = parseInt(estadoId);
+        this.dataService.ProcesarSolicitud(this.solicitudId, estadoId, this.comentario).subscribe(response => {
+          if(response.success){
+            Swal.fire('Aviso', `Solicitud ${act} correctamente.`, 'success')    
+            this.dataService.ReloadSolicitud.next(this.solicitudId);
+            this.dataService.bsModalRef.hide();
+            
+          }
+          else{
+            var ul = this.util.GetUnorderedList(response.errors);
+            Swal.fire('Error', ul,'error');
+          }
+          this.procesando = false;
+        }, error => {
+          Swal.fire('Error', 'Hubo un error al procesar solicitud', 'error');
+          this.procesando = false;
+        })
 
       }
-      else{
-        var ul = this.util.GetUnorderedList(response.errors);
-        Swal.fire('Error', ul,'error');
-      }
-      this.procesando = false;
-    }, error => {
-      Swal.fire('Error', 'Hubo un error al procesar solicitud', 'error');
-      this.procesando = false;
-    })
+    });
+
+
   }
 
 }

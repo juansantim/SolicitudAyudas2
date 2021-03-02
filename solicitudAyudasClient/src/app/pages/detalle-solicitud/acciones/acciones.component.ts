@@ -20,6 +20,9 @@ export class AccionesComponent implements OnInit {
   @Input()
   solicitudId: number;
 
+  @Input()
+  procesado:boolean;
+
   loading: boolean;
 
   constructor(private dataService: DataService, 

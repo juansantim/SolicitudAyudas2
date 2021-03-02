@@ -7,8 +7,8 @@ namespace SolicitudAyuda.Model.Services.Signatures
 {
     public interface ISolicitudesService
     {
-        dynamic GetDetalleSolicitud(int solicitudId);
+        dynamic GetDetalleSolicitud(int solicitudId, int usuarioId);
         PaginatedResult<SolicitudConsultaDTO> GetDataConsulta(FiltroSolicitudesDTO filtro);
-        byte[] ImprimirPDF(int solicitudId);
+        byte[] ImprimirPDF(int solicitudId, int formato);
     }
 }

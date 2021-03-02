@@ -113,7 +113,7 @@
             {{m.estado}}
         </div>
         <div class="col unerlined">
-             {{m.fecha |date: 'dd/MM/yyyy hh:mm'}}
+             {{m.fecha |date: 'dd/MM/yyyy hh:mm a'}}
         </div>
         <div class="col unerlined">
             {{m.comentario}}
@@ -124,6 +124,7 @@
 <app-acciones *ngIf="solicitud.tipoSolicitudId" 
 [tipoSolicitudAyuda] = "solicitud.tipoSolicitudId"
 [solicitudId]= "solicitud.id"
+[procesado]="solicitud.procesadaPorUsuario"
 ></app-acciones>
 
 <!-- 

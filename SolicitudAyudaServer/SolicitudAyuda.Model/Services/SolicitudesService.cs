@@ -24,7 +24,7 @@ namespace SolicitudAyuda.Model.Services
             this.config = config;
         }
 
-        public dynamic GetDetalleSolicitud(int solicitudId)
+        public dynamic GetDetalleSolicitud(int solicitudId, int usuarioId)
         {
             var solicitud = db.Solicitudes
                 .Include(sl => sl.Requisitos)
@@ -60,8 +60,8 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad)),
-                DatosAprobacion = GetDatosAprobacion(solicitud)
-
+                DatosAprobacion = GetDatosAprobacion(solicitud),
+                ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId ==  usuarioId)
             };
         }
 
@@ -190,26 +190,35 @@ namespace SolicitudAyuda.Model.Services
             return result;
         }
 
-        public byte[] ImprimirPDF(int solicitudId)
+        public byte[] ImprimirPDF(int solicitudId, int formato)
         {
-            var text = GetsolicitudTxt(solicitudId);
+            if (formato == 1) 
+            {
 
-            string systemFont = $"{config["RootUrl"]}fonts\\MODES__.TTF";
-            //Create a base font object making sure to specify IDENTITY-H
-            BaseFont bf = BaseFont.CreateFont(systemFont, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            }
+            else if (formato == 2)
+            {
+                var text = GetsolicitudTxt(solicitudId);
 
-            iTextSharp.text.Font f = new iTextSharp.text.Font(bf, 8, iTextSharp.text.Font.NORMAL);
+                string systemFont = $"{config["RootUrl"]}fonts\\MODES__.TTF";
+                //Create a base font object making sure to specify IDENTITY-H
+                BaseFont bf = BaseFont.CreateFont(systemFont, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 
-            MemoryStream memoryStream = new MemoryStream();
-            Document doc = new Document(new iTextSharp.text.Rectangle(216, 792), 10, 10, 0, 0); //inc * 72 (in pixels)
-            PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
-            doc.Open();
-            doc.Add(new Paragraph(text, f));
-            doc.Close();
+                iTextSharp.text.Font f = new iTextSharp.text.Font(bf, 8, iTextSharp.text.Font.NORMAL);
 
-            byte[] data = memoryStream.ToArray();
+                MemoryStream memoryStream = new MemoryStream();
+                Document doc = new Document(new iTextSharp.text.Rectangle(216, 792), 10, 10, 0, 0); //inc * 72 (in pixels)
+                PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+                doc.Open();
+                doc.Add(new Paragraph(text, f));
+                doc.Close();
 
-            return data;
+                byte[] data = memoryStream.ToArray();
+
+                return data;
+            }
+            
+            
         }
 
         private string GetsolicitudTxt(int solicitudId)

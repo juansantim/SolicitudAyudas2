@@ -19,7 +19,14 @@ export class DetalleSolicitudComponent implements OnInit {
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     const solicitudId = Number(routeParams.get('solicitudId'));
+    this.cargarSolictud(solicitudId);
 
+    this.dataService.ReloadSolicitud.subscribe(solicitudId => {
+      this.cargarSolictud(solicitudId);
+    }) 
+  }
+
+  cargarSolictud(solicitudId){
     if (solicitudId) {
       this.cargandoSolicitud = true;
       this.dataService.GetDetalleSolicitud(solicitudId).subscribe(data =>{

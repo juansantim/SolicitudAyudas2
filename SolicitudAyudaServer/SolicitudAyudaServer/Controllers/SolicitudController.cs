@@ -27,6 +27,22 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISendEmailService mailService;
         private readonly IFileStorageService fileStorageService;
 
+        public int UsuarioId
+        {
+            get
+            {
+                if (User != null)
+                {
+                    if (User.Claims.Count() > 0)
+                    {
+                        return int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
+                    }
+                }
+
+                throw new InvalidOperationException("Usuario o autenticado"); ;
+            }
+        }
+
         public SolicitudController(IConfiguration configuration,
             DataContext db,
             ISolicitudesService service,
@@ -120,7 +136,7 @@ namespace SolicitudAyudaServer.Controllers
         [Route("api/Solicitud/detalle")]
         public dynamic getDetalleSolicitud(int solicitudId)
         {
-            var solicitud = service.GetDetalleSolicitud(solicitudId);
+            var solicitud = service.GetDetalleSolicitud(solicitudId, UsuarioId);
 
             return solicitud;
         }
@@ -262,7 +278,7 @@ namespace SolicitudAyudaServer.Controllers
         [AllowAnonymous]
         public FileResult Imprimir(int solicitudId, int formato)
         {
-            var data = this.service.ImprimirPDF(solicitudId);
+            var data = this.service.ImprimirPDF(solicitudId, formato);
 
             MemoryStream resultStream = new MemoryStream(data);
 
