@@ -2,7 +2,9 @@
     <app-loading [show] = "true"></app-loading>
 </div>
 <div *ngIf="!cargandoSolicitud">
-    <h1>SOLICITUD # {{solicitud.numeroExpediente}}</h1>
+    <h1>SOLICITUD # {{solicitud.numeroExpediente}}
+        <app-estado-solicitud *ngIf="solicitud.estadoId" [estadoId] = "solicitud.estadoId"  [nombre] = "solicitud.estado" ></app-estado-solicitud>
+    </h1>
     <fieldset>
         <legend>DATOS DE SOLICITANTE</legend>
         <div class="row">
@@ -83,19 +85,6 @@
     </div>
 </fieldset>
 
-<div class="row">    
-    <div class="col">
-        <fieldset>
-            <legend>Estado Solicitud</legend>
-            <app-estado-solicitud 
-        [estadoId] = "solicitud.estadId" 
-        [nombre] = "solicitud.estado" ></app-estado-solicitud>
-        </fieldset>
-        
-    </div>
-    
-</div>
-
 <fieldset>
     <legend>Comisión de aprobación:</legend>
 
@@ -110,7 +99,7 @@
             {{m.usuario}}
         </div>
         <div class="col unerlined">
-            {{m.estado}}
+            <app-estado-solicitud *ngIf="m" [estadoId] = "m.estadoId" [nombre] = "m.estado"></app-estado-solicitud>
         </div>
         <div class="col unerlined">
              {{m.fecha |date: 'dd/MM/yyyy hh:mm a'}}

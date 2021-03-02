@@ -32,7 +32,7 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sl => sl.Seccional)
                 .Include(sl => sl.TipoSolicitud)
                 .Include(sl => sl.Estado)
-                .Include(sl=> sl.AprobacionesSolicitud)                
+                .Include(sl => sl.AprobacionesSolicitud)
                 .Include(sl => sl.TipoSolicitud)
                 .ThenInclude(ts => ts.ComisionAprobacion)
                 .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
@@ -61,7 +61,7 @@ namespace SolicitudAyuda.Model.Services
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad)),
                 DatosAprobacion = GetDatosAprobacion(solicitud),
-                ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId ==  usuarioId)
+                ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId == usuarioId)
             };
         }
 
@@ -69,41 +69,42 @@ namespace SolicitudAyuda.Model.Services
         {
             List<StatusUsuarioAprobacionSolicitudDTO> statusAprobacion = new List<StatusUsuarioAprobacionSolicitudDTO>();
 
-            if (solicitud.EstadoId != 4 && solicitud.EstadoId != 5) 
+
+            var comision = solicitud.TipoSolicitud.ComisionAprobacion;
+
+            db.Entry(comision).Collection(c => c.UsuariosComisionAprobacion).Load();
+
+            foreach (var miembro in comision.UsuariosComisionAprobacion)
             {
-                var comision = solicitud.TipoSolicitud.ComisionAprobacion;
+                var usuarioMiembro = db.Usuarios.Single(u => u.Id == miembro.UsuarioId);
+                var aprobacionUsuario = solicitud.AprobacionesSolicitud.SingleOrDefault(ap => ap.UsuarioId == miembro.UsuarioId);
 
-                db.Entry(comision).Collection(c => c.UsuariosComisionAprobacion).Load();
-
-                foreach (var miembro in comision.UsuariosComisionAprobacion)
+                if (aprobacionUsuario != null)
                 {
-                    var usuarioMiembro = db.Usuarios.Single(u => u.Id == miembro.UsuarioId);
-                    var aprobacionUsuario = solicitud.AprobacionesSolicitud.SingleOrDefault(ap => ap.UsuarioId == miembro.UsuarioId);
+                    db.Entry(aprobacionUsuario).Reference(r => r.Estado).Load();
 
-                    if (aprobacionUsuario != null)
-                    {                        
-                        db.Entry(aprobacionUsuario).Reference(r => r.Estado).Load();
-
-                        statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
-                        {
-                            Usuario = usuarioMiembro.NombreCompleto,
-                            Fecha = aprobacionUsuario.Fecha,
-                            Estado = aprobacionUsuario.Estado.Nombre,
-                            Comentario = aprobacionUsuario.Comentario
-                        });
-                    }
-                    else 
+                    statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
                     {
-                        statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
-                        {
-                            Usuario = usuarioMiembro.NombreCompleto,
-                            Fecha = null,
-                            Estado = null,
-                            Comentario = "No ha ejecutado ninguna acción"
-                        });
-                    }
+                        EstadoId = aprobacionUsuario.EstadoId,
+                        Usuario = usuarioMiembro.NombreCompleto,
+                        Fecha = aprobacionUsuario.Fecha,
+                        Estado = aprobacionUsuario.Estado.Nombre,
+                        Comentario = aprobacionUsuario.Comentario
+                    });
+                }
+                else
+                {
+                    statusAprobacion.Add(new StatusUsuarioAprobacionSolicitudDTO
+                    {
+                        EstadoId = 0,
+                        Usuario = usuarioMiembro.NombreCompleto,
+                        Fecha = null,
+                        Estado = null,
+                        Comentario = "No ha ejecutado ninguna acción"
+                    });
                 }
             }
+
 
             return statusAprobacion;
         }
@@ -180,11 +181,12 @@ namespace SolicitudAyuda.Model.Services
                 Solicitante = sc.Maestro.NombreCompleto,
                 Seccional = sc.Seccional.Nombre,
                 Estado = sc.Estado.Nombre,
+                EstadoId = sc.EstadoId,
                 MontoSolicitado = sc.MontoSolicitado,
                 MontoAprobado = sc.MontoAprobado ?? 0,
                 FechaSolicitud = sc.FechaSolicitud,
                 FechaAprobacion = sc.FechaAprobacion
-                
+
             }).ToList();
 
             return result;
@@ -192,9 +194,9 @@ namespace SolicitudAyuda.Model.Services
 
         public byte[] ImprimirPDF(int solicitudId, int formato)
         {
-            if (formato == 1) 
+            if (formato == 1)
             {
-
+                throw new NotImplementedException();
             }
             else if (formato == 2)
             {
@@ -217,8 +219,10 @@ namespace SolicitudAyuda.Model.Services
 
                 return data;
             }
-            
-            
+
+            throw new NotImplementedException();
+
+
         }
 
         private string GetsolicitudTxt(int solicitudId)
@@ -250,10 +254,11 @@ namespace SolicitudAyuda.Model.Services
                 {
                     bldr.Append($"->{tipo.Descripcion.ToUpper()}");
                 }
-                else {
+                else
+                {
                     bldr.Append($"->{tipo.Descripcion.ToUpper()}: {item.Value}");
                 }
-            
+
                 bldr.Append($"{Environment.NewLine}");
                 bldr.Append($"{Environment.NewLine}");
             }

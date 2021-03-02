@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SolicitudAyuda.Model.Entities
 {
-    [Table("TiposSolictudes")]
+    [Table("TiposSolicitudes")]
     public class TipoSolicitud
     {
         public int Id { get; set; }
@@ -13,6 +13,8 @@ namespace SolicitudAyuda.Model.Entities
         public List<RequisitoTipoSolicitud> Requisitos { get; set; }
         public List<SolicitudAyuda> Solicitudes { get; set; }
         public int ComisionAprobacionId { get; set; }
-        public virtual ComisionAprobacion ComisionAprobacion { get; set; }
+        public ComisionAprobacion ComisionAprobacion { get; set; }
+        public int CategoriaId { get; set; }
+        public CategoriaTipoSolicitud Categoria { get; set; }
     }
 }

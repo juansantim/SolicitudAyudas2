@@ -22,7 +22,7 @@ namespace SolicitudAyudaServer.Controllers
     public class SolicitudController : ControllerBase
     {
         private IConfiguration _config;
-        private DataContext _db;
+        private DataContext db;
         private readonly ISolicitudesService service;
         private readonly ISendEmailService mailService;
         private readonly IFileStorageService fileStorageService;
@@ -50,7 +50,7 @@ namespace SolicitudAyudaServer.Controllers
             IFileStorageService fileStorageService)
         {
             this._config = configuration;
-            this._db = db;
+            this.db = db;
             this.service = service;
             this.mailService = mailService;
             this.fileStorageService = fileStorageService;
@@ -76,9 +76,9 @@ namespace SolicitudAyudaServer.Controllers
 
                 Maestro maestro;
 
-                if (_db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
+                if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
                 {
-                    maestro = _db.Maestros.Single(m => m.Cedula == maestroDto.Cedula);
+                    maestro = db.Maestros.Single(m => m.Cedula == maestroDto.Cedula);
                 }
                 else
                 {
@@ -112,8 +112,8 @@ namespace SolicitudAyudaServer.Controllers
 
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    _db.Solicitudes.Add(solicitud);
-                    _db.SaveChanges();
+                    db.Solicitudes.Add(solicitud);
+                    db.SaveChanges();
 
                     scope.Complete();
                 }
@@ -157,8 +157,8 @@ namespace SolicitudAyudaServer.Controllers
             {
                 if (!string.IsNullOrEmpty(solicitud.Email))
                 {
-                    _db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
-                    _db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
+                    db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
+                    db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
 
                     var body = this.mailService.GetEmailTemplate(MailTemplate.CreacionSolicitud);
 
@@ -192,7 +192,7 @@ namespace SolicitudAyudaServer.Controllers
                     return response;
                 }
 
-                var solicitud = _db.Solicitudes
+                var solicitud = db.Solicitudes
                     .Include(s => s.AprobacionesSolicitud)
                     .Include(s => s.TipoSolicitud)
                     .ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == datosProcesamiento.solicitudId);
@@ -213,14 +213,6 @@ namespace SolicitudAyudaServer.Controllers
                 }
                 else
                 {
-                    solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
-                    {
-                        Fecha = DateTime.Now,
-                        UsuarioId = usuarioId,
-                        EstadoId = datosProcesamiento.estadoId,
-                        Comentario = datosProcesamiento.comentario
-                    });
-
                     usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
 
                     var hayPendientes = false;
@@ -232,16 +224,33 @@ namespace SolicitudAyudaServer.Controllers
                         }
                     }
 
-                    if (hayPendientes)
+                    if (datosProcesamiento.estadoId == 3)
                     {
-                        solicitud.EstadoId = 2;
+                        if (hayPendientes)
+                        {
+                            solicitud.EstadoId = 2;
+                        }
+                        else
+                        {
+                            solicitud.EstadoId = 3;
+                        }
                     }
-                    else
+                    else if (datosProcesamiento.estadoId == 4)
                     {
-                        solicitud.EstadoId = 3;
+                        solicitud.EstadoId = 4;
+                        datosProcesamiento.comentario += " *-Solicitud se rechaza por rechazo de un solo miembro de la comision-*";
                     }
 
-                    _db.SaveChanges();
+                    solicitud.AprobacionesSolicitud.Add(new AprobacionSolicitud
+                    {
+                        Fecha = DateTime.Now,
+                        UsuarioId = usuarioId,
+                        EstadoId = datosProcesamiento.estadoId,
+                        Comentario = datosProcesamiento.comentario
+                    });
+
+
+                    db.SaveChanges();
                 }
 
             }

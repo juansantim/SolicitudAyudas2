@@ -10,7 +10,7 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210228201951_init")]
+    [Migration("20210302153340_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,33 @@ namespace SolicitudAyuda.Model.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("AprobacionesSolicitudes");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.CategoriaTipoSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoriasTiposSolicitudes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Ayudas de Salud"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Ayudas de Infraestructura y Construcción"
+                        });
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>
@@ -4037,6 +4064,9 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ComisionAprobacionId")
                         .HasColumnType("int");
 
@@ -4046,6 +4076,8 @@ namespace SolicitudAyuda.Model.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId");
+
                     b.HasIndex("ComisionAprobacionId");
 
                     b.ToTable("TiposSolictudes");
@@ -4054,18 +4086,21 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 1,
+                            CategoriaId = 1,
                             ComisionAprobacionId = 1,
                             Nombre = "Salud - Cancer"
                         },
                         new
                         {
                             Id = 2,
+                            CategoriaId = 1,
                             ComisionAprobacionId = 1,
                             Nombre = "Salud - Covid"
                         },
                         new
                         {
                             Id = 3,
+                            CategoriaId = 2,
                             ComisionAprobacionId = 2,
                             Nombre = "Construccion"
                         });
@@ -4124,7 +4159,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 333, DateTimeKind.Local).AddTicks(2746),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 145, DateTimeKind.Local).AddTicks(9585),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = ""
@@ -4135,7 +4170,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 334, DateTimeKind.Local).AddTicks(6754),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 148, DateTimeKind.Local).AddTicks(2000),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6"
@@ -4146,7 +4181,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro1@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(2791),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(6910),
                             Login = "miembro1",
                             NombreCompleto = "miembro comision 1",
                             Password = "ai????n5&`?6"
@@ -4157,7 +4192,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro2@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3218),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(7388),
                             Login = "miembro2",
                             NombreCompleto = "miembro comision 2",
                             Password = "ai????n5&`?6"
@@ -4168,7 +4203,7 @@ namespace SolicitudAyuda.Model.Migrations
                             DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro3@gmail.com",
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3274),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(7425),
                             Login = "miembro3",
                             NombreCompleto = "miembro comision 3",
                             Password = "ai????n5&`?6"
@@ -4211,7 +4246,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(731),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(5160),
                             UsuarioCreacionId = 0,
                             UsuarioId = 3
                         },
@@ -4220,7 +4255,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1848),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(6905),
                             UsuarioCreacionId = 0,
                             UsuarioId = 4
                         },
@@ -4229,7 +4264,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 3,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1878),
+                            FechaCreacion = new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(6966),
                             UsuarioCreacionId = 0,
                             UsuarioId = 2
                         });
@@ -4398,11 +4433,19 @@ namespace SolicitudAyuda.Model.Migrations
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.TipoSolicitud", b =>
                 {
+                    b.HasOne("SolicitudAyuda.Model.Entities.CategoriaTipoSolicitud", "Categoria")
+                        .WithMany("TiposSolicitudes")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("SolicitudAyuda.Model.Entities.ComisionAprobacion", "ComisionAprobacion")
                         .WithMany("TiposSolicitudes")
                         .HasForeignKey("ComisionAprobacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Categoria");
 
                     b.Navigation("ComisionAprobacion");
                 });
@@ -4424,6 +4467,11 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("ComisionAprobacion");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.CategoriaTipoSolicitud", b =>
+                {
+                    b.Navigation("TiposSolicitudes");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>

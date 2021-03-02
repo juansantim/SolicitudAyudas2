@@ -15,6 +15,19 @@ namespace SolicitudAyuda.Model.Migrations
                 schema: "dbo");
 
             migrationBuilder.CreateTable(
+                name: "CategoriasTiposSolicitudes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriasTiposSolicitudes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ComisionesAprobacion",
                 columns: table => new
                 {
@@ -95,11 +108,17 @@ namespace SolicitudAyuda.Model.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    ComisionAprobacionId = table.Column<int>(type: "int", nullable: false)
+                    ComisionAprobacionId = table.Column<int>(type: "int", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiposSolictudes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TiposSolictudes_CategoriasTiposSolicitudes_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "CategoriasTiposSolicitudes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TiposSolictudes_ComisionesAprobacion_ComisionAprobacionId",
                         column: x => x.ComisionAprobacionId,
@@ -393,6 +412,15 @@ namespace SolicitudAyuda.Model.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "CategoriasTiposSolicitudes",
+                columns: new[] { "Id", "Nombre" },
+                values: new object[,]
+                {
+                    { 1, "Ayudas de Salud" },
+                    { 2, "Ayudas de Infraestructura y Construcción" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ComisionesAprobacion",
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
@@ -418,13 +446,13 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
                 {
-                    { 7, "Generar Estadísticas" },
                     { 6, "Ver record de Afiliado" },
                     { 5, "Anular Solicitudes" },
                     { 4, "Rechazar Solicitudes" },
-                    { 3, "Aprobar Solicitudes" },
+                    { 7, "Generar Estadísticas" },
                     { 2, "Crear Solicitudes" },
-                    { 1, "Consultar Solicitudes" }
+                    { 1, "Consultar Solicitudes" },
+                    { 3, "Aprobar Solicitudes" }
                 });
 
             migrationBuilder.InsertData(
@@ -439,16 +467,16 @@ namespace SolicitudAyuda.Model.Migrations
                     { 23, "SAMANA" },
                     { 24, "SAN CRISTOBAL" },
                     { 25, "SAN JUAN DE LA MAGUANA" },
-                    { 32, "SANTO DOMINGO" },
-                    { 27, "SANCHEZ RAMIREZ" },
+                    { 26, "SAN PEDRO DE MACORIS" },
                     { 28, "SANTIAGO DE LOS CABALLEROS" },
                     { 29, "SANTIAGO RODRIGUEZ" },
                     { 30, "VALVERDE" },
                     { 31, "SAN JOSE DE OCOA" },
+                    { 32, "SANTO DOMINGO" },
                     { 18, "MONTE PLATA" },
-                    { 26, "SAN PEDRO DE MACORIS" },
+                    { 27, "SANCHEZ RAMIREZ" },
                     { 17, "MONTECRISTI" },
-                    { 12, "INDEPENDENCIA" },
+                    { 11, "HATO MAYOR DEL REY" },
                     { 15, "MARIA TRINIDAD SANCHEZ" },
                     { 1, "DISTRITO NACIONAL" },
                     { 2, "LA ALTAGRACIA" },
@@ -457,9 +485,7 @@ namespace SolicitudAyuda.Model.Migrations
                     { 5, "BARAHONA" },
                     { 16, "MONSEÑOR NOUEL" },
                     { 7, "DUARTE" },
-                    { 6, "DAJABON" },
-                    { 9, "ELIAS PIÑA" },
-                    { 10, "ESPAILLAT" }
+                    { 6, "DAJABON" }
                 });
 
             migrationBuilder.InsertData(
@@ -467,7 +493,9 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "Nombre" },
                 values: new object[,]
                 {
-                    { 11, "HATO MAYOR DEL REY" },
+                    { 9, "ELIAS PIÑA" },
+                    { 10, "ESPAILLAT" },
+                    { 12, "INDEPENDENCIA" },
                     { 13, "LA ROMANA" },
                     { 14, "LA VEGA" },
                     { 8, "EL SEIBO" }
@@ -478,11 +506,11 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "DebeCambiarPassword", "Disponible", "Email", "FechaCreacion", "FechaInactivacion", "Login", "NombreCompleto", "Password", "TempPassword", "UsuarioIdInactivacion" },
                 values: new object[,]
                 {
-                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3218), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null },
-                    { 1, false, false, "", new DateTime(2021, 2, 28, 16, 19, 50, 333, DateTimeKind.Local).AddTicks(2746), null, "Sistema", "El Sistema", "", null, null },
-                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 2, 28, 16, 19, 50, 334, DateTimeKind.Local).AddTicks(6754), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
-                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(2791), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
-                    { 5, false, true, "miembro3@gmail.com", new DateTime(2021, 2, 28, 16, 19, 50, 339, DateTimeKind.Local).AddTicks(3274), null, "miembro3", "miembro comision 3", "ai????n5&`?6", null, null }
+                    { 4, false, true, "miembro2@gmail.com", new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(7388), null, "miembro2", "miembro comision 2", "ai????n5&`?6", null, null },
+                    { 1, false, false, "", new DateTime(2021, 3, 2, 11, 33, 39, 145, DateTimeKind.Local).AddTicks(9585), null, "Sistema", "El Sistema", "", null, null },
+                    { 2, false, true, "juanv.santim@gmail.com", new DateTime(2021, 3, 2, 11, 33, 39, 148, DateTimeKind.Local).AddTicks(2000), null, "jsanti", "Juan Santi", "ai????n5&`?6", null, null },
+                    { 3, false, true, "miembro1@gmail.com", new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(6910), null, "miembro1", "miembro comision 1", "ai????n5&`?6", null, null },
+                    { 5, false, true, "miembro3@gmail.com", new DateTime(2021, 3, 2, 11, 33, 39, 155, DateTimeKind.Local).AddTicks(7425), null, "miembro3", "miembro comision 3", "ai????n5&`?6", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -956,12 +984,12 @@ namespace SolicitudAyuda.Model.Migrations
 
             migrationBuilder.InsertData(
                 table: "TiposSolictudes",
-                columns: new[] { "Id", "ComisionAprobacionId", "Nombre" },
+                columns: new[] { "Id", "CategoriaId", "ComisionAprobacionId", "Nombre" },
                 values: new object[,]
                 {
-                    { 1, 1, "Salud - Cancer" },
-                    { 3, 2, "Construccion" },
-                    { 2, 1, "Salud - Covid" }
+                    { 1, 1, 1, "Salud - Cancer" },
+                    { 3, 2, 2, "Construccion" },
+                    { 2, 1, 1, "Salud - Covid" }
                 });
 
             migrationBuilder.InsertData(
@@ -969,9 +997,9 @@ namespace SolicitudAyuda.Model.Migrations
                 columns: new[] { "Id", "ComisionAprobacionId", "Disponible", "FechaCreacion", "UsuarioCreacionId", "UsuarioId" },
                 values: new object[,]
                 {
-                    { 3, 1, true, new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1878), 0, 2 },
-                    { 1, 1, true, new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(731), 0, 3 },
-                    { 2, 1, true, new DateTime(2021, 2, 28, 16, 19, 50, 344, DateTimeKind.Local).AddTicks(1848), 0, 4 }
+                    { 3, 1, true, new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(6966), 0, 2 },
+                    { 1, 1, true, new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(5160), 0, 3 },
+                    { 2, 1, true, new DateTime(2021, 3, 2, 11, 33, 39, 163, DateTimeKind.Local).AddTicks(6905), 0, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1262,6 +1290,11 @@ namespace SolicitudAyuda.Model.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TiposSolictudes_CategoriaId",
+                table: "TiposSolictudes",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TiposSolictudes_ComisionAprobacionId",
                 table: "TiposSolictudes",
                 column: "ComisionAprobacionId");
@@ -1317,6 +1350,9 @@ namespace SolicitudAyuda.Model.Migrations
 
             migrationBuilder.DropTable(
                 name: "Seccionales");
+
+            migrationBuilder.DropTable(
+                name: "CategoriasTiposSolicitudes");
 
             migrationBuilder.DropTable(
                 name: "ComisionesAprobacion");

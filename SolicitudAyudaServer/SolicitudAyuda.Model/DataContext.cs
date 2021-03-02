@@ -49,6 +49,7 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new UsuarioComisionAprobacionETC());
             modelBuilder.ApplyConfiguration(new ComisionAprobacionETC());
             modelBuilder.ApplyConfiguration(new AprobacionSolicitudETC());
+            modelBuilder.ApplyConfiguration(new CategoriaTipoSolicitudETC());
         }
     }
 }

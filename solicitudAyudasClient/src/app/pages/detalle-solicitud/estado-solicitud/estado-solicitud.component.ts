@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class EstadoSolicitudComponent implements OnInit {
 
   @Input()
-  estadoId: any;
+  estadoId: number;
 
   @Input()
   nombre: string;
@@ -21,13 +21,15 @@ export class EstadoSolicitudComponent implements OnInit {
   GetClass() {
     switch (this.estadoId) {
       case 1:
-        return "badge badge-primary";
+        return "badge badge-secondary";
       case 2:
-        return "badge badge-success";
+        return "badge badge-primary";
       case 3:
+         return "badge badge-success";
+      case 4:
         return "badge badge-danger";
       case 5:
-        return "badge badge-secondary";      
+        return "badge badge-warning";      
       default:
         return "badge badge-secondary";  
     }

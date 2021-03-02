@@ -14,6 +14,7 @@ namespace SolicitudAyuda.Model.DTOs
         public decimal MontoSolicitado { get; set; }
         public decimal MontoAprobado { get; set; }
         public string Estado { get; set; }
+        public int EstadoId { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public DateTime? FechaAprobacion { get; set; }
     }

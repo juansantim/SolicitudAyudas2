@@ -19,7 +19,9 @@
               <td>{{s.seccional}}</td>
               <td>{{s.tipoSolicitud}}</td>
               <td>{{s.montoSolicitado | currency}}</td>
-              <td>{{s.estado}}</td>
+              <td>
+                <app-estado-solicitud [nombre] = "s.estado" [estadoId] = "s.estadoId"></app-estado-solicitud>
+              </td>
               <td> <a [routerLink]="['../detalle/' + s.id]" >Ir a Detalle</a>  </td>
           </tr>
       </tbody>
