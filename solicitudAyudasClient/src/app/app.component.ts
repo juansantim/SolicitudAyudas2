@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AppCookieService } from './services/app-cookie.service';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -52,12 +53,17 @@ export class AppComponent {
   
   }
 
-  constructor(private router: Router, private cookieService:AppCookieService)
+  constructor(private router: Router, private cookieService:AppCookieService, private dataService:DataService)
   {
     this.router.events.subscribe(routerEvent => {
       if(routerEvent instanceof NavigationEnd && this.router.url !== '/login'){
         this.showNav = true;
       }
+    });
+
+    dataService.userLogedIn.subscribe(user => {
+      this.usuario = user;
     })
+
   }
 }

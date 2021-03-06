@@ -12,7 +12,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   providedIn: 'root'
 })
 export class DataService {
+  
   ReloadSolicitud = new Subject<number>();
+  cargandoReporte = new Subject<boolean>();
+  userLogedIn = new Subject<any>();
   
   ProcesarSolicitud(solicitudId:number, estadoId: number, comentario: string):Observable<any> {
     var url = this.GetUrl('solicitud/ProcesarSolicitud');
@@ -40,7 +43,7 @@ export class DataService {
     })
   }
   
-  cargandoReporte = new Subject<boolean>();
+
 
   ResumenSolicitudesPorSucursal(desde: Date, hasta: Date) {
 
@@ -68,24 +71,6 @@ export class DataService {
     return { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 
     'Access-Control-Allow-Origin': '*'}
   }
-
-  // EjecutarAccionSolicitud(solicitudId: number, estadoId:number, comentario:string) {
-  //   let headers = this.GetHeadersForGetch();
-
-  //   let form = new FormData();
-  //   form.append('solicitudId', solicitudId.toString());
-  //   form.append('estadoId', estadoId.toString());
-  //   form.append('comentario', comentario);
-
-  //   let url = this.GetUrl(`Solicitud/AprobarSolicitud`);
-    
-  //   return fetch(url, {
-  //     method:'POST',
-  //     headers: headers,
-  //     body: form,
-  //   });
-
-  // }
 
   PuedeGestionarTipoSolicitud(tipoSolicitudId):Observable<any> {
     let url = this.GetUrl(`Account/GetPuedeGestionarTipoSolicitud?tipoSolicitudId=${tipoSolicitudId}`);

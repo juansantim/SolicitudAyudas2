@@ -197,6 +197,13 @@ namespace SolicitudAyudaServer.Controllers
                     .Include(s => s.TipoSolicitud)
                     .ThenInclude(t => t.ComisionAprobacion).ThenInclude(c => c.UsuariosComisionAprobacion).Single(s => s.Id == datosProcesamiento.solicitudId);
 
+                if (solicitud.EstadoId == 4)
+                {
+                    response.Errors.Add("Se encuentra rechazada");
+
+                    return response;
+                }
+
                 IEnumerable<int> usuariosYaAprobaron = GetUsuariosAprobaron(solicitud);
 
                 var usuariosComision = solicitud.TipoSolicitud.ComisionAprobacion.UsuariosComisionAprobacion.Select(s => s.UsuarioId);

@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
       let password = this.loginForm.get('password').value;
 
       this.cargando = true;
+
       this.dataService.Login(usuario, password).subscribe(response => {        
         
         let bearer = response.token
@@ -44,9 +45,9 @@ export class LoginComponent implements OnInit {
         
         this.cookieService.set('token', bearer);        
         localStorage.setItem('usuario', JSON.stringify(usuario));
-        console.log(usuario);
-        
         this.router.navigate(['/inicio']);
+        this.dataService.userLogedIn.next(usuario);
+
       }, error => {
         this.cargando = false;
         let errorMessage = "";
