@@ -43,7 +43,12 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 new Permiso{
                     Id  = 7 ,
                     Nombre = "Generar Estadísticas"
+                },
+                new Permiso{
+                    Id  = 8 ,
+                    Nombre = "Gestionar Usuarios"
                 }
+
 
 
             };

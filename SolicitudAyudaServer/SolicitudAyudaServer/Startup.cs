@@ -46,7 +46,7 @@ namespace SolicitudAyudaServer
             services.AddScoped<ISendEmailService, SendGmailMail>();
             services.AddScoped<IReportesService, ReportesServiceMicrosoftReporting>();
 
-            services.AddSingleton(x => new BlobServiceClient(Configuration["StorageConnectionString"]));
+            services.AddSingleton(x => new BlobServiceClient(Configuration["StorageConnectionString"]));            
 
             services.AddScoped<IFileStorageService, AzureFileStorageService>();
 
@@ -64,6 +64,7 @@ namespace SolicitudAyudaServer
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
 
         }
 

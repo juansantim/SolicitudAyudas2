@@ -7,11 +7,16 @@ import { FiltroData } from '../model/FiltroData';
 import { AppCookieService } from './app-cookie.service';
 import { FormatWidth } from '@angular/common';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  GetUsuarioPorEmail(email: AbstractControl):Observable<any> {
+    var url = this.GetUrl(`account/getUsuarioPorEmail?email=${email}`);
+    return this.http.get(url);
+  }
   
   ReloadSolicitud = new Subject<number>();
   cargandoReporte = new Subject<boolean>();
@@ -42,8 +47,6 @@ export class DataService {
       this.cargandoReporte.next(false);
     })
   }
-  
-
 
   ResumenSolicitudesPorSucursal(desde: Date, hasta: Date) {
 
@@ -141,6 +144,18 @@ export class DataService {
       Login: usuario,
       Password: password
     });
+  }
+
+  GetErrors(formulario:FormGroup, fieldName:string, errorName:string) {
+    var control = formulario.get(fieldName);
+
+    if (control.pristine || !control.errors) {
+      return false;
+    }
+    else {
+      return control.errors[errorName];
+    }
+
   }
 
   bsModalRef:BsModalRef;

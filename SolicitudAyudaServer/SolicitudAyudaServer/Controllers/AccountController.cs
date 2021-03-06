@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +16,19 @@ using SolicitudAyuda.Model;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Helpers;
+using SolicitudAyuda.Model.Services;
 
 namespace SolicitudAyudaServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : AppBaseController
     {
         private IConfiguration _config;
-        private DataContext db;
-        public AccountController(IConfiguration receivedConfig, DataContext db)
+        private DataContext db;        
+
+        public AccountController(IConfiguration receivedConfig, 
+            DataContext db) : base(db)
         {
             this._config = receivedConfig;
             this.db = db;
@@ -106,6 +110,84 @@ namespace SolicitudAyudaServer.Controllers
             return new JsonResult(new { puedeGestionar = gestiona });
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("CrearUsuario")]
+        public IActionResult CrearUsuario(CreacionUsuarioDTO usuarioDTO)
+        {
+            HttpDataResponse response = new HttpDataResponse();
 
+            var usr = CurrentUsuario;
+
+            if (usr != null)
+            {
+                db.Entry(usr).Collection(u => u.PermisosUsuario).Load();
+
+                if (usr.PermisosUsuario.Any(u => u.Id == 8 && u.Disponible))
+                {
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        var maestro = db.Maestros.Add(new Maestro 
+                        {
+                            Cedula = usuarioDTO.Cedula,
+                            NombreCompleto = usuarioDTO.NombreCompleto,
+                            Cargo = usuarioDTO.Cargo,
+                            SeccionalId = usuarioDTO.SeccionalId,
+                            Sexo = usuarioDTO.Sexo,
+                            FechaNacimiento = usuarioDTO.FechaNacimiento,                            
+                        });
+
+                        db.SaveChanges();
+
+                        var usuario = db.Usuarios.Add(new Usuario
+                        {
+                            Login = usuarioDTO.Login,
+                            Email = usuarioDTO.Email,
+                            NombreCompleto = usuarioDTO.NombreCompleto,
+                            FechaCreacion = DateTime.Now,
+                            Disponible = false,
+                            FechaInactivacion = null,
+                            SecconalId = usuarioDTO.SeccionalId,
+                            MaestroId = maestro.Entity.Id
+                        });
+
+                        db.SaveChanges();
+
+                        var id = EncryptationService.Encrypt(usuario.Entity.Id.ToString());
+
+                        var registrationUrl = $"{Request.Host}/CompletarRegistro?id=${id}";
+                    }
+                    
+                }
+            }
+
+            response.Errors.Add("No se pudo verificar sus permisos para crear usuarios");
+
+            return new JsonResult(response);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getUsuarioPorEmail")]
+        public HttpDataResponse GetUsaurioPorEmail(string email) 
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            if (!string.IsNullOrEmpty(email)) 
+            {
+                var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
+                
+                if (usuario != null) 
+                {
+                    response.Data = new CreacionUsuarioDTO
+                    {
+                        Email = usuario.Email,
+                        NombreCompleto = usuario.NombreCompleto
+                    };
+                }
+            }
+
+            return response;
+        }
     }
 }
