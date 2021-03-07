@@ -10,5 +10,13 @@
             }
         }
 
+        public static string CreacionUsuario
+        {
+            get
+            {
+                return "newAccount.html";
+            }
+        }
+
     }
 }

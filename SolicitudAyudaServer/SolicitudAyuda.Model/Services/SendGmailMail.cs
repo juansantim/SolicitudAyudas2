@@ -18,9 +18,9 @@ namespace SolicitudAyuda.Model.Services
         {
             this.config = config;
         }
-        public string GetEmailTemplate(string templateName)
+        public string GetEmailTemplate(string baseUrl, string templateName)
         {
-            var templatesUrl = $"{config["EmailTemplates"]}\\{templateName}";
+            var templatesUrl = $"{baseUrl}{Path.DirectorySeparatorChar}EmailTemplates{Path.DirectorySeparatorChar}{templateName}";
 
             return System.IO.File.ReadAllText(templatesUrl);
         }

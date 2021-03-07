@@ -8,11 +8,16 @@ import { AppCookieService } from './app-cookie.service';
 import { FormatWidth } from '@angular/common';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  CrearUsuario(usuario: CreacionUsuarioDTO):Observable<any> {
+    var url = this.GetUrl('account/CrearUsuario');
+    return this.http.post(url, usuario);
+  }
   GetUsuarioPorEmail(email: AbstractControl):Observable<any> {
     var url = this.GetUrl(`account/getUsuarioPorEmail?email=${email}`);
     return this.http.get(url);

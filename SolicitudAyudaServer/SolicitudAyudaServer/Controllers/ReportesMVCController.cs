@@ -14,10 +14,10 @@ namespace SolicitudAyudaServer.Controllers
     public class ReportesMVCController : Controller
     {
         private readonly IConfiguration config;
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
         private string BaseReportUrl;
 
-        public ReportesMVCController(IConfiguration config, IHostingEnvironment environment)
+        public ReportesMVCController(IConfiguration config, IWebHostEnvironment environment)
         {
             this.config = config;
             this.environment = environment;

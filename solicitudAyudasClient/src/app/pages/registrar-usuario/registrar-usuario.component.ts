@@ -55,8 +55,23 @@ export class RegistrarUsuarioComponent implements OnInit {
         usuario.Sexo = sexo.value
         usuario.Direccion = direccion.value;
         usuario.Cargo = cargo.value;
+        usuario.Host = `${location.protocol}//${location.host}`
 
-        console.log(usuario);
+        this.dataService.CrearUsuario(usuario).subscribe(response => {
+          if(response.success){
+            Swal.fire('Usuario Registrado Satisfactoriamente', `e ha enviado un correo electronico a ${email.value} para completrar el registro`, 'info');
+            Object.keys(this.formulario.controls).forEach(controlName => {
+              let control = this.formulario.get(controlName)
+              control.setValue('');
+              control.markAsPristine();
+            });
+          }
+          else{
+            Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
+          }
+        }, error => {
+          Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
+        });
     }
     else {
       Object.keys(this.formulario.controls).forEach(controlName => {

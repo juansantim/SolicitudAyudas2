@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Helpers;
 using SolicitudAyuda.Model.Services;
+using SolicitudAyuda.Model.Services.Signatures;
 
 namespace SolicitudAyudaServer.Controllers
 {
@@ -25,13 +27,17 @@ namespace SolicitudAyudaServer.Controllers
     public class AccountController : AppBaseController
     {
         private IConfiguration _config;
-        private DataContext db;        
+        private DataContext db;
+        private readonly ISendEmailService mailService;
+        private readonly IWebHostEnvironment environment;
 
-        public AccountController(IConfiguration receivedConfig, 
-            DataContext db) : base(db)
+        public AccountController(IConfiguration receivedConfig,
+            DataContext db, ISendEmailService mailService, IWebHostEnvironment environment) : base(db)
         {
             this._config = receivedConfig;
             this.db = db;
+            this.mailService = mailService;
+            this.environment = environment;
         }
 
         [AllowAnonymous]
@@ -123,18 +129,18 @@ namespace SolicitudAyudaServer.Controllers
             {
                 db.Entry(usr).Collection(u => u.PermisosUsuario).Load();
 
-                if (usr.PermisosUsuario.Any(u => u.Id == 8 && u.Disponible))
+                if (usr.PermisosUsuario.Any(u => u.PermisoId == 8 && u.Disponible))
                 {
                     using (TransactionScope scope = new TransactionScope())
                     {
-                        var maestro = db.Maestros.Add(new Maestro 
+                        var maestro = db.Maestros.Add(new Maestro
                         {
                             Cedula = usuarioDTO.Cedula,
                             NombreCompleto = usuarioDTO.NombreCompleto,
                             Cargo = usuarioDTO.Cargo,
                             SeccionalId = usuarioDTO.SeccionalId,
                             Sexo = usuarioDTO.Sexo,
-                            FechaNacimiento = usuarioDTO.FechaNacimiento,                            
+                            FechaNacimiento = usuarioDTO.FechaNacimiento,
                         });
 
                         db.SaveChanges();
@@ -155,29 +161,60 @@ namespace SolicitudAyudaServer.Controllers
 
                         var id = EncryptationService.Encrypt(usuario.Entity.Id.ToString());
 
-                        var registrationUrl = $"{Request.Host}/CompletarRegistro?id=${id}";
+                        var activationUrl = $"{usuarioDTO.Host}/CompletarRegistro?id={id}";
+
+                        sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
                     }
-                    
+
+                }
+                else
+                {
+                    response.Errors.Add("Usted no tiene permisos para crear usuarios");
                 }
             }
+            else
+            {
+                response.Errors.Add("Usted no tiene permisos para crear usuarios");
+            }
 
-            response.Errors.Add("No se pudo verificar sus permisos para crear usuarios");
 
             return new JsonResult(response);
+        }
+
+        public string sendEmailCreacionUsuario(CreacionUsuarioDTO usuarioDTO, string activationUrl, string cancelUrl)
+        {
+            var notifyEmail = bool.Parse(this._config["NotifyEmail"]);
+
+            if (notifyEmail)
+            {
+                if (!string.IsNullOrEmpty(usuarioDTO.Email))
+                {
+                    var body = this.mailService.GetEmailTemplate(environment.ContentRootPath, MailTemplate.CreacionUsuario);
+
+                    body = body.Replace("@email", usuarioDTO.Email);
+                    body = body.Replace("@activationLink", activationUrl);
+                    body = body.Replace("@cancelLink", cancelUrl);
+
+                    mailService.SendEmail(body, "Notificacion Creación Usuario", usuarioDTO.Email);
+                }
+
+            }
+
+            return "Ok";
         }
 
         [HttpGet]
         [Authorize]
         [Route("getUsuarioPorEmail")]
-        public HttpDataResponse GetUsaurioPorEmail(string email) 
+        public HttpDataResponse GetUsaurioPorEmail(string email)
         {
             HttpDataResponse response = new HttpDataResponse();
 
-            if (!string.IsNullOrEmpty(email)) 
+            if (!string.IsNullOrEmpty(email))
             {
                 var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
-                
-                if (usuario != null) 
+
+                if (usuario != null)
                 {
                     response.Data = new CreacionUsuarioDTO
                     {

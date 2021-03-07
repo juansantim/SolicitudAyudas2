@@ -26,6 +26,7 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISolicitudesService service;
         private readonly ISendEmailService mailService;
         private readonly IFileStorageService fileStorageService;
+        private readonly IWebHostEnvironment environment;
 
         public int UsuarioId
         {
@@ -47,13 +48,14 @@ namespace SolicitudAyudaServer.Controllers
             DataContext db,
             ISolicitudesService service,
             ISendEmailService mailService,
-            IFileStorageService fileStorageService)
+            IFileStorageService fileStorageService, IWebHostEnvironment environment)
         {
             this._config = configuration;
             this.db = db;
             this.service = service;
             this.mailService = mailService;
             this.fileStorageService = fileStorageService;
+            this.environment = environment;
         }
 
         [HttpPost]
@@ -160,7 +162,7 @@ namespace SolicitudAyudaServer.Controllers
                     db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
                     db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
 
-                    var body = this.mailService.GetEmailTemplate(MailTemplate.CreacionSolicitud);
+                    var body = this.mailService.GetEmailTemplate(environment.ContentRootPath, MailTemplate.CreacionSolicitud);
 
                     body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
                     body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());

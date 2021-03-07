@@ -11,6 +11,7 @@ export class CreacionUsuarioDTO {
     public Sexo: string;
     public FechaNacimiento: Date;
     public Cargo: string;
+    public Host:string;
     public PermisosUsuario:Array<PermisoUsuario> = [];
 }
 

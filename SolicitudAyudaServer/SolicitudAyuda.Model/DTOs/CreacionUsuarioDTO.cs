@@ -18,6 +18,8 @@ namespace SolicitudAyuda.Model.DTOs
         public string Sexo { get; set; }
         public DateTime FechaNacimiento { get; set; }
 
+        public string Host { get; set; }
+
         public List<PermisosUsuarioDTO> PermisosUsuario { get; set; }
         public string Cargo { get; set; }
     }
