@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreacionUsuarioDTO } from 'src/app/model/CreacionUsuarioDTO';
 import { DataService } from 'src/app/services/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -26,11 +27,21 @@ export class RegistrarUsuarioComponent implements OnInit {
     cargo: new FormControl('')
   });
 
-  constructor(private dataService: DataService, private utils: UtilsService) { }
+  constructor(private dataService: DataService, 
+    private utils: UtilsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   seccional: any;
+  cargando: false;
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      let usuarioId = params['usuarioId'];
+      
+      this.dataService.GetDetalleUsuario(usuarioId).subscribe(data => {
+        console.log(data);
+      });
+      
+    })
   }
 
   onSubmit() {
@@ -38,40 +49,54 @@ export class RegistrarUsuarioComponent implements OnInit {
 
     if (this.formulario.valid) {
 
-      let { cedula, email, nombreCompleto, fechaNacimiento, 
+      let { cedula, email, nombreCompleto, fechaNacimiento,
         telefonoCelular, telefonoResidencia, telefonoLaboral,
-        sexo, direccion, cargo} = this.formulario.controls;
+        sexo, direccion, cargo } = this.formulario.controls;
 
-        let usuario = new CreacionUsuarioDTO();
+      let usuario = new CreacionUsuarioDTO();
 
-        usuario.Cedula = cedula.value;
-        usuario.Email = email.value;
-        usuario.NombreCompleto = nombreCompleto.value;
-        usuario.SeccionalId = this.seccional;
-        usuario.FechaNacimiento = fechaNacimiento.value;
-        usuario.TelefonoCelular = telefonoCelular.value;
-        usuario.TelefonoResidencial = telefonoResidencia.value;
-        usuario.TelefonoLabora = telefonoLaboral.value;
-        usuario.Sexo = sexo.value
-        usuario.Direccion = direccion.value;
-        usuario.Cargo = cargo.value;
-        usuario.Host = `${location.protocol}//${location.host}`
+      usuario.Cedula = cedula.value;
+      usuario.Email = email.value;
+      usuario.NombreCompleto = nombreCompleto.value;
+      usuario.SeccionalId = this.seccional;
+      usuario.FechaNacimiento = fechaNacimiento.value;
+      usuario.TelefonoCelular = telefonoCelular.value;
+      usuario.TelefonoResidencial = telefonoResidencia.value;
+      usuario.TelefonoLabora = telefonoLaboral.value;
+      usuario.Sexo = sexo.value
+      usuario.Direccion = direccion.value;
+      usuario.Cargo = cargo.value;
+      usuario.Host = `${location.protocol}//${location.host}`
 
-        this.dataService.CrearUsuario(usuario).subscribe(response => {
-          if(response.success){
-            Swal.fire('Usuario Registrado Satisfactoriamente', `e ha enviado un correo electronico a ${email.value} para completrar el registro`, 'info');
-            Object.keys(this.formulario.controls).forEach(controlName => {
-              let control = this.formulario.get(controlName)
-              control.setValue('');
-              control.markAsPristine();
-            });
-          }
-          else{
-            Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
-          }
-        }, error => {
-          Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
-        });
+      this.dataService.CrearUsuario(usuario).subscribe(response => {
+        if (response.success) {
+          Swal.fire({
+            title: 'Usuario Registrado Satisfactoriamente',
+            text: `se ha enviado un correo electronico a ${email.value} para completrar el registro`,
+            icon: 'info',
+            showConfirmButton: true,
+            confirmButtonText: 'Crear Otro Usuario',
+            showCancelButton: true,
+            cancelButtonText: "Ir a Consulta"
+          }).then(alertResult => {
+            if(alertResult.isConfirmed){
+              Object.keys(this.formulario.controls).forEach(controlName => {
+                let control = this.formulario.get(controlName)
+                control.setValue('');
+                control.markAsPristine();
+              });
+            }
+            else{
+              this.router.navigate(['/consultausuarios'])
+            }
+          });
+        }
+        else {
+          Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
+        }
+      }, error => {
+        Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
+      });
     }
     else {
       Object.keys(this.formulario.controls).forEach(controlName => {

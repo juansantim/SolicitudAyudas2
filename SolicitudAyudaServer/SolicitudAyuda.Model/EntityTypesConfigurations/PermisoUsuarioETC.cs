@@ -68,6 +68,14 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 UsuarioId = 1,
                 Disponible = true
             });
+
+            entity.HasData(new PermisoUsuario
+            {
+                Id = 8,
+                PermisoId = 8,
+                UsuarioId = 2,
+                Disponible = true
+            });
         }
     }
 }

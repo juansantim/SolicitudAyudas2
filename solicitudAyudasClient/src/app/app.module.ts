@@ -42,7 +42,8 @@ import { ResumenAprobadoPorSeccionalComponent } from './pages/estadisticas/resum
 import { SeccionalComponent } from './common/seccional/seccional.component';
 import { ProcesarSolicitudComponent } from './pages/detalle-solicitud/procesar-solicitud/procesar-solicitud.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component'
+import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
+import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component'
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-u
     ResumenAprobadoPorSeccionalComponent,
     SeccionalComponent,
     ProcesarSolicitudComponent,
-    RegistrarUsuarioComponent
+    RegistrarUsuarioComponent,
+    ConsultaUsuariosComponent
   ],
   imports: [
     BrowserModule,

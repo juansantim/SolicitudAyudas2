@@ -1,0 +1,44 @@
+<br />
+<a class="btn btn-primary" routerLink="/registrarusuario">Crear nuevo usuario</a>
+<br />
+<br />
+<div class="input-group" (click) = "Search()">
+  
+    <input type="text" class="form-control" 
+    placeholder="introduzca texto para buscar" 
+    aria-label="Input group example" aria-describedby="btnGroupAddon" 
+    [(ngModel)] = "filtro.SearchText"
+    (keyup.enter) ="Search()">
+    <div class="input-group-append">
+        <div class="input-group-text" id="btnGroupAddon" style="cursor: pointer;">
+            <i class="fas fa-search"></i>
+        </div>
+      </div>  
+</div>
+<br>
+<app-loading [show] = "cargando"></app-loading>
+<table class="table table-striped">
+    <thead>
+        <th>Email</th>
+        <th>Nombre</th>
+        <th>Seccional</th>
+        <th>Disponible</th>
+        <th>Permisos</th>
+    </thead>
+    <tbody >
+        <tr *ngFor="let u of usuarios">
+            <td>{{u.email}}</td>
+            <td>{{u.nombreCompleto}}</td>
+            <td>{{u.seccional}}</td>
+            <td>
+                <span class="badge badge-success" *ngIf="u.disponible">Disponible</span>
+                <span class="badge badge-danger" *ngIf="!u.disponible">No Disponible</span>
+            </td>
+            <td [innerHTML] = "GetUl(u.permisos)"></td>
+            <td>
+                <a routerLink="/modificarusuario/{{u.id}}" class="btn btn-primary">Ir a Detalle</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<app-pagination [itemsPerPage] = "filtro.ItemsPerPage" [totalItems] = "filtro.TotalItems" (onPageChanged) = "Search()"></app-pagination>

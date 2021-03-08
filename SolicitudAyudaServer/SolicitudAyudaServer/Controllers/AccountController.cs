@@ -30,14 +30,17 @@ namespace SolicitudAyudaServer.Controllers
         private DataContext db;
         private readonly ISendEmailService mailService;
         private readonly IWebHostEnvironment environment;
+        private readonly IUsuariosService usuariosService;
 
         public AccountController(IConfiguration receivedConfig,
-            DataContext db, ISendEmailService mailService, IWebHostEnvironment environment) : base(db)
+            DataContext db, ISendEmailService mailService, IWebHostEnvironment environment,
+            IUsuariosService usuariosService) : base(db)
         {
             this._config = receivedConfig;
             this.db = db;
             this.mailService = mailService;
             this.environment = environment;
+            this.usuariosService = usuariosService;
         }
 
         [AllowAnonymous]
@@ -123,6 +126,14 @@ namespace SolicitudAyudaServer.Controllers
         {
             HttpDataResponse response = new HttpDataResponse();
 
+            var usuarioConEmail = db.Usuarios.FirstOrDefault(u => u.Email == usuarioDTO.Email && u.Disponible);
+
+            if (usuarioConEmail != null)
+            {
+                response.AddError($"Ya existe un usuario con el email {usuarioDTO.Email} que pertenece a {usuarioConEmail.NombreCompleto}");
+                return new JsonResult(response); 
+            }
+
             var usr = CurrentUsuario;
 
             if (usr != null)
@@ -141,6 +152,7 @@ namespace SolicitudAyudaServer.Controllers
                             SeccionalId = usuarioDTO.SeccionalId,
                             Sexo = usuarioDTO.Sexo,
                             FechaNacimiento = usuarioDTO.FechaNacimiento,
+                            Direccion = usuarioDTO.Direccion
                         });
 
                         db.SaveChanges();
@@ -223,6 +235,60 @@ namespace SolicitudAyudaServer.Controllers
                     };
                 }
             }
+
+            return response;
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [Route("consultaUsuarios")]
+        public HttpDataResponse consultaUsuarios(FiltroDataUsuarioDTO filtro) 
+        {
+            var response = new HttpDataResponse();
+
+            response.Data = usuariosService.GetDataConsulta(filtro);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("GetDetalleUsuario")]
+        public HttpDataResponse GetDetalleUsuario(int usuarioId) 
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            var usuario = usuariosService.GetById(usuarioId);
+
+            if (usuario.Maestro == null) 
+            {
+                usuario.Maestro = new Maestro { };
+            }
+
+            response.Data = new CreacionUsuarioDTO
+            {
+                Cedula = usuario.Maestro.Cedula,
+                NombreCompleto = usuario.NombreCompleto,
+                Direccion = usuario.Maestro.Direccion,
+                Cargo = usuario.Maestro.Cargo,
+                Email = usuario.Email,
+                FechaNacimiento = usuario.Maestro.FechaNacimiento,
+                Login = usuario.Login,
+                Sexo = usuario.Maestro.Sexo,
+                SeccionalId = usuario.SecconalId,
+                TelefonoCelular = usuario.Maestro.TelefonoCelular,
+                TelefonoLabora = usuario.Maestro.TelefonoLabora,
+                TelefonoResidencial = usuario.Maestro.TelefonoResidencial,
+                PermisosUsuario = usuario.PermisosUsuario.Select(pu => new PermisosUsuarioDTO 
+                {
+                    Id = pu.Id,
+                    PermisoId = pu.PermisoId,
+                    Disponible = true,
+                    Permiso = pu.Permiso.Nombre
+                }).ToList()
+
+            };
 
             return response;
         }

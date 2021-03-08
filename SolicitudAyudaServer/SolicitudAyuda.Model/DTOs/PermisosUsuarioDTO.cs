@@ -6,6 +6,11 @@ namespace SolicitudAyuda.Model.DTOs
 {
     public class PermisosUsuarioDTO
     {
-        public int PermisoId { get; set; }        
+        public int Id { get; set; }
+
+        public int PermisoId { get; set; }
+        public string Permiso { get; set; }
+
+        public bool Disponible { get; set; }
     }
 }

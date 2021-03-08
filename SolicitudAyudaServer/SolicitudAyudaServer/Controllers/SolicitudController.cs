@@ -91,7 +91,8 @@ namespace SolicitudAyudaServer.Controllers
                         Cargo = maestroDto.Cargo,
                         SeccionalId = maestroDto.SeccionalId,
                         Sexo = maestroDto.Sexo,
-                        FechaNacimiento = maestroDto.FechaNacimiento
+                        FechaNacimiento = maestroDto.FechaNacimiento,
+                        Direccion = solicitud.Direccion
                     };
                 }
 

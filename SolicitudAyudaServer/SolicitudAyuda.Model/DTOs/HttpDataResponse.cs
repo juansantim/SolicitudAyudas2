@@ -16,6 +16,11 @@ namespace SolicitudAyuda.Model.DTOs
         public dynamic Data { get; set; }
         public List<string> Errors { get; set; }
 
+        public void AddError(string error)
+        {
+            this.Errors.Add(error);
+        }
+
         public HttpDataResponse()
         {
             Errors = new List<string>();

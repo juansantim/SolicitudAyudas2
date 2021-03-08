@@ -9,6 +9,7 @@ import { UnavailableComponent } from './pages/unavailable/unavailable.component'
 import { ConsultaComponent } from './pages/consulta/consulta.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
+import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,7 +19,9 @@ const routes: Routes = [
   { path: 'servicionodisponible', component: UnavailableComponent }, 
   { path: 'consulta', component: ConsultaComponent, canActivate: [AuthGuardDefault] }, 
   { path: 'estadisticas', component: EstadisticasComponent, canActivate: [AuthGuardDefault] },
+  { path: 'modificarusuario/:usuarioId', component: RegistrarUsuarioComponent, canActivate: [AuthGuardDefault] },
   { path: 'registrarusuario', component: RegistrarUsuarioComponent, canActivate: [AuthGuardDefault] },
+  { path: 'consultausuarios', component: ConsultaUsuariosComponent, canActivate: [AuthGuardDefault] },
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
 ];
 
