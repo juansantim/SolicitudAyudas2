@@ -1,4 +1,7 @@
+import { PermisoUsuarioDTO } from "./PermisoUsuarioDTO";
+
 export class CreacionUsuarioDTO {
+    public Id:number;
     public Login: string;
     public Cedula: string;
     public NombreCompleto: string;
@@ -12,10 +15,5 @@ export class CreacionUsuarioDTO {
     public FechaNacimiento: Date;
     public Cargo: string;
     public Host:string;
-    public PermisosUsuario:Array<PermisoUsuario> = [];
-}
-
-export class PermisoUsuario{
-    UsuarioId: number;
-    PermisoId: number;
+    public PermisosUsuario:Array<PermisoUsuarioDTO> = [];
 }

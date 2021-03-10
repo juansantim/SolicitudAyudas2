@@ -10,11 +10,17 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
+import { SeccionalDTO } from '../model/SeccionalDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  GetPermisosUsuario(usuarioId: number):Observable<any> {
+    let url = this.GetUrl(`account/GetPermisos?usuarioId=${usuarioId}`)
+    
+    return this.http.get(url);
+  }
   
   GetDetalleUsuario(usuarioId: any):Observable<any> {
     let url = this.GetUrl(`account/GetDetalleUsuario?usuarioId=${usuarioId}`);
@@ -39,6 +45,8 @@ export class DataService {
   ReloadSolicitud = new Subject<number>();
   cargandoReporte = new Subject<boolean>();
   userLogedIn = new Subject<any>();
+  userUserLoaded = new Subject<number>();
+  setSeccional = new Subject<SeccionalDTO>();
   
   ProcesarSolicitud(solicitudId:number, estadoId: number, comentario: string):Observable<any> {
     var url = this.GetUrl('solicitud/ProcesarSolicitud');

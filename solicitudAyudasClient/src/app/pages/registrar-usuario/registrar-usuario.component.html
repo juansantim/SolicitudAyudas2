@@ -102,15 +102,22 @@
 
     </div>
 
-    <div class="row f">
-        <div class="col">
-            <br>
-            <div class="">
-                <button type="submit" class="btn btn-success float-right">Crear Usuario</button>
-                <a [routerLink]="['/consultausuarios']" routerLinkActive="router-link-active"  class="btn btn-secondary float-left">Ir a consulta </a>
-            </div>
-            </div>
-         
-    </div>
 </fieldset>
+<fieldset>
+    <legend>Permisos:</legend>
+    <app-permisos-usuario (onPermisosChanged) = "onPermisosChange($event)"></app-permisos-usuario>
+</fieldset>
+
+
+<div class="row">
+    <div class="col">
+        <br>
+        <div class="">
+            <button type="submit" class="btn btn-success float-right" [disabled] = "cargando">Crear Usuario</button>
+            <app-loading [show] = "cargando"></app-loading>
+            <a [routerLink]="['/consultausuarios']" routerLinkActive="router-link-active"  class="btn btn-secondary float-left">Ir a consulta </a>
+        </div>
+        </div>
+     
+</div>
 </form>

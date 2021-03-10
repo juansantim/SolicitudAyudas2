@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreacionUsuarioDTO } from 'src/app/model/CreacionUsuarioDTO';
+import { PermisoUsuarioDTO } from 'src/app/model/PermisoUsuarioDTO';
+import { SeccionalDTO } from 'src/app/model/SeccionalDTO';
 import { DataService } from 'src/app/services/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import Swal from 'sweetalert2';
@@ -31,13 +33,15 @@ export class RegistrarUsuarioComponent implements OnInit {
     private utils: UtilsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   seccional: any;
-  cargando: false;
+  cargando: boolean;  
+  usuario: CreacionUsuarioDTO = new CreacionUsuarioDTO();
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      let usuarioId = params['usuarioId'];
+      this.usuario.Id = parseInt(params['usuarioId']);
       
-      this.dataService.GetDetalleUsuario(usuarioId).subscribe(response => {
+      this.cargando = true;
+      this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
         let usr = response.data;
 
         this.formulario.get('cedula').setValue(usr.cedula);
@@ -52,9 +56,23 @@ export class RegistrarUsuarioComponent implements OnInit {
         this.formulario.get('direccion').setValue(usr.direccion);
         this.formulario.get('cargo').setValue(usr.cargo);
         
+        this.cargando = false;
+        this.dataService.userUserLoaded.next(this.usuario.Id);
+        let seccionalDto:SeccionalDTO = new SeccionalDTO();
+        seccionalDto.seccionalId = usr.seccionalId;
+        seccionalDto.seccional = usr.seccional;
+
+        this.dataService.setSeccional.next(seccionalDto);
+
+      }, error => {
+        this.cargando = false;
       });
       
     })
+  }
+  
+  onPermisosChange(event){
+    this.usuario.PermisosUsuario = event;
   }
 
   onSubmit() {
@@ -66,26 +84,29 @@ export class RegistrarUsuarioComponent implements OnInit {
         telefonoCelular, telefonoResidencia, telefonoLaboral,
         sexo, direccion, cargo } = this.formulario.controls;
 
-      let usuario = new CreacionUsuarioDTO();
+       
+      //let usuario = new CreacionUsuarioDTO();
 
-      usuario.Cedula = cedula.value;
-      usuario.Email = email.value;
-      usuario.NombreCompleto = nombreCompleto.value;
-      usuario.SeccionalId = this.seccional;
-      usuario.FechaNacimiento = fechaNacimiento.value;
-      usuario.TelefonoCelular = telefonoCelular.value;
-      usuario.TelefonoResidencial = telefonoResidencia.value;
-      usuario.TelefonoLabora = telefonoLaboral.value;
-      usuario.Sexo = sexo.value
-      usuario.Direccion = direccion.value;
-      usuario.Cargo = cargo.value;
-      usuario.Host = `${location.protocol}//${location.host}`
+      this.usuario.Cedula = cedula.value;
+      this.usuario.Email = email.value;
+      this.usuario.NombreCompleto = nombreCompleto.value;
+      this.usuario.SeccionalId = this.seccional;
+      this.usuario.FechaNacimiento = fechaNacimiento.value;
+      this.usuario.TelefonoCelular = telefonoCelular.value;
+      this.usuario.TelefonoResidencial = telefonoResidencia.value;
+      this.usuario.TelefonoLabora = telefonoLaboral.value;
+      this.usuario.Sexo = sexo.value
+      this.usuario.Direccion = direccion.value;
+      this.usuario.Cargo = cargo.value;
+      this.usuario.Host = `${location.protocol}//${location.host}`
 
-      this.dataService.CrearUsuario(usuario).subscribe(response => {
+      let  action = this.usuario.Id? "actualizado": "creado";
+
+      this.dataService.CrearUsuario(this.usuario).subscribe(response => {
         if (response.success) {
           Swal.fire({
-            title: 'Usuario Registrado Satisfactoriamente',
-            text: `se ha enviado un correo electronico a ${email.value} para completrar el registro`,
+            title: `Usuario ${action} satisfactoriamente`,
+            text: `se ha enviado un correo electrónico a ${email.value} para completar el registro`,
             icon: 'info',
             showConfirmButton: true,
             confirmButtonText: 'Crear Otro Usuario',

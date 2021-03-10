@@ -43,7 +43,8 @@ import { SeccionalComponent } from './common/seccional/seccional.component';
 import { ProcesarSolicitudComponent } from './pages/detalle-solicitud/procesar-solicitud/procesar-solicitud.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
-import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component'
+import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component';
+import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usuario/permisos-usuario.component'
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-us
     SeccionalComponent,
     ProcesarSolicitudComponent,
     RegistrarUsuarioComponent,
-    ConsultaUsuariosComponent
+    ConsultaUsuariosComponent,
+    PermisosUsuarioComponent
   ],
   imports: [
     BrowserModule,

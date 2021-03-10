@@ -15,6 +15,7 @@ namespace SolicitudAyuda.Model.Entities
         public int? PresidenteId { get; set; }
         public List<Maestro> Maestros { get; set; }
         public List<SolicitudAyuda> SolicitudesAyuda { get; set; }
+        public List<Usuario> Usuarios { get; set; }
 
         public Seccional()
         {

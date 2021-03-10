@@ -18,8 +18,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(u => u.TempPassword).HasMaxLength(10);
             
             entity.HasMany(u => u.PermisosUsuario).WithOne(PermisoUsuario => PermisoUsuario.Usuario).HasForeignKey(pu => pu.UsuarioId);
-
             entity.HasMany(u => u.UsuariosComisionesAprobacion).WithOne(uc => uc.Usuario).HasForeignKey(uc => uc.UsuarioId).OnDelete(DeleteBehavior.NoAction); 
+            
             
             entity.HasData(new Usuario 
             {

@@ -21,8 +21,9 @@ namespace SolicitudAyuda.Model.Services
         public Usuario GetById(int usuarioId)
         {
             return db.Usuarios
-                .Include(u => u.Maestro)
-                .Include(u => u.PermisosUsuario)
+                .Include(u => u.Seccional)
+                .Include(u => u.Maestro)                
+                .Include(u => u.PermisosUsuario)                
                 .ThenInclude(pu => pu.Permiso).Single(u => u.Id == usuarioId);  
         }
 

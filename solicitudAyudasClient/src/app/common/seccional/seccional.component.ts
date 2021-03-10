@@ -22,6 +22,12 @@ export class SeccionalComponent implements OnInit {
       Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
     })
 
+    this.dataService.setSeccional.subscribe(data => {
+      this.seccional = data.seccional;
+      this.onSelect.next(data.seccionalId);
+      this.selectedSeccional = data;
+    })
+
   }
 
   @Output()

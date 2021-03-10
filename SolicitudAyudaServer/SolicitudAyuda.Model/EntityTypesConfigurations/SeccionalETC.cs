@@ -19,6 +19,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
 
             entity.HasMany(e => e.Maestros).WithOne(m => m.Seccional).IsRequired(true);
 
+            entity.HasMany(s => s.Usuarios).WithOne(u => u.Seccional).HasForeignKey(u=> u.SecconalId).OnDelete(DeleteBehavior.NoAction); 
+
             //data
             var path = $"{ Environment.CurrentDirectory}{Path.AltDirectorySeparatorChar}seccionales.json";
             Console.WriteLine(path);
