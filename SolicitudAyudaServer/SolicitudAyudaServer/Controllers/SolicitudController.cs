@@ -92,7 +92,10 @@ namespace SolicitudAyudaServer.Controllers
                         SeccionalId = maestroDto.SeccionalId,
                         Sexo = maestroDto.Sexo,
                         FechaNacimiento = maestroDto.FechaNacimiento,
-                        Direccion = solicitud.Direccion
+                        Direccion = solicitud.Direccion,
+                        TelefonoCelular = solicitud.Celular,
+                        TelefonoLabora = solicitud.TelefonoTrabajo,
+                        TelefonoResidencial = solicitud.TelefonoCasa,
                     };
                 }
 

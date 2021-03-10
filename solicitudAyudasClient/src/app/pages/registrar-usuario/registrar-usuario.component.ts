@@ -37,8 +37,21 @@ export class RegistrarUsuarioComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       let usuarioId = params['usuarioId'];
       
-      this.dataService.GetDetalleUsuario(usuarioId).subscribe(data => {
-        console.log(data);
+      this.dataService.GetDetalleUsuario(usuarioId).subscribe(response => {
+        let usr = response.data;
+
+        this.formulario.get('cedula').setValue(usr.cedula);
+        this.formulario.get('email').setValue(usr.email);
+        this.formulario.get('nombreCompleto').setValue(usr.nombreCompleto);
+        this.formulario.get('seccional').setValue(usr.seccionalId);
+        this.formulario.get('fechaNacimiento').setValue(usr.fechaNacimiento);
+        this.formulario.get('telefonoCelular').setValue(usr.telefonoCelular);
+        this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencia);
+        this.formulario.get('telefonoLaboral').setValue(usr.telefonoLaboral);
+        this.formulario.get('sexo').setValue(usr.sexo);
+        this.formulario.get('direccion').setValue(usr.direccion);
+        this.formulario.get('cargo').setValue(usr.cargo);
+        
       });
       
     })

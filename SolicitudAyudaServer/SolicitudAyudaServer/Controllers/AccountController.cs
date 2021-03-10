@@ -152,7 +152,10 @@ namespace SolicitudAyudaServer.Controllers
                             SeccionalId = usuarioDTO.SeccionalId,
                             Sexo = usuarioDTO.Sexo,
                             FechaNacimiento = usuarioDTO.FechaNacimiento,
-                            Direccion = usuarioDTO.Direccion
+                            Direccion = usuarioDTO.Direccion,
+                            TelefonoCelular = usuarioDTO.TelefonoCelular,
+                            TelefonoLabora = usuarioDTO.TelefonoLabora,
+                            TelefonoResidencial = usuarioDTO.TelefonoResidencial
                         });
 
                         db.SaveChanges();
@@ -175,18 +178,20 @@ namespace SolicitudAyudaServer.Controllers
 
                         var activationUrl = $"{usuarioDTO.Host}/CompletarRegistro?id={id}";
 
+                        scope.Complete();
+
                         sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
                     }
 
                 }
                 else
                 {
-                    response.Errors.Add("Usted no tiene permisos para crear usuarios");
+                    response.AddError("Usted no tiene permisos para crear usuarios");
                 }
             }
             else
             {
-                response.Errors.Add("Usted no tiene permisos para crear usuarios");
+                response.AddError("Usted no tiene permisos para crear usuarios");
             }
 
 
