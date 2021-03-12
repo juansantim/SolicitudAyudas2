@@ -81,6 +81,24 @@ namespace SolicitudAyudaServer.Controllers
                 if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
                 {
                     maestro = db.Maestros.Single(m => m.Cedula == maestroDto.Cedula);
+
+                    if (this.service.TieneSolicitudElMismoDia(maestro)) 
+                    {
+                        response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
+                        return response;
+                    }
+
+                    var solicitudesAnteriores = this.service.TieneSolicitudAntesTiempoReglamentario(maestro);
+
+                    if (solicitudesAnteriores.Count > 0) 
+                    {
+                        foreach (var s in solicitudesAnteriores)
+                        {
+                            response.AddError($"Este filiado tiene la solicitud #{s.Numero} - {s.Tipo} ({s.Estado}) {s.Fecha.ToString("dd/MM/yyyy")} hace menos de {this.service.TiempoReglamentario.Periodo}");
+                        }
+              
+                        return response;
+                    }
                 }
                 else
                 {

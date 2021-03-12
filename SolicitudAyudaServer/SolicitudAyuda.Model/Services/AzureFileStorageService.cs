@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Services.Signatures;
 using System;
@@ -13,12 +14,28 @@ namespace SolicitudAyuda.Model.Services
     {
         private readonly BlobServiceClient blobService;
         private readonly DataContext db;
-        private string ContainerName = "solicitudesayuda";
+        private readonly IConfiguration config;
 
-        public AzureFileStorageService(BlobServiceClient blobService, DataContext db)
+        private string ContainerName
+        {
+            get
+            {
+                if (config.GetConnectionString("adp").Contains("adpsqlserver1"))
+                {
+                    return "solicitudesayuda";
+                }
+                else
+                {
+                    return "solicitudesayudatests";
+                }
+            }
+        }
+
+        public AzureFileStorageService(BlobServiceClient blobService, DataContext db, IConfiguration config)
         {
             this.blobService = blobService;
             this.db = db;
+            this.config = config;
         }
         public FileDataDTO GetFile(int fileId)
         {
@@ -50,7 +67,7 @@ namespace SolicitudAyuda.Model.Services
                     SolicitudAyudaId = solicitud.Id,
                     SizeMB = (item.Content.Length / 1024) / 1024,
                     ContentType = item.ContenType,
-                    URL = item.FileName   
+                    URL = item.FileName
                 });
 
                 SaveToAzure(item);
@@ -59,11 +76,11 @@ namespace SolicitudAyuda.Model.Services
             db.SaveChanges();
         }
 
-        private void SaveToAzure(FileDataDTO file) 
+        private void SaveToAzure(FileDataDTO file)
         {
             var containerClient = blobService.GetBlobContainerClient(ContainerName);
             var blobClient = containerClient.GetBlobClient(file.FileName);
-            var blobInfo = blobClient.Upload(file.Content);            
+            var blobInfo = blobClient.Upload(file.Content);
         }
 
     }

@@ -1,10 +1,16 @@
 {
   "dependencies": {
+    "storage1": {
+      "type": "storage",
+      "connectionId": "StorageConnectionString",
+      "suggestion": "true",
+      "ignored": "true"
+    },
     "mssql1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/adpsqlserver1/databases/ayudasadp",
-      "type": "mssql.azure",
+      "type": "mssql",
       "connectionId": "adp",
-      "secretStore": "AzureAppSettings"
+      "suggestion": "true",
+      "ignored": "true"
     }
   }
 }

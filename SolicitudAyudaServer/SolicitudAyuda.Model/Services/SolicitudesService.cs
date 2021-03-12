@@ -18,6 +18,19 @@ namespace SolicitudAyuda.Model.Services
         private readonly DataContext db;
         private readonly IConfiguration config;
 
+        public TipoReglamentarioOtraSolicitudDTO TiempoReglamentario
+        {
+            get
+            {
+                TipoReglamentarioOtraSolicitudDTO tiempo = new TipoReglamentarioOtraSolicitudDTO();
+
+                tiempo.Dias = int.Parse( this.config["TiempoReglamentario:Dias"]);
+                tiempo.Periodo = this.config["TiempoReglamentario:Periodo"];
+
+                return tiempo;
+            }
+        }
+
         public SolicitudesService(DataContext db, IConfiguration config)
         {
             this.db = db;
@@ -298,6 +311,36 @@ namespace SolicitudAyuda.Model.Services
 
             result.Append(line);
             return result.ToString();
+        }
+
+        public bool TieneSolicitudElMismoDia(Maestro maestro)
+        {
+            var desde = DateTime.Now.AddDays(-1);
+            var hasta = DateTime.Now;
+
+            return db.Solicitudes.Any(s =>
+            s.CedulaSolicitante == maestro.Cedula &&
+            s.FechaSolicitud >= desde &&
+            s.FechaSolicitud <= hasta && (s.EstadoId != 4 && s.EstadoId != 5));
+        }
+
+        public List<UltimasSolicitudesDTO> TieneSolicitudAntesTiempoReglamentario(Maestro maestro)
+        {
+            var desde = DateTime.Now.AddDays(-this.TiempoReglamentario.Dias);
+            var hasta = DateTime.Now;
+
+            return db.Solicitudes
+                .Include(s => s.Estado)
+                .Include(s => s.TipoSolicitud)
+                .Where(s => s.CedulaSolicitante == maestro.Cedula &&
+            s.FechaSolicitud >= desde &&
+            s.FechaSolicitud <= hasta && (s.EstadoId != 4 && s.EstadoId != 5))
+                .Select(t => new UltimasSolicitudesDTO { 
+                    Estado = t.Estado.Nombre,
+                    Tipo = t.TipoSolicitud.Nombre,
+                    Numero = t.NumeroExpediente,
+                    Fecha = t.FechaSolicitud
+                }).ToList();
         }
     }
 }
