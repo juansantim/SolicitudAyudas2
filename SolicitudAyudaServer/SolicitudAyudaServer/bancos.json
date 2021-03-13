@@ -1,0 +1,206 @@
+﻿[
+    {
+        "Id": "1",
+        "Nombre": "BanReservas (Banco de Reservas)"
+    },
+    {
+        "Id": "2",
+        "Nombre": "Banco Popular Dominicano"
+    },
+    {
+        "Id": "3",
+        "Nombre": "Banco Agrícola"
+    },
+    {
+        "Id": "4",
+        "Nombre": "Banco BHD León"
+    },
+    {
+        "Id": "5",
+        "Nombre": "Banco Vimenca"
+    },
+    {
+        "Id": "6",
+        "Nombre": "Banco Santa Cruz"
+    },
+    {
+        "Id": "7",
+        "Nombre": "Banco Caribe"
+    },
+    {
+        "Id": "8",
+        "Nombre": "Banco BDI"
+    },
+    {
+        "Id": "9",
+        "Nombre": "Banco López de Haro"
+    },
+    {
+        "Id": "10",
+        "Nombre": "Banco Ademi"
+    },
+    {
+        "Id": "11",
+        "Nombre": "Banco BELLBANK"
+    },
+    {
+        "Id": "12",
+        "Nombre": "Banco Múltiple Activo Dominicana"
+    },
+    {
+        "Id": "13",
+        "Nombre": "Scotiabank"
+    },
+    {
+        "Id": "14",
+        "Nombre": "Citibank"
+    },
+    {
+        "Id": "15",
+        "Nombre": "Banco Promerica"
+    },
+    {
+        "Id": "16",
+        "Nombre": "Banesco"
+    },
+    {
+        "Id": "17",
+        "Nombre": "Bancamerica"
+    },
+    {
+        "Id": "18",
+        "Nombre": "Banco Atlántico"
+    },
+    {
+        "Id": "19",
+        "Nombre": "Banco Bancotui"
+    },
+    {
+        "Id": "20",
+        "Nombre": "Banco BDA"
+    },
+    {
+        "Id": "21",
+        "Nombre": "Banco Adopem"
+    },
+    {
+        "Id": "22",
+        "Nombre": "Banco Agrícola De La República Dominicana"
+    },
+    {
+        "Id": "23",
+        "Nombre": "Banco Pyme Bhd"
+    },
+    {
+        "Id": "24",
+        "Nombre": "Banco Capital"
+    },
+    {
+        "Id": "25",
+        "Nombre": "Banco Confisa"
+    },
+    {
+        "Id": "26",
+        "Nombre": "Banco Empire"
+    },
+    {
+        "Id": "27",
+        "Nombre": "Banco Motor Crédito"
+    },
+    {
+        "Id": "28",
+        "Nombre": "Banco Rio"
+    },
+    {
+        "Id": "29",
+        "Nombre": "Banco Del Caribe"
+    },
+    {
+        "Id": "30",
+        "Nombre": "Banco Inmobiliario (Banaci)"
+    },
+    {
+        "Id": "31",
+        "Nombre": "Banco Gruficorp"
+    },
+    {
+        "Id": "32",
+        "Nombre": "Banco Cofaci"
+    },
+    {
+        "Id": "33",
+        "Nombre": "Banco Bonanza"
+    },
+    {
+        "Id": "34",
+        "Nombre": "Banco Fihogar"
+    },
+    {
+        "Id": "35",
+        "Nombre": "Banco Federal"
+    },
+    {
+        "Id": "36",
+        "Nombre": "Banco Micro"
+    },
+    {
+        "Id": "37",
+        "Nombre": "Banco Union"
+    },
+    {
+        "Id": "38",
+        "Nombre": "Asociación Popular"
+    },
+    {
+        "Id": "39",
+        "Nombre": "Asociación Popular de Ahorros y Préstamos"
+    },
+    {
+        "Id": "40",
+        "Nombre": "Asociación Cibao"
+    },
+    {
+        "Id": "41",
+        "Nombre": "Asociación Nortena"
+    },
+    {
+        "Id": "42",
+        "Nombre": "Asociación Peravia"
+    },
+    {
+        "Id": "43",
+        "Nombre": "Asociación Romana"
+    },
+    {
+        "Id": "44",
+        "Nombre": "Asociación Higuamo"
+    },
+    {
+        "Id": "45",
+        "Nombre": "Asociación La Vega Real"
+    },
+    {
+        "Id": "46",
+        "Nombre": "Asociación Duarte"
+    },
+    {
+        "Id": "47",
+        "Nombre": "Asociación Barahona"
+    },
+    {
+        "Id": "48",
+        "Nombre": "Asociación Maguana"
+    },
+    {
+        "Id": "49",
+        "Nombre": "Asociación Mocana"
+    },
+    {
+        "Id": "50",
+        "Nombre": "Asociación Bonao"
+    },
+    {
+        "Id": "51",
+        "Nombre": "Asociación La Nacional"
+    }
+]
