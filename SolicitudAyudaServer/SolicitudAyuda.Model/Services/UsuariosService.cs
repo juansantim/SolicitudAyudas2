@@ -64,7 +64,7 @@ namespace SolicitudAyuda.Model.Services
                 Disponible = u.Disponible,
                 Email = u.Email,
                 Seccional = u.Seccional.Nombre,
-                SeccionalId = u.SecconalId,
+                SeccionalId = u.SeccionalId,
                 Permisos = u.PermisosUsuario.Where(pu => pu.Disponible).Select(pu => pu.Permiso.Nombre).ToList(),
                 Comisiones = u.UsuariosComisionesAprobacion.Where(cu => cu.Disponible).Select(cu => cu.ComisionAprobacion.Nombre).ToList()
             }).ToList();

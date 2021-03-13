@@ -27,7 +27,7 @@ namespace SolicitudAyuda.Model.Entities
         public List<PermisoUsuario> PermisosUsuario { get; set; }
         public List<UsuarioComisionAprobacion> UsuariosComisionesAprobacion { get; set; }
         public List<AprobacionSolicitud> AprobacionesSolicitudes { get; set; }
-        public int SecconalId { get; set; }
+        public int SeccionalId { get; set; }
         public Seccional Seccional { get; set; }
     }
 }

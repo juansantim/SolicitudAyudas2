@@ -185,7 +185,7 @@ namespace SolicitudAyudaServer.Controllers
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.Disponible = false;
                         usuario.FechaInactivacion = null;
-                        usuario.SecconalId = usuarioDTO.SeccionalId;
+                        usuario.SeccionalId = usuarioDTO.SeccionalId;
                         usuario.MaestroId = maestro.Id;
 
                         db.SaveChanges();
@@ -371,7 +371,7 @@ namespace SolicitudAyudaServer.Controllers
                 FechaNacimiento = usuario.Maestro.FechaNacimiento,
                 Login = usuario.Login,
                 Sexo = usuario.Maestro.Sexo,
-                SeccionalId = usuario.SecconalId,
+                SeccionalId = usuario.SeccionalId,
                 Seccional = usuario.Seccional.Nombre,
                 TelefonoCelular = usuario.Maestro.TelefonoCelular,
                 TelefonoLabora = usuario.Maestro.TelefonoLabora,
