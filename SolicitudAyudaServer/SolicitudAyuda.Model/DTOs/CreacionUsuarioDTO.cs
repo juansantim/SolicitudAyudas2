@@ -21,9 +21,8 @@ namespace SolicitudAyuda.Model.DTOs
         public DateTime FechaNacimiento { get; set; }
 
         public string Host { get; set; }
-
-        public List<PermisoUsuarioDTO> PermisosUsuario { get; set; }
         public string Cargo { get; set; }
-        
+        public List<PermisoUsuarioDTO> PermisosUsuario { get; set; }
+        public List<ComisionAprobacionUsuarioDTO> ComisionesAprobacion { get; set; }
     }
 }

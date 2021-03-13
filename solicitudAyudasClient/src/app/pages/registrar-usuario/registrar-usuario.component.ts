@@ -50,8 +50,8 @@ export class RegistrarUsuarioComponent implements OnInit {
         this.formulario.get('seccional').setValue(usr.seccionalId);
         this.formulario.get('fechaNacimiento').setValue(usr.fechaNacimiento);
         this.formulario.get('telefonoCelular').setValue(usr.telefonoCelular);
-        this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencia);
-        this.formulario.get('telefonoLaboral').setValue(usr.telefonoLaboral);
+        this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencial);
+        this.formulario.get('telefonoLaboral').setValue(usr.telefonoLabora);
         this.formulario.get('sexo').setValue(usr.sexo);
         this.formulario.get('direccion').setValue(usr.direccion);
         this.formulario.get('cargo').setValue(usr.cargo);
@@ -60,7 +60,11 @@ export class RegistrarUsuarioComponent implements OnInit {
         this.dataService.userUserLoaded.next(this.usuario.Id);
         let seccionalDto:SeccionalDTO = new SeccionalDTO();
         seccionalDto.seccionalId = usr.seccionalId;
+        
         seccionalDto.seccional = usr.seccional;
+        
+        this.usuario.PermisosUsuario = usr.permisosUsuario;        
+        this.usuario.ComisionesAprobacion = usr.comisionesAprobacion;
 
         this.dataService.setSeccional.next(seccionalDto);
 
@@ -73,6 +77,11 @@ export class RegistrarUsuarioComponent implements OnInit {
   
   onPermisosChange(event){
     this.usuario.PermisosUsuario = event;
+  }
+
+  onComisionesUsuarioChange(event){
+    this.usuario.ComisionesAprobacion = event;
+    console.log(event)
   }
 
   onSubmit() {

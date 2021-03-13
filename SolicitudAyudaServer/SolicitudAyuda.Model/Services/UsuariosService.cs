@@ -22,10 +22,12 @@ namespace SolicitudAyuda.Model.Services
         {
             return db.Usuarios
                 .Include(u => u.Seccional)
-                .Include(u => u.Maestro)                
-                .Include(u => u.PermisosUsuario)                
-                .ThenInclude(pu => pu.Permiso).Single(u => u.Id == usuarioId);  
+                .Include(u => u.Maestro)
+                .Include(u => u.PermisosUsuario)
+                .ThenInclude(pu => pu.Permiso).Single(u => u.Id == usuarioId);
         }
+
+
 
         public PaginatedResult<UsuariosConsultaDTO> GetDataConsulta(FiltroDataUsuarioDTO filtro)
         {
@@ -33,13 +35,15 @@ namespace SolicitudAyuda.Model.Services
 
             var query = db.Usuarios
                 .Include(u => u.Seccional)
+                .Include(u => u.UsuariosComisionesAprobacion)
+                .ThenInclude(uc => uc.ComisionAprobacion)
                 .Include(u => u.PermisosUsuario)
                 .ThenInclude(pu => pu.Permiso)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(filtro.SearchText))
             {
-                query = query.Where(q => 
+                query = query.Where(q =>
                 q.Email.Contains(filtro.SearchText) ||
                 q.NombreCompleto.Contains(filtro.SearchText));
             }
@@ -61,10 +65,49 @@ namespace SolicitudAyuda.Model.Services
                 Email = u.Email,
                 Seccional = u.Seccional.Nombre,
                 SeccionalId = u.SecconalId,
-                Permisos = u.PermisosUsuario.Where(pu => pu.Disponible).Select(pu => pu.Permiso.Nombre).ToList()
+                Permisos = u.PermisosUsuario.Where(pu => pu.Disponible).Select(pu => pu.Permiso.Nombre).ToList(),
+                Comisiones = u.UsuariosComisionesAprobacion.Where(cu => cu.Disponible).Select(cu => cu.ComisionAprobacion.Nombre).ToList()
             }).ToList();
 
             return result;
+        }
+
+        public List<PermisoUsuarioDTO> GetPermisosUsuario(int usuarioId)
+        {
+            var permisos = db.Permisos.ToList();
+            var permisosUsuarios = db.PermisosUsuarios.Where(pu => pu.UsuarioId == usuarioId);
+
+            return permisos.Select(p => new PermisoUsuarioDTO
+            {
+                PermisoId = p.Id,
+                Nombre = p.Nombre,
+                Checked = permisosUsuarios.Any(px => px.PermisoId == p.Id && px.Disponible),
+            }).ToList();
+        }
+
+        public List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion(int usuarioId)
+        {
+            var comisiones = db.ComisionesAprobacion.ToList();
+            var comisionesUsuario = db.UsuarioComisionAprobacion.Where(cu => cu.UsuarioId == usuarioId && cu.Disponible);
+
+            var comisionesResult = new List<ComisionAprobacionUsuarioDTO>();
+
+            foreach (var c in comisiones)
+            {
+                var cUsuario = comisionesUsuario.FirstOrDefault(cu => cu.ComisionAprobacionId == c.Id);
+                bool Checked = cUsuario != null;
+
+                comisionesResult.Add(new ComisionAprobacionUsuarioDTO
+                {
+                    Checked = Checked,
+                    ComisionAprobacionId = c.Id,
+                    Nombre = c.Nombre,
+                    UsuarioCreacionId = cUsuario == null ? 0 : cUsuario.UsuarioCreacionId,
+                    UsuarioId = cUsuario == null ? 0 : cUsuario.UsuarioId
+                });
+            }
+
+            return comisionesResult;
         }
     }
 }

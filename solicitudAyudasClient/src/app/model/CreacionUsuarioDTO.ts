@@ -1,3 +1,4 @@
+import { ComisionAprobacionUsuarioDTO } from "./ComisionAprobacionUsuarioDTO";
 import { PermisoUsuarioDTO } from "./PermisoUsuarioDTO";
 
 export class CreacionUsuarioDTO {
@@ -16,4 +17,5 @@ export class CreacionUsuarioDTO {
     public Cargo: string;
     public Host:string;
     public PermisosUsuario:Array<PermisoUsuarioDTO> = [];
+    public ComisionesAprobacion:Array<ComisionAprobacionUsuarioDTO> = [];
 }

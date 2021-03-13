@@ -10,7 +10,9 @@ import { DataService } from 'src/app/services/data.service';
 export class PermisosUsuarioComponent implements OnInit {
 
   cargando:boolean;  
-  permisos:Array<PermisoUsuarioDTO> = []
+  
+  @Input()
+  permisos:Array<PermisoUsuarioDTO>;
 
   @Output() 
   onPermisosChanged: EventEmitter<Array<PermisoUsuarioDTO>> = new EventEmitter();
@@ -22,14 +24,7 @@ export class PermisosUsuarioComponent implements OnInit {
   constructor(private dataService:DataService) { }
 
   ngOnInit() {
-    this.cargando= true;
-    this.dataService.userUserLoaded.subscribe(userId => {
-      this.dataService.GetPermisosUsuario(userId).subscribe(response => {
-        this.permisos = response.data;
-      })
-
-      this.cargando= false;
-    })
+   
   }
 
 }

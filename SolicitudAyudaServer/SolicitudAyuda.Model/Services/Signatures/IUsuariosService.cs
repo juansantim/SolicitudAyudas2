@@ -10,5 +10,8 @@ namespace SolicitudAyuda.Model.Services.Signatures
     {
         PaginatedResult<UsuariosConsultaDTO> GetDataConsulta(FiltroDataUsuarioDTO filtro);
         Usuario GetById(int usuarioId);
+
+        List<PermisoUsuarioDTO> GetPermisosUsuario(int usuarioId);
+        List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion(int usuarioId);
     }
 }

@@ -105,7 +105,12 @@
 </fieldset>
 <fieldset>
     <legend>Permisos:</legend>
-    <app-permisos-usuario (onPermisosChanged) = "onPermisosChange($event)"></app-permisos-usuario>
+    <app-permisos-usuario *ngIf="usuario" (onPermisosChanged) = "onPermisosChange($event)" [permisos] = "usuario.PermisosUsuario"></app-permisos-usuario>
+</fieldset>
+
+<fieldset>
+    <legend>Comisiones de Aprobación:</legend>
+    <app-comisiones-aprobacion-usuario *ngIf="usuario" (onChanged) = "onComisionesUsuarioChange($event)" [comisionesAprobacion] = "usuario.ComisionesAprobacion"></app-comisiones-aprobacion-usuario>
 </fieldset>
 
 
@@ -113,7 +118,7 @@
     <div class="col">
         <br>
         <div class="">
-            <button type="submit" class="btn btn-success float-right" [disabled] = "cargando">Crear Usuario</button>
+            <button type="submit" class="btn btn-success float-right" [disabled] = "cargando">Guardar</button>
             <app-loading [show] = "cargando"></app-loading>
             <a [routerLink]="['/consultausuarios']" routerLinkActive="router-link-active"  class="btn btn-secondary float-left">Ir a consulta </a>
         </div>

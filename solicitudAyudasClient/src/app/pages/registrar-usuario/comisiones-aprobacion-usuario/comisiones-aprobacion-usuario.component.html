@@ -1,0 +1,8 @@
+<div class="row" *ngFor="let p of comisionesAprobacion">
+    <div class="col">
+        {{p.nombre}}
+    </div>
+    <div class="col float-left">
+        <input type="checkbox" [(ngModel)]="p.checked" (change) ="change()">
+    </div>
+</div>

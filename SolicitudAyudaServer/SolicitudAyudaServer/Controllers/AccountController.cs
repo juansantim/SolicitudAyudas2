@@ -33,7 +33,9 @@ namespace SolicitudAyudaServer.Controllers
         private readonly IUsuariosService usuariosService;
 
         public AccountController(IConfiguration receivedConfig,
-            DataContext db, ISendEmailService mailService, IWebHostEnvironment environment,
+            DataContext db, 
+            ISendEmailService mailService, 
+            IWebHostEnvironment environment,
             IUsuariosService usuariosService) : base(db)
         {
             this._config = receivedConfig;
@@ -152,7 +154,7 @@ namespace SolicitudAyudaServer.Controllers
                             usuario = db.Usuarios.Single(u => u.Id == usuarioDTO.Id);
                             maestro = db.Maestros.Single(m => m.Id == usuario.MaestroId.Value);
                         }
-                        else 
+                        else
                         {
                             maestro = new Maestro();
                             usuario = new Usuario();
@@ -174,7 +176,7 @@ namespace SolicitudAyudaServer.Controllers
                         maestro.TelefonoCelular = usuarioDTO.TelefonoCelular;
                         maestro.TelefonoLabora = usuarioDTO.TelefonoLabora;
                         maestro.TelefonoResidencial = usuarioDTO.TelefonoResidencial;
-                        
+
                         db.SaveChanges();
 
                         usuario.Login = usuarioDTO.Login;
@@ -185,48 +187,21 @@ namespace SolicitudAyudaServer.Controllers
                         usuario.FechaInactivacion = null;
                         usuario.SecconalId = usuarioDTO.SeccionalId;
                         usuario.MaestroId = maestro.Id;
-                        
-                        db.SaveChanges();
-
-                        foreach (var item in usuarioDTO.PermisosUsuario)
-                        {
-                            var permisoUsuario = db.PermisosUsuarios.FirstOrDefault(pu => pu.UsuarioId == usuario.Id && pu.PermisoId == item.PermisoId);
-
-                            if (item.Checked) 
-                            {                            
-                                if (permisoUsuario == null)
-                                {
-                                    db.PermisosUsuarios.Add(new PermisoUsuario
-                                    {
-                                        PermisoId = item.PermisoId,
-                                        UsuarioId = usuario.Id,
-                                        Disponible = true
-                                    });
-                                }
-                                else if (permisoUsuario.Disponible == false) 
-                                {
-                                    permisoUsuario.Disponible = true;
-                                }
-                            }
-                            else
-                            {
-                                if (permisoUsuario != null) 
-                                {
-                                    permisoUsuario.Disponible = false;
-                                }
-                            }
-                        }
 
                         db.SaveChanges();
 
-                        var id = EncryptationService.Encrypt(usuario.Id.ToString());
+                        ActualizarPermisos(usuarioDTO, usuario);
+                        ActualizarComisiones(usuarioDTO, usuario);
 
-                        var activationUrl = $"{usuarioDTO.Host}/CompletarRegistro?id={id}";
+                        db.SaveChanges();
 
                         scope.Complete();
 
-                        if (usuarioDTO.Id == 0) 
+                        if (usuarioDTO.Id == 0)
                         {
+                            var id = EncryptationService.Encrypt(usuario.Id.ToString());
+                            var activationUrl = $"{usuarioDTO.Host}/CompletarRegistro?id={id}";
+
                             sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
                         }
                     }
@@ -245,6 +220,73 @@ namespace SolicitudAyudaServer.Controllers
 
             return new JsonResult(response);
         }
+
+        private void ActualizarPermisos(CreacionUsuarioDTO usuarioDTO, Usuario usuario)
+        {
+            foreach (var item in usuarioDTO.PermisosUsuario)
+            {
+                var permisoUsuario = db.PermisosUsuarios.FirstOrDefault(pu => pu.UsuarioId == usuario.Id && pu.PermisoId == item.PermisoId);
+
+                if (item.Checked)
+                {
+                    if (permisoUsuario == null)
+                    {
+                        db.PermisosUsuarios.Add(new PermisoUsuario
+                        {
+                            PermisoId = item.PermisoId,
+                            UsuarioId = usuario.Id,
+                            Disponible = true,
+                        });
+                    }
+                    else if (permisoUsuario.Disponible == false)
+                    {
+                        permisoUsuario.Disponible = true;
+                    }
+                }
+                else
+                {
+                    if (permisoUsuario != null)
+                    {
+                        permisoUsuario.Disponible = false;
+                    }
+                }
+            }
+        }
+
+        private void ActualizarComisiones(CreacionUsuarioDTO usuarioDTO, Usuario usuario)
+        {
+            foreach (var item in usuarioDTO.ComisionesAprobacion)
+            {
+                var comisionAprobacionUsuario = db.UsuarioComisionAprobacion.FirstOrDefault(pu => pu.UsuarioId == usuario.Id && pu.ComisionAprobacionId == item.ComisionAprobacionId);
+
+                if (item.Checked)
+                {
+                    if (comisionAprobacionUsuario == null)
+                    {
+                        db.UsuarioComisionAprobacion.Add(new UsuarioComisionAprobacion
+                        {
+                            ComisionAprobacionId = item.ComisionAprobacionId,
+                            UsuarioId = usuario.Id,
+                            UsuarioCreacionId = this.UsuarioId,
+                            FechaCreacion = DateTime.Now,
+                            Disponible = true
+                        });
+                    }
+                    else if (comisionAprobacionUsuario.Disponible == false)
+                    {
+                        comisionAprobacionUsuario.Disponible = true;
+                    }
+                }
+                else
+                {
+                    if (comisionAprobacionUsuario != null)
+                    {
+                        comisionAprobacionUsuario.Disponible = false;
+                    }
+                }
+            }
+        }
+
 
         public string sendEmailCreacionUsuario(CreacionUsuarioDTO usuarioDTO, string activationUrl, string cancelUrl)
         {
@@ -334,44 +376,33 @@ namespace SolicitudAyudaServer.Controllers
                 TelefonoCelular = usuario.Maestro.TelefonoCelular,
                 TelefonoLabora = usuario.Maestro.TelefonoLabora,
                 TelefonoResidencial = usuario.Maestro.TelefonoResidencial,
-                PermisosUsuario = GetPermisosUsuario(usuarioId)
+                PermisosUsuario = usuariosService.GetPermisosUsuario(usuarioId),
+                ComisionesAprobacion = usuariosService.GetComisionesAprobacion(usuarioId)
             };
 
             return response;
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("GetPermisos")]
-        public HttpDataResponse GetPermisos(int usuarioId) 
-        {
-            HttpDataResponse response = new HttpDataResponse();
+        //[HttpGet]
+        //[Authorize]
+        //[Route("GetPermisos")]
+        //public HttpDataResponse GetPermisos(int usuarioId) 
+        //{
+        //    HttpDataResponse response = new HttpDataResponse();
 
-            try
-            {
-                response.Data = GetPermisosUsuario(usuarioId);
-            }
-            catch (Exception ex)
-            {
+        //    try
+        //    {
+        //        response.Data = usuariosService.GetPermisosUsuario(usuarioId);
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                response.AddError(ex.Message);
-            }
+        //        response.AddError(ex.Message);
+        //    }
             
-            return response; 
-        }
+        //    return response; 
+        //}
 
-        List<PermisoUsuarioDTO> GetPermisosUsuario(int usuarioId) 
-        {
-            var permisos = db.Permisos.ToList();
-            var permisosUsuarios = db.PermisosUsuarios.Where(pu => pu.UsuarioId == usuarioId);
-
-            return permisos.Select(p => new PermisoUsuarioDTO
-            {
-                PermisoId = p.Id,
-                UsuarioId = UsuarioId,
-                Nombre = p.Nombre,
-                Checked = permisosUsuarios.Any(px => px.PermisoId == p.Id && px.Disponible),
-            }).ToList();
-        }
+       
     }
 }

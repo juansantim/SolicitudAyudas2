@@ -24,6 +24,7 @@
         <th>Seccional</th>
         <th>Disponible</th>
         <th>Permisos</th>
+        <th>Comisiones</th>
     </thead>
     <tbody >
         <tr *ngFor="let u of usuarios">
@@ -35,6 +36,7 @@
                 <span class="badge badge-danger" *ngIf="!u.disponible">No Disponible</span>
             </td>
             <td [innerHTML] = "GetUl(u.permisos)"></td>
+            <td [innerHTML] = "GetUl(u.comisiones)"></td>
             <td>
                 <a routerLink="/modificarusuario/{{u.id}}" class="btn btn-primary">Ir a Detalle</a>
             </td>

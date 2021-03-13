@@ -44,7 +44,8 @@ import { ProcesarSolicitudComponent } from './pages/detalle-solicitud/procesar-s
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
 import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component';
-import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usuario/permisos-usuario.component'
+import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usuario/permisos-usuario.component';
+import { ComisionesAprobacionUsuarioComponent } from './pages/registrar-usuario/comisiones-aprobacion-usuario/comisiones-aprobacion-usuario.component'
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usu
     ProcesarSolicitudComponent,
     RegistrarUsuarioComponent,
     ConsultaUsuariosComponent,
-    PermisosUsuarioComponent
+    PermisosUsuarioComponent,
+    ComisionesAprobacionUsuarioComponent
   ],
   imports: [
     BrowserModule,

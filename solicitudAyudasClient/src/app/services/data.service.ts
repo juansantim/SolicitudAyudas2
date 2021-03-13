@@ -16,11 +16,11 @@ import { SeccionalDTO } from '../model/SeccionalDTO';
   providedIn: 'root'
 })
 export class DataService {
-  GetPermisosUsuario(usuarioId: number):Observable<any> {
-    let url = this.GetUrl(`account/GetPermisos?usuarioId=${usuarioId}`)
+  // GetPermisosUsuario(usuarioId: number):Observable<any> {
+  //   let url = this.GetUrl(`account/GetPermisos?usuarioId=${usuarioId}`)
     
-    return this.http.get(url);
-  }
+  //   return this.http.get(url);
+  // }
   
   GetDetalleUsuario(usuarioId: any):Observable<any> {
     let url = this.GetUrl(`account/GetDetalleUsuario?usuarioId=${usuarioId}`);

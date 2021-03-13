@@ -14,5 +14,7 @@ namespace SolicitudAyuda.Model.DTOs
         public int SeccionalId { get; set; }
 
         public List<string> Permisos { get; set; }
+
+        public List<string> Comisiones { get; set; }
     }
 }

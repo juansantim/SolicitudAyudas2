@@ -23,6 +23,7 @@ namespace SolicitudAyuda.Model
 
         public DbSet<UsuarioComisionAprobacion> UsuarioComisionAprobacion { get; set; }
         public DbSet<Permiso> Permisos { get; set; }
+        public DbSet<ComisionAprobacion> ComisionesAprobacion { get; internal set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {
