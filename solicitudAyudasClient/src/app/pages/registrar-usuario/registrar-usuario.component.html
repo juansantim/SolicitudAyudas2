@@ -113,6 +113,10 @@
     <app-comisiones-aprobacion-usuario *ngIf="usuario" (onChanged) = "onComisionesUsuarioChange($event)" [comisionesAprobacion] = "usuario.ComisionesAprobacion"></app-comisiones-aprobacion-usuario>
 </fieldset>
 
+<fieldset>
+    <legend>Disponible</legend>
+    <input type="checkbox" class="form-control" formControlName="disponible">
+</fieldset>
 
 <div class="row">
     <div class="col">

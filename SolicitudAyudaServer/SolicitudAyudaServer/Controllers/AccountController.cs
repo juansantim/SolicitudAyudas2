@@ -128,7 +128,7 @@ namespace SolicitudAyudaServer.Controllers
         {
             HttpDataResponse response = new HttpDataResponse();
 
-            var usuarioConEmail = db.Usuarios.FirstOrDefault(u => u.Email == usuarioDTO.Email && u.Disponible);
+            var usuarioConEmail = db.Usuarios.FirstOrDefault(u => u.Email == usuarioDTO.Email && u.Disponible && (usuarioDTO.Id == 0));
 
             if (usuarioConEmail != null)
             {
@@ -152,7 +152,8 @@ namespace SolicitudAyudaServer.Controllers
                         if (usuarioDTO.Id > 0)
                         {
                             usuario = db.Usuarios.Single(u => u.Id == usuarioDTO.Id);
-                            maestro = db.Maestros.Single(m => m.Id == usuario.MaestroId.Value);
+                            var mId = usuario.MaestroId ?? 0;
+                            maestro = db.Maestros.SingleOrDefault(m => m.Id == mId);
                         }
                         else
                         {
@@ -187,6 +188,7 @@ namespace SolicitudAyudaServer.Controllers
                         usuario.FechaInactivacion = null;
                         usuario.SeccionalId = usuarioDTO.SeccionalId;
                         usuario.MaestroId = maestro.Id;
+                        usuario.Disponible = usuarioDTO.Disponible;
 
                         db.SaveChanges();
 
@@ -377,7 +379,8 @@ namespace SolicitudAyudaServer.Controllers
                 TelefonoLabora = usuario.Maestro.TelefonoLabora,
                 TelefonoResidencial = usuario.Maestro.TelefonoResidencial,
                 PermisosUsuario = usuariosService.GetPermisosUsuario(usuarioId),
-                ComisionesAprobacion = usuariosService.GetComisionesAprobacion(usuarioId)
+                ComisionesAprobacion = usuariosService.GetComisionesAprobacion(usuarioId),
+                Disponible = usuario.Disponible
             };
 
             return response;

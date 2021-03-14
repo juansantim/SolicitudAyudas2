@@ -19,6 +19,7 @@ namespace SolicitudAyuda.Model.DTOs
         public string TelefonoResidencial { get; set; }
         public string Sexo { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public bool Disponible { get; set; }
 
         public string Host { get; set; }
         public string Cargo { get; set; }

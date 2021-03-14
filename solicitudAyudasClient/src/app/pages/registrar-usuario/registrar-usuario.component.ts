@@ -26,20 +26,21 @@ export class RegistrarUsuarioComponent implements OnInit {
     telefonoLaboral: new FormControl(''),
     sexo: new FormControl(''),
     direccion: new FormControl(''),
-    cargo: new FormControl('')
+    cargo: new FormControl(''),
+    disponible:new FormControl('')
   });
 
-  constructor(private dataService: DataService, 
+  constructor(private dataService: DataService,
     private utils: UtilsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   seccional: any;
-  cargando: boolean;  
+  cargando: boolean;
   usuario: CreacionUsuarioDTO = new CreacionUsuarioDTO();
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.usuario.Id = parseInt(params['usuarioId']);
-      
+
       this.cargando = true;
       this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
         let usr = response.data;
@@ -55,15 +56,16 @@ export class RegistrarUsuarioComponent implements OnInit {
         this.formulario.get('sexo').setValue(usr.sexo);
         this.formulario.get('direccion').setValue(usr.direccion);
         this.formulario.get('cargo').setValue(usr.cargo);
-        
+        this.formulario.get('disponible').setValue(usr.disponible);
+
         this.cargando = false;
         this.dataService.userUserLoaded.next(this.usuario.Id);
-        let seccionalDto:SeccionalDTO = new SeccionalDTO();
+        let seccionalDto: SeccionalDTO = new SeccionalDTO();
         seccionalDto.seccionalId = usr.seccionalId;
-        
+
         seccionalDto.seccional = usr.seccional;
-        
-        this.usuario.PermisosUsuario = usr.permisosUsuario;        
+
+        this.usuario.PermisosUsuario = usr.permisosUsuario;
         this.usuario.ComisionesAprobacion = usr.comisionesAprobacion;
 
         this.dataService.setSeccional.next(seccionalDto);
@@ -71,75 +73,101 @@ export class RegistrarUsuarioComponent implements OnInit {
       }, error => {
         this.cargando = false;
       });
-      
+
     })
   }
-  
-  onPermisosChange(event){
+
+  onPermisosChange(event) {
     this.usuario.PermisosUsuario = event;
   }
 
-  onComisionesUsuarioChange(event){
+  onComisionesUsuarioChange(event) {
     this.usuario.ComisionesAprobacion = event;
     console.log(event)
   }
 
   onSubmit() {
 
+    let action = this.usuario.Id ? "Actualizar" : "Crear";
+    //let mensaje = this.usuario.Id ? "Usuario actualizado correctamente" : `se ha enviado un correo electrónico a ${email.value} para completar el registro`;
 
     if (this.formulario.valid) {
+      Swal.fire({
+        title: `Aviso`,
+        text: `Desea ${action} este usuario?`,
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        showConfirmButton: true,
+        icon: 'warning',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        confirmButtonText: action,
+        preConfirm: () => {
+          let confirmPromise = new Promise((resolve, reject) => {
+            let { cedula, email, nombreCompleto, fechaNacimiento,
+              telefonoCelular, telefonoResidencia, telefonoLaboral,
+              sexo, direccion, cargo, disponible } = this.formulario.controls;
+  
+            this.usuario.Cedula = cedula.value;
+            this.usuario.Email = email.value;
+            this.usuario.NombreCompleto = nombreCompleto.value;
+            this.usuario.SeccionalId = this.seccional;
+            this.usuario.FechaNacimiento = fechaNacimiento.value;
+            this.usuario.TelefonoCelular = telefonoCelular.value;
+            this.usuario.TelefonoResidencial = telefonoResidencia.value;
+            this.usuario.TelefonoLabora = telefonoLaboral.value;
+            this.usuario.Sexo = sexo.value
+            this.usuario.Direccion = direccion.value;
+            this.usuario.Cargo = cargo.value;
+            this.usuario.Host = `${location.protocol}//${location.host}`
+            this.usuario.Disponible = disponible.value;
+  
+            //let action = this.usuario.Id ? "actualizado" : "creado";
+  
+  
+            this.dataService.CrearUsuario(this.usuario).subscribe(response => {
+              // if (response.success) {
+              //   Swal.fire({
+              //     title: `Usuario ${action} satisfactoriamente`,
+              //     text: mensaje,
+              //     icon: 'info'
+              //   }).then(alertResult => {
+              //     this.router.navigate(['/consultausuarios'])
+              //   });
+              // }
+              // else {
+              //   Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
+              // }
+              resolve(response);
+            }, error => {
+              reject(error);
+              //Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
+            });
+  
+          })
 
-      let { cedula, email, nombreCompleto, fechaNacimiento,
-        telefonoCelular, telefonoResidencia, telefonoLaboral,
-        sexo, direccion, cargo } = this.formulario.controls;
-
-       
-      //let usuario = new CreacionUsuarioDTO();
-
-      this.usuario.Cedula = cedula.value;
-      this.usuario.Email = email.value;
-      this.usuario.NombreCompleto = nombreCompleto.value;
-      this.usuario.SeccionalId = this.seccional;
-      this.usuario.FechaNacimiento = fechaNacimiento.value;
-      this.usuario.TelefonoCelular = telefonoCelular.value;
-      this.usuario.TelefonoResidencial = telefonoResidencia.value;
-      this.usuario.TelefonoLabora = telefonoLaboral.value;
-      this.usuario.Sexo = sexo.value
-      this.usuario.Direccion = direccion.value;
-      this.usuario.Cargo = cargo.value;
-      this.usuario.Host = `${location.protocol}//${location.host}`
-
-      let  action = this.usuario.Id? "actualizado": "creado";
-
-      this.dataService.CrearUsuario(this.usuario).subscribe(response => {
-        if (response.success) {
-          Swal.fire({
-            title: `Usuario ${action} satisfactoriamente`,
-            text: `se ha enviado un correo electrónico a ${email.value} para completar el registro`,
-            icon: 'info',
-            showConfirmButton: true,
-            confirmButtonText: 'Crear Otro Usuario',
-            showCancelButton: true,
-            cancelButtonText: "Ir a Consulta"
-          }).then(alertResult => {
-            if(alertResult.isConfirmed){
-              Object.keys(this.formulario.controls).forEach(controlName => {
-                let control = this.formulario.get(controlName)
-                control.setValue('');
-                control.markAsPristine();
-              });
-            }
-            else{
-              this.router.navigate(['/consultausuarios'])
-            }
-          });
+          return confirmPromise;
         }
-        else {
-          Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
+      }).then(response => {
+        let value:any = response.value;
+
+        if(value.error){
+          Swal.fire('Hubo un error al procesar solicitud', 'Hubo un error al procesar solicitud. Favor contactar soporte', 'error');
         }
-      }, error => {
-        Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
-      });
+        else{          
+            Swal.fire({
+                  title: `Usuario ${action} satisfactoriamente`,
+                  text: "Datos guardados correctamente",
+                  icon: 'info'
+                }).then(alertResult => {
+                  this.router.navigate(['/consultausuarios'])
+                });
+        }
+
+        console.log('RESOLVED', response);
+      }).catch(err => {
+        console.log('CATCHED!',err);
+      })
     }
     else {
       Object.keys(this.formulario.controls).forEach(controlName => {
@@ -147,6 +175,8 @@ export class RegistrarUsuarioComponent implements OnInit {
         control.markAsDirty();
       });
     }
+
+
   }
 
   SearchEmail() {

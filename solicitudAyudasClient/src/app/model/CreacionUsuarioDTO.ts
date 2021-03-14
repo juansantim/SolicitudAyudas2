@@ -18,4 +18,5 @@ export class CreacionUsuarioDTO {
     public Host:string;
     public PermisosUsuario:Array<PermisoUsuarioDTO> = [];
     public ComisionesAprobacion:Array<ComisionAprobacionUsuarioDTO> = [];
+    public Disponible: boolean;
 }
