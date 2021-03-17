@@ -18,6 +18,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(sa => sa.Direccion).HasMaxLength(255);
             entity.Property(s => s.Email).HasMaxLength(50);
             entity.Property(s => s.Concepto).HasMaxLength(500);
+            entity.Property(s => s.BancoId).HasDefaultValue(1);
 
             entity.HasOne(sa => sa.Maestro).WithMany(ma => ma.Solicitudes).HasForeignKey(sa => sa.MaestroId);
 
@@ -32,14 +33,12 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
 
             entity.HasOne(sa => sa.Usuario).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.UsuarioId);
 
-            
+            entity.HasOne(sa => sa.Banco).WithMany(b => b.SolicitudesAyuda).HasForeignKey(sa => sa.BancoId);
 
             entity.HasOne(sa => sa.Seccional).WithMany(sc => sc.SolicitudesAyuda)
                 .HasForeignKey(sa => sa.SeccionalId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            
-            
             entity .Property(o => o.NumeroExpediente)
                 .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
         }

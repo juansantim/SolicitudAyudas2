@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
+import { BancoForSelectDTO } from 'src/app/model/BancoSelectDTO';
 
 defineLocale('es-do', esDoLocale);
 
@@ -46,7 +47,9 @@ export class RegistroSolicitudComponent implements OnInit {
     esJubiladoInabima: new FormControl(''),
     estadoCuenta: new FormControl('', Validators.required),
     motivoSolicitud: new FormControl('', Validators.required),
-    cargo: new FormControl('', Validators.required)
+    cargo: new FormControl('', Validators.required),
+    banco: new FormControl('', Validators.required),
+    numeroCuentaBanco: new FormControl('', Validators.required)
   });
 
 
@@ -74,6 +77,7 @@ export class RegistroSolicitudComponent implements OnInit {
   tiposSolicitudes: Array<any>;
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
+  bancos:Array<BancoForSelectDTO> = [];
 
   archivos: File[] = [];
 
@@ -114,6 +118,10 @@ export class RegistroSolicitudComponent implements OnInit {
       this.tiposSolicitudes = data;
     }, err => {
       console.log(err);
+    })
+
+    this.dataService.GetBancos().subscribe(bancos => {
+      this.bancos = bancos;
     })
 
     this.cargandoSeccionales = false;
@@ -334,6 +342,8 @@ export class RegistroSolicitudComponent implements OnInit {
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("Direccion", this.solicitudAyudaForm.get('direccion').value);
+          form.append("BancoId",  this.solicitudAyudaForm.get('banco').value,);
+          form.append("NumeroCuentaBanco", this.solicitudAyudaForm.get('numeroCuentaBanco').value);
 
           let requisitos = [];
           this.RequisitosSolicitud.forEach(r => {
@@ -352,7 +362,8 @@ export class RegistroSolicitudComponent implements OnInit {
             FechaNacimiento: this.solicitudAyudaForm.get('fechaNacimiento').value,
             Sexo: this.solicitudAyudaForm.get('sexo').value,
             SeccionalId: this.selectedSeccional.id,
-            Cargo: this.solicitudAyudaForm.get('cargo').value
+            Cargo: this.solicitudAyudaForm.get('cargo').value,
+
           }))
 
 

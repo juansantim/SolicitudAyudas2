@@ -41,6 +41,10 @@ namespace SolicitudAyuda.Model.Entities
         public EstadoSolicitud Estado { get; set; }
         public string Direccion { get; internal set; }
 
+        public int BancoId { get; set; }
+        public Banco Banco { get; set; }
+        public string NumeroCuentaBanco { get; set; }
+
         public SolicitudAyuda()
         {
             Requisitos = new List<RequisitoSolicitud>();

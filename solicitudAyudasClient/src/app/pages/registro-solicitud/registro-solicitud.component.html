@@ -107,6 +107,26 @@
                 textMessage="Monto de Ayuda es obligatorio"></app-validation-error-message>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Banco</label>
+            <select class="form-control" formControlName="banco">
+                <option *ngFor="let b of bancos" value="{{b.id}}"> {{b.nombre}}</option>
+            </select>
+            <app-validation-error-message *ngIf="GetErrors('banco', 'required')"
+            textMessage="Debe seleccionar una entidad bancaria"></app-validation-error-message>
+        </div>
+        <div class="col-md-6">
+            <label>Numero de Cuenta</label>
+            <input type="text" class="form-control" formControlName="numeroCuentaBanco" minlength="5">
+            <app-validation-error-message *ngIf="GetErrors('numeroCuentaBanco', 'required')"
+            textMessage="La cuenta de banco es requerida"></app-validation-error-message>
+            
+            <app-validation-error-message *ngIf="GetErrors('numeroCuentaBanco', 'minlength')"
+            textMessage="El numero de cuenta debe contener al menos 5 digitos"></app-validation-error-message>
+        </div>
+    </div>
+
 
     <fieldset>
         <legend>Datos de Contacto</legend>

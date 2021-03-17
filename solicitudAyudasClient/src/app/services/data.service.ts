@@ -11,16 +11,19 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
+import { BancoForSelectDTO } from '../model/BancoSelectDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  // GetPermisosUsuario(usuarioId: number):Observable<any> {
-  //   let url = this.GetUrl(`account/GetPermisos?usuarioId=${usuarioId}`)
+
+  GetBancos():Observable<Array<BancoForSelectDTO>>
+  {
+    let url = this.GetUrl('bancos');
     
-  //   return this.http.get(url);
-  // }
+    return this.http.get<Array<BancoForSelectDTO>>(url);
+  }
   
   GetDetalleUsuario(usuarioId: any):Observable<any> {
     let url = this.GetUrl(`account/GetDetalleUsuario?usuarioId=${usuarioId}`);

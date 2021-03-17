@@ -25,6 +25,8 @@ namespace SolicitudAyuda.Model
         public DbSet<Permiso> Permisos { get; set; }
         public DbSet<ComisionAprobacion> ComisionesAprobacion { get; internal set; }
 
+        public DbSet<Banco> Banco { get; set; }
+
         public DataContext(DbContextOptions options) : base(options)
         {
             
