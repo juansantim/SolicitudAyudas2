@@ -10,6 +10,7 @@ import { ConsultaComponent } from './pages/consulta/consulta.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
 import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component';
+import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,9 @@ const routes: Routes = [
   { path: 'modificarusuario/:usuarioId', component: RegistrarUsuarioComponent, canActivate: [AuthGuardDefault] },
   { path: 'registrarusuario', component: RegistrarUsuarioComponent, canActivate: [AuthGuardDefault] },
   { path: 'consultausuarios', component: ConsultaUsuariosComponent, canActivate: [AuthGuardDefault] },
+  { path: 'activar/:id', component: ActivarUsuarioComponent},
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  
 ];
 
 @NgModule({

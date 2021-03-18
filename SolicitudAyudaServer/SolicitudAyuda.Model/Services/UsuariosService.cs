@@ -109,5 +109,35 @@ namespace SolicitudAyuda.Model.Services
 
             return comisionesResult;
         }
+
+        public void ActivarUsuario(ActivacionUsuarioDTO usuarioDto)
+        {
+            var usuario = db.Usuarios.Single(u => u.Id == usuarioDto.UsuarioId);
+            usuario.Password = usuarioDto.Password1;
+
+            db.SaveChanges();
+        }
+
+        public List<PermisoUsuarioDTO> GetPermisosUsuario()
+        {
+            return db.Permisos.Select(p => new PermisoUsuarioDTO
+            {
+                PermisoId = p.Id,
+                Nombre = p.Nombre,
+                Checked = false
+            }).ToList();
+        }
+
+        public List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion()
+        {
+            return db.ComisionesAprobacion.Select(c => new ComisionAprobacionUsuarioDTO
+            {
+                Checked = false,
+                ComisionAprobacionId = c.Id,
+                Nombre = c.Nombre,
+                UsuarioCreacionId = 0,
+                UsuarioId = 0
+            }).ToList();
+        }
     }
 }

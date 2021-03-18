@@ -13,5 +13,9 @@ namespace SolicitudAyuda.Model.Services.Signatures
 
         List<PermisoUsuarioDTO> GetPermisosUsuario(int usuarioId);
         List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion(int usuarioId);
+
+        List<PermisoUsuarioDTO> GetPermisosUsuario();
+        List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion();
+        void ActivarUsuario(ActivacionUsuarioDTO usuario);
     }
 }

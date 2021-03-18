@@ -24,9 +24,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     
     if(this.cookieService.get('token')){
-      this.router.navigate(['/inicio']);
+      this.router.navigate(['/inicio']);  
+      this.dataService.showNav.next(true);   
     }
   }
+
+
 
   login() {
     if (this.loginForm.valid) {
@@ -46,6 +49,8 @@ export class LoginComponent implements OnInit {
         this.cookieService.set('token', bearer);        
         localStorage.setItem('usuario', JSON.stringify(usuario));
         this.router.navigate(['/inicio']);
+
+        this.dataService.showNav.next(true);
         this.dataService.userLogedIn.next(usuario);
 
       }, error => {

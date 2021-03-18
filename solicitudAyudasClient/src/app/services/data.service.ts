@@ -12,64 +12,83 @@ import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
 import { BancoForSelectDTO } from '../model/BancoSelectDTO';
+import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  GetPermisosYComisiones():Observable<any> {
+    let url = this.GetUrl('account/getPermisosYComisiones');    
+    return this.http.get(url);
+  }
+  CerrarSesion() {
+    this.cookieService.remove('token');
+    localStorage.removeItem('usuario');
+  }
+  ActivarUsuario(usuario: ActivacionUsuarioDTO): Observable<any> {
+    var url = this.GetUrl('account/ActivarUsuario');
+    return this.http.post(url, usuario);
+  }
 
-  GetBancos():Observable<Array<BancoForSelectDTO>>
-  {
+  GetDatosParaActivacion(id: any): Observable<any> {
+    let url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);
+
+    return this.http.get<any>(url);
+  }
+
+  GetBancos(): Observable<Array<BancoForSelectDTO>> {
     let url = this.GetUrl('bancos');
-    
+
     return this.http.get<Array<BancoForSelectDTO>>(url);
   }
-  
-  GetDetalleUsuario(usuarioId: any):Observable<any> {
+
+  GetDetalleUsuario(usuarioId: any): Observable<any> {
     let url = this.GetUrl(`account/GetDetalleUsuario?usuarioId=${usuarioId}`);
 
     return this.http.get(url);
   }
 
-  GetUsuariosConsulta(filtro: FiltroDataUsuario):Observable<any>{
+  GetUsuariosConsulta(filtro: FiltroDataUsuario): Observable<any> {
     let url = this.GetUrl('account/consultaUsuarios');
     return this.http.post(url, filtro);
   }
 
-  CrearUsuario(usuario: CreacionUsuarioDTO):Observable<any> {
+  CrearUsuario(usuario: CreacionUsuarioDTO): Observable<any> {
     var url = this.GetUrl('account/CrearUsuario');
     return this.http.post(url, usuario);
   }
-  GetUsuarioPorEmail(email: AbstractControl):Observable<any> {
+  GetUsuarioPorEmail(email: AbstractControl): Observable<any> {
     var url = this.GetUrl(`account/getUsuarioPorEmail?email=${email}`);
     return this.http.get(url);
   }
-  
+
   ReloadSolicitud = new Subject<number>();
   cargandoReporte = new Subject<boolean>();
   userLogedIn = new Subject<any>();
   userUserLoaded = new Subject<number>();
   setSeccional = new Subject<SeccionalDTO>();
-  
-  ProcesarSolicitud(solicitudId:number, estadoId: number, comentario: string):Observable<any> {
+  showNav = new Subject<boolean>();
+
+  ProcesarSolicitud(solicitudId: number, estadoId: number, comentario: string): Observable<any> {
     var url = this.GetUrl('solicitud/ProcesarSolicitud');
-    
+
     let datosProcesamiento = {
       solicitudId, estadoId, comentario
     };
     return this.http.post(url, datosProcesamiento);
   }
-  GetMaestro(cedula: any):Observable<any> {
+  GetMaestro(cedula: any): Observable<any> {
     let url = this.GetUrl(`Maestros/porcedula?cedula=${cedula}`)
-    
+
     return this.http.get(url);
   }
-  
-  ResumenSolicitudesAprobadoPorSucursal(desde: Date, hasta: Date, seccionalId:number) {
+
+  ResumenSolicitudesAprobadoPorSucursal(desde: Date, hasta: Date, seccionalId: number) {
     this.cargandoReporte.next(true);
     let url = this.GetUrl('reportes/ResumenSolicitudesAprobadasPorSeccional')
-    
-    this.http.post(url, {desde, hasta, seccionalId}, {responseType: 'arraybuffer'}).subscribe(file => {
+
+    this.http.post(url, { desde, hasta, seccionalId }, { responseType: 'arraybuffer' }).subscribe(file => {
       this.downLoadFile(file, 'application/pdf');
       this.cargandoReporte.next(false);
     }, error => {
@@ -81,8 +100,8 @@ export class DataService {
 
     this.cargandoReporte.next(true);
     let url = this.GetUrl('reportes/ResumenSolicitudesPorSeccional')
-    
-    this.http.post(url, {desde, hasta}, {responseType: 'arraybuffer'}).subscribe(file => {
+
+    this.http.post(url, { desde, hasta }, { responseType: 'arraybuffer' }).subscribe(file => {
       this.downLoadFile(file, 'application/pdf');
       this.cargandoReporte.next(false);
     }, error => {
@@ -98,25 +117,27 @@ export class DataService {
       alert('Please disable your Pop-up blocker and try again.');
     }
   }
-  
-  GetHeadersForGetch(){
-    return { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 
-    'Access-Control-Allow-Origin': '*'}
+
+  GetHeadersForGetch() {
+    return {
+      'Authorization': `Bearer ${this.cookieService.get('token')}`,
+      'Access-Control-Allow-Origin': '*'
+    }
   }
 
-  PuedeGestionarTipoSolicitud(tipoSolicitudId):Observable<any> {
+  PuedeGestionarTipoSolicitud(tipoSolicitudId): Observable<any> {
     let url = this.GetUrl(`Account/GetPuedeGestionarTipoSolicitud?tipoSolicitudId=${tipoSolicitudId}`);
     return this.http.get(url);
   }
 
-  ConsultaSolicitudes(filtro: FiltroData):Observable<any> {
+  ConsultaSolicitudes(filtro: FiltroData): Observable<any> {
     let url = this.GetUrl('Solicitud/paginada');
     return this.http.post(url, filtro);
   }
 
   Download(fileId: number): Observable<any> {
     let url = `${environment.baseUrl}/files/download?id=${fileId}`;
-    return this.http.get(url, {responseType: 'arraybuffer'});
+    return this.http.get(url, { responseType: 'arraybuffer' });
   }
   CrearSolicitud(formData): Observable<any> {
     return this.http.post(this.GetUrl('Solicitud/post'), formData)
@@ -175,7 +196,7 @@ export class DataService {
     });
   }
 
-  GetErrors(formulario:FormGroup, fieldName:string, errorName:string) {
+  GetErrors(formulario: FormGroup, fieldName: string, errorName: string) {
     var control = formulario.get(fieldName);
 
     if (control.pristine || !control.errors) {
@@ -187,9 +208,9 @@ export class DataService {
 
   }
 
-  bsModalRef:BsModalRef;
+  bsModalRef: BsModalRef;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     private localStorageService: AppLocalStorageService,
-    private cookieService:AppCookieService) { }
+    private cookieService: AppCookieService) { }
 }

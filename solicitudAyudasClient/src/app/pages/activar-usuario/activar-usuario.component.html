@@ -1,0 +1,43 @@
+<body class="text-center">
+    
+    <main class="form-signin">
+      <form [formGroup]="formulario" (ngSubmit)="activarUsuario()" (keydown.enter)="$event.preventDefault()" autocomplete="off">
+        <img class="mb-4" src="assets/img/LOGO_ADP-01.png" alt="" width="200" height="100">
+        <h1 class="h3 mb-3 fw-normal">Sistema unificado de Registro de Ayudas</h1>
+
+        
+        <label clasas="visually-hidden">Nombre</label>                
+        <input type="text" class="form-control" formControlName="nombreCompleto">        
+
+        <label for="inputEmail" clasas="visually-hidden">Usuario / Correo Electrónico</label>                
+        <input type="text" class="form-control" required autofocus formControlName="email">        
+
+        
+        <label clasas="visually-hidden">Seccional</label>        
+        <input type="text" class="form-control" required autofocus formControlName="seccional">        
+        
+
+        <label for="inputPassword" class="visually-hidden">Contraseña</label>        
+        <input type="password" class="form-control" placeholder="Contraseña" required minlength="6" formControlName="password1" >        
+        <app-validation-error-message  fieldName = "password1"  errorName ="minlength" [formGroup] = "formulario" textMessage="La contraseña debe contener al menos 6 caracteres"></app-validation-error-message>
+        <app-validation-error-message  fieldName = "password1"  errorName ="required" [formGroup] = "formulario" textMessage="Porfavor introduzca la contraseña"></app-validation-error-message>
+
+        <label for="inputPassword" class="visually-hidden">Vuelva a introducier la contraseña</label>        
+        <input type="password" class="form-control" placeholder="Contraseña" required formControlName="password2" >                
+        <app-validation-error-message 
+        *ngIf="(!formulario.controls.password1.pristine && !formulario.controls.password2.pristine )
+        && formulario.controls.password1.value != formulario.controls.password2.value"  textMessage="texto introducido no coincide con contraseña anterior"></app-validation-error-message>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled] = "!IsValid()">Guardar</button>
+
+        <br><app-loading [show] = "cargando"></app-loading>
+
+        <p class="mt-5 mb-3 text-muted">© 2021</p>
+      </form>
+    </main>
+    
+    
+        
+      
+    
+    </body>

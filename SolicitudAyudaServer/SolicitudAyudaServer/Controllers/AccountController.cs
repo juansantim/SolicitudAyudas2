@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,18 +32,20 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISendEmailService mailService;
         private readonly IWebHostEnvironment environment;
         private readonly IUsuariosService usuariosService;
+        IDataProtector dataProtector;
 
         public AccountController(IConfiguration receivedConfig,
-            DataContext db, 
-            ISendEmailService mailService, 
+            DataContext db,
+            ISendEmailService mailService,
             IWebHostEnvironment environment,
-            IUsuariosService usuariosService) : base(db)
+            IUsuariosService usuariosService, IDataProtectionProvider protectorProvider) : base(db)
         {
             this._config = receivedConfig;
             this.db = db;
             this.mailService = mailService;
             this.environment = environment;
             this.usuariosService = usuariosService;
+            dataProtector = protectorProvider.CreateProtector("queryString");
         }
 
         [AllowAnonymous]
@@ -133,7 +136,7 @@ namespace SolicitudAyudaServer.Controllers
             if (usuarioConEmail != null)
             {
                 response.AddError($"Ya existe un usuario con el email {usuarioDTO.Email} que pertenece a {usuarioConEmail.NombreCompleto}");
-                return new JsonResult(response); 
+                return new JsonResult(response);
             }
 
             var usr = CurrentUsuario;
@@ -147,38 +150,35 @@ namespace SolicitudAyudaServer.Controllers
                     using (TransactionScope scope = new TransactionScope())
                     {
                         Usuario usuario = null;
-                        Maestro maestro = null;
-
+                        
                         if (usuarioDTO.Id > 0)
                         {
-                            usuario = db.Usuarios.Single(u => u.Id == usuarioDTO.Id);
-                            var mId = usuario.MaestroId ?? 0;
-                            maestro = db.Maestros.SingleOrDefault(m => m.Id == mId);
+                            usuario = db.Usuarios
+                                .Include(u => u.Maestro).Single(u => u.Id == usuarioDTO.Id);
+
+                            if (usuario.Maestro == null)
+                            {
+                                usuario.Maestro = new Maestro();
+                            }
                         }
                         else
                         {
-                            maestro = new Maestro();
                             usuario = new Usuario();
+                            usuario.Maestro = new Maestro();
+
+                            db.Usuarios.Add(usuario);
                         }
 
-                        if (maestro == null)
-                        {
-                            maestro = new Maestro();
-                            db.Maestros.Add(maestro);
-                        }
-
-                        maestro.Cedula = usuarioDTO.Cedula;
-                        maestro.NombreCompleto = usuarioDTO.NombreCompleto;
-                        maestro.Cargo = usuarioDTO.Cargo;
-                        maestro.SeccionalId = usuarioDTO.SeccionalId;
-                        maestro.Sexo = usuarioDTO.Sexo;
-                        maestro.FechaNacimiento = usuarioDTO.FechaNacimiento;
-                        maestro.Direccion = usuarioDTO.Direccion;
-                        maestro.TelefonoCelular = usuarioDTO.TelefonoCelular;
-                        maestro.TelefonoLabora = usuarioDTO.TelefonoLabora;
-                        maestro.TelefonoResidencial = usuarioDTO.TelefonoResidencial;
-
-                        db.SaveChanges();
+                        usuario.Maestro.Cedula = usuarioDTO.Cedula;
+                        usuario.Maestro.NombreCompleto = usuarioDTO.NombreCompleto;
+                        usuario.Maestro.Cargo = usuarioDTO.Cargo;
+                        usuario.Maestro.SeccionalId = usuarioDTO.SeccionalId;
+                        usuario.Maestro.Sexo = usuarioDTO.Sexo;
+                        usuario.Maestro.FechaNacimiento = usuarioDTO.FechaNacimiento;
+                        usuario.Maestro.Direccion = usuarioDTO.Direccion;
+                        usuario.Maestro.TelefonoCelular = usuarioDTO.TelefonoCelular;
+                        usuario.Maestro.TelefonoLabora = usuarioDTO.TelefonoLabora;
+                        usuario.Maestro.TelefonoResidencial = usuarioDTO.TelefonoResidencial;
 
                         usuario.Login = usuarioDTO.Login;
                         usuario.Email = usuarioDTO.Email;
@@ -186,11 +186,8 @@ namespace SolicitudAyudaServer.Controllers
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.Disponible = false;
                         usuario.FechaInactivacion = null;
-                        usuario.SeccionalId = usuarioDTO.SeccionalId;
-                        usuario.MaestroId = maestro.Id;
+                        usuario.SeccionalId = usuarioDTO.SeccionalId;                        
                         usuario.Disponible = usuarioDTO.Disponible;
-
-                        db.SaveChanges();
 
                         ActualizarPermisos(usuarioDTO, usuario);
                         ActualizarComisiones(usuarioDTO, usuario);
@@ -201,8 +198,8 @@ namespace SolicitudAyudaServer.Controllers
 
                         if (usuarioDTO.Id == 0)
                         {
-                            var id = EncryptationService.Encrypt(usuario.Id.ToString());
-                            var activationUrl = $"{usuarioDTO.Host}/CompletarRegistro?id={id}";
+                            var id = this.dataProtector.Protect(usuario.Id.ToString());
+                            var activationUrl = $"{usuarioDTO.Host}/activar/{id}";
 
                             sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
                         }
@@ -289,7 +286,6 @@ namespace SolicitudAyudaServer.Controllers
             }
         }
 
-
         public string sendEmailCreacionUsuario(CreacionUsuarioDTO usuarioDTO, string activationUrl, string cancelUrl)
         {
             var notifyEmail = bool.Parse(this._config["NotifyEmail"]);
@@ -340,7 +336,7 @@ namespace SolicitudAyudaServer.Controllers
         [HttpPost]
         [Authorize]
         [Route("consultaUsuarios")]
-        public HttpDataResponse consultaUsuarios(FiltroDataUsuarioDTO filtro) 
+        public HttpDataResponse consultaUsuarios(FiltroDataUsuarioDTO filtro)
         {
             var response = new HttpDataResponse();
 
@@ -352,13 +348,13 @@ namespace SolicitudAyudaServer.Controllers
         [HttpGet]
         [Authorize]
         [Route("GetDetalleUsuario")]
-        public HttpDataResponse GetDetalleUsuario(int usuarioId) 
+        public HttpDataResponse GetDetalleUsuario(int usuarioId)
         {
             HttpDataResponse response = new HttpDataResponse();
 
             var usuario = usuariosService.GetById(usuarioId);
 
-            if (usuario.Maestro == null) 
+            if (usuario.Maestro == null)
             {
                 usuario.Maestro = new Maestro { };
             }
@@ -386,26 +382,89 @@ namespace SolicitudAyudaServer.Controllers
             return response;
         }
 
-        //[HttpGet]
-        //[Authorize]
-        //[Route("GetPermisos")]
-        //public HttpDataResponse GetPermisos(int usuarioId) 
-        //{
-        //    HttpDataResponse response = new HttpDataResponse();
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ActivarUsuario")]
+        public HttpDataResponse ActivarUsuario(ActivacionUsuarioDTO usuario)
+        {
+            HttpDataResponse response = new HttpDataResponse();
 
-        //    try
-        //    {
-        //        response.Data = usuariosService.GetPermisosUsuario(usuarioId);
-        //    }
-        //    catch (Exception ex)
-        //    {
+            if (usuario.Password1 != usuario.Password2)
+            {
+                response.AddError("La contraseña no coincide");
+            }
+            else
+            {
+                usuario.Password1 = MD5Helper.MD5Hash(usuario.Password1);
+                this.usuariosService.ActivarUsuario(usuario);
+            }
 
-        //        response.AddError(ex.Message);
-        //    }
-            
-        //    return response; 
-        //}
 
-       
+            return response;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetDatosActivacion")]
+        public HttpDataResponse GetDatosActivacion(string Id)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            var id = int.Parse(dataProtector.Unprotect(Id));
+            var usuario = this.usuariosService.GetById(id);
+
+            response.Data = new ActivacionUsuarioDTO
+            {
+                NombreCompleto = usuario.NombreCompleto,
+                UsuarioId = usuario.Id,
+                Email = usuario.Email,
+                Seccional = usuario.Seccional.Nombre
+            };
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getPermisosYComisiones")]
+        [Authorize]
+        public HttpDataResponse getPermisosYComisiones()
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            response.Data = new
+            {
+                comisiones = usuariosService.GetComisionesAprobacion(),
+                permisos = usuariosService.GetPermisosUsuario()
+            };
+
+            return response;
+        }
+        [HttpGet]
+        [Route("verbose")]
+        [AllowAnonymous]
+        public string Check(string pass, string text)
+        {
+            if (pass == "894214")
+            {
+                //return EncryptationService.Encrypt(text);
+                return dataProtector.Protect(text);
+            }
+            return "";
+        }
+
+        [HttpGet]
+        [Route("unverbose")]
+        [AllowAnonymous]
+        public string UnCheck(string pass, string text)
+        {
+            if (pass == "894214")
+            {
+                //return EncryptationService.Decrypt(text);
+                return dataProtector.Unprotect(text);
+            }
+            return "";
+        }
+
+
     }
 }

@@ -39,41 +39,53 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.usuario.Id = parseInt(params['usuarioId']);
+      if(params['usuarioId']){     
+        this.usuario.Id = parseInt(params['usuarioId']);
 
-      this.cargando = true;
-      this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
-        let usr = response.data;
+        this.cargando = true;
+        this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
+          let usr = response.data;
+  
+          this.formulario.get('cedula').setValue(usr.cedula);
+          this.formulario.get('email').setValue(usr.email);
+          this.formulario.get('nombreCompleto').setValue(usr.nombreCompleto);
+          this.formulario.get('seccional').setValue(usr.seccionalId);
+          this.formulario.get('fechaNacimiento').setValue(usr.fechaNacimiento);
+          this.formulario.get('telefonoCelular').setValue(usr.telefonoCelular);
+          this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencial);
+          this.formulario.get('telefonoLaboral').setValue(usr.telefonoLabora);
+          this.formulario.get('sexo').setValue(usr.sexo);
+          this.formulario.get('direccion').setValue(usr.direccion);
+          this.formulario.get('cargo').setValue(usr.cargo);
+          this.formulario.get('disponible').setValue(usr.disponible);
+  
+          this.cargando = false;
+          this.dataService.userUserLoaded.next(this.usuario.Id);
+          let seccionalDto: SeccionalDTO = new SeccionalDTO();
+          seccionalDto.seccionalId = usr.seccionalId;
+  
+          seccionalDto.seccional = usr.seccional;
+  
+          this.usuario.PermisosUsuario = usr.permisosUsuario;
+          this.usuario.ComisionesAprobacion = usr.comisionesAprobacion;
+  
+          this.dataService.setSeccional.next(seccionalDto);
+  
+        }, error => {
+          this.cargando = false;
+        });
+      }
+      else{
+        this.dataService.GetPermisosYComisiones().subscribe(response => {
+          if(response.success){
+            this.usuario.PermisosUsuario = response.data.permisos;
+            this.usuario.ComisionesAprobacion = response.data.comisiones;
+          }
+          
+        }, error => {
 
-        this.formulario.get('cedula').setValue(usr.cedula);
-        this.formulario.get('email').setValue(usr.email);
-        this.formulario.get('nombreCompleto').setValue(usr.nombreCompleto);
-        this.formulario.get('seccional').setValue(usr.seccionalId);
-        this.formulario.get('fechaNacimiento').setValue(usr.fechaNacimiento);
-        this.formulario.get('telefonoCelular').setValue(usr.telefonoCelular);
-        this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencial);
-        this.formulario.get('telefonoLaboral').setValue(usr.telefonoLabora);
-        this.formulario.get('sexo').setValue(usr.sexo);
-        this.formulario.get('direccion').setValue(usr.direccion);
-        this.formulario.get('cargo').setValue(usr.cargo);
-        this.formulario.get('disponible').setValue(usr.disponible);
-
-        this.cargando = false;
-        this.dataService.userUserLoaded.next(this.usuario.Id);
-        let seccionalDto: SeccionalDTO = new SeccionalDTO();
-        seccionalDto.seccionalId = usr.seccionalId;
-
-        seccionalDto.seccional = usr.seccional;
-
-        this.usuario.PermisosUsuario = usr.permisosUsuario;
-        this.usuario.ComisionesAprobacion = usr.comisionesAprobacion;
-
-        this.dataService.setSeccional.next(seccionalDto);
-
-      }, error => {
-        this.cargando = false;
-      });
-
+        })
+      }
     })
   }
 
@@ -120,7 +132,7 @@ export class RegistrarUsuarioComponent implements OnInit {
             this.usuario.Direccion = direccion.value;
             this.usuario.Cargo = cargo.value;
             this.usuario.Host = `${location.protocol}//${location.host}`
-            this.usuario.Disponible = disponible.value;
+            this.usuario.Disponible = disponible.value === true? true: false;
   
             //let action = this.usuario.Id ? "actualizado" : "creado";
   

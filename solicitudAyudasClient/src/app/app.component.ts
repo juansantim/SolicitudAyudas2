@@ -11,7 +11,7 @@ import { DataService } from './services/data.service';
 })
 export class AppComponent {
   title = 'solicitudAyudasClient';
-  showNav = false;
+  showNav = true;
   usuario:any;
   activatedRoute:string;
 
@@ -26,10 +26,10 @@ export class AppComponent {
       showCancelButton: true,
       cancelButtonText: 'Cancelar'
     }).then(dialogResult => {
-      if(dialogResult.isConfirmed){
-        this.cookieService.remove('token');
-        localStorage.removeItem('usuario');
+      if(dialogResult.isConfirmed){        
         this.showNav = false;
+        this.dataService.CerrarSesion();
+       
         this.router.navigate(['/login']);
       }
       else{
@@ -47,19 +47,20 @@ export class AppComponent {
         this.activatedRoute = ev.url;
       }
     })
+
+    this.dataService.showNav.subscribe(showOrNot => {
+      this.showNav = showOrNot;
+    })
+
   }
   
   GetActive(){
   
   }
 
-  constructor(private router: Router, private cookieService:AppCookieService, private dataService:DataService)
+  constructor(private router: Router, 
+    private cookieService:AppCookieService, private dataService:DataService)
   {
-    this.router.events.subscribe(routerEvent => {
-      if(routerEvent instanceof NavigationEnd && this.router.url !== '/login'){
-        this.showNav = true;
-      }
-    });
 
     dataService.userLogedIn.subscribe(user => {
       this.usuario = user;
