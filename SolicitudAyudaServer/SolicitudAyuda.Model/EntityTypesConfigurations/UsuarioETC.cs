@@ -15,11 +15,9 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(u => u.Login).HasMaxLength(40);
             entity.Property(u => u.NombreCompleto).HasMaxLength(100);
             entity.Property(u => u.Password).HasMaxLength(40);
-            entity.Property(u => u.TempPassword).HasMaxLength(10);
-            
+                        
             entity.HasMany(u => u.PermisosUsuario).WithOne(PermisoUsuario => PermisoUsuario.Usuario).HasForeignKey(pu => pu.UsuarioId);
             entity.HasMany(u => u.UsuariosComisionesAprobacion).WithOne(uc => uc.Usuario).HasForeignKey(uc => uc.UsuarioId).OnDelete(DeleteBehavior.NoAction); 
-            
             
             entity.HasData(new Usuario 
             {
@@ -28,8 +26,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Email = "",
                 NombreCompleto = "El Sistema",
                 Disponible = false,
-                FechaCreacion = DateTime.Now,
-                DebeCambiarPassword = false,
+                FechaCreacion = DateTime.Now,                
                 Password = "",
             });
 
@@ -40,8 +37,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Email = "juanv.santim@gmail.com",
                 NombreCompleto = "Juan Santi",
                 Disponible = true,
-                FechaCreacion = DateTime.Now,
-                DebeCambiarPassword = false,
+                FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
             });
 
@@ -52,8 +48,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Email = "miembro1@gmail.com",
                 NombreCompleto = "miembro comision 1",
                 Disponible = true,
-                FechaCreacion = DateTime.Now,
-                DebeCambiarPassword = false,
+                FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
             });
 
@@ -64,8 +59,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Email = "miembro2@gmail.com",
                 NombreCompleto = "miembro comision 2",
                 Disponible = true,
-                FechaCreacion = DateTime.Now,
-                DebeCambiarPassword = false,
+                FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
             });
 
@@ -76,11 +70,9 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Email = "miembro3@gmail.com",
                 NombreCompleto = "miembro comision 3",
                 Disponible = true,
-                FechaCreacion = DateTime.Now,
-                DebeCambiarPassword = false,
+                FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
             });
-
 
             entity.Property(us => us.Email).HasMaxLength(100);
 

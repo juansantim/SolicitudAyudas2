@@ -31,8 +31,15 @@ export class DataService {
     return this.http.post(url, usuario);
   }
 
-  GetDatosParaActivacion(id: any): Observable<any> {
-    let url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);
+  GetDatosParaActivacion(id: string, code:string): Observable<any> {
+    let url:string
+    if(code){
+      url = this.GetUrl(`account/GetDatosResetPassword?usuarioId=${id}&changePasswordCode=${code}`);
+    }
+    else{
+      url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);  
+    }
+    
 
     return this.http.get<any>(url);
   }

@@ -27,8 +27,6 @@ namespace SolicitudAyuda.Model.Services
                 .ThenInclude(pu => pu.Permiso).Single(u => u.Id == usuarioId);
         }
 
-
-
         public PaginatedResult<UsuariosConsultaDTO> GetDataConsulta(FiltroDataUsuarioDTO filtro)
         {
             PaginatedResult<UsuariosConsultaDTO> result = new PaginatedResult<UsuariosConsultaDTO>();
@@ -138,6 +136,24 @@ namespace SolicitudAyuda.Model.Services
                 UsuarioCreacionId = 0,
                 UsuarioId = 0
             }).ToList();
+        }
+
+        public string EnableResetPassword(int usuarioId)
+        {
+            var usuario = db.Usuarios.Single(u => u.Id == usuarioId);
+            usuario.ChangePasswordCodeExpiration = DateTime.Now.AddHours(0.5);
+            usuario.ChangePasswordCode = new Random().Next(1000, 9999).ToString();
+
+            db.SaveChanges();
+            
+            return usuario.ChangePasswordCode;
+        }
+
+        public Usuario GetByIdAndChangePasswordCode(int usuarioId, string code)
+        {
+            return db.Usuarios.FirstOrDefault(u => u.Id == usuarioId
+            && u.ChangePasswordCode == code
+            && u.ChangePasswordCodeExpiration >= DateTime.Now);
         }
     }
 }

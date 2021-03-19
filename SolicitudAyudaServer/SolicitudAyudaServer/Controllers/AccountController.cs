@@ -32,19 +32,23 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISendEmailService mailService;
         private readonly IWebHostEnvironment environment;
         private readonly IUsuariosService usuariosService;
+        private readonly IPermisosService permisoService;
         IDataProtector dataProtector;
 
         public AccountController(IConfiguration receivedConfig,
             DataContext db,
             ISendEmailService mailService,
             IWebHostEnvironment environment,
-            IUsuariosService usuariosService, IDataProtectionProvider protectorProvider) : base(db)
+            IUsuariosService usuariosService,
+            IDataProtectionProvider protectorProvider,
+            IPermisosService permisoService) : base(db)
         {
             this._config = receivedConfig;
             this.db = db;
             this.mailService = mailService;
             this.environment = environment;
             this.usuariosService = usuariosService;
+            this.permisoService = permisoService;
             dataProtector = protectorProvider.CreateProtector("queryString");
         }
 
@@ -150,7 +154,7 @@ namespace SolicitudAyudaServer.Controllers
                     using (TransactionScope scope = new TransactionScope())
                     {
                         Usuario usuario = null;
-                        
+
                         if (usuarioDTO.Id > 0)
                         {
                             usuario = db.Usuarios
@@ -186,7 +190,7 @@ namespace SolicitudAyudaServer.Controllers
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.Disponible = false;
                         usuario.FechaInactivacion = null;
-                        usuario.SeccionalId = usuarioDTO.SeccionalId;                        
+                        usuario.SeccionalId = usuarioDTO.SeccionalId;
                         usuario.Disponible = usuarioDTO.Disponible;
 
                         ActualizarPermisos(usuarioDTO, usuario);
@@ -413,13 +417,19 @@ namespace SolicitudAyudaServer.Controllers
             var id = int.Parse(dataProtector.Unprotect(Id));
             var usuario = this.usuariosService.GetById(id);
 
-            response.Data = new ActivacionUsuarioDTO
+            if (string.IsNullOrEmpty(usuario.Password))
             {
-                NombreCompleto = usuario.NombreCompleto,
-                UsuarioId = usuario.Id,
-                Email = usuario.Email,
-                Seccional = usuario.Seccional.Nombre
-            };
+                response.Data = new ActivacionUsuarioDTO
+                {
+                    NombreCompleto = usuario.NombreCompleto,
+                    UsuarioId = usuario.Id,
+                    Email = usuario.Email,
+                    Seccional = usuario.Seccional.Nombre
+                };
+            }
+            else {
+                response.AddError("Opcion no disponible");
+            }
 
             return response;
         }
@@ -439,6 +449,76 @@ namespace SolicitudAyudaServer.Controllers
 
             return response;
         }
+
+        [HttpPost]
+        [Route("ResetPassword")]
+        [Authorize]
+        public HttpDataResponse ResetPassword(ResetPasswordDTO resetPassword)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            if (this.UsuarioId == resetPassword.UsuarioId || permisoService.VerificarPermiso(this.UsuarioId, 8))
+            {
+                var resetCode = usuariosService.EnableResetPassword(resetPassword.UsuarioId);
+                
+                SendPasswordResetEmail(resetPassword.Host, resetPassword.UsuarioId, resetCode);
+            }
+            else
+            {
+                response.AddError("Usted no tiene permisos para resetear contraseña de usuario");
+            }
+
+            return response;
+        }
+
+        private void SendPasswordResetEmail(string host, int usuarioId, string resetCode)
+        {
+            var usuario = usuariosService.GetById(usuarioId);
+
+            var notifyEmail = bool.Parse(this._config["NotifyEmail"]);
+
+            if (notifyEmail)
+            {
+                var body = this.mailService.GetEmailTemplate(environment.ContentRootPath, MailTemplate.ResetPassword);
+
+                var resetLink = $"{host}/reiniciarPassword/{this.dataProtector.Protect(usuarioId.ToString())}?code={resetCode}";
+                body = body.Replace("@resetLink", resetLink);
+                
+                mailService.SendEmail(body, "Notificacion Creación Usuario", usuario.Email);
+            }
+
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetDatosResetPassword")]
+        public HttpDataResponse GetDatosResetPassword(string usuarioId, string changePasswordCode)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            var uId = int.Parse(dataProtector.Unprotect(usuarioId));
+            var code = changePasswordCode;
+
+            var usuario = this.usuariosService.GetByIdAndChangePasswordCode(uId, code.ToString());
+
+            if (usuario != null)
+            {
+                response.Data = new ActivacionUsuarioDTO
+                {
+                    NombreCompleto = usuario.NombreCompleto,
+                    UsuarioId = usuario.Id,
+                    Email = usuario.Email,
+                    Seccional = usuario.Seccional == null ? "" : usuario.Seccional.Nombre
+                };
+            }
+            else
+            {
+                response.AddError("Opción no disponible");
+            }
+
+            return response;
+        }
+
         [HttpGet]
         [Route("verbose")]
         [AllowAnonymous]
@@ -464,6 +544,8 @@ namespace SolicitudAyudaServer.Controllers
             }
             return "";
         }
+
+
 
 
     }

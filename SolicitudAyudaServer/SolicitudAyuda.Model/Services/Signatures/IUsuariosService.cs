@@ -11,11 +11,14 @@ namespace SolicitudAyuda.Model.Services.Signatures
         PaginatedResult<UsuariosConsultaDTO> GetDataConsulta(FiltroDataUsuarioDTO filtro);
         Usuario GetById(int usuarioId);
 
+        Usuario GetByIdAndChangePasswordCode(int usuarioId, string code);
+
         List<PermisoUsuarioDTO> GetPermisosUsuario(int usuarioId);
         List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion(int usuarioId);
 
         List<PermisoUsuarioDTO> GetPermisosUsuario();
         List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion();
         void ActivarUsuario(ActivacionUsuarioDTO usuario);
+        string EnableResetPassword(int usuarioId);
     }
 }

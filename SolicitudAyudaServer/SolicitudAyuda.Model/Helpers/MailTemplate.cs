@@ -18,5 +18,13 @@
             }
         }
 
+        public static string ResetPassword
+        {
+            get
+            {
+                return "PasswordReset.html";
+            }
+        }
+
     }
 }

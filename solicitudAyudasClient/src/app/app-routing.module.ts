@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'registrarusuario', component: RegistrarUsuarioComponent, canActivate: [AuthGuardDefault] },
   { path: 'consultausuarios', component: ConsultaUsuariosComponent, canActivate: [AuthGuardDefault] },
   { path: 'activar/:id', component: ActivarUsuarioComponent},
+  { path: 'reiniciarPassword/:id', component: ActivarUsuarioComponent},
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   
 ];

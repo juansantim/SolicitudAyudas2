@@ -46,6 +46,7 @@ namespace SolicitudAyudaServer
             services.AddScoped<ISendEmailService, SendGmailMail>();
             services.AddScoped<IReportesService, ReportesServiceMicrosoftReporting>();
             services.AddScoped<IUsuariosService, UsuariosService>();
+            services.AddScoped<IPermisosService, PermisosService>();
 
             services.AddSingleton(x => new BlobServiceClient(Configuration["StorageConnectionString"]));            
 

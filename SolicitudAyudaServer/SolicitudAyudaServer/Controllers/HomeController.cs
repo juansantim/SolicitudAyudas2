@@ -14,11 +14,10 @@ namespace SolicitudAyudaServer.Controllers
     public class HomeController : ControllerBase
     {
         [AllowAnonymous]
-        [HttpGet]
-        [Route("home")]
-        public string index() 
+        [HttpGet]        
+        public string get() 
         {
-            return "Service Available";
+            return $"Service Available - {DateTime.Now}";
         }
     }
 }

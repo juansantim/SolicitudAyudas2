@@ -24,28 +24,30 @@ export class ActivarUsuarioComponent implements OnInit {
   usuario: ActivacionUsuarioDTO;
   cargando: boolean = false;
 
-  constructor(private dataService: DataService, 
-    private activatedRoute: ActivatedRoute, private router:Router, private utils:UtilsService) { }
+  constructor(private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private utils: UtilsService) { }
 
-  disableInputs(){
+  disableInputs() {
     this.formulario.controls.password1.disable();
     this.formulario.controls.password2.disable();
   }
 
   activarUsuario() {
     this.disableInputs();
-    this.usuario.password1 =  this.formulario.controls.password1.value;
-    this.usuario.password2 =  this.formulario.controls.password2.value;
+    this.usuario.password1 = this.formulario.controls.password1.value;
+    this.usuario.password2 = this.formulario.controls.password2.value;
 
     this.cargando = true;
     this.dataService.ActivarUsuario(this.usuario).subscribe(response => {
-      if(response.success){
+      if (response.success) {
         this.dataService.CerrarSesion();
         this.router.navigate(['/login']);
         //this.dataService.showNav.next(true);
         Swal.fire('Usuario Activado', `El usuario ${this.usuario.email} ha sido activado correctamente`, 'success');
       }
-      else{
+      else {
         let err = this.utils.GetUnorderedList(response.errors)
         Swal.showValidationMessage(`Request failed: ${err}`);
       }
@@ -54,7 +56,7 @@ export class ActivarUsuarioComponent implements OnInit {
       Swal.showValidationMessage(`Request failed: ${error}`)
       this.cargando = false;
       console.log(error);
-    })    
+    })
   }
 
   ngOnInit() {
@@ -64,32 +66,52 @@ export class ActivarUsuarioComponent implements OnInit {
 
     this.dataService.showNav.next(false);
 
-    this.activatedRoute.params.subscribe(params => {
-      let id = params['id'];
+    if (this.router.url.includes('reiniciarPassword')) {
+      this.activatedRoute.params.subscribe(params => {
+        let usuarioId = params['id'];
+        this.activatedRoute.queryParams.subscribe(queryStrings => {
+          let code = queryStrings["code"];
 
-      this.cargando = true;
-      this.dataService.GetDatosParaActivacion(id).subscribe(response => {
-        if (response.success) {
-          this.usuario = response.data;
-
-          this.formulario.controls.nombreCompleto.setValue(this.usuario.nombreCompleto);
-          this.formulario.controls.email.setValue(this.usuario.email);
-          this.formulario.controls.seccional.setValue(this.usuario.seccional);
-
-          console.log(this.usuario);
-        }
-        this.cargando = false;
-      }, error => {
-        this.cargando = false;
+          this.LoadData(usuarioId, code);
+          
+        })
       })
-    })
-    //this.dataService.Get
+      
+    }
+    else{
+      this.activatedRoute.params.subscribe(params => {
+        let id = params['id'];
+        this.cargando = true;
+        
+        this.LoadData(id, null);
+
+      })      
+    }
+  }
+
+  LoadData(id, code){
+
+    this.dataService.GetDatosParaActivacion(id, code).subscribe(response => {
+      if (response.success) {
+        this.usuario = response.data;
+
+        this.formulario.controls.nombreCompleto.setValue(this.usuario.nombreCompleto);
+        this.formulario.controls.email.setValue(this.usuario.email);
+        this.formulario.controls.seccional.setValue(this.usuario.seccional);
+      }
+      else{
+        Swal.fire('Error al procesar la solicitud', this.utils.GetUnorderedList(response.errors), 'error');
+      }
+      this.cargando = false;
+    }, error => {
+      this.cargando = false;
+    });
 
   }
 
-  IsValid(){
-    return this.formulario.valid 
-    && this.formulario.controls.password1.value == this.formulario.controls.password2.value;
+  IsValid() {
+    return this.formulario.valid
+      && this.formulario.controls.password1.value == this.formulario.controls.password2.value;
   }
 }
 
