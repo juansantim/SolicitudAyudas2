@@ -68,5 +68,25 @@ Puesta en produccion incluye:
 - Despliegue de Aplicacion en la Nube Microsoft Azure
 - Creacion de Primeros Usuarios
 - Manual de Usuario
+---------------- Nuevos requisitos 30-03-2021---------------------------------
+
+3 Comisiones
+	* La comision es que pone el monto de la soliclitud ????
+	* Quizas debe haber alguien que luego de recibida la solicitud, determine el monto
+	* Que el monto no sea obligatorio????
+
+*El en registro el monto solicitado no es obligatorio.
+Subir Nuevos archivos.
+modificar cuenta de banco.
+Modificar monto solicitud. *** Siempre
+****Crear permiso para modficar el monto de la comision*****
+
+Comisiones:
+
+Comision 1 * 
+Comision 2 * 
+Comision 3 * 
+
+* Cada una de las comisiones ve todos los expendientes.
 
 
