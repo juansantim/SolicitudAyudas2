@@ -51,6 +51,7 @@ namespace SolicitudAyuda.Model.Entities
         public bool? CopiaCedulaPadreMadre { get; set; }
         public bool? ActaMatrimonioUnion { get; set; }
         public bool? EsJubiladoInabima { get; set; }
+        public bool? EstadoCuenta { get; set; }
 
         public SolicitudAyuda()
         {

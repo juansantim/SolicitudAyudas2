@@ -165,10 +165,11 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.RBPadreMadre.setValue(solicitud.copiaCedulaPadreMadre);
             this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.actaMatrimonioUnion);
 
-            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.esJubiladoInabima);
+            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.esJubiladoInabima? 'true': 'false');
 
             this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.motivoSolicitud);
 
+            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.estadoCuenta);
             
 
             if (solicitud.requisitos.length > 0) {
@@ -448,6 +449,7 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre').value);
           form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge').value);
           form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima').value);
+          form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta').value);
 
           
 

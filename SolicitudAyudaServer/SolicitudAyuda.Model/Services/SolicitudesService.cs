@@ -73,8 +73,10 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.EstadoId,
                 solicitud.BancoId,
                 solicitud.NumeroCuentaBanco,
+                solicitud.EsJubiladoInabima,
                 MotivoSolicitud = solicitud.Concepto,
                 estado = solicitud.Estado.Nombre,
+                solicitud.EstadoCuenta,
                 tipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
@@ -83,7 +85,8 @@ namespace SolicitudAyuda.Model.Services
                 ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId == usuarioId),
                 solicitud.ActaNacimientoHijoHija,
                 solicitud.CopiaCedulaPadreMadre,
-                solicitud.ActaMatrimonioUnion
+                solicitud.ActaMatrimonioUnion,
+                
             };
         }
 
