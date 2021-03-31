@@ -111,10 +111,9 @@ export class AccionesComponent implements OnInit {
 
   }
 
-  modificar(){
-    this.dataService.GetPuedeModificarSolicitud().subscribe(puede => {
-      console.log(puede);
-    })
+  modificar(){     
+    this.router.navigate([`/editarSolicitud/${this.solicitudId}`])  
+    
   }
 
 }

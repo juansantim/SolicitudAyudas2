@@ -16,6 +16,11 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(e => e.PossibleValues).HasColumnName("PossibleValues");
             entity.Property(e => e.PossibleValues).HasMaxLength(4000);
 
+            //entity.HasMany(rt => rt.RequisitosSolicitudes)
+            //    .WithOne(rs => rs.RequisitoTipoSolicitud)
+            //    .HasForeignKey(rs => rs.RequisitoTiposSolicitudId)
+            //    .OnDelete(DeleteBehavior.NoAction);
+
             entity.HasData(new List<RequisitoTipoSolicitud>()
             {
                 new RequisitoTipoSolicitud {Id = 1, FormName="rdcomunicacion", TipoSolicitudId = 1, Descripcion = "Comunicacion solicitud del interesado dirigida al CEN", PossibleValues = "" },

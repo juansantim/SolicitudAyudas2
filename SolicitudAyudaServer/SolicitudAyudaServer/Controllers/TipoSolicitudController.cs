@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SolicitudAyuda.Model;
 using SolicitudAyuda.Model.Entities;
+using SolicitudAyuda.Model.Services.Signatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace SolicitudAyudaServer.Controllers
     public class TipoSolicitudController : ControllerBase
     {
         private readonly DataContext db;
+        private readonly ISolicitudesService solicitudService;
 
-        public TipoSolicitudController(DataContext db)
+        public TipoSolicitudController(DataContext db, ISolicitudesService solicitudService)
         {
             this.db = db;
+            this.solicitudService = solicitudService;
         }
 
         [Route("api/TipoSolicitud/ConRequisitos")]
@@ -32,14 +35,11 @@ namespace SolicitudAyudaServer.Controllers
                         r.Descripcion,
                         r.FormName,
                         value = "",
-                        values = Getvalues(r)
+                        values = solicitudService.Getvalues(r)
                     })
                 });
         }
 
-        private static List<string> Getvalues(RequisitoTipoSolicitud r)
-        {
-            return string.IsNullOrEmpty(r.PossibleValues) ? new List<string>() : r.PossibleValues.Split(",").ToList();
-        }
+      
     }
 }

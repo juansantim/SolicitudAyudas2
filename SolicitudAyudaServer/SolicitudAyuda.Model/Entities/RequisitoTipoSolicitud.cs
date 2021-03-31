@@ -14,5 +14,6 @@ namespace SolicitudAyuda.Model.Entities
         public TipoSolicitud TipoSolicitud { get; set; }
         public string Descripcion { get; set; }
         public string PossibleValues { get; set; }
+        public List<RequisitoSolicitud> RequisitosSolicitudes { get; set; }
     }
 }

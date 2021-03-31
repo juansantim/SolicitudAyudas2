@@ -41,6 +41,7 @@ namespace SolicitudAyuda.Model.Services
         {
             var solicitud = db.Solicitudes
                 .Include(sl => sl.Requisitos)
+                .ThenInclude(r => r.RequisitoTipoSolicitud)
                 .Include(sl => sl.Adjuntos)
                 .Include(sl => sl.Seccional)
                 .Include(sl => sl.TipoSolicitud)
@@ -58,6 +59,7 @@ namespace SolicitudAyuda.Model.Services
                 Seccional = solicitud.Seccional.Nombre,
                 NombreSolicitante = solicitud.Maestro.NombreCompleto,
                 Edad = new DateTime((DateTime.Now - solicitud.Maestro.FechaNacimiento).Ticks).Year - 1,
+                FechaNacimiento = solicitud.Maestro.FechaNacimiento,
                 SexoSolicitante = solicitud.Maestro.Sexo,
                 solicitud.Maestro.Cargo,
                 solicitud.MontoSolicitado,
@@ -67,14 +69,21 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TelefonoTrabajo,
                 solicitud.Email,
                 solicitud.Direccion,
+                solicitud.QuienRecibeAyuda,
                 solicitud.EstadoId,
+                solicitud.BancoId,
+                solicitud.NumeroCuentaBanco,
+                MotivoSolicitud = solicitud.Concepto,
                 estado = solicitud.Estado.Nombre,
                 tipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad)),
                 DatosAprobacion = GetDatosAprobacion(solicitud),
-                ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId == usuarioId)
+                ProcesadaPorUsuario = solicitud.AprobacionesSolicitud.Any(ap => ap.UsuarioId == usuarioId),
+                solicitud.ActaNacimientoHijoHija,
+                solicitud.CopiaCedulaPadreMadre,
+                solicitud.ActaMatrimonioUnion
             };
         }
 
@@ -129,9 +138,19 @@ namespace SolicitudAyuda.Model.Services
             return new
             {
                 requisito.Id,
+                requisito.RequisitoTipoSolicitud.FormName,
+                requisito.RequisitoTipoSolicitud.PossibleValues,
                 Nombre = tipo.Descripcion,
-                requisito.Value
+                Descripcion = tipo.Descripcion,
+                requisito.Value,
+                values = Getvalues(tipo)
             };
+        }
+
+        
+        public List<string> Getvalues(RequisitoTipoSolicitud r)
+        {
+            return string.IsNullOrEmpty(r.PossibleValues) ? new List<string>() : r.PossibleValues.Split(",").ToList();
         }
 
         private dynamic GetAdjunto(AdjuntosSolicitud ad)
@@ -342,5 +361,7 @@ namespace SolicitudAyuda.Model.Services
                     Fecha = t.FechaSolicitud
                 }).ToList();
         }
+
+     
     }
 }

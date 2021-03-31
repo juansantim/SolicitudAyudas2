@@ -56,6 +56,7 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new CategoriaTipoSolicitudETC());
             modelBuilder.ApplyConfiguration(new MaestroETC());
             modelBuilder.ApplyConfiguration(new BancoETC());
+            modelBuilder.ApplyConfiguration(new RequisitoSolicitudETC());
         }
 
         public interface IAuditedEntity

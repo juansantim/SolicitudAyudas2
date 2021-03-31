@@ -21,7 +21,9 @@ namespace SolicitudAyuda.Model.Entities
         public string Celular { get; set; }
         public string TelefonoCasa { get; set; }
         public string TelefonoTrabajo { get; set; }
-        public string Email { get; set; }        
+        public string Email { get; set; }
+
+        public byte? QuienRecibeAyuda { get; set; }
 
         public DateTime FechaSolicitud { get; set; }
         public DateTime? FechaAprobacion { get; set; }
@@ -44,6 +46,11 @@ namespace SolicitudAyuda.Model.Entities
         public int BancoId { get; set; }
         public Banco Banco { get; set; }
         public string NumeroCuentaBanco { get; set; }
+
+        public bool? ActaNacimientoHijoHija { get; set; }
+        public bool? CopiaCedulaPadreMadre { get; set; }
+        public bool? ActaMatrimonioUnion { get; set; }
+        public bool? EsJubiladoInabima { get; set; }
 
         public SolicitudAyuda()
         {

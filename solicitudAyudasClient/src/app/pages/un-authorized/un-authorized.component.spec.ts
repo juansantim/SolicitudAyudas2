@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileUploaderComponent } from './file-uploader.component';
+import { UnAuthorizedComponent } from './un-authorized.component';
 
-describe('FileUploaderComponent', () => {
-  let component: FileUploaderComponent;
-  let fixture: ComponentFixture<FileUploaderComponent>;
+describe('UnAuthorizedComponent', () => {
+  let component: UnAuthorizedComponent;
+  let fixture: ComponentFixture<UnAuthorizedComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FileUploaderComponent ]
+      declarations: [ UnAuthorizedComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileUploaderComponent);
+    fixture = TestBed.createComponent(UnAuthorizedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -11,11 +11,13 @@ import { EstadisticasComponent } from './pages/estadisticas/estadisticas.compone
 import { RegistrarUsuarioComponent } from './pages/registrar-usuario/registrar-usuario.component';
 import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-usuarios.component';
 import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario.component';
+import { UnAuthorizedComponent } from './pages/un-authorized/un-authorized.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuardDefault] },
   { path: 'registrarSolicitud', component: RegistroSolicitudComponent, canActivate: [AuthGuardDefault] },
+  { path: 'editarSolicitud/:solicitudId', component: RegistroSolicitudComponent, canActivate: [AuthGuardDefault] },
   { path: 'detalle/:solicitudId', component: DetalleSolicitudComponent, canActivate: [AuthGuardDefault], },
   { path: 'servicionodisponible', component: UnavailableComponent }, 
   { path: 'consulta', component: ConsultaComponent, canActivate: [AuthGuardDefault] }, 
@@ -25,6 +27,7 @@ const routes: Routes = [
   { path: 'consultausuarios', component: ConsultaUsuariosComponent, canActivate: [AuthGuardDefault] },
   { path: 'activar/:id', component: ActivarUsuarioComponent},
   { path: 'reiniciarPassword/:id', component: ActivarUsuarioComponent},
+  { path: 'accesoDenegado', component: UnAuthorizedComponent},  
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   
 ];

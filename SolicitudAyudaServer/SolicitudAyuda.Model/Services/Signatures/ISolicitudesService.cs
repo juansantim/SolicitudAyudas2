@@ -12,7 +12,8 @@ namespace SolicitudAyuda.Model.Services.Signatures
         PaginatedResult<SolicitudConsultaDTO> GetDataConsulta(FiltroSolicitudesDTO filtro);
         byte[] ImprimirPDF(int solicitudId, int formato);
         bool TieneSolicitudElMismoDia(Maestro maestro);
-        public TipoReglamentarioOtraSolicitudDTO TiempoReglamentario { get; }
+        TipoReglamentarioOtraSolicitudDTO TiempoReglamentario { get; }
         List<UltimasSolicitudesDTO> TieneSolicitudAntesTiempoReglamentario(Maestro maestro);
+        List<string> Getvalues(RequisitoTipoSolicitud r);
     }
 }

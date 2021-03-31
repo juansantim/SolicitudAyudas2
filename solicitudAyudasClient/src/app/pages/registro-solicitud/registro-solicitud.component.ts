@@ -5,16 +5,15 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { promise } from 'protractor';
 import { from } from 'rxjs';
 import { collectionItem } from 'src/app/model/collectionItem';
-import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
+//import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
 
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AppCookieService } from 'src/app/services/app-cookie.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
@@ -37,23 +36,39 @@ export class RegistroSolicitudComponent implements OnInit {
     nombreCompleto: new FormControl(''),
     fechaNacimiento: new FormControl(''),
     quienRecibeAyuda: new FormControl(''),
+
     telefonoCelular: new FormControl(''),
     telefonoResidencia: new FormControl(''),
     telefonoLaboral: new FormControl(''),
     email: new FormControl('', Validators.email),
+
     sexo: new FormControl(''),
-    direccion: new FormControl(''),
+    direccion: new FormControl('', Validators.required),
     montoAyuda: new FormControl(''),
     esJubiladoInabima: new FormControl(''),
     estadoCuenta: new FormControl('', Validators.required),
     motivoSolicitud: new FormControl('', Validators.required),
     cargo: new FormControl('', Validators.required),
     banco: new FormControl(''),
-    numeroCuentaBanco: new FormControl('')
+    numeroCuentaBanco: new FormControl(''),
+    
+    QuienRecibeAyuda: new FormControl(''),
+
+    RBActaNacimiento: new FormControl(''),
+    RBPadreMadre: new FormControl(''),
+    RBConyuge: new FormControl(''),
   });
 
 
+/**
+ form.append("QuienRecibeAyuda", this.solicitudAyudaForm.get('quienRecibeAyuda').value);
 
+          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento').value);
+          form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre').value);
+          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge').value);
+          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima').value);
+
+ * **/
 
   QuienRecibiraAyuda: Array<collectionItem> = [
     new collectionItem('--SELECCIONE--', null, ''),
@@ -64,20 +79,130 @@ export class RegistroSolicitudComponent implements OnInit {
   ]
 
   //end of form controls
-  constructor(private dataService: DataService, private fb: FormBuilder,
-    private util: UtilsService, private cookieService: AppCookieService,
-    private localeService: BsLocaleService, private router: Router) {
+  constructor(private dataService: DataService,
+    private util: UtilsService,
+    private cookieService: AppCookieService,
+    private localeService: BsLocaleService,
+    private router: Router,
+    private route: ActivatedRoute) {
     console.log(this.QuienRecibiraAyuda);
   }
 
-  Solicitud: SolicitudAyuda;
+  solicitudId: number;
+  cargando: boolean;
+
+  ngOnInit() {
+    this.setSeccionalesDisabled();
+
+    this.localeService.use('es-do');
+
+
+    this.dataService.GetSeccionales().subscribe(data => {
+      this.seccionales = data;
+      this.setSeccionalesEnabled();
+    }, err => {
+      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
+    })
+
+    this.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
+      this.tiposSolicitudes = data;
+    }, err => {
+      console.log(err);
+    })
+
+    this.dataService.GetBancos().subscribe(bancos => {
+      this.bancos = bancos;
+    })
+
+    this.cargandoSeccionales = false;
+
+    const routeParams = this.route.snapshot.paramMap;
+    const solicitudId = Number(routeParams.get('solicitudId'));
+
+    if (solicitudId) {
+      this.dataService.GetPuedeModificarSolicitud().subscribe(puede => {
+        if (puede) {
+          this.cargando = true;
+          this.dataService.GetDetalleSolicitud(solicitudId).subscribe(solicitud => {
+            this.solicitudId = solicitudId;
+            this.solicitudAyudaForm.controls.cedula.setValue(solicitud.cedulaSolicitante);
+            this.solicitudAyudaForm.controls.cedula.disable();
+
+            this.solicitudAyudaForm.controls.nombreCompleto.setValue(solicitud.nombreSolicitante);
+            this.solicitudAyudaForm.controls.nombreCompleto.disable();
+
+            this.solicitudAyudaForm.controls.fechaNacimiento.setValue(solicitud.fechaNacimiento);
+            this.solicitudAyudaForm.controls.fechaNacimiento.disable();
+
+            this.solicitudAyudaForm.controls.sexo.setValue(solicitud.sexoSolicitante);
+            this.solicitudAyudaForm.controls.sexo.disable();
+
+            this.solicitudAyudaForm.controls.seccional.setValue(solicitud.seccional);
+            this.solicitudAyudaForm.controls.seccional.disable();
+
+            this.solicitudAyudaForm.controls.cargo.setValue(solicitud.cargo);
+            this.solicitudAyudaForm.controls.cargo.disable();
+
+            this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.tipoSolicitudId);
+            this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
+
+
+            this.solicitudAyudaForm.controls.montoAyuda.setValue(solicitud.montoSolicitado);
+
+            this.solicitudAyudaForm.controls.banco.setValue(solicitud.bancoId);
+
+            this.solicitudAyudaForm.controls.numeroCuentaBanco.setValue(solicitud.numeroCuentaBanco)
+
+            this.solicitudAyudaForm.controls.telefonoCelular.setValue(solicitud.celular)
+            this.solicitudAyudaForm.controls.telefonoResidencia.setValue(solicitud.telefonoCasa)
+            this.solicitudAyudaForm.controls.telefonoLaboral.setValue(solicitud.telefonoTrabajo)
+            this.solicitudAyudaForm.controls.email.setValue(solicitud.email)
+            this.solicitudAyudaForm.controls.direccion.setValue(solicitud.direccion)
+
+            this.solicitudAyudaForm.controls.quienRecibeAyuda.setValue(solicitud.quienRecibeAyuda);
+      
+            this.solicitudAyudaForm.controls.RBActaNacimiento.setValue(solicitud.actaNacimientoHijoHija);
+            this.solicitudAyudaForm.controls.RBPadreMadre.setValue(solicitud.copiaCedulaPadreMadre);
+            this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.actaMatrimonioUnion);
+
+            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.esJubiladoInabima);
+
+            this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.motivoSolicitud);
+
+            
+
+            if (solicitud.requisitos.length > 0) {
+              solicitud.requisitos.forEach(element => {
+                this.solicitudAyudaForm.addControl(element.formName, new FormControl(element.value))
+                //console.log(element.formName);
+              });
+        
+            }
+            this.RequisitosSolicitud = solicitud.requisitos;
+
+            this.cargando = false;
+          }, error => {
+            this.cargando = false;
+          })
+
+      
+        }
+        else {
+          this.router.navigate([`/accesoDenegado/`]);
+        }
+      })
+    }
+
+  }
+
+  //Solicitud: SolicitudAyuda;
   seccionales: Array<any>;
   selectedSeccional: any;
   cargandoSeccionales: boolean;
   tiposSolicitudes: Array<any>;
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
-  bancos:Array<BancoForSelectDTO> = [];
+  bancos: Array<BancoForSelectDTO> = [];
 
   archivos: File[] = [];
 
@@ -99,37 +224,10 @@ export class RegistroSolicitudComponent implements OnInit {
     this.solicitudAyudaForm.get('seccional').enable();
   }
 
-  ngOnInit() {
-    this.setSeccionalesDisabled();
-    this.Solicitud = new SolicitudAyuda();
-
-    this.localeService.use('es-do');
 
 
-    this.dataService.GetSeccionales().subscribe(data => {
-      this.seccionales = data;
-      this.setSeccionalesEnabled();
-    }, err => {
-      //this.solicitudAyudaForm.get('seccional').setErrors(Validators.)
-      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
-    })
-
-    this.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
-      this.tiposSolicitudes = data;
-    }, err => {
-      console.log(err);
-    })
-
-    this.dataService.GetBancos().subscribe(bancos => {
-      this.bancos = bancos;
-    })
-
-    this.cargandoSeccionales = false;
-
-  }
-
-  maestro:any;
-  cargandoCedula:boolean;
+  maestro: any;
+  cargandoCedula: boolean;
   SearchCedula() {
     var fieldCedula = this.solicitudAyudaForm.get('cedula');
 
@@ -138,8 +236,8 @@ export class RegistroSolicitudComponent implements OnInit {
       this.cargandoCedula = true;
 
       this.dataService.GetMaestro(cedula).subscribe(response => {
-        if(response.success){
-          if(response.data){
+        if (response.success) {
+          if (response.data) {
             let maestro = response.data;
             let seccional = {
               id: maestro.seccionalId,
@@ -163,22 +261,22 @@ export class RegistroSolicitudComponent implements OnInit {
 
             let cargoField = this.solicitudAyudaForm.get('cargo');
             cargoField.setValue(maestro.cargo);
-            
+
             this.maestro = maestro;
 
           }
-          else{
+          else {
             console.log('no hay ningun maestro registrado con esta cedula');
           }
 
-  
+
         }
-        
+
         this.cargandoCedula = false;
       }, error => {
         this.cargandoCedula = false;
       })
-      
+
     }
     else {
       console.log(fieldCedula.errors);
@@ -189,19 +287,19 @@ export class RegistroSolicitudComponent implements OnInit {
 
   bsConfig = { dateInputFormat: 'DD/MM/YYYY' }
 
-  limpiarMaestro(){
+  limpiarMaestro() {
     this.maestro = null;
 
     let seccionalField = this.solicitudAyudaForm.get('seccional');
     seccionalField.setValue('');
     seccionalField.enable();
-    
+
     this.selectedSeccional = null;
 
     let nombreCompletoFiled = this.solicitudAyudaForm.get('nombreCompleto');
     nombreCompletoFiled.setValue('');
 
-    let fechaNacimientoField = this.solicitudAyudaForm.get('fechaNacimiento');    
+    let fechaNacimientoField = this.solicitudAyudaForm.get('fechaNacimiento');
     fechaNacimientoField.setValue('');
 
     let sexoField = this.solicitudAyudaForm.get('sexo');
@@ -227,13 +325,9 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
 
-  AgregarAdjunto() {
-    this.Solicitud.adjuntos.push({});
-  }
-
   onChangeTipoSolicitud(tipoSolicitud) {
+
     var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitud)[0]
-    console.log(tipoSolictud);
 
     let keys = [];
 
@@ -250,11 +344,13 @@ export class RegistroSolicitudComponent implements OnInit {
     if (tipoSolictud.requisitos.length > 0) {
       tipoSolictud.requisitos.forEach(element => {
         this.solicitudAyudaForm.addControl(element.formName, new FormControl())
+        //console.log(element.formName);
       });
 
     }
-    console.log(this.solicitudAyudaForm.controls);
     this.RequisitosSolicitud = tipoSolictud.requisitos;
+
+
   }
 
   GetErrors(fieldName, errorName) {
@@ -329,8 +425,10 @@ export class RegistroSolicitudComponent implements OnInit {
         allowOutsideClick: false,
         preConfirm: () => {
           let form = new FormData();
+
           form.append("SeccionalId", this.selectedSeccional.id);
           form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
+
           form.append("Celular", this.solicitudAyudaForm.get('telefonoCelular').value);
           form.append("TelefonoCasa", this.solicitudAyudaForm.get('telefonoResidencia').value);
           form.append("TelefonoTrabajo", this.solicitudAyudaForm.get('telefonoLaboral').value);
@@ -340,14 +438,25 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
 
-          form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("Direccion", this.solicitudAyudaForm.get('direccion').value);
-          form.append("BancoId",  this.solicitudAyudaForm.get('banco').value,);
+          form.append("BancoId", this.solicitudAyudaForm.get('banco').value,);
           form.append("NumeroCuentaBanco", this.solicitudAyudaForm.get('numeroCuentaBanco').value);
+          
+          form.append("QuienRecibeAyuda", this.solicitudAyudaForm.get('quienRecibeAyuda').value);
+
+          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento').value);
+          form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre').value);
+          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge').value);
+          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima').value);
+
+          
 
           let requisitos = [];
+
           this.RequisitosSolicitud.forEach(r => {
+
             let controlRequisito = this.solicitudAyudaForm.get(r.formName);
+
             requisitos.push({
               RequisitoTiposSolicitudId: r.id,
               Value: controlRequisito.value
@@ -371,51 +480,45 @@ export class RegistroSolicitudComponent implements OnInit {
             form.append(f.name, f, f.name);
           })
 
-          // let promise = new Promise((reject, resolve) => {
-          //   this.dataService.CrearSolicitud(from).subscribe(response => {
-          //     resolve(response)
-          //   }, error => {
-          //     reject(error)
-          //   })
-          // })
+
 
           let headers = { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 'Access-Control-Allow-Origin': '*' }
 
           let url = this.dataService.GetUrl('Solicitud/post');
-          
+
           return fetch(url, {
-            method:'POST',
+            method: 'POST',
             headers: headers,
             body: form,
           })
-          .then(response=> {
-            return response.json()
-          })
-          .then(response => {
-            let responseMessage = response;
+            .then(response => {
+              return response.json()
+            })
+            .then(response => {
+              let responseMessage = response;
 
-            if (responseMessage.success) {
-              let solicitudId = responseMessage.data.solicitudId;
+              if (responseMessage.success) {
+                let solicitudId = responseMessage.data.solicitudId;
 
-              Swal.fire({
-                title: 'Solicitud de ayuda registrada satisfactoriamente',
-                text: `El número de solicitud registrado es ${solicitudId}.`,
-                icon: 'success',
-                confirmButtonText: 'Ok',
-                showConfirmButton: true
-              }).then(alertResult => {
-                this.router.navigate(['/detalle', solicitudId]);
-              });
-            }
-            else {
-              let ul = this.util.GetUnorderedList(responseMessage.errors);
-              Swal.showValidationMessage(`Request failed: ${ul}`);
-            }
+                Swal.fire({
+                  title: 'Solicitud de ayuda registrada satisfactoriamente',
+                  text: `El número de solicitud registrado es ${solicitudId}.`,
+                  icon: 'success',
+                  confirmButtonText: 'Ok',
+                  showConfirmButton: true
+                }).then(alertResult => {
+                  this.router.navigate(['/detalle', solicitudId]);
+                });
+              }
+              else {
+                let ul = this.util.GetUnorderedList(responseMessage.errors);
+                Swal.showValidationMessage(`Request failed: ${ul}`);
+              }
 
-          })
-          .catch(error => {
-            Swal.showValidationMessage(`Request failed: ${error}`)
-          })
+            })
+            .catch(error => {
+              Swal.showValidationMessage(`Request failed: ${error}`)
+            })
 
           // return axios.post(this.dataService.GetUrl('Solicitud/post'), form, { withCredentials: true, headers })
           //   .then(response => {

@@ -48,6 +48,7 @@ import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usu
 import { ComisionesAprobacionUsuarioComponent } from './pages/registrar-usuario/comisiones-aprobacion-usuario/comisiones-aprobacion-usuario.component';
 import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario.component';
 import { EditarSolicitudComponent } from './pages/editar-solicitud/editar-solicitud.component';
+import { UnAuthorizedComponent } from './pages/un-authorized/un-authorized.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { EditarSolicitudComponent } from './pages/editar-solicitud/editar-solici
     PermisosUsuarioComponent,
     ComisionesAprobacionUsuarioComponent,
     ActivarUsuarioComponent,
-    EditarSolicitudComponent
+    EditarSolicitudComponent,
+    UnAuthorizedComponent
   ],
   imports: [
     BrowserModule,
