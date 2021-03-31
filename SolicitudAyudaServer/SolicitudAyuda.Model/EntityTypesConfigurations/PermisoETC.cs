@@ -18,11 +18,13 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             {
                 new Permiso{
                     Id  = 1,
-                    Nombre = "Consultar Solicitudes"
+                    Nombre = "Consultar Solicitudes",
+                    Descripcion = "Entrar y consultar por diferentes criterios"
                 },
                 new Permiso{
                     Id  = 2,
-                    Nombre = "Crear Solicitudes"
+                    Nombre = "Crear Solicitudes",
+                    Descripcion = "Registrar una solicitud"
                 },
                 new Permiso{
                     Id  = 3,
@@ -30,27 +32,35 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 },
                 new Permiso{
                     Id  = 4,
-                    Nombre = "Rechazar Solicitudes"
+                    Nombre = "Rechazar Solicitudes",
+                    Descripcion = "Rechazar solicitud por cualquier motivo"
+
                 },
                 new Permiso{
                     Id  = 5,
-                    Nombre = "Anular Solicitudes"
+                    Nombre = "Anular Solicitudes",
+                    Descripcion = "Anular una solicitud, siempre y cuando no se encuentre aprobada"
                 },
                 new Permiso{
                     Id  = 6,
-                    Nombre = "Ver record de Afiliado"
+                    Nombre = "Ver record de Afiliado",
+                    Descripcion ="Consultar informaciones de afiliado"
                 },
                 new Permiso{
                     Id  = 7 ,
-                    Nombre = "Generar Estadísticas"
+                    Nombre = "Generar Estadísticas",
+                    Descripcion = "Generar reportes"
                 },
                 new Permiso{
                     Id  = 8 ,
-                    Nombre = "Gestionar Usuarios"
+                    Nombre = "Gestionar Usuarios",
+                    Descripcion = "Crear, modificar y deshabilitar usuarios"
+                },
+                new Permiso{
+                    Id  = 9 ,
+                    Nombre = "Modificar Solicitud",
+                    Descripcion = "Modificar, monto solicitado, banco y numero de cuenta de la solicitud"
                 }
-
-
-
             };
 
             entity.HasData(seed);

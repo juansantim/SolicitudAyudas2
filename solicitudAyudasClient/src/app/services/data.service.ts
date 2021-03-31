@@ -18,6 +18,10 @@ import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
   providedIn: 'root'
 })
 export class DataService {
+  GetPuedeModificarSolicitud() {
+    let url = this.GetUrl('account/TienePermiso?permisoId=9');
+    return this.http.get(url);
+  }
   GetPermisosYComisiones():Observable<any> {
     let url = this.GetUrl('account/getPermisosYComisiones');    
     return this.http.get(url);

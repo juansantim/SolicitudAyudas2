@@ -47,6 +47,7 @@ import { ConsultaUsuariosComponent } from './pages/consulta-usuarios/consulta-us
 import { PermisosUsuarioComponent } from './pages/registrar-usuario/permisos-usuario/permisos-usuario.component';
 import { ComisionesAprobacionUsuarioComponent } from './pages/registrar-usuario/comisiones-aprobacion-usuario/comisiones-aprobacion-usuario.component';
 import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario.component';
+import { EditarSolicitudComponent } from './pages/editar-solicitud/editar-solicitud.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario
     ConsultaUsuariosComponent,
     PermisosUsuarioComponent,
     ComisionesAprobacionUsuarioComponent,
-    ActivarUsuarioComponent
+    ActivarUsuarioComponent,
+    EditarSolicitudComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.EntityTypesConfigurations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SolicitudAyuda.Model
@@ -55,6 +56,52 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new CategoriaTipoSolicitudETC());
             modelBuilder.ApplyConfiguration(new MaestroETC());
             modelBuilder.ApplyConfiguration(new BancoETC());
+        }
+
+        public interface IAuditedEntity
+        {
+            string CreatedBy { get; set; }
+            DateTime CreatedAt { get; set; }
+            string LastModifiedBy { get; set; }
+            DateTime LastModifiedAt { get; set; }
+        }
+
+        public override int SaveChanges()
+        {
+            var modifiedEntries = this.ChangeTracker
+                .Entries()
+                .Where(x => x.State == EntityState.Modified)
+                .Select(x => x.Entity)
+                .ToList();
+
+            foreach (var item in modifiedEntries)
+            {
+                DetectChanges(item);
+            }
+
+            var createdEntries = this.ChangeTracker
+                .Entries()
+                .Where(x => x.State == EntityState.Added)
+                .Select(x => x.Entity)
+                .ToList();
+
+            var deleted = this.ChangeTracker
+                .Entries()
+                .Where(x => x.State == EntityState.Deleted)
+                .Select(x => x.Entity)
+                .ToList();
+
+            return base.SaveChanges();
+        }
+
+        private void DetectChanges(object item)
+        {
+            var type = item.GetType();
+            var properties = type.GetProperties();
+
+            var IdProperty = properties.Single(p => p.Name == "Id");            
+            int id = Convert.ToInt32(IdProperty.GetValue(item)); 
+            
         }
     }
 }

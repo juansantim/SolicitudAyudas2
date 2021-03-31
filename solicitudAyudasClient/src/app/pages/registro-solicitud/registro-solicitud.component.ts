@@ -48,8 +48,8 @@ export class RegistroSolicitudComponent implements OnInit {
     estadoCuenta: new FormControl('', Validators.required),
     motivoSolicitud: new FormControl('', Validators.required),
     cargo: new FormControl('', Validators.required),
-    banco: new FormControl('', Validators.required),
-    numeroCuentaBanco: new FormControl('', Validators.required)
+    banco: new FormControl(''),
+    numeroCuentaBanco: new FormControl('')
   });
 
 

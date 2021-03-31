@@ -80,7 +80,7 @@ namespace SolicitudAyudaServer.Controllers
 
                 if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
                 {
-                    maestro = db.Maestros.Single(m => m.Cedula == maestroDto.Cedula);
+                    maestro = db.Maestros.FirstOrDefault(m => m.Cedula == maestroDto.Cedula);
 
                     if (this.service.TieneSolicitudElMismoDia(maestro)) 
                     {

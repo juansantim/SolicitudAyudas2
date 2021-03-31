@@ -38,6 +38,7 @@ export class AccionesComponent implements OnInit {
     this.dataService.PuedeGestionarTipoSolicitud(this.tipoSolicitudAyuda).subscribe(response => {
       this.puedeGestionar = response.puedeGestionar
     })
+
   }
 
   AprobarSoliciud() {
@@ -108,6 +109,12 @@ export class AccionesComponent implements OnInit {
     // })
 
 
+  }
+
+  modificar(){
+    this.dataService.GetPuedeModificarSolicitud().subscribe(puede => {
+      console.log(puede);
+    })
   }
 
 }

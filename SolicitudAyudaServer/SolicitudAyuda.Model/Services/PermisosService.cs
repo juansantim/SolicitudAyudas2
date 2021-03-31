@@ -18,12 +18,14 @@ namespace SolicitudAyuda.Model.Services
         {
             var permisoUsuario = db.PermisosUsuarios.FirstOrDefault(pu => pu.UsuarioId == usuarioId && pu.PermisoId == permisoId);
 
-            if (permisoUsuario != null) 
+            if (permisoUsuario != null)
             {
                 return permisoUsuario.Disponible;
             }
-
-            return false;
+            else 
+            {
+                return false;
+            }
         }
     }
 }

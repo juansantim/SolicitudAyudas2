@@ -470,7 +470,6 @@ namespace SolicitudAyudaServer.Controllers
 
             return response;
         }
-
         private void SendPasswordResetEmail(string host, int usuarioId, string resetCode)
         {
             var usuario = usuariosService.GetById(usuarioId);
@@ -487,6 +486,14 @@ namespace SolicitudAyudaServer.Controllers
                 mailService.SendEmail(body, "Notificacion Creación Usuario", usuario.Email);
             }
 
+        }
+
+        [HttpGet]
+        [Route("TienePermiso")]
+        [Authorize]
+        public bool TienePermiso(int permisoId) 
+        {
+            return this.permisoService.VerificarPermiso(this.UsuarioId, permisoId);
         }
 
         [HttpGet]
