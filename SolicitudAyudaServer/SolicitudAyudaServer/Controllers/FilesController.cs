@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model;
+using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Services.Signatures;
 
 namespace SolicitudAyudaServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FilesController : ControllerBase
@@ -32,6 +35,24 @@ namespace SolicitudAyudaServer.Controllers
             var file = fileStorageService.GetFile(id);
 
             return File(file.Content, file.ContenType);
+        }
+
+        [Route("delete")]
+        [HttpPost]
+        public HttpDataResponse delete(int id)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            try
+            {
+                fileStorageService.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                response.AddError(ex.Message);
+            }
+            
+            return response;
         }
 
     }

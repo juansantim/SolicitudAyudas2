@@ -18,6 +18,11 @@ import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
   providedIn: 'root'
 })
 export class DataService {
+  
+  Anular(solicitudId: number) {
+    let url = this.GetUrl(`Solicitud/Anular?solicitudId=${solicitudId}`);
+    return this.http.post(url, solicitudId);
+  }
   GetPuedeModificarSolicitud() {
     let url = this.GetUrl('account/TienePermiso?permisoId=9');
     return this.http.get(url);

@@ -58,7 +58,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.CedulaSolicitante,
                 Seccional = solicitud.Seccional.Nombre,
                 NombreSolicitante = solicitud.Maestro.NombreCompleto,
-                Edad = new DateTime((DateTime.Now - solicitud.Maestro.FechaNacimiento).Ticks).Year - 1,
+                Edad = GetEdad(solicitud.Maestro),
                 FechaNacimiento = solicitud.Maestro.FechaNacimiento,
                 SexoSolicitante = solicitud.Maestro.Sexo,
                 solicitud.Maestro.Cargo,
@@ -88,6 +88,19 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.ActaMatrimonioUnion,
                 
             };
+        }
+
+        private int GetEdad(Maestro maestro)
+        {
+            try
+            {
+                return new DateTime((DateTime.Now - maestro.FechaNacimiento).Ticks).Year - 1;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+            
         }
 
         private dynamic GetDatosAprobacion(Entities.SolicitudAyuda solicitud)

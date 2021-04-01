@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
 import { BancoForSelectDTO } from 'src/app/model/BancoSelectDTO';
+import { UploadedFile } from 'src/app/model/UploadedFile';
 
 defineLocale('es-do', esDoLocale);
 
@@ -30,6 +31,8 @@ export class RegistroSolicitudComponent implements OnInit {
 
   //form controls:
   solicitudAyudaForm = new FormGroup({
+
+    solicitudId: new FormControl(''),
     cedula: new FormControl(''),
     seccional: new FormControl(''),
     tipoDeAyuda: new FormControl(''),
@@ -87,9 +90,9 @@ export class RegistroSolicitudComponent implements OnInit {
     private route: ActivatedRoute) {
     console.log(this.QuienRecibiraAyuda);
   }
-
-  solicitudId: number;
+  
   cargando: boolean;
+  uploadedFiles: Array<UploadedFile> = [];
 
   ngOnInit() {
     this.setSeccionalesDisabled();
@@ -124,9 +127,12 @@ export class RegistroSolicitudComponent implements OnInit {
         if (puede) {
           this.cargando = true;
           this.dataService.GetDetalleSolicitud(solicitudId).subscribe(solicitud => {
-            this.solicitudId = solicitudId;
+            
+            this.solicitudAyudaForm.controls.solicitudId.setValue(solicitudId);
+                        
             this.solicitudAyudaForm.controls.cedula.setValue(solicitud.cedulaSolicitante);
             this.solicitudAyudaForm.controls.cedula.disable();
+            //this.solicitudAyudaForm.controls.cedula.markAsTouched();
 
             this.solicitudAyudaForm.controls.nombreCompleto.setValue(solicitud.nombreSolicitante);
             this.solicitudAyudaForm.controls.nombreCompleto.disable();
@@ -138,6 +144,9 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.sexo.disable();
 
             this.solicitudAyudaForm.controls.seccional.setValue(solicitud.seccional);
+            this.selectedSeccional = {
+              id: solicitud.seccionalId
+            }
             this.solicitudAyudaForm.controls.seccional.disable();
 
             this.solicitudAyudaForm.controls.cargo.setValue(solicitud.cargo);
@@ -166,16 +175,26 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.actaMatrimonioUnion);
 
             this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.esJubiladoInabima? 'true': 'false');
+            this.solicitudAyudaForm.controls.esJubiladoInabima.markAsTouched();
 
             this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.motivoSolicitud);
 
-            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.estadoCuenta);
+            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.esJubiladoInabima? true: false);
+
+            console.log(solicitud.adjuntos);
+
+            this.uploadedFiles = solicitud.adjuntos;
             
 
             if (solicitud.requisitos.length > 0) {
+
               solicitud.requisitos.forEach(element => {
-                this.solicitudAyudaForm.addControl(element.formName, new FormControl(element.value))
-                //console.log(element.formName);
+                let control = new FormControl('', Validators.required);                
+                
+                this.solicitudAyudaForm.addControl(element.formName, control);                
+                control.markAllAsTouched();
+
+                control.setValue(element.values.length? element.value: true)
               });
         
             }
@@ -408,7 +427,6 @@ export class RegistroSolicitudComponent implements OnInit {
       let control = this.solicitudAyudaForm.get(controlName)
       if (!control.valid) {
         console.log(control, controlName);
-
       }
     });
 
@@ -427,6 +445,8 @@ export class RegistroSolicitudComponent implements OnInit {
         preConfirm: () => {
           let form = new FormData();
 
+          form.append("SolicitudId", this.solicitudAyudaForm.get('solicitudId')? this.solicitudAyudaForm.get('solicitudId').value: 0);
+          
           form.append("SeccionalId", this.selectedSeccional.id);
           form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
 
@@ -445,13 +465,11 @@ export class RegistroSolicitudComponent implements OnInit {
           
           form.append("QuienRecibeAyuda", this.solicitudAyudaForm.get('quienRecibeAyuda').value);
 
-          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento').value);
-          form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre').value);
-          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge').value);
-          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima').value);
-          form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta').value);
-
-          
+          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento')? this.solicitudAyudaForm.get('RBActaNacimiento').value : false);
+          form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre') ? this.solicitudAyudaForm.get('RBPadreMadre').value : false);
+          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge')? this.solicitudAyudaForm.get('RBConyuge').value: false);
+          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima')? this.solicitudAyudaForm.get('esJubiladoInabima').value : false);
+          form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta')? this.solicitudAyudaForm.get('estadoCuenta').value : false);
 
           let requisitos = [];
 
@@ -555,6 +573,12 @@ export class RegistroSolicitudComponent implements OnInit {
         if (result.isConfirmed) {
           console.log(result.value);
         }
+      }).catch(err => {
+        Swal.fire({
+          title: 'Error al enviar datos',
+          text: 'Error',
+          icon: 'error'
+        })        
       })
 
     }

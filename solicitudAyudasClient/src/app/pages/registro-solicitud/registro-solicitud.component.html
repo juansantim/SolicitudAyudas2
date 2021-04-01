@@ -276,7 +276,7 @@
                 <div class="row" *ngIf="esJubiladoInabima()">
                     <div class="col-md-12">
                         <label>
-                            <input type="checkbox" formControlName="estadoCuenta" required>
+                            <input type="checkbox" formControlName="estadoCuenta">
                             Estado de cuenta Jubilado de Inabima-Hacienda
                         </label>
 
@@ -290,7 +290,7 @@
         <div class="col-md-6">
             <fieldset>
                 <legend>Archivos Adjuntos</legend>
-                <app-file-uploader (FilesChage)="SetFiles($event)"></app-file-uploader>
+                <app-file-uploader (FilesChage)="SetFiles($event)" [UploadedFiles] = "uploadedFiles"></app-file-uploader>
             </fieldset>
 
             <app-validation-error-message *ngIf="!archivos.length"

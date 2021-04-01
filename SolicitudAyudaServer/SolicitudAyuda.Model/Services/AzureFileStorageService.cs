@@ -1,6 +1,8 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SolicitudAyuda.Model.DTOs;
+using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services.Signatures;
 using System;
 using System.Collections.Generic;
@@ -39,7 +41,7 @@ namespace SolicitudAyuda.Model.Services
         }
         public FileDataDTO GetFile(int fileId)
         {
-            var adjunto = db.AdjuntosSolicitudes.Single(ad => ad.Id == fileId);
+            var adjunto = GetAdjuntoSolicitud(fileId);
             var containerClient = blobService.GetBlobContainerClient(ContainerName);
 
             var blobClient = containerClient.GetBlobClient(adjunto.URL);
@@ -52,7 +54,12 @@ namespace SolicitudAyuda.Model.Services
             };
         }
 
-        public void SaveFiles(Entities.SolicitudAyuda solicitud, List<FileDataDTO> files)
+        private AdjuntosSolicitud GetAdjuntoSolicitud(int fileId) 
+        {
+            return db.AdjuntosSolicitudes.Single(ad => ad.Id == fileId);
+        }
+              
+        public void SaveFiles(int solicitudId, List<FileDataDTO> files)
         {
             foreach (var item in files)
             {
@@ -64,7 +71,7 @@ namespace SolicitudAyuda.Model.Services
                 db.AdjuntosSolicitudes.Add(new Entities.AdjuntosSolicitud
                 {
                     DisplayName = item.OriginalFileName,
-                    SolicitudAyudaId = solicitud.Id,
+                    SolicitudAyudaId = solicitudId,
                     SizeMB = (item.Content.Length / 1024) / 1024,
                     ContentType = item.ContenType,
                     URL = item.FileName
@@ -83,5 +90,26 @@ namespace SolicitudAyuda.Model.Services
             var blobInfo = blobClient.Upload(file.Content);
         }
 
+        public void Delete(int fileId)
+        {
+            var file = GetAdjuntoSolicitud(fileId);
+            var solicitud = db.Solicitudes.Include(s => s.Estado).Single(s => s.Id == file.SolicitudAyudaId);
+
+            if (file.SolicitudAyuda.EstadoId == 1)
+            {
+                var containerClient = blobService.GetBlobContainerClient(ContainerName);
+                var blobClient = containerClient.GetBlobClient(file.URL);
+
+                var response = blobClient.Delete(Azure.Storage.Blobs.Models.DeleteSnapshotsOption.IncludeSnapshots);
+                if (response.Status == 202) 
+                {
+                    db.AdjuntosSolicitudes.Remove(file);
+                    db.SaveChanges();
+                }
+            }
+            else {
+                throw new InvalidOperationException($"No se puede elimar archivo porque solicitud se encuentra {solicitud.Estado.Nombre}");
+            }
+        }
     }
 }

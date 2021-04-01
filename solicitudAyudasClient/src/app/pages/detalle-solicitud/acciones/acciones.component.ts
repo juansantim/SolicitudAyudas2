@@ -4,7 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { DataService } from 'src/app/services/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { ProcesarSolicitudComponent } from '../procesar-solicitud/procesar-solicitud.component';
 
 @Component({
@@ -114,6 +114,42 @@ export class AccionesComponent implements OnInit {
   modificar(){     
     this.router.navigate([`/editarSolicitud/${this.solicitudId}`])  
     
+  }
+
+  Anular(){
+
+    Swal.fire({
+      title: 'Anular Solicitud',
+      text: 'Seguro que desea anular esta solicitud',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Anular',
+      confirmButtonColor: 'red',
+      showCancelButton: true,
+      cancelButtonText: 'Descartar Operacion',
+      preConfirm: () => {
+        return new Promise((resolve, reject) => {
+          this.dataService.Anular(this.solicitudId).subscribe(response => {
+            resolve(response);
+          }, error => {reject(error)})
+        })
+      }
+    }).then((alertResult:SweetAlertResult<any>) => {
+      if(alertResult.isConfirmed){
+        if(alertResult.value.success){
+          Swal.fire({
+            title: 'Solictud Anulada',
+            text: `Solicitud ${this.solicitudId}  anulada correctamente`,
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['/consulta']);
+          });
+        }
+      }
+    })
+
+    
+
   }
 
 }

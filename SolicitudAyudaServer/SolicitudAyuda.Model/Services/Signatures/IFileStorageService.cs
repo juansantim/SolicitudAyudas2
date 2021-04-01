@@ -7,7 +7,8 @@ namespace SolicitudAyuda.Model.Services.Signatures
 {
     public interface IFileStorageService
     {
-        public void SaveFiles(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud, List<FileDataDTO> files);
+        public void SaveFiles(int solicitudId, List<FileDataDTO> files);
         public FileDataDTO GetFile(int fileId);
+        void Delete(int id);
     }
 }

@@ -66,87 +66,128 @@ namespace SolicitudAyudaServer.Controllers
 
             try
             {
-                var requisitosJson = HttpContext.Request.Form["Requisitos"].ToString();
-                var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
+                int solicitudId = int.Parse(HttpContext.Request.Form["SolicitudId"]);
 
-                solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(requisitosJson);
-                solicitud.EstadoId = 1;
-
-                var usuarioId = int.Parse(User.Claims.Single(cl => cl.Type == "UsuarioId").Value);
-                solicitud.UsuarioId = usuarioId;
-                solicitud.FechaSolicitud = DateTime.Now;
-
-                Maestro maestro;
-
-                if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
+                if (solicitudId == 0)
                 {
-                    maestro = db.Maestros.FirstOrDefault(m => m.Cedula == maestroDto.Cedula);
+                    var requisitosJson = HttpContext.Request.Form["Requisitos"].ToString();
 
-                    if (this.service.TieneSolicitudElMismoDia(maestro)) 
+                    var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
+
+                    solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(requisitosJson);
+                    solicitud.EstadoId = 1;
+
+                    var usuarioId = int.Parse(User.Claims.Single(cl => cl.Type == "UsuarioId").Value);
+                    solicitud.UsuarioId = usuarioId;
+                    solicitud.FechaSolicitud = DateTime.Now;
+
+                    Maestro maestro;
+
+                    if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
                     {
-                        response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
-                        return response;
-                    }
+                        maestro = db.Maestros.FirstOrDefault(m => m.Cedula == maestroDto.Cedula);
 
-                    var solicitudesAnteriores = this.service.TieneSolicitudAntesTiempoReglamentario(maestro);
-
-                    if (solicitudesAnteriores.Count > 0) 
-                    {
-                        foreach (var s in solicitudesAnteriores)
+                        if (this.service.TieneSolicitudElMismoDia(maestro))
                         {
-                            response.AddError($"Este filiado tiene la solicitud #{s.Numero} - {s.Tipo} ({s.Estado}) {s.Fecha.ToString("dd/MM/yyyy")} hace menos de {this.service.TiempoReglamentario.Periodo}");
+                            response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
+                            return response;
                         }
-              
-                        return response;
+
+                        var solicitudesAnteriores = this.service.TieneSolicitudAntesTiempoReglamentario(maestro);
+
+                        if (solicitudesAnteriores.Count > 0)
+                        {
+                            foreach (var s in solicitudesAnteriores)
+                            {
+                                response.AddError($"Este filiado tiene la solicitud #{s.Numero} - {s.Tipo} ({s.Estado}) {s.Fecha.ToString("dd/MM/yyyy")} hace menos de {this.service.TiempoReglamentario.Periodo}");
+                            }
+
+                            return response;
+                        }
                     }
+                    else
+                    {
+                        maestro = new Maestro
+                        {
+                            Cedula = maestroDto.Cedula,
+                            NombreCompleto = maestroDto.NombreCompleto,
+                            Cargo = maestroDto.Cargo,
+                            SeccionalId = maestroDto.SeccionalId,
+                            Sexo = maestroDto.Sexo,
+                            FechaNacimiento = maestroDto.FechaNacimiento,
+                            Direccion = solicitud.Direccion,
+                            TelefonoCelular = solicitud.Celular,
+                            TelefonoLabora = solicitud.TelefonoTrabajo,
+                            TelefonoResidencial = solicitud.TelefonoCasa,
+                        };
+                    }
+
+                    solicitud.Maestro = maestro;
+
+                    List<FileDataDTO> files = new List<FileDataDTO>();
+                    if (HttpContext.Request.Form.Files.Count > 0)
+                    {
+                        foreach (var file in HttpContext.Request.Form.Files)
+                        {
+                            files.Add(new FileDataDTO
+                            {
+                                OriginalFileName = file.FileName,
+                                Content = file.OpenReadStream(),
+                                ContenType = file.ContentType
+                            });
+                        }
+                    }
+
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        db.Solicitudes.Add(solicitud);
+                        db.SaveChanges();
+
+                        scope.Complete();
+                    }
+
+                    fileStorageService.SaveFiles(solicitud.Id, files);
+
+                    sendEmail(solicitud);
+
+                    response.Data = new { solicitudId = solicitud.Id };
                 }
                 else
                 {
-                    maestro = new Maestro
+                    var actualSolicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
+
+                    actualSolicitud.MontoSolicitado = solicitud.MontoSolicitado;
+                    actualSolicitud.BancoId = solicitud.BancoId;
+                    actualSolicitud.NumeroCuentaBanco = solicitud.NumeroCuentaBanco;
+
+                    actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
+                    actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
+                    actualSolicitud.Email = solicitud.Email;
+
+                    List<FileDataDTO> files = new List<FileDataDTO>();
+                    if (HttpContext.Request.Form.Files.Count > 0)
                     {
-                        Cedula = maestroDto.Cedula,
-                        NombreCompleto = maestroDto.NombreCompleto,
-                        Cargo = maestroDto.Cargo,
-                        SeccionalId = maestroDto.SeccionalId,
-                        Sexo = maestroDto.Sexo,
-                        FechaNacimiento = maestroDto.FechaNacimiento,
-                        Direccion = solicitud.Direccion,
-                        TelefonoCelular = solicitud.Celular,
-                        TelefonoLabora = solicitud.TelefonoTrabajo,
-                        TelefonoResidencial = solicitud.TelefonoCasa,
-                    };
-                }
-
-                solicitud.Maestro = maestro;
-
-                List<FileDataDTO> files = new List<FileDataDTO>();
-
-                if (HttpContext.Request.Form.Files.Count > 0)
-                {
-                    foreach (var file in HttpContext.Request.Form.Files)
-                    {
-                        files.Add(new FileDataDTO
+                        foreach (var file in HttpContext.Request.Form.Files)
                         {
-                            OriginalFileName = file.FileName,
-                            Content = file.OpenReadStream(),
-                            ContenType = file.ContentType
-                        });
+                            files.Add(new FileDataDTO
+                            {
+                                OriginalFileName = file.FileName,
+                                Content = file.OpenReadStream(),
+                                ContenType = file.ContentType
+                            });
+                        }
                     }
+
+                    using (TransactionScope scope = new TransactionScope())
+                    {                        
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+
+                    fileStorageService.SaveFiles(actualSolicitud.Id, files);
+
+                    response.Data = new { solicitudId = actualSolicitud.Id };
                 }
-
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    db.Solicitudes.Add(solicitud);
-                    db.SaveChanges();
-
-                    scope.Complete();
-                }
-
-                fileStorageService.SaveFiles(solicitud, files);
-
-                sendEmail(solicitud);
-
-                response.Data = new { solicitudId = solicitud.Id };
             }
             catch (Exception ex)
             {
@@ -325,5 +366,22 @@ namespace SolicitudAyudaServer.Controllers
             FileStreamResult resultPDF = new FileStreamResult(resultStream, "application/pdf");
             return resultPDF;
         }
+
+
+        [HttpPost]
+        [Route("api/Solicitud/Anular")]
+        [AllowAnonymous]
+        public HttpDataResponse AnularSolicitud(int solicitudId)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            var solicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
+            solicitud.EstadoId = 5;
+
+            db.SaveChanges();
+
+            return response;
+        }
+
     }
 }
