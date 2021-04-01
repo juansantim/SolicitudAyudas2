@@ -41,7 +41,7 @@ namespace SolicitudAyuda.Model.Entities
 
         public int EstadoId { get; set; }
         public EstadoSolicitud Estado { get; set; }
-        public string Direccion { get; internal set; }
+        public string Direccion { get; set; }
 
         public int BancoId { get; set; }
         public Banco Banco { get; set; }

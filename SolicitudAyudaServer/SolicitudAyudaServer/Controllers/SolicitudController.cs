@@ -171,6 +171,7 @@ namespace SolicitudAyudaServer.Controllers
                     actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
                     actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
                     actualSolicitud.Email = solicitud.Email;
+                    actualSolicitud.Direccion = solicitud.Direccion;
 
                     List<FileDataDTO> files = new List<FileDataDTO>();
                     if (HttpContext.Request.Form.Files.Count > 0)
