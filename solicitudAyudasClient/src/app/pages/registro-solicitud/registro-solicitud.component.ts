@@ -430,7 +430,7 @@ export class RegistroSolicitudComponent implements OnInit {
       }
     });
 
-    if (this.solicitudAyudaForm.valid && this.archivos.length) {
+    if (this.solicitudAyudaForm.valid && (this.archivos.length || this.uploadedFiles.length)) {
 
       Swal.fire({
         icon: 'warning',

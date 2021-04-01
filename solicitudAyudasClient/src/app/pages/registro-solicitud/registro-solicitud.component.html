@@ -293,7 +293,7 @@
                 <app-file-uploader (FilesChage)="SetFiles($event)" [UploadedFiles] = "uploadedFiles"></app-file-uploader>
             </fieldset>
 
-            <app-validation-error-message *ngIf="!archivos.length"
+            <app-validation-error-message *ngIf="!archivos.length && !uploadedFiles.length"
                 textMessage="Favor cargar los archivos con los requisitos indicados"></app-validation-error-message>
 
         </div>
