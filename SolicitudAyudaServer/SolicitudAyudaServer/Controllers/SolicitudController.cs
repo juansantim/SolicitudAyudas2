@@ -66,7 +66,15 @@ namespace SolicitudAyudaServer.Controllers
 
             try
             {
-                int solicitudId = int.Parse(HttpContext.Request.Form["SolicitudId"]);
+                var solicitudIdStr = HttpContext.Request.Form["SolicitudId"].ToString();
+
+                int solicitudId = 0;
+                if (!string.IsNullOrEmpty(solicitudIdStr))
+                {
+                    solicitudId = int.Parse(HttpContext.Request.Form["SolicitudId"]);
+                }
+                
+                
 
                 if (solicitudId == 0)
                 {
