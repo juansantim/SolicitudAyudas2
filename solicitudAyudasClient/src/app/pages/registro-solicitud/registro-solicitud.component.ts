@@ -143,6 +143,8 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.sexo.setValue(solicitud.sexoSolicitante);
             this.solicitudAyudaForm.controls.sexo.disable();
 
+            this.maestro = {};
+
             this.solicitudAyudaForm.controls.seccional.setValue(solicitud.seccional);
             this.selectedSeccional = {
               id: solicitud.seccionalId
@@ -539,34 +541,6 @@ export class RegistroSolicitudComponent implements OnInit {
             .catch(error => {
               Swal.showValidationMessage(`Request failed: ${error}`)
             })
-
-          // return axios.post(this.dataService.GetUrl('Solicitud/post'), form, { withCredentials: true, headers })
-          //   .then(response => {
-          //     let responseMessage = response.data;
-
-          //     if (responseMessage.success) {
-          //       let solicitudId = responseMessage.data.solicitudId;
-
-          //       Swal.fire({
-          //         title: 'Solicitud de ayuda registrada satisfactoriamente',
-          //         text: `El número de solicitud registrado es ${solicitudId}.`,
-          //         icon: 'success',
-          //         confirmButtonText: 'Ok',
-          //         showConfirmButton: true
-          //       }).then(alertResult => {
-          //         this.router.navigate(['/detalle', solicitudId]);
-          //       });
-          //     }
-          //     else {
-          //       let ul = this.util.GetUnorderedList(responseMessage.errors);
-          //       Swal.showValidationMessage(`Request failed: ${ul}`);
-          //     }
-
-          //   })
-          //   .catch(error => {
-          //     Swal.showValidationMessage(`Request failed: ${error}`)
-          //   })
-
 
         }
       }).then(result => {

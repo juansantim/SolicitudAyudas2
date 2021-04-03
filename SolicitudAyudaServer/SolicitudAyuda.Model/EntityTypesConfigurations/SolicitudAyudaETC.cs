@@ -19,6 +19,10 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(s => s.Email).HasMaxLength(50);
             entity.Property(s => s.Concepto).HasMaxLength(500);
             entity.Property(s => s.BancoId).HasDefaultValue(1);
+            
+            entity.Property(s => s.MontoSolicitado).HasColumnType("decimal(10, 2)");
+
+            entity.Property(s => s.MontoAprobado).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(sa => sa.Maestro).WithMany(ma => ma.Solicitudes).HasForeignKey(sa => sa.MaestroId);
 

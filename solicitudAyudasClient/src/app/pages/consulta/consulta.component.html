@@ -23,6 +23,9 @@
                 <app-estado-solicitud [nombre] = "s.estado" [estadoId] = "s.estadoId"></app-estado-solicitud>
               </td>
               <td> <a [routerLink]="['../detalle/' + s.id]" >Ir a Detalle</a>  </td>
+              <td>
+                <a [routerLink]="['../editarSolicitud/' + s.id]" >Modificar </a>  
+              </td>
           </tr>
       </tbody>
     </table>

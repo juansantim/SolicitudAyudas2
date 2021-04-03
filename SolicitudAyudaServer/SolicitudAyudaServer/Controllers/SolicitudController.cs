@@ -27,6 +27,7 @@ namespace SolicitudAyudaServer.Controllers
         private readonly ISendEmailService mailService;
         private readonly IFileStorageService fileStorageService;
         private readonly IWebHostEnvironment environment;
+        private readonly IPermisosService permisosService;
 
         public int UsuarioId
         {
@@ -48,7 +49,9 @@ namespace SolicitudAyudaServer.Controllers
             DataContext db,
             ISolicitudesService service,
             ISendEmailService mailService,
-            IFileStorageService fileStorageService, IWebHostEnvironment environment)
+            IFileStorageService fileStorageService,
+            IWebHostEnvironment environment,
+            IPermisosService permisosService)
         {
             this._config = configuration;
             this.db = db;
@@ -56,6 +59,7 @@ namespace SolicitudAyudaServer.Controllers
             this.mailService = mailService;
             this.fileStorageService = fileStorageService;
             this.environment = environment;
+            this.permisosService = permisosService;
         }
 
         [HttpPost]
@@ -73,8 +77,6 @@ namespace SolicitudAyudaServer.Controllers
                 {
                     solicitudId = int.Parse(HttpContext.Request.Form["SolicitudId"]);
                 }
-                
-                
 
                 if (solicitudId == 0)
                 {
@@ -162,40 +164,53 @@ namespace SolicitudAyudaServer.Controllers
                 }
                 else
                 {
-                    var actualSolicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
-
-                    actualSolicitud.MontoSolicitado = solicitud.MontoSolicitado;
-                    actualSolicitud.BancoId = solicitud.BancoId;
-                    actualSolicitud.NumeroCuentaBanco = solicitud.NumeroCuentaBanco;
-
-                    actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
-                    actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
-                    actualSolicitud.Email = solicitud.Email;
-                    actualSolicitud.Direccion = solicitud.Direccion;
-
-                    List<FileDataDTO> files = new List<FileDataDTO>();
-                    if (HttpContext.Request.Form.Files.Count > 0)
+                    if (this.permisosService.VerificarPermiso(this.UsuarioId, 9))
                     {
-                        foreach (var file in HttpContext.Request.Form.Files)
+                        var actualSolicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
+
+                        actualSolicitud.MontoSolicitado = solicitud.MontoSolicitado;
+                        actualSolicitud.BancoId = solicitud.BancoId;
+                        actualSolicitud.NumeroCuentaBanco = solicitud.NumeroCuentaBanco;
+
+                        actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
+                        actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
+                        actualSolicitud.Email = solicitud.Email;
+                        actualSolicitud.Direccion = solicitud.Direccion;
+                        actualSolicitud.Concepto = solicitud.Concepto;
+
+                        List<FileDataDTO> files = new List<FileDataDTO>();
+                        if (HttpContext.Request.Form.Files.Count > 0)
                         {
-                            files.Add(new FileDataDTO
+                            foreach (var file in HttpContext.Request.Form.Files)
                             {
-                                OriginalFileName = file.FileName,
-                                Content = file.OpenReadStream(),
-                                ContenType = file.ContentType
-                            });
+                                files.Add(new FileDataDTO
+                                {
+                                    OriginalFileName = file.FileName,
+                                    Content = file.OpenReadStream(),
+                                    ContenType = file.ContentType
+                                });
+                            }
                         }
+
+                        var movimiento = this.service.DetectarCambios(actualSolicitud, this.db);
+                        movimiento.UsuarioId = this.UsuarioId;
+
+                        db.Movimientos.Add(movimiento);
+
+                        using (TransactionScope scope = new TransactionScope())
+                        {
+                            db.SaveChanges();
+                            scope.Complete();
+                        }
+
+                        fileStorageService.SaveFiles(actualSolicitud.Id, files);
+
+                        response.Data = new { solicitudId = actualSolicitud.Id };
+                    }
+                    else {
+                        response.AddError("Usted no tiene permisos para realizar esta accion");
                     }
 
-                    using (TransactionScope scope = new TransactionScope())
-                    {                        
-                        db.SaveChanges();
-                        scope.Complete();
-                    }
-
-                    fileStorageService.SaveFiles(actualSolicitud.Id, files);
-
-                    response.Data = new { solicitudId = actualSolicitud.Id };
                 }
             }
             catch (Exception ex)

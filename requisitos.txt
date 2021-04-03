@@ -68,6 +68,8 @@ Puesta en produccion incluye:
 - Despliegue de Aplicacion en la Nube Microsoft Azure
 - Creacion de Primeros Usuarios
 - Manual de Usuario
+
+
 ---------------- Nuevos requisitos 30-03-2021---------------------------------
 
 3 Comisiones
@@ -88,5 +90,8 @@ Comision 2 *
 Comision 3 * 
 
 * Cada una de las comisiones ve todos los expendientes.
+
+
+
 
 

@@ -1,7 +1,9 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services.Signatures;
@@ -16,7 +18,7 @@ namespace SolicitudAyuda.Model.Services
     public class SolicitudesService : ISolicitudesService
     {
         private readonly DataContext db;
-        private readonly IConfiguration config;
+        private readonly IConfiguration config;        
 
         public TipoReglamentarioOtraSolicitudDTO TiempoReglamentario
         {
@@ -163,7 +165,6 @@ namespace SolicitudAyuda.Model.Services
             };
         }
 
-        
         public List<string> Getvalues(RequisitoTipoSolicitud r)
         {
             return string.IsNullOrEmpty(r.PossibleValues) ? new List<string>() : r.PossibleValues.Split(",").ToList();
@@ -378,6 +379,45 @@ namespace SolicitudAyuda.Model.Services
                 }).ToList();
         }
 
-     
+        public Movimiento DetectarCambios(Entities.SolicitudAyuda actualSolicitud, DataContext Currentdb)
+        {
+            var entry = Currentdb.Entry(actualSolicitud);
+
+            if (entry.State == EntityState.Modified) 
+            {
+                Movimiento m = new Movimiento();
+                m.Key = actualSolicitud.Id.ToString();
+                m.Entidad = entry.Metadata.GetTableName();
+
+                var currentValues = entry.CurrentValues;
+                var originalValues = entry.OriginalValues;
+
+                foreach (var current in currentValues.Properties)
+                {
+                    object originalValue = originalValues[current];
+                    object currentValue = currentValues[current];
+
+                    if (GetValue(originalValue) !=  GetValue(currentValue))
+                    {
+                        m.Cambios.Add(new Cambio
+                        {
+                            Propiedad = current.Name,
+                            Antes = originalValue.ToString(),
+                            Despues = currentValue.ToString()
+                        });
+
+                    }
+                }
+                return m;
+            }
+
+            return null;
+        }
+
+        string GetValue(object value) 
+        {
+            return value == null ? "" : value.ToString();
+        }
+       
     }
 }

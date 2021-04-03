@@ -13,6 +13,8 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
         {
             entity.Property(e => e.URL).HasMaxLength(500);
             entity.Property(e => e.DisplayName).HasMaxLength(255);
+
+            entity.Property(s => s.SizeMB).HasColumnType("decimal(10, 2)");
         }
     }
 }

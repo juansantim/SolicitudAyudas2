@@ -83,7 +83,7 @@
             <app-validation-error-message *ngIf="GetErrors('cargo', 'minlength')" textMessage="El cargo debe contener al menos 5 letras"></app-validation-error-message>
         </div>
     </div>
-    <div class="row" *ngIf="maestro">
+    <div class="row" *ngIf="maestro && !this.solicitudAyudaForm.controls.solicitudId.value">
         <div class="col">
             <br>
             <button type="button" class="btn btn-secondary" (click) = "limpiarMaestro()">Quitar este Maestro</button>

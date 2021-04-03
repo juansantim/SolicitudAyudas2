@@ -28,6 +28,8 @@ namespace SolicitudAyuda.Model
 
         public DbSet<Banco> Banco { get; set; }
 
+        public DbSet<Movimiento> Movimientos { get; set; }
+
         public DataContext(DbContextOptions options) : base(options)
         {
             
@@ -57,6 +59,8 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new MaestroETC());
             modelBuilder.ApplyConfiguration(new BancoETC());
             modelBuilder.ApplyConfiguration(new RequisitoSolicitudETC());
+            modelBuilder.ApplyConfiguration(new MovimientosETC());
+            modelBuilder.ApplyConfiguration(new CambioETC());
         }
 
         public interface IAuditedEntity
