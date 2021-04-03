@@ -4,7 +4,7 @@
     <div>
         <span> <button class="btn btn-success">Imprimir</button> |</span>
         <span *ngIf="puedeGestionar && !procesado"> <button class="btn btn-primary" (click) = "AprobarSoliciud()">Procesar Solicitud</button> |</span>
-        <span *ngIf="puedeGestionar && !procesado"><button class="btn btn-secondary" (click) = "Anular()" [disabled] = "eliminando">Anular</button> </span>
+        <span *ngIf="puedeGestionar && !procesado"><button class="btn btn-secondary" (click) = "Anular()">Anular</button> </span>
         <label *ngIf="!puedeGestionar || procesado">| Ninguna accion que aplicar </label>
         | <button class="btn btn-warning" (click) = "modificar()">Modificar Solicitud</button>
     </div>
