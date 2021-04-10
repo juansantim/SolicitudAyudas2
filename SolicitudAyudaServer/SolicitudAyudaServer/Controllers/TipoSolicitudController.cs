@@ -29,6 +29,7 @@ namespace SolicitudAyudaServer.Controllers
                 {
                     ts.Id,
                     ts.Nombre,
+                    ts.CategoriaId,
                     Requisitos = ts.Requisitos.Select(r => new
                     {
                         r.Id,

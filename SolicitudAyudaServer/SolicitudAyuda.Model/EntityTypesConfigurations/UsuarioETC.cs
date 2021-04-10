@@ -28,6 +28,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Disponible = false,
                 FechaCreacion = DateTime.Now,                
                 Password = "",
+                SeccionalId = 2
             });
 
             entity.HasData(new Usuario
@@ -39,6 +40,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Disponible = true,
                 FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
+                SeccionalId = 2
             });
 
             entity.HasData(new Usuario
@@ -50,6 +52,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Disponible = true,
                 FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
+                SeccionalId = 2
             });
 
             entity.HasData(new Usuario
@@ -61,6 +64,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Disponible = true,
                 FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
+                SeccionalId = 2
             });
 
             entity.HasData(new Usuario
@@ -72,6 +76,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Disponible = true,
                 FechaCreacion = DateTime.Now,                
                 Password = MD5Helper.MD5Hash("14021989"),
+                SeccionalId = 2
             });
 
             entity.Property(us => us.Email).HasMaxLength(100);

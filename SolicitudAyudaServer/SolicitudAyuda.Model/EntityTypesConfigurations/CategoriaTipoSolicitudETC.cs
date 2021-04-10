@@ -26,6 +26,12 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 Id = 2,
                 Nombre = "Ayudas de Infraestructura y Construcción"
             });
+
+            entity.HasData(new CategoriaTipoSolicitud
+            {
+                Id = 3,
+                Nombre = "Otros"
+            });
         }
     }
 }

@@ -19,6 +19,7 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.Property(s => s.Email).HasMaxLength(50);
             entity.Property(s => s.Concepto).HasMaxLength(500);
             entity.Property(s => s.BancoId).HasDefaultValue(1);
+            entity.Property(s => s.OtroTipoSolicitud).HasMaxLength(150);
             
             entity.Property(s => s.MontoSolicitado).HasColumnType("decimal(10, 2)");
 
@@ -29,9 +30,12 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
             entity.HasOne(sa => sa.TipoSolicitud).WithMany(ts => ts.Solicitudes).HasForeignKey(sa => sa.TipoSolicitudId);
 
             entity.HasMany(sa => sa.Requisitos).WithOne(r => r.SolicitudAyuda).HasForeignKey(x => x.SolicitudAyudaId);
+            
             entity.HasMany(sa => sa.Adjuntos).WithOne(r => r.SolicitudAyuda).HasForeignKey(x => x.SolicitudAyudaId);
-
+            
             entity.HasMany(sa => sa.AprobacionesSolicitud).WithOne(ap => ap.SolicitudAyuda).HasForeignKey(ap => ap.SolicitudAyudaId);
+
+            entity.HasMany(sa => sa.Comentarios).WithOne(c => c.SolicitudAyuda).HasForeignKey(c => c.SolicitudAyudaId).OnDelete(DeleteBehavior.NoAction);
 
             entity.HasOne(sa => sa.Estado).WithMany(es => es.SolicitudesAyuda).HasForeignKey(sa => sa.EstadoId);
 

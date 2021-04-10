@@ -39,6 +39,10 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 new RequisitoTipoSolicitud {Id = 11, FormName="rdcomunicacion", TipoSolicitudId = 3, Descripcion = "Comunicacion solicitud del interesado dirigida al CEN", PossibleValues = "" },
                 new RequisitoTipoSolicitud {Id = 12, FormName="rdcopiacedula", TipoSolicitudId = 3, Descripcion = "Copia de cedula", PossibleValues = "" },                        
                 new RequisitoTipoSolicitud {Id = 13, FormName="rdcartaaval", TipoSolicitudId = 3, Descripcion = "Carta aval de la seccional a la que pertenece", PossibleValues = "" },
+
+                //new RequisitoTipoSolicitud {Id = 11, FormName="rdcomunicacion", TipoSolicitudId = 4, Descripcion = "Comunicacion solicitud del interesado dirigida al CEN", PossibleValues = "" },
+                //new RequisitoTipoSolicitud {Id = 12, FormName="rdcopiacedula", TipoSolicitudId = 4, Descripcion = "Copia de cedula", PossibleValues = "" },
+                //new RequisitoTipoSolicitud {Id = 13, FormName="rdcartaaval", TipoSolicitudId = 4, Descripcion = "Carta aval de la seccional a la que pertenece", PossibleValues = "" },
             });
 
         }

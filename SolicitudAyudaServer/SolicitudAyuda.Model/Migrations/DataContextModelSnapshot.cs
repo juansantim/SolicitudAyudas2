@@ -409,7 +409,37 @@ namespace SolicitudAyuda.Model.Migrations
                         {
                             Id = 2,
                             Nombre = "Ayudas de Infraestructura y Construcción"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Otros"
                         });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComentarioSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Comentario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SolicitudAyudaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolicitudAyudaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("ComentarioSolicitud");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>
@@ -4420,6 +4450,10 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
 
+                    b.Property<string>("OtroTipoSolicitud")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<byte?>("QuienRecibeAyuda")
                         .HasColumnType("tinyint");
 
@@ -4488,14 +4522,14 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             CategoriaId = 1,
                             ComisionAprobacionId = 1,
-                            Nombre = "Salud - Cancer"
+                            Nombre = "Cancer"
                         },
                         new
                         {
                             Id = 2,
                             CategoriaId = 1,
                             ComisionAprobacionId = 1,
-                            Nombre = "Salud - Covid"
+                            Nombre = "Covid"
                         },
                         new
                         {
@@ -4503,6 +4537,13 @@ namespace SolicitudAyuda.Model.Migrations
                             CategoriaId = 2,
                             ComisionAprobacionId = 2,
                             Nombre = "Construccion"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoriaId = 3,
+                            ComisionAprobacionId = 2,
+                            Nombre = "Otros"
                         });
                 });
 
@@ -4567,55 +4608,55 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 665, DateTimeKind.Local).AddTicks(9008),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 225, DateTimeKind.Local).AddTicks(9729),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = "",
-                            SeccionalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 2,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 667, DateTimeKind.Local).AddTicks(1722),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 227, DateTimeKind.Local).AddTicks(2681),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6",
-                            SeccionalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 3,
                             Disponible = true,
                             Email = "miembro1@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 671, DateTimeKind.Local).AddTicks(8038),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3070),
                             Login = "miembro1",
                             NombreCompleto = "miembro comision 1",
                             Password = "ai????n5&`?6",
-                            SeccionalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 4,
                             Disponible = true,
                             Email = "miembro2@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 671, DateTimeKind.Local).AddTicks(8465),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3478),
                             Login = "miembro2",
                             NombreCompleto = "miembro comision 2",
                             Password = "ai????n5&`?6",
-                            SeccionalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 5,
                             Disponible = true,
                             Email = "miembro3@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 671, DateTimeKind.Local).AddTicks(8631),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3530),
                             Login = "miembro3",
                             NombreCompleto = "miembro comision 3",
                             Password = "ai????n5&`?6",
-                            SeccionalId = 0
+                            SeccionalId = 2
                         });
                 });
 
@@ -4655,7 +4696,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 676, DateTimeKind.Local).AddTicks(711),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(8483),
                             UsuarioCreacionId = 0,
                             UsuarioId = 3
                         },
@@ -4664,7 +4705,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 676, DateTimeKind.Local).AddTicks(1597),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9468),
                             UsuarioCreacionId = 0,
                             UsuarioId = 4
                         },
@@ -4673,7 +4714,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 3,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 3, 8, 47, 52, 676, DateTimeKind.Local).AddTicks(1624),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9498),
                             UsuarioCreacionId = 0,
                             UsuarioId = 2
                         });
@@ -4726,6 +4767,25 @@ namespace SolicitudAyuda.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("Movimiento");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComentarioSolicitud", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
+                        .WithMany("Comentarios")
+                        .HasForeignKey("SolicitudAyudaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SolicitudAyuda");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Maestro", b =>
@@ -4979,6 +5039,8 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Adjuntos");
 
                     b.Navigation("AprobacionesSolicitud");
+
+                    b.Navigation("Comentarios");
 
                     b.Navigation("Requisitos");
                 });

@@ -60,6 +60,7 @@ export class RegistroSolicitudComponent implements OnInit {
     RBActaNacimiento: new FormControl(''),
     RBPadreMadre: new FormControl(''),
     RBConyuge: new FormControl(''),
+    otroTipoSolicitud: new FormControl('')
   });
 
 
@@ -157,6 +158,12 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.tipoSolicitudId);
             this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
 
+            if(solicitud.categoriaId === 3){
+              this.EspecificarOtro = true;
+            }
+            else{
+              this.EspecificarOtro = false;
+            }
 
             this.solicitudAyudaForm.controls.montoAyuda.setValue(solicitud.montoSolicitado);
 
@@ -183,7 +190,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
             this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.esJubiladoInabima? true: false);
 
-            console.log(solicitud.adjuntos);
+            this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.otroTipoSolicitud);
 
             this.uploadedFiles = solicitud.adjuntos;
             
@@ -346,10 +353,11 @@ export class RegistroSolicitudComponent implements OnInit {
     return this.solicitudAyudaForm.get('esJubiladoInabima').value === 'true';
   }
 
+  EspecificarOtro:boolean;
 
-  onChangeTipoSolicitud(tipoSolicitud) {
+  onChangeTipoSolicitud(tipoSolicitudId) {
 
-    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitud)[0]
+    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitudId)[0]
 
     let keys = [];
 
@@ -372,7 +380,12 @@ export class RegistroSolicitudComponent implements OnInit {
     }
     this.RequisitosSolicitud = tipoSolictud.requisitos;
 
-
+    if(tipoSolictud.categoriaId === 3){
+      this.EspecificarOtro = true;
+    }
+    else{
+      this.EspecificarOtro = false;
+    }
   }
 
   GetErrors(fieldName, errorName) {
@@ -472,6 +485,8 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge')? this.solicitudAyudaForm.get('RBConyuge').value: false);
           form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima')? this.solicitudAyudaForm.get('esJubiladoInabima').value : false);
           form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta')? this.solicitudAyudaForm.get('estadoCuenta').value : false);
+
+          form.append("OtroTipoSolicitud", this.solicitudAyudaForm.get('otroTipoSolicitud').value);
 
           let requisitos = [];
 

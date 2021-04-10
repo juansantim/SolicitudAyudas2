@@ -95,8 +95,18 @@
             <select class="form-control" formControlName="tipoDeAyuda"
                 (change)="onChangeTipoSolicitud($event.target.value)" required>
                 <option [ngValue]="null">--SELECCIONE--</option>
-                <option *ngFor="let s of  tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
+                <option *ngFor="let s of tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
             </select>
+            <div style="margin-top: 5px;">
+                <input type="text" class="form-control" *ngIf="EspecificarOtro" placeholder="Especificar otro" required minlength="5" formControlName="otroTipoSolicitud">
+                
+                <app-validation-error-message *ngIf="GetErrors('otroTipoSolicitud', 'required')"
+                textMessage="Debe especifiar otro tipo de soliitud"></app-validation-error-message>    
+
+                <app-validation-error-message *ngIf="GetErrors('otroTipoSolicitud', 'minlength')"
+                textMessage="Debe contener al menos 5 letras"></app-validation-error-message>    
+            </div>
+            
             <app-validation-error-message *ngIf="GetErrors('tipoDeAyuda', 'required')"
                 textMessage="Tipo de Ayuda es obligatorio"></app-validation-error-message>
         </div>

@@ -22,14 +22,14 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                 new TipoSolicitud
                 {
                     Id = 1,
-                    Nombre = "Salud - Cancer", 
+                    Nombre = "Cancer", 
                     ComisionAprobacionId = 1,
                     CategoriaId = 1
                 },
                 new TipoSolicitud
                 {
                     Id = 2,
-                    Nombre = "Salud - Covid",
+                    Nombre = "Covid",
                     ComisionAprobacionId = 1,
                     CategoriaId = 1
                 },
@@ -39,6 +39,13 @@ namespace SolicitudAyuda.Model.EntityTypesConfigurations
                     Nombre = "Construccion",                    
                     ComisionAprobacionId = 2,
                     CategoriaId = 2
+                },
+                new TipoSolicitud
+                {
+                    Id = 4,
+                    Nombre = "Otros",
+                    ComisionAprobacionId = 2,
+                    CategoriaId = 3
                 });
         }
     }

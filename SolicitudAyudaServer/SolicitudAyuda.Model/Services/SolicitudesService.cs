@@ -47,6 +47,7 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sl => sl.Adjuntos)
                 .Include(sl => sl.Seccional)
                 .Include(sl => sl.TipoSolicitud)
+                .ThenInclude(ts => ts.Categoria)
                 .Include(sl => sl.Estado)
                 .Include(sl => sl.AprobacionesSolicitud)
                 .Include(sl => sl.TipoSolicitud)
@@ -76,6 +77,8 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.BancoId,
                 solicitud.NumeroCuentaBanco,
                 solicitud.EsJubiladoInabima,
+                solicitud.OtroTipoSolicitud,
+                solicitud.TipoSolicitud.CategoriaId,
                 MotivoSolicitud = solicitud.Concepto,
                 estado = solicitud.Estado.Nombre,
                 solicitud.EstadoCuenta,
@@ -402,8 +405,8 @@ namespace SolicitudAyuda.Model.Services
                         m.Cambios.Add(new Cambio
                         {
                             Propiedad = current.Name,
-                            Antes = originalValue.ToString(),
-                            Despues = currentValue.ToString()
+                            Antes = GetValue(originalValue),
+                            Despues = GetValue(currentValue)
                         });
 
                     }
@@ -414,10 +417,81 @@ namespace SolicitudAyuda.Model.Services
             return null;
         }
 
+
         string GetValue(object value) 
         {
-            return value == null ? "" : value.ToString();
+            var finalValue = value == null ? "" : value.ToString();
+
+            if (finalValue == "null") 
+            {
+                finalValue = "";
+            }
+
+            if (isDecimal(finalValue)) 
+            {
+                return decimal.Parse(finalValue).ToString("N2");
+            }
+
+            if (isInteger(finalValue)) 
+            {
+                return int.Parse(finalValue).ToString("N0");
+            }
+
+            return finalValue;
         }
-       
+
+        bool isDecimal(object value) 
+        {
+            if (string.IsNullOrEmpty(value.ToString()))
+            {
+                return false;
+            }
+            else 
+            {
+                var stringValue = value.ToString();                
+                decimal output;
+
+                if (decimal.TryParse(stringValue, out output)) 
+                {
+                    if (stringValue.Contains("."))
+                    {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        bool isInteger(object value)
+        {
+            if (string.IsNullOrEmpty(value.ToString()))
+            {
+                return false;
+            }
+            else
+            {
+                var stringValue = value.ToString();
+                int output;
+
+                if (int.TryParse(stringValue, out output))
+                {
+                    if (stringValue.Contains("."))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
     }
 }

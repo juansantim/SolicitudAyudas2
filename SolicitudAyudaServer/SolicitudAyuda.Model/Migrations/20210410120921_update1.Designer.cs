@@ -10,8 +10,8 @@ using SolicitudAyuda.Model;
 namespace SolicitudAyuda.Model.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210306204951_init2")]
-    partial class init2
+    [Migration("20210410120921_update1")]
+    partial class update1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,308 @@ namespace SolicitudAyuda.Model.Migrations
                     b.ToTable("AprobacionesSolicitudes");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Banco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Banco");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "BanReservas (Banco de Reservas)"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Banco Popular Dominicano"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Banco Agrícola"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Banco BHD León"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "Banco Vimenca"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Banco Santa Cruz"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "Banco Caribe"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Nombre = "Banco BDI"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Nombre = "Banco López de Haro"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Nombre = "Banco Ademi"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Nombre = "Banco BELLBANK"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Nombre = "Banco Múltiple Activo Dominicana"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Nombre = "Scotiabank"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Nombre = "Citibank"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Nombre = "Banco Promerica"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Nombre = "Banesco"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Nombre = "Bancamerica"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Nombre = "Banco Atlántico"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Nombre = "Banco Bancotui"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Nombre = "Banco BDA"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Nombre = "Banco Adopem"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Nombre = "Banco Agrícola De La República Dominicana"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Nombre = "Banco Pyme Bhd"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Nombre = "Banco Capital"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Nombre = "Banco Confisa"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Nombre = "Banco Empire"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Nombre = "Banco Motor Crédito"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Nombre = "Banco Rio"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Nombre = "Banco Del Caribe"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Nombre = "Banco Inmobiliario (Banaci)"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Nombre = "Banco Gruficorp"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Nombre = "Banco Cofaci"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Nombre = "Banco Bonanza"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Nombre = "Banco Fihogar"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Nombre = "Banco Federal"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Nombre = "Banco Micro"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Nombre = "Banco Union"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Nombre = "Asociación Popular"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Nombre = "Asociación Popular de Ahorros y Préstamos"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Nombre = "Asociación Cibao"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Nombre = "Asociación Nortena"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Nombre = "Asociación Peravia"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Nombre = "Asociación Romana"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Nombre = "Asociación Higuamo"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Nombre = "Asociación La Vega Real"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Nombre = "Asociación Duarte"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Nombre = "Asociación Barahona"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Nombre = "Asociación Maguana"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Nombre = "Asociación Mocana"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Nombre = "Asociación Bonao"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Nombre = "Asociación La Nacional"
+                        });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Cambio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Antes")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<string>("Despues")
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int>("MovimientoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Propiedad")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovimientoId");
+
+                    b.ToTable("Cambio");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.CategoriaTipoSolicitud", b =>
                 {
                     b.Property<int>("Id")
@@ -109,7 +411,37 @@ namespace SolicitudAyuda.Model.Migrations
                         {
                             Id = 2,
                             Nombre = "Ayudas de Infraestructura y Construcción"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Otros"
                         });
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComentarioSolicitud", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Comentario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SolicitudAyudaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolicitudAyudaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("ComentarioSolicitud");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComisionAprobacion", b =>
@@ -203,7 +535,12 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cedula")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("Direccion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
@@ -216,13 +553,54 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Sexo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("TelefonoCelular")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("TelefonoLabora")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("TelefonoResidencial")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SeccionalId");
 
                     b.ToTable("Maestros");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Movimiento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Comentario")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Entidad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movimientos");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Municipio", b =>
@@ -2563,6 +2941,9 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nombre")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -2575,11 +2956,13 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 1,
+                            Descripcion = "Entrar y consultar por diferentes criterios",
                             Nombre = "Consultar Solicitudes"
                         },
                         new
                         {
                             Id = 2,
+                            Descripcion = "Registrar una solicitud",
                             Nombre = "Crear Solicitudes"
                         },
                         new
@@ -2590,27 +2973,38 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 4,
+                            Descripcion = "Rechazar solicitud por cualquier motivo",
                             Nombre = "Rechazar Solicitudes"
                         },
                         new
                         {
                             Id = 5,
+                            Descripcion = "Anular una solicitud, siempre y cuando no se encuentre aprobada",
                             Nombre = "Anular Solicitudes"
                         },
                         new
                         {
                             Id = 6,
+                            Descripcion = "Consultar informaciones de afiliado",
                             Nombre = "Ver record de Afiliado"
                         },
                         new
                         {
                             Id = 7,
+                            Descripcion = "Generar reportes",
                             Nombre = "Generar Estadísticas"
                         },
                         new
                         {
                             Id = 8,
+                            Descripcion = "Crear, modificar y deshabilitar usuarios",
                             Nombre = "Gestionar Usuarios"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Descripcion = "Modificar, monto solicitado, banco y numero de cuenta de la solicitud",
+                            Nombre = "Modificar Solicitud"
                         });
                 });
 
@@ -2687,6 +3081,13 @@ namespace SolicitudAyuda.Model.Migrations
                             Disponible = true,
                             PermisoId = 7,
                             UsuarioId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Disponible = true,
+                            PermisoId = 8,
+                            UsuarioId = 2
                         });
                 });
 
@@ -2875,9 +3276,6 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("RequisitoTipoSolicitudId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RequisitoTiposSolicitudId")
                         .HasColumnType("int");
 
@@ -2885,11 +3283,12 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequisitoTipoSolicitudId");
+                    b.HasIndex("RequisitoTiposSolicitudId");
 
                     b.HasIndex("SolicitudAyudaId");
 
@@ -3986,6 +4385,17 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<bool?>("ActaMatrimonioUnion")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("ActaNacimientoHijoHija")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("BancoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.Property<string>("CedulaSolicitante")
                         .IsRequired()
                         .HasMaxLength(11)
@@ -3999,6 +4409,9 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool?>("CopiaCedulaPadreMadre")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Direccion")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -4006,6 +4419,12 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool?>("EsJubiladoInabima")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("EstadoCuenta")
+                        .HasColumnType("bit");
 
                     b.Property<int>("EstadoId")
                         .HasColumnType("int");
@@ -4020,15 +4439,25 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("MontoAprobado")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("MontoSolicitado")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("NumeroCuentaBanco")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumeroExpediente")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValueSql("NEXT VALUE FOR dbo.NumeroExpendiente");
+
+                    b.Property<string>("OtroTipoSolicitud")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<byte?>("QuienRecibeAyuda")
+                        .HasColumnType("tinyint");
 
                     b.Property<int>("SeccionalId")
                         .HasColumnType("int");
@@ -4048,6 +4477,8 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BancoId");
 
                     b.HasIndex("EstadoId");
 
@@ -4093,14 +4524,14 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             CategoriaId = 1,
                             ComisionAprobacionId = 1,
-                            Nombre = "Salud - Cancer"
+                            Nombre = "Cancer"
                         },
                         new
                         {
                             Id = 2,
                             CategoriaId = 1,
                             ComisionAprobacionId = 1,
-                            Nombre = "Salud - Covid"
+                            Nombre = "Covid"
                         },
                         new
                         {
@@ -4108,6 +4539,13 @@ namespace SolicitudAyuda.Model.Migrations
                             CategoriaId = 2,
                             ComisionAprobacionId = 2,
                             Nombre = "Construccion"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoriaId = 3,
+                            ComisionAprobacionId = 2,
+                            Nombre = "Otros"
                         });
                 });
 
@@ -4118,8 +4556,11 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<bool>("DebeCambiarPassword")
-                        .HasColumnType("bit");
+                    b.Property<string>("ChangePasswordCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ChangePasswordCodeExpiration")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Disponible")
                         .HasColumnType("bit");
@@ -4149,15 +4590,8 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<int?>("SeccionalId")
+                    b.Property<int>("SeccionalId")
                         .HasColumnType("int");
-
-                    b.Property<int>("SecconalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TempPassword")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int?>("UsuarioIdInactivacion")
                         .HasColumnType("int");
@@ -4174,62 +4608,57 @@ namespace SolicitudAyuda.Model.Migrations
                         new
                         {
                             Id = 1,
-                            DebeCambiarPassword = false,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 689, DateTimeKind.Local).AddTicks(4147),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 225, DateTimeKind.Local).AddTicks(9729),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = "",
-                            SecconalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 2,
-                            DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 690, DateTimeKind.Local).AddTicks(6334),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 227, DateTimeKind.Local).AddTicks(2681),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6",
-                            SecconalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 3,
-                            DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro1@gmail.com",
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 695, DateTimeKind.Local).AddTicks(2173),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3070),
                             Login = "miembro1",
                             NombreCompleto = "miembro comision 1",
                             Password = "ai????n5&`?6",
-                            SecconalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 4,
-                            DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro2@gmail.com",
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 695, DateTimeKind.Local).AddTicks(2791),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3478),
                             Login = "miembro2",
                             NombreCompleto = "miembro comision 2",
                             Password = "ai????n5&`?6",
-                            SecconalId = 0
+                            SeccionalId = 2
                         },
                         new
                         {
                             Id = 5,
-                            DebeCambiarPassword = false,
                             Disponible = true,
                             Email = "miembro3@gmail.com",
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 695, DateTimeKind.Local).AddTicks(2845),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3530),
                             Login = "miembro3",
                             NombreCompleto = "miembro comision 3",
                             Password = "ai????n5&`?6",
-                            SecconalId = 0
+                            SeccionalId = 2
                         });
                 });
 
@@ -4269,7 +4698,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 699, DateTimeKind.Local).AddTicks(4626),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(8483),
                             UsuarioCreacionId = 0,
                             UsuarioId = 3
                         },
@@ -4278,7 +4707,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 699, DateTimeKind.Local).AddTicks(5562),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9468),
                             UsuarioCreacionId = 0,
                             UsuarioId = 4
                         },
@@ -4287,7 +4716,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 3,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 3, 6, 16, 49, 49, 699, DateTimeKind.Local).AddTicks(5588),
+                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9498),
                             UsuarioCreacionId = 0,
                             UsuarioId = 2
                         });
@@ -4325,6 +4754,36 @@ namespace SolicitudAyuda.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("Estado");
+
+                    b.Navigation("SolicitudAyuda");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Cambio", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.Movimiento", "Movimiento")
+                        .WithMany("Cambios")
+                        .HasForeignKey("MovimientoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movimiento");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.ComentarioSolicitud", b =>
+                {
+                    b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
+                        .WithMany("Comentarios")
+                        .HasForeignKey("SolicitudAyudaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SolicitudAyuda.Model.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SolicitudAyuda");
 
@@ -4375,8 +4834,10 @@ namespace SolicitudAyuda.Model.Migrations
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoSolicitud", b =>
                 {
                     b.HasOne("SolicitudAyuda.Model.Entities.RequisitoTipoSolicitud", "RequisitoTipoSolicitud")
-                        .WithMany()
-                        .HasForeignKey("RequisitoTipoSolicitudId");
+                        .WithMany("RequisitosSolicitudes")
+                        .HasForeignKey("RequisitoTiposSolicitudId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("SolicitudAyuda.Model.Entities.SolicitudAyuda", "SolicitudAyuda")
                         .WithMany("Requisitos")
@@ -4413,6 +4874,12 @@ namespace SolicitudAyuda.Model.Migrations
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.SolicitudAyuda", b =>
                 {
+                    b.HasOne("SolicitudAyuda.Model.Entities.Banco", "Banco")
+                        .WithMany("SolicitudesAyuda")
+                        .HasForeignKey("BancoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SolicitudAyuda.Model.Entities.EstadoSolicitud", "Estado")
                         .WithMany("SolicitudesAyuda")
                         .HasForeignKey("EstadoId")
@@ -4442,6 +4909,8 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Banco");
 
                     b.Navigation("Estado");
 
@@ -4480,8 +4949,10 @@ namespace SolicitudAyuda.Model.Migrations
                         .HasForeignKey("MaestroId");
 
                     b.HasOne("SolicitudAyuda.Model.Entities.Seccional", "Seccional")
-                        .WithMany()
-                        .HasForeignKey("SeccionalId");
+                        .WithMany("Usuarios")
+                        .HasForeignKey("SeccionalId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Maestro");
 
@@ -4505,6 +4976,11 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("ComisionAprobacion");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Banco", b =>
+                {
+                    b.Navigation("SolicitudesAyuda");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.CategoriaTipoSolicitud", b =>
@@ -4531,6 +5007,11 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Solicitudes");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.Movimiento", b =>
+                {
+                    b.Navigation("Cambios");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Permiso", b =>
                 {
                     b.Navigation("PermisosUsuarios");
@@ -4541,11 +5022,18 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Municipios");
                 });
 
+            modelBuilder.Entity("SolicitudAyuda.Model.Entities.RequisitoTipoSolicitud", b =>
+                {
+                    b.Navigation("RequisitosSolicitudes");
+                });
+
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.Seccional", b =>
                 {
                     b.Navigation("Maestros");
 
                     b.Navigation("SolicitudesAyuda");
+
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("SolicitudAyuda.Model.Entities.SolicitudAyuda", b =>
@@ -4553,6 +5041,8 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Navigation("Adjuntos");
 
                     b.Navigation("AprobacionesSolicitud");
+
+                    b.Navigation("Comentarios");
 
                     b.Navigation("Requisitos");
                 });

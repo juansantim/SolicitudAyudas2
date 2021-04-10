@@ -29,6 +29,9 @@ namespace SolicitudAyuda.Model.Entities
         public DateTime? FechaAprobacion { get; set; }
         public int TipoSolicitudId { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
+
+        public string OtroTipoSolicitud { get; set; }
+
         public List<RequisitoSolicitud> Requisitos { get; set; }
         public List<AdjuntosSolicitud> Adjuntos { get; set; }
 
@@ -52,11 +55,13 @@ namespace SolicitudAyuda.Model.Entities
         public bool? ActaMatrimonioUnion { get; set; }
         public bool? EsJubiladoInabima { get; set; }
         public bool? EstadoCuenta { get; set; }
+        public List<ComentarioSolicitud> Comentarios { get; set; }
 
         public SolicitudAyuda()
         {
             Requisitos = new List<RequisitoSolicitud>();
             Adjuntos = new List<AdjuntosSolicitud>();
+            Comentarios = new List<ComentarioSolicitud>();
         }
     }
 }
