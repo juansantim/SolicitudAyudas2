@@ -127,7 +127,7 @@
             <app-validation-error-message *ngIf="GetErrors('banco', 'required')"
             textMessage="Debe seleccionar una entidad bancaria"></app-validation-error-message>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <label>Numero de Cuenta</label>
             <input type="text" class="form-control" formControlName="numeroCuentaBanco" minlength="5">
             <app-validation-error-message *ngIf="GetErrors('numeroCuentaBanco', 'required')"
@@ -136,6 +136,19 @@
             <app-validation-error-message *ngIf="GetErrors('numeroCuentaBanco', 'minlength')"
             textMessage="El numero de cuenta debe contener al menos 5 digitos"></app-validation-error-message>
         </div>
+
+
+        <div class="col-md-3">
+            <label>Fecha Solicitud</label>
+            <input type="text" bsDatepicker class="form-control" formControlName="fechaSolicitud" minlength="5" name="fechaSolicitud" autocomplete="off">
+            <app-validation-error-message *ngIf="GetErrors('fechaSolicitud', 'required')"
+            textMessage="La fecha de solicitud es requerida"></app-validation-error-message>
+
+            <app-validation-error-message *ngIf="GetErrors('fechaSolicitud', 'date')"
+            textMessage="Formato de fecha incorrecto"></app-validation-error-message>
+            
+        </div>
+
     </div>
 
 

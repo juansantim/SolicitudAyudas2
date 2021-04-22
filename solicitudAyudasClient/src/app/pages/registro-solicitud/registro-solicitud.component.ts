@@ -60,7 +60,8 @@ export class RegistroSolicitudComponent implements OnInit {
     RBActaNacimiento: new FormControl(''),
     RBPadreMadre: new FormControl(''),
     RBConyuge: new FormControl(''),
-    otroTipoSolicitud: new FormControl('')
+    otroTipoSolicitud: new FormControl(''),
+    fechaSolicitud: new FormControl('')
   });
 
 
@@ -138,7 +139,7 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.nombreCompleto.setValue(solicitud.nombreSolicitante);
             this.solicitudAyudaForm.controls.nombreCompleto.disable();
 
-            this.solicitudAyudaForm.controls.fechaNacimiento.setValue(solicitud.fechaNacimiento);
+            this.solicitudAyudaForm.controls.fechaNacimiento.setValue(new Date(solicitud.fechaNacimiento));
             this.solicitudAyudaForm.controls.fechaNacimiento.disable();
 
             this.solicitudAyudaForm.controls.sexo.setValue(solicitud.sexoSolicitante);
@@ -192,9 +193,10 @@ export class RegistroSolicitudComponent implements OnInit {
 
             this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.otroTipoSolicitud);
 
+            this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.fechaSolicitud));
+
             this.uploadedFiles = solicitud.adjuntos;
             
-
             if (solicitud.requisitos.length > 0) {
 
               solicitud.requisitos.forEach(element => {
@@ -487,6 +489,9 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta')? this.solicitudAyudaForm.get('estadoCuenta').value : false);
 
           form.append("OtroTipoSolicitud", this.solicitudAyudaForm.get('otroTipoSolicitud').value);
+
+     
+          form.append("FechaSolicitud", this.solicitudAyudaForm.get('fechaSolicitud').value.toISOString());
 
           let requisitos = [];
 

@@ -4430,6 +4430,9 @@ namespace SolicitudAyuda.Model.Migrations
                     b.Property<DateTime?>("FechaAprobacion")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("FechaSolicitud")
                         .HasColumnType("datetime2");
 
@@ -4608,7 +4611,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             Disponible = false,
                             Email = "",
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 225, DateTimeKind.Local).AddTicks(9729),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 223, DateTimeKind.Local).AddTicks(119),
                             Login = "Sistema",
                             NombreCompleto = "El Sistema",
                             Password = "",
@@ -4619,7 +4622,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             Disponible = true,
                             Email = "juanv.santim@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 227, DateTimeKind.Local).AddTicks(2681),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 224, DateTimeKind.Local).AddTicks(2355),
                             Login = "jsanti",
                             NombreCompleto = "Juan Santi",
                             Password = "ai????n5&`?6",
@@ -4630,7 +4633,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 3,
                             Disponible = true,
                             Email = "miembro1@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3070),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 228, DateTimeKind.Local).AddTicks(4471),
                             Login = "miembro1",
                             NombreCompleto = "miembro comision 1",
                             Password = "ai????n5&`?6",
@@ -4641,7 +4644,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 4,
                             Disponible = true,
                             Email = "miembro2@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3478),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 228, DateTimeKind.Local).AddTicks(4944),
                             Login = "miembro2",
                             NombreCompleto = "miembro comision 2",
                             Password = "ai????n5&`?6",
@@ -4652,7 +4655,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 5,
                             Disponible = true,
                             Email = "miembro3@gmail.com",
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 232, DateTimeKind.Local).AddTicks(3530),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 228, DateTimeKind.Local).AddTicks(5001),
                             Login = "miembro3",
                             NombreCompleto = "miembro comision 3",
                             Password = "ai????n5&`?6",
@@ -4696,7 +4699,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 1,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(8483),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 233, DateTimeKind.Local).AddTicks(2391),
                             UsuarioCreacionId = 0,
                             UsuarioId = 3
                         },
@@ -4705,7 +4708,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 2,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9468),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 233, DateTimeKind.Local).AddTicks(3370),
                             UsuarioCreacionId = 0,
                             UsuarioId = 4
                         },
@@ -4714,7 +4717,7 @@ namespace SolicitudAyuda.Model.Migrations
                             Id = 3,
                             ComisionAprobacionId = 1,
                             Disponible = true,
-                            FechaCreacion = new DateTime(2021, 4, 10, 8, 9, 20, 236, DateTimeKind.Local).AddTicks(9498),
+                            FechaCreacion = new DateTime(2021, 4, 21, 23, 6, 5, 233, DateTimeKind.Local).AddTicks(3403),
                             UsuarioCreacionId = 0,
                             UsuarioId = 2
                         });

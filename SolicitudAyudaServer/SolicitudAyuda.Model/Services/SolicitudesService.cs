@@ -52,6 +52,7 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sl => sl.AprobacionesSolicitud)
                 .Include(sl => sl.TipoSolicitud)
                 .ThenInclude(ts => ts.ComisionAprobacion)
+                .Include(st => st.Banco)
                 .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
 
             return new
@@ -64,6 +65,7 @@ namespace SolicitudAyuda.Model.Services
                 Edad = GetEdad(solicitud.Maestro),
                 FechaNacimiento = solicitud.Maestro.FechaNacimiento,
                 SexoSolicitante = solicitud.Maestro.Sexo,
+                solicitud.FechaSolicitud,
                 solicitud.Maestro.Cargo,
                 solicitud.MontoSolicitado,
                 solicitud.MontoAprobado,
@@ -75,6 +77,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.QuienRecibeAyuda,
                 solicitud.EstadoId,
                 solicitud.BancoId,
+                Banco = solicitud.Banco.Nombre,
                 solicitud.NumeroCuentaBanco,
                 solicitud.EsJubiladoInabima,
                 solicitud.OtroTipoSolicitud,

@@ -22,11 +22,11 @@ namespace SolicitudAyuda.Model.Entities
         public string TelefonoCasa { get; set; }
         public string TelefonoTrabajo { get; set; }
         public string Email { get; set; }
-
         public byte? QuienRecibeAyuda { get; set; }
-
         public DateTime FechaSolicitud { get; set; }
         public DateTime? FechaAprobacion { get; set; }
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
         public int TipoSolicitudId { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
 

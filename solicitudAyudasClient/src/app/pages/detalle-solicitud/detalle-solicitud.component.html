@@ -37,13 +37,25 @@
             <div class="col">
                 <label class="encabezado"> Cargo </label>
                 <h4 class="dato">{{solicitud.cargo}}</h4>
-            </div>        
+            </div>     
+            <div class="col">
+                <label class="encabezado"> Banco </label>
+                <h4 class="dato">{{solicitud.banco}}</h4>
+            </div>   
+            <div class="col">
+                <label class="encabezado"> Numero Cta </label>
+                <h4 class="dato">{{solicitud.numeroCuentaBanco}}</h4>
+            </div> 
         </div> 
         <div class="row">
             <div class="col">
                 <label class="encabezado">Tipo Solicitud</label>
                 <h4 class="dato">{{solicitud.tipoSolicitud}}</h4>
                 <h3 class="dato" *ngIf="solicitud.categoriaId === 3">***{{solicitud.otroTipoSolicitud}}***</h3>
+            </div>
+            <div class="col">
+                <label class="encabezado"> Fecha Solicitud </label>
+                <h4 class="dato">{{solicitud.fechaSolicitud | date: 'dd/MM/yyyy'}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Monto Solicitado </label>

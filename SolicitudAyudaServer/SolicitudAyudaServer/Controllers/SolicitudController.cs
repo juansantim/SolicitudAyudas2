@@ -178,6 +178,7 @@ namespace SolicitudAyudaServer.Controllers
                         actualSolicitud.Direccion = solicitud.Direccion;
                         actualSolicitud.Concepto = solicitud.Concepto;
                         actualSolicitud.OtroTipoSolicitud = solicitud.OtroTipoSolicitud;
+                        actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
 
                         List<FileDataDTO> files = new List<FileDataDTO>();
                         if (HttpContext.Request.Form.Files.Count > 0)
