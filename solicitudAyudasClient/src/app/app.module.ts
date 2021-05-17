@@ -49,6 +49,10 @@ import { ComisionesAprobacionUsuarioComponent } from './pages/registrar-usuario/
 import { ActivarUsuarioComponent } from './pages/activar-usuario/activar-usuario.component';
 import { EditarSolicitudComponent } from './pages/editar-solicitud/editar-solicitud.component';
 import { UnAuthorizedComponent } from './pages/un-authorized/un-authorized.component';
+import { StoreModule } from '@ngrx/store';
+import { AuthReducer } from './store/app.auth.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -95,7 +99,9 @@ import { UnAuthorizedComponent } from './pages/un-authorized/un-authorized.compo
     PaginationModule.forRoot(),
     CollapseModule.forRoot(),
     AccordionModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    StoreModule.forRoot({auth: AuthReducer}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   entryComponents:[ProcesarSolicitudComponent],
   providers: [

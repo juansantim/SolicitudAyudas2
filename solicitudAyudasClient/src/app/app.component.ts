@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+import { UserData } from './model/UserData';
 import { AppCookieService } from './services/app-cookie.service';
 import { DataService } from './services/data.service';
+import { LoginActions } from './store/app.actions.types';
+import { AppState } from './store/store';
+import { isLoggedIn } from './store/app.selectors';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +20,8 @@ export class AppComponent {
   showNav = true;
   usuario:any;
   activatedRoute:string;
+
+  loggedIn$: Observable<boolean>;
 
   cerrarSesion(){
     Swal.fire({
@@ -27,10 +35,11 @@ export class AppComponent {
       cancelButtonText: 'Cancelar'
     }).then(dialogResult => {
       if(dialogResult.isConfirmed){        
-        this.showNav = false;
-        this.dataService.CerrarSesion();
-       
-        this.router.navigate(['/login']);
+        // this.showNav = false;
+        // this.dataService.CerrarSesion();
+        // this.router.navigate(['/login']);
+
+        this.store.dispatch(LoginActions.logOut());
       }
       else{
         console.log('nope')
@@ -39,18 +48,29 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    this.usuario = JSON.parse(localStorage.getItem('usuario'));
 
-    this.router.events.subscribe(ev => {
-      if(ev instanceof NavigationEnd){
-        console.log(ev);
-        this.activatedRoute = ev.url;
-      }
-    })
+    const usuario:UserData = JSON.parse(this.cookieService.get("usuario"));
 
-    this.dataService.showNav.subscribe(showOrNot => {
-      this.showNav = showOrNot;
-    })
+    if(usuario){
+      this.store.dispatch(LoginActions.pageReloadedLoggedIn({usuario}));
+    }
+
+    // this.usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    // this.router.events.subscribe(ev => {
+    //   if(ev instanceof NavigationEnd){
+    //     console.log(ev);
+    //     this.activatedRoute = ev.url;
+    //   }
+    // })
+
+    // this.dataService.showNav.subscribe(showOrNot => {
+    //   this.showNav = showOrNot;
+    // })
+
+    this.loggedIn$ = this.store.pipe(
+      select(isLoggedIn)
+    )
 
   }
   
@@ -59,12 +79,11 @@ export class AppComponent {
   }
 
   constructor(private router: Router, 
-    private cookieService:AppCookieService, private dataService:DataService)
+    private cookieService:AppCookieService, 
+    private dataService:DataService,
+    private store:Store<AppState>)
   {
 
-    dataService.userLogedIn.subscribe(user => {
-      this.usuario = user;
-    })
 
   }
 }
