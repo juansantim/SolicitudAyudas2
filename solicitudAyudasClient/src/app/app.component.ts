@@ -8,7 +8,7 @@ import { AppCookieService } from './services/app-cookie.service';
 import { DataService } from './services/data.service';
 import { LoginActions } from './store/app.actions.types';
 import { AppState } from './store/store';
-import { isLoggedIn } from './store/app.selectors';
+import { isLoggedIn, userProfile } from './store/app.selectors';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +22,7 @@ export class AppComponent {
   activatedRoute:string;
 
   loggedIn$: Observable<boolean>;
+  userProfile$: Observable<UserData>;
 
   cerrarSesion(){
     Swal.fire({
@@ -70,7 +71,11 @@ export class AppComponent {
 
     this.loggedIn$ = this.store.pipe(
       select(isLoggedIn)
-    )
+    );
+
+    this.userProfile$ = this.store.pipe(
+      select(userProfile)
+    );
 
   }
   

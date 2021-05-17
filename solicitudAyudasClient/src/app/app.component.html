@@ -1,4 +1,3 @@
-logged in?: {{loggedIn$ | async}}
 <nav *ngIf="loggedIn$ | async" class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" routerLink="/" routerLinkActive="active" >Inicio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -39,7 +38,9 @@ logged in?: {{loggedIn$ | async}}
         <a class="nav-link disabled" href="#">Disabled</a>
       </li> -->
     </ul>
-    <label class="my-2 my-sm-0" style="color: white; margin-right: 5px;">{{usuario.nombreCompleto}}</label>
+    <label class="my-2 my-sm-0" style="color: white; margin-right: 5px;">
+      <span>{{ (userProfile$ | async).email }}</span> 
+    </label>
     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" (click) = "cerrarSesion()">Cerrar Sesión</button>
     <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

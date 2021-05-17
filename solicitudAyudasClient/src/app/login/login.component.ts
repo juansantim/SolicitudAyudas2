@@ -50,21 +50,22 @@ export class LoginComponent implements OnInit {
 
       this.dataService.Login(usuario, password).subscribe(response => {
 
-        let bearer = response.token
         let usuario: UserData = response.usuario;
+        let bearer = response.token
+        
         usuario.token = bearer;
 
         this.cargando = false;
 
-        this.cookieService.set('token', bearer);
+        //this.cookieService.set('token', bearer);
         
-        localStorage.setItem('usuario', JSON.stringify(usuario));
+        //localStorage.setItem('usuario', JSON.stringify(usuario));
         this.cookieService.set('usuario', JSON.stringify( usuario));
 
         this.router.navigate(['/inicio']);
 
-        this.dataService.showNav.next(true);
-        this.dataService.userLogedIn.next(usuario);
+        //this.dataService.showNav.next(true);
+        //this.dataService.userLogedIn.next(usuario);
 
         this.store.dispatch(LoginActions.login({usuario}))
 
