@@ -6,10 +6,10 @@ export const selectAuthState= createFeatureSelector("auth");
 
 export const isLoggedIn = createSelector(
     selectAuthState,
-    (usuario) => !!usuario
+    (state:AppState) => !!state.usuario
 )
 
 export const userProfile = createSelector(
-    selectAuthState, 
-    (auth) => auth["usuario"]
+    selectAuthState,
+    (auth: AppState) => auth.usuario
 )

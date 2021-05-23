@@ -13,12 +13,24 @@ import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
 import { BancoForSelectDTO } from '../model/BancoSelectDTO';
 import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
+import { AppState } from '../store/store';
+import { Store } from '@ngrx/store';
+import { UserData } from '../model/UserData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  
+
+  CheckToken() {
+    const url = this.GetUrl('Account/heartbeat');
+    return this.http.get(url);
+  }
+
+  GetUserCredentials(): UserData{
+    return JSON.parse(this.cookieService.get("usuario"));
+  }
+
   Anular(solicitudId: number) {
     let url = this.GetUrl(`Solicitud/Anular?solicitudId=${solicitudId}`);
     return this.http.post(url, solicitudId);
@@ -28,7 +40,7 @@ export class DataService {
     return this.http.get(url);
   }
   GetPermisosYComisiones():Observable<any> {
-    let url = this.GetUrl('account/getPermisosYComisiones');    
+    let url = this.GetUrl('account/getPermisosYComisiones');
     return this.http.get(url);
   }
   CerrarSesion() {
@@ -46,9 +58,9 @@ export class DataService {
       url = this.GetUrl(`account/GetDatosResetPassword?usuarioId=${id}&changePasswordCode=${code}`);
     }
     else{
-      url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);  
+      url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);
     }
-    
+
 
     return this.http.get<any>(url);
   }
@@ -205,11 +217,17 @@ export class DataService {
 
   }
 
+  userSpace:string = 'usuario';
+
   Login(usuario: string, password: string): Observable<any> {
     return this.http.post(this.GetUrl('Account'), {
       Login: usuario,
       Password: password
     });
+  }
+
+  LogOut(){
+    this.cookieService.remove(this.userSpace)
   }
 
   GetErrors(formulario: FormGroup, fieldName: string, errorName: string) {
@@ -228,5 +246,8 @@ export class DataService {
 
   constructor(private http: HttpClient,
     private localStorageService: AppLocalStorageService,
-    private cookieService: AppCookieService) { }
+    private cookieService: AppCookieService,
+    private store:Store<AppState>) {
+
+     }
 }

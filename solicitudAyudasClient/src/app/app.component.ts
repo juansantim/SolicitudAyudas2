@@ -26,8 +26,8 @@ export class AppComponent {
 
   cerrarSesion(){
     Swal.fire({
-      title:'Cerrar sesión', 
-      text:'Seguro que desea cerrar sesión?', 
+      title:'Cerrar sesión',
+      text:'Seguro que desea cerrar sesión?',
       icon:'warning',
       showConfirmButton: true,
       confirmButtonText: 'Cerrar Sesión',
@@ -35,10 +35,7 @@ export class AppComponent {
       showCancelButton: true,
       cancelButtonText: 'Cancelar'
     }).then(dialogResult => {
-      if(dialogResult.isConfirmed){        
-        // this.showNav = false;
-        // this.dataService.CerrarSesion();
-        // this.router.navigate(['/login']);
+      if(dialogResult.isConfirmed){
 
         this.store.dispatch(LoginActions.logOut());
       }
@@ -53,21 +50,11 @@ export class AppComponent {
     const usuario:UserData = JSON.parse(this.cookieService.get("usuario"));
 
     if(usuario){
-      this.store.dispatch(LoginActions.pageReloadedLoggedIn({usuario}));
+      this.store.dispatch(LoginActions.login({usuario}));
     }
-
-    // this.usuario = JSON.parse(localStorage.getItem('usuario'));
-
-    // this.router.events.subscribe(ev => {
-    //   if(ev instanceof NavigationEnd){
-    //     console.log(ev);
-    //     this.activatedRoute = ev.url;
-    //   }
-    // })
-
-    // this.dataService.showNav.subscribe(showOrNot => {
-    //   this.showNav = showOrNot;
-    // })
+    else{
+      this.store.dispatch(LoginActions.logOut());
+    }
 
     this.loggedIn$ = this.store.pipe(
       select(isLoggedIn)
@@ -78,13 +65,13 @@ export class AppComponent {
     );
 
   }
-  
+
   GetActive(){
-  
+
   }
 
-  constructor(private router: Router, 
-    private cookieService:AppCookieService, 
+  constructor(private router: Router,
+    private cookieService:AppCookieService,
     private dataService:DataService,
     private store:Store<AppState>)
   {
