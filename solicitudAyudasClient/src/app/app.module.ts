@@ -53,6 +53,8 @@ import { StoreModule } from '@ngrx/store';
 import { AuthReducer } from './store/app.auth.reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './store/app.auth.effects';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,7 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,    
+    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     TypeaheadModule.forRoot(),
@@ -101,11 +103,12 @@ import { environment } from '../environments/environment';
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
     StoreModule.forRoot({auth: AuthReducer}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([AuthEffects])
   ],
   entryComponents:[ProcesarSolicitudComponent],
   providers: [
-    
+
     AuthGuardDefault,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
   ],
