@@ -15,7 +15,7 @@ import { BancoForSelectDTO } from '../model/BancoSelectDTO';
 import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
 import { AppState } from '../store/store';
 import { Store } from '@ngrx/store';
-import { UserData } from '../model/UserData';
+import { UserProfile } from '../model/UserProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class DataService {
     return this.http.get(url);
   }
 
-  GetUserCredentials(): UserData{
+  GetUserCredentials(): UserProfile{
     return JSON.parse(this.cookieService.get("usuario"));
   }
 
@@ -219,8 +219,8 @@ export class DataService {
 
   userSpace:string = 'usuario';
 
-  Login(usuario: string, password: string): Observable<any> {
-    return this.http.post(this.GetUrl('Account'), {
+  Login(usuario: string, password: string): Observable<UserProfile> {
+    return this.http.post<UserProfile>(this.GetUrl('Account'), {
       Login: usuario,
       Password: password
     });

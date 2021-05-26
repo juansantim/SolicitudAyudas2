@@ -1,6 +1,6 @@
-import { UserData } from "../model/UserData";
+import { UserProfile } from "../model/UserProfile";
 
 export class AppState{
-    usuario:UserData
+    usuario: UserProfile
     url: string
 }

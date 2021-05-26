@@ -1,11 +1,11 @@
 import { createAction, props } from "@ngrx/store";
-import { UserData } from "../model/UserData";
+import { UserProfile } from "../model/UserProfile";
 
-export const login = createAction("[Login Page] Iniciar Sesion", props<{usuario:UserData}>());
+export const login = createAction("[Login Page] Iniciar Sesion", props<{usuario:UserProfile}>());
 
 export const logOut = createAction("[Main Menu] Cerrar Sesion");
 
-export const pageReloadedLoggedIn = createAction("[Main Page] Page Realoaded LoggedIn", props<{usuario:UserData}>());
+export const pageReloadedLoggedIn = createAction("[Main Page] Page Realoaded LoggedIn", props<{usuario:UserProfile}>());
 
 export const pageReloadedLogedOutIn = createAction("[Main Menu] Page Realoaded LoggedOut");
 

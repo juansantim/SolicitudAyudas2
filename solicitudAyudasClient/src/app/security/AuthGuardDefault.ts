@@ -5,7 +5,7 @@ import { Router, CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { UserData } from '../model/UserData';
+import { UserProfile } from '../model/UserProfile';
 import { AppCookieService } from '../services/app-cookie.service';
 import { DataService } from '../services/data.service';
 import { LoginActions } from '../store/app.actions.types';

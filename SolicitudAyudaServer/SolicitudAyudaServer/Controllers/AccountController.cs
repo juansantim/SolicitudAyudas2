@@ -64,14 +64,12 @@ namespace SolicitudAyudaServer.Controllers
             {
                 var tokenString = GenerateJSONWebToken(usuario);
 
-                return Ok(new
+                return Ok(new UserProfile
                 {
-                    token = tokenString,
-                    Usuario = new
-                    {
-                        email = usuario.Email,
-                        nombreCompleto = usuario.NombreCompleto
-                    }
+                    Token = tokenString,
+                    Email = usuario.Email,
+                    NombreCompleto = usuario.NombreCompleto,
+                    Seccional = usuario.Seccional == null? "N/A": usuario.Seccional.Nombre
                 });
             }
             else
@@ -427,7 +425,8 @@ namespace SolicitudAyudaServer.Controllers
                     Seccional = usuario.Seccional.Nombre
                 };
             }
-            else {
+            else
+            {
                 response.AddError("Opcion no disponible");
             }
 
@@ -460,7 +459,7 @@ namespace SolicitudAyudaServer.Controllers
             if (this.UsuarioId == resetPassword.UsuarioId || permisoService.VerificarPermiso(this.UsuarioId, 8))
             {
                 var resetCode = usuariosService.EnableResetPassword(resetPassword.UsuarioId);
-                
+
                 SendPasswordResetEmail(resetPassword.Host, resetPassword.UsuarioId, resetCode);
             }
             else
@@ -482,7 +481,7 @@ namespace SolicitudAyudaServer.Controllers
 
                 var resetLink = $"{host}/reiniciarPassword/{this.dataProtector.Protect(usuarioId.ToString())}?code={resetCode}";
                 body = body.Replace("@resetLink", resetLink);
-                
+
                 mailService.SendEmail(body, "Notificacion Creación Usuario", usuario.Email);
             }
 
@@ -491,7 +490,7 @@ namespace SolicitudAyudaServer.Controllers
         [HttpGet]
         [Route("TienePermiso")]
         [Authorize]
-        public bool TienePermiso(int permisoId) 
+        public bool TienePermiso(int permisoId)
         {
             return this.permisoService.VerificarPermiso(this.UsuarioId, permisoId);
         }
@@ -551,9 +550,5 @@ namespace SolicitudAyudaServer.Controllers
             }
             return "";
         }
-
-
-
-
     }
 }

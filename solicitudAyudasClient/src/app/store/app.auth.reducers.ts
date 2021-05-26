@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { UserData } from "../model/UserData";
+import { UserProfile } from "../model/UserProfile";
 import { login } from "./app.actions";
 import { LoginActions } from "./app.actions.types";
 import { AppState } from "./store";

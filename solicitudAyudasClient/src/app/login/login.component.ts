@@ -3,9 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
-import { catchError, map, shareReplay, tap } from 'rxjs/operators';
+import { catchError, first, map, shareReplay, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { UserData } from '../model/UserData';
+import { LoginModel } from '../model/LoginModel';
+import { UserProfile } from '../model/UserProfile';
 import { AppCookieService } from '../services/app-cookie.service';
 import { DataService } from '../services/data.service';
 import { LoginActions } from '../store/app.actions.types';
@@ -44,30 +45,28 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.valid) {
 
-      let {usuario, password} = this.loginForm.value;
+      let { usuario, password } = this.loginForm.value;
 
       this.cargando = true;
 
       this.dataService.Login(usuario, password).pipe(
-        map(response =>
-          {
-            const user:UserData = {
-              email: response["usuario"]["email"],
-              password: "",
-              token: response["token"]};
-            return user;
-          }),
-          shareReplay(),
-          catchError(err =>
-            {
-              Swal.fire("Error al iniciar sesion", "Nombre de usuario o clave incorrectas", 'error');
-              this.cargando = false;
-              return EMPTY
-            }),
-          map(usr => this.store.dispatch(LoginActions.login({usuario: usr}))),
-          tap(() => this.cargando = false),
-
-
+        map(response => {
+          const user = {
+            email: response.email,
+            token: response.token,
+            nombreCompleto: response.nombreCompleto,
+            seccional: response.seccional
+          } as UserProfile
+          return user;
+        }),
+        first(),
+        catchError(err => {
+          Swal.fire("Error al iniciar sesion", "Nombre de usuario o clave incorrectas", 'error');
+          this.cargando = false;
+          return EMPTY
+        }),
+        map(usr => this.store.dispatch(LoginActions.login({ usuario: usr }))),
+        tap(() => this.cargando = false),
       ).subscribe();
 
     }

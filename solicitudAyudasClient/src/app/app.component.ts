@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
-import { UserData } from './model/UserData';
+import { UserProfile } from './model/UserProfile';
 import { AppCookieService } from './services/app-cookie.service';
 import { DataService } from './services/data.service';
 import { LoginActions } from './store/app.actions.types';
@@ -22,7 +22,7 @@ export class AppComponent {
   activatedRoute:string;
 
   loggedIn$: Observable<boolean>;
-  userProfile$: Observable<UserData>;
+  userProfile$: Observable<UserProfile>;
 
   cerrarSesion(){
     Swal.fire({
@@ -47,7 +47,7 @@ export class AppComponent {
 
   ngOnInit(){
 
-    const usuario:UserData = JSON.parse(this.cookieService.get("usuario"));
+    const usuario:UserProfile = JSON.parse(this.cookieService.get("usuario"));
 
     if(usuario){
       this.store.dispatch(LoginActions.login({usuario}));
@@ -65,6 +65,8 @@ export class AppComponent {
     );
 
   }
+
+
 
   GetActive(){
 
