@@ -19,7 +19,7 @@ using SolicitudAyuda.Model.Services.Signatures;
 namespace SolicitudAyudaServer.Controllers
 {
     [Authorize]
-    public class SolicitudController : ControllerBase
+    public class SolicitudController : AppBaseController
     {
         private IConfiguration _config;
         private DataContext db;
@@ -29,29 +29,13 @@ namespace SolicitudAyudaServer.Controllers
         private readonly IWebHostEnvironment environment;
         private readonly IPermisosService permisosService;
 
-        public int UsuarioId
-        {
-            get
-            {
-                if (User != null)
-                {
-                    if (User.Claims.Count() > 0)
-                    {
-                        return int.Parse(User.Claims.Where(c => c.Type == "UsuarioId").FirstOrDefault().Value);
-                    }
-                }
-
-                throw new InvalidOperationException("Usuario o autenticado"); ;
-            }
-        }
-
         public SolicitudController(IConfiguration configuration,
             DataContext db,
             ISolicitudesService service,
             ISendEmailService mailService,
             IFileStorageService fileStorageService,
             IWebHostEnvironment environment,
-            IPermisosService permisosService)
+            IPermisosService permisosService) : base(db)
         {
             this._config = configuration;
             this.db = db;
@@ -70,148 +54,27 @@ namespace SolicitudAyudaServer.Controllers
 
             try
             {
-                var solicitudIdStr = HttpContext.Request.Form["SolicitudId"].ToString();
+                solicitud.Id = int.Parse(string.IsNullOrEmpty(HttpContext.Request.Form["SolicitudId"][0]) ? "0" : HttpContext.Request.Form["SolicitudId"].ToString());
 
-                int solicitudId = 0;
-                if (!string.IsNullOrEmpty(solicitudIdStr))
+                if (solicitud.Id == 0)
                 {
-                    solicitudId = int.Parse(HttpContext.Request.Form["SolicitudId"]);
-                }
-
-                if (solicitudId == 0)
-                {
-                    var requisitosJson = HttpContext.Request.Form["Requisitos"].ToString();
+                    solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(HttpContext.Request.Form["Requisitos"].ToString());
 
                     var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
 
-                    solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(requisitosJson);
-                    solicitud.EstadoId = 1;
+                    solicitud.Maestro = service.GetMaestro(maestroDto, solicitud, response);
 
-                    var usuarioId = int.Parse(User.Claims.Single(cl => cl.Type == "UsuarioId").Value);
-                    solicitud.UsuarioId = usuarioId;
-                    solicitud.FechaSolicitud = DateTime.Now;
-
-                    Maestro maestro;
-
-                    if (db.Maestros.Any(ma => ma.Cedula == maestroDto.Cedula))
+                    if (response.Success)
                     {
-                        maestro = db.Maestros.FirstOrDefault(m => m.Cedula == maestroDto.Cedula);
-
-                        if (this.service.TieneSolicitudElMismoDia(maestro))
-                        {
-                            response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
-                            return response;
-                        }
-
-                        var solicitudesAnteriores = this.service.TieneSolicitudAntesTiempoReglamentario(maestro);
-
-                        if (solicitudesAnteriores.Count > 0)
-                        {
-                            foreach (var s in solicitudesAnteriores)
-                            {
-                                response.AddError($"Este filiado tiene la solicitud #{s.Numero} - {s.Tipo} ({s.Estado}) {s.Fecha.ToString("dd/MM/yyyy")} hace menos de {this.service.TiempoReglamentario.Periodo}");
-                            }
-
-                            return response;
-                        }
-                    }
-                    else
-                    {
-                        maestro = new Maestro
-                        {
-                            Cedula = maestroDto.Cedula,
-                            NombreCompleto = maestroDto.NombreCompleto,
-                            Cargo = maestroDto.Cargo,
-                            SeccionalId = maestroDto.SeccionalId,
-                            Sexo = maestroDto.Sexo,
-                            FechaNacimiento = maestroDto.FechaNacimiento,
-                            Direccion = solicitud.Direccion,
-                            TelefonoCelular = solicitud.Celular,
-                            TelefonoLabora = solicitud.TelefonoTrabajo,
-                            TelefonoResidencial = solicitud.TelefonoCasa,
-                        };
+                        response = service.CreateSolicitud(solicitud, HttpContext.Request.Form.Files, UsuarioId);
+                        sendEmail(solicitud);
                     }
 
-                    solicitud.Maestro = maestro;
-
-                    List<FileDataDTO> files = new List<FileDataDTO>();
-                    if (HttpContext.Request.Form.Files.Count > 0)
-                    {
-                        foreach (var file in HttpContext.Request.Form.Files)
-                        {
-                            files.Add(new FileDataDTO
-                            {
-                                OriginalFileName = file.FileName,
-                                Content = file.OpenReadStream(),
-                                ContenType = file.ContentType
-                            });
-                        }
-                    }
-
-                    using (TransactionScope scope = new TransactionScope())
-                    {
-                        db.Solicitudes.Add(solicitud);
-                        db.SaveChanges();
-
-                        scope.Complete();
-                    }
-
-                    fileStorageService.SaveFiles(solicitud.Id, files);
-
-                    sendEmail(solicitud);
-
-                    response.Data = new { solicitudId = solicitud.Id };
+                    return response;
                 }
                 else
                 {
-                    if (this.permisosService.VerificarPermiso(this.UsuarioId, 9))
-                    {
-                        var actualSolicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
-
-                        actualSolicitud.MontoSolicitado = solicitud.MontoSolicitado;
-                        actualSolicitud.BancoId = solicitud.BancoId;
-                        actualSolicitud.NumeroCuentaBanco = solicitud.NumeroCuentaBanco;
-
-                        actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
-                        actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
-                        actualSolicitud.Email = solicitud.Email;
-                        actualSolicitud.Direccion = solicitud.Direccion;
-                        actualSolicitud.Concepto = solicitud.Concepto;
-                        actualSolicitud.OtroTipoSolicitud = solicitud.OtroTipoSolicitud;
-                        actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
-
-                        List<FileDataDTO> files = new List<FileDataDTO>();
-                        if (HttpContext.Request.Form.Files.Count > 0)
-                        {
-                            foreach (var file in HttpContext.Request.Form.Files)
-                            {
-                                files.Add(new FileDataDTO
-                                {
-                                    OriginalFileName = file.FileName,
-                                    Content = file.OpenReadStream(),
-                                    ContenType = file.ContentType
-                                });
-                            }
-                        }
-
-                        var movimiento = this.service.DetectarCambios(actualSolicitud, this.db);
-                        movimiento.UsuarioId = this.UsuarioId;
-
-                        db.Movimientos.Add(movimiento);
-
-                        using (TransactionScope scope = new TransactionScope())
-                        {
-                            db.SaveChanges();
-                            scope.Complete();
-                        }
-
-                        fileStorageService.SaveFiles(actualSolicitud.Id, files);
-
-                        response.Data = new { solicitudId = actualSolicitud.Id };
-                    }
-                    else {
-                        response.AddError("Usted no tiene permisos para realizar esta accion");
-                    }
+                    return service.Update(solicitud, HttpContext.Request.Form.Files, UsuarioId);
 
                 }
             }
@@ -246,21 +109,27 @@ namespace SolicitudAyudaServer.Controllers
 
             if (notifyEmail)
             {
-                if (!string.IsNullOrEmpty(solicitud.Email))
+                try
                 {
-                    db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
-                    db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
+                    if (!string.IsNullOrEmpty(solicitud.Email))
+                    {
+                        db.Entry(solicitud).Reference(sa => sa.TipoSolicitud).Load();
+                        db.Entry(solicitud).Reference(sa => sa.Maestro).Load();
 
-                    var body = this.mailService.GetEmailTemplate(environment.ContentRootPath, MailTemplate.CreacionSolicitud);
+                        var body = this.mailService.GetEmailTemplate(environment.ContentRootPath, MailTemplate.CreacionSolicitud);
 
-                    body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
-                    body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());
-                    body = body.Replace("{@montoSolicitado}", solicitud.MontoSolicitado.ToString("N2"));
-                    body = body.Replace("{@concepto}", $"{solicitud.TipoSolicitud.Nombre}: {solicitud.Concepto}");
+                        body = body.Replace("{@maestro}", solicitud.Maestro.NombreCompleto);
+                        body = body.Replace("{@NumeroExpendiente}", solicitud.NumeroExpediente.ToString());
+                        body = body.Replace("{@montoSolicitado}", solicitud.MontoSolicitado.ToString("N2"));
+                        body = body.Replace("{@concepto}", $"{solicitud.TipoSolicitud.Nombre}: {solicitud.Concepto}");
 
-                    mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
+                        mailService.SendEmail(body, "Notificacion de Solicitud de Ayuda", solicitud.Email);
+                    }
                 }
-
+                catch (Exception ex)
+                {
+                    throw;
+                }               
             }
 
             return "Ok";

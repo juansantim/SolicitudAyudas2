@@ -19,6 +19,10 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
 import { BancoForSelectDTO } from 'src/app/model/BancoSelectDTO';
 import { UploadedFile } from 'src/app/model/UploadedFile';
+import { select, Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/store';
+import { userProfile } from 'src/app/store/app.selectors';
+import { first } from 'rxjs/operators';
 
 defineLocale('es-do', esDoLocale);
 
@@ -29,6 +33,7 @@ defineLocale('es-do', esDoLocale);
 })
 export class RegistroSolicitudComponent implements OnInit {
 
+  bearer:string;
   //form controls:
   solicitudAyudaForm = new FormGroup({
 
@@ -61,19 +66,8 @@ export class RegistroSolicitudComponent implements OnInit {
     RBPadreMadre: new FormControl(''),
     RBConyuge: new FormControl(''),
     otroTipoSolicitud: new FormControl(''),
-    fechaSolicitud: new FormControl('')
+    fechaSolicitud: new FormControl('', Validators.required)
   });
-
-
-/**
- form.append("QuienRecibeAyuda", this.solicitudAyudaForm.get('quienRecibeAyuda').value);
-
-          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento').value);
-          form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre').value);
-          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge').value);
-          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima').value);
-
- * **/
 
   QuienRecibiraAyuda: Array<collectionItem> = [
     new collectionItem('--SELECCIONE--', null, ''),
@@ -89,7 +83,8 @@ export class RegistroSolicitudComponent implements OnInit {
     private cookieService: AppCookieService,
     private localeService: BsLocaleService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private store:Store<AppState>) {
     console.log(this.QuienRecibiraAyuda);
   }
   
@@ -97,10 +92,17 @@ export class RegistroSolicitudComponent implements OnInit {
   uploadedFiles: Array<UploadedFile> = [];
 
   ngOnInit() {
+    
+    this.store.pipe(
+      select(userProfile),
+      first()
+    ).subscribe(profile => {
+      this.bearer = profile.token;
+    })
+
     this.setSeccionalesDisabled();
 
     this.localeService.use('es-do');
-
 
     this.dataService.GetSeccionales().subscribe(data => {
       this.seccionales = data;
@@ -524,7 +526,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
 
 
-          let headers = { 'Authorization': `Bearer ${this.cookieService.get('token')}`, 'Access-Control-Allow-Origin': '*' }
+          let headers = { 'Authorization': `Bearer ${this.bearer}`, 'Access-Control-Allow-Origin': '*' }
 
           let url = this.dataService.GetUrl('Solicitud/post');
 

@@ -1,9 +1,11 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using SolicitudAyuda.Model.DTOs;
 using SolicitudAyuda.Model.Entities;
 using SolicitudAyuda.Model.Services.Signatures;
@@ -12,13 +14,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 
 namespace SolicitudAyuda.Model.Services
 {
     public class SolicitudesService : ISolicitudesService
     {
         private readonly DataContext db;
-        private readonly IConfiguration config;        
+        private readonly IConfiguration config;
+        private readonly IFileStorageService fileStorageService;
+        private readonly IPermisosService permisosService;
+
+        public SolicitudesService(DataContext db, IConfiguration config, IFileStorageService fileStorageService, IPermisosService permisosService)
+        {
+            this.db = db;
+            this.config = config;
+            this.fileStorageService = fileStorageService;
+            this.permisosService = permisosService;
+        }
 
         public TipoReglamentarioOtraSolicitudDTO TiempoReglamentario
         {
@@ -26,18 +39,13 @@ namespace SolicitudAyuda.Model.Services
             {
                 TipoReglamentarioOtraSolicitudDTO tiempo = new TipoReglamentarioOtraSolicitudDTO();
 
-                tiempo.Dias = int.Parse( this.config["TiempoReglamentario:Dias"]);
+                tiempo.Dias = int.Parse(this.config["TiempoReglamentario:Dias"]);
                 tiempo.Periodo = this.config["TiempoReglamentario:Periodo"];
 
                 return tiempo;
             }
         }
 
-        public SolicitudesService(DataContext db, IConfiguration config)
-        {
-            this.db = db;
-            this.config = config;
-        }
 
         public dynamic GetDetalleSolicitud(int solicitudId, int usuarioId)
         {
@@ -94,7 +102,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.ActaNacimientoHijoHija,
                 solicitud.CopiaCedulaPadreMadre,
                 solicitud.ActaMatrimonioUnion,
-                
+
             };
         }
 
@@ -108,7 +116,7 @@ namespace SolicitudAyuda.Model.Services
             {
                 return 0;
             }
-            
+
         }
 
         private dynamic GetDatosAprobacion(Entities.SolicitudAyuda solicitud)
@@ -377,7 +385,8 @@ namespace SolicitudAyuda.Model.Services
                 .Where(s => s.CedulaSolicitante == maestro.Cedula &&
             s.FechaSolicitud >= desde &&
             s.FechaSolicitud <= hasta && (s.EstadoId != 4 && s.EstadoId != 5))
-                .Select(t => new UltimasSolicitudesDTO { 
+                .Select(t => new UltimasSolicitudesDTO
+                {
                     Estado = t.Estado.Nombre,
                     Tipo = t.TipoSolicitud.Nombre,
                     Numero = t.NumeroExpediente,
@@ -389,7 +398,7 @@ namespace SolicitudAyuda.Model.Services
         {
             var entry = Currentdb.Entry(actualSolicitud);
 
-            if (entry.State == EntityState.Modified) 
+            if (entry.State == EntityState.Modified)
             {
                 Movimiento m = new Movimiento();
                 m.Key = actualSolicitud.Id.ToString();
@@ -403,7 +412,7 @@ namespace SolicitudAyuda.Model.Services
                     object originalValue = originalValues[current];
                     object currentValue = currentValues[current];
 
-                    if (GetValue(originalValue) !=  GetValue(currentValue))
+                    if (GetValue(originalValue) != GetValue(currentValue))
                     {
                         m.Cambios.Add(new Cambio
                         {
@@ -421,21 +430,21 @@ namespace SolicitudAyuda.Model.Services
         }
 
 
-        string GetValue(object value) 
+        string GetValue(object value)
         {
             var finalValue = value == null ? "" : value.ToString();
 
-            if (finalValue == "null") 
+            if (finalValue == "null")
             {
                 finalValue = "";
             }
 
-            if (isDecimal(finalValue)) 
+            if (isDecimal(finalValue))
             {
                 return decimal.Parse(finalValue).ToString("N2");
             }
 
-            if (isInteger(finalValue)) 
+            if (isInteger(finalValue))
             {
                 return int.Parse(finalValue).ToString("N0");
             }
@@ -443,24 +452,25 @@ namespace SolicitudAyuda.Model.Services
             return finalValue;
         }
 
-        bool isDecimal(object value) 
+        bool isDecimal(object value)
         {
             if (string.IsNullOrEmpty(value.ToString()))
             {
                 return false;
             }
-            else 
+            else
             {
-                var stringValue = value.ToString();                
+                var stringValue = value.ToString();
                 decimal output;
 
-                if (decimal.TryParse(stringValue, out output)) 
+                if (decimal.TryParse(stringValue, out output))
                 {
                     if (stringValue.Contains("."))
                     {
                         return true;
                     }
-                    else {
+                    else
+                    {
                         return false;
                     }
                 }
@@ -496,5 +506,131 @@ namespace SolicitudAyuda.Model.Services
             }
         }
 
+        public Maestro GetMaestro(MaestroDto maestroDto, SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud, HttpDataResponse response)
+        {
+            var maestro = db.Maestros.FirstOrDefault(ma => ma.Cedula == maestroDto.Cedula);
+
+            if (maestro != null)
+            {
+                if (TieneSolicitudElMismoDia(maestro))
+                {
+                    response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
+                }
+
+                var solicitudesAnteriores = TieneSolicitudAntesTiempoReglamentario(maestro);
+
+                if (solicitudesAnteriores.Count > 0)
+                {
+                    foreach (var s in solicitudesAnteriores)
+                    {
+                        response.AddError($"Este filiado tiene la solicitud #{s.Numero} - {s.Tipo} ({s.Estado}) {s.Fecha.ToString("dd/MM/yyyy")} hace menos de {TiempoReglamentario.Periodo}");
+                    }
+                }
+            }
+            else
+            {
+                maestro = new Maestro
+                {
+                    Cedula = maestroDto.Cedula,
+                    NombreCompleto = maestroDto.NombreCompleto,
+                    Cargo = maestroDto.Cargo,
+                    SeccionalId = maestroDto.SeccionalId,
+                    Sexo = maestroDto.Sexo,
+                    FechaNacimiento = maestroDto.FechaNacimiento,
+                    Direccion = solicitud.Direccion,
+                    TelefonoCelular = solicitud.Celular,
+                    TelefonoLabora = solicitud.TelefonoTrabajo,
+                    TelefonoResidencial = solicitud.TelefonoCasa,
+                };
+            }
+
+            return maestro;
+        }
+
+        public List<FileDataDTO> GetFilesToUpLoad(IFormFileCollection requestFiles)
+        {
+            List<FileDataDTO> files = new List<FileDataDTO>();
+
+            if (requestFiles.Count > 0)
+            {
+                foreach (var file in requestFiles)
+                {
+                    files.Add(new FileDataDTO
+                    {
+                        OriginalFileName = file.FileName,
+                        Content = file.OpenReadStream(),
+                        ContenType = file.ContentType
+                    });
+                }
+            }
+
+            return files;
+        }
+
+        public HttpDataResponse CreateSolicitud(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            solicitud.EstadoId = 1;
+            solicitud.UsuarioId = usuarioId;
+            solicitud.FechaSolicitud = DateTime.Now;
+
+            List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
+            db.Solicitudes.Add(solicitud);
+
+            using (TransactionScope scope = new TransactionScope())
+            {
+                db.SaveChanges();
+                fileStorageService.SaveFiles(solicitud.Id, files);
+
+                scope.Complete();
+            }
+
+            return response;
+        }
+
+        public HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            if (this.permisosService.VerificarPermiso(usuarioId, 9))
+            {
+                var actualSolicitud = db.Solicitudes.Single(s => s.Id == solicitud.Id);
+
+                actualSolicitud.MontoSolicitado = solicitud.MontoSolicitado;
+                actualSolicitud.BancoId = solicitud.BancoId;
+                actualSolicitud.NumeroCuentaBanco = solicitud.NumeroCuentaBanco;
+                actualSolicitud.TelefonoCasa = solicitud.TelefonoCasa;
+                actualSolicitud.TelefonoTrabajo = solicitud.TelefonoTrabajo;
+                actualSolicitud.Email = solicitud.Email;
+                actualSolicitud.Direccion = solicitud.Direccion;
+                actualSolicitud.Concepto = solicitud.Concepto;
+                actualSolicitud.OtroTipoSolicitud = solicitud.OtroTipoSolicitud;
+                actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
+
+                List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
+
+                var movimiento = DetectarCambios(actualSolicitud, this.db);
+                movimiento.UsuarioId = usuarioId;
+
+                db.Movimientos.Add(movimiento);
+
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    db.SaveChanges();
+                    scope.Complete();
+                }
+
+                fileStorageService.SaveFiles(actualSolicitud.Id, files);
+
+                response.Data = new { solicitudId = actualSolicitud.Id };
+            }
+            else
+            {
+                response.AddError("Usted no tiene permisos para realizar esta accion");
+            }
+
+            return response;
+        }
     }
 }
