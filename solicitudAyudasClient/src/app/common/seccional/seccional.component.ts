@@ -14,12 +14,16 @@ export class SeccionalComponent implements OnInit {
   seccionales: Array<any> = [];
   selectedSeccional:any;
   seccional:any;
+  loadingSeccionales: boolean;
 
   ngOnInit() {
+    this.loadingSeccionales = true;
     this.dataService.GetSeccionales().subscribe(data => {
-      this.seccionales = data;      
+      this.seccionales = data;    
+      this.loadingSeccionales = false;  
     }, err => {      
-      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
+      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error');
+      this.loadingSeccionales = false;  
     })
 
     this.dataService.setSeccional.subscribe(data => {

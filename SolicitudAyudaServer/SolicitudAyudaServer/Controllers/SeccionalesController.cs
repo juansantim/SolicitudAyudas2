@@ -20,7 +20,7 @@ namespace SolicitudAyudaServer.Controllers
 
         [Route("api/seccionales")]
         public dynamic Get() 
-        {
+        {            
             return db.Seccionales.Select(s => new 
             {
                 s.Id,

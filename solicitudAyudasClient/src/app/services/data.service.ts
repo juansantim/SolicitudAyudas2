@@ -18,6 +18,7 @@ import { Store } from '@ngrx/store';
 import { UserProfile } from '../model/UserProfile';
 import { Solicitud } from '../model/ConsultaSolicitudes/Solicitud';
 import { PaginatedResult } from '../model/ConsultaSolicitudes/SolicitudConsultaDTO';
+import { ItemModel } from '../model/itemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class DataService {
     return this.http.get(url);
   }
 
-  GetUserCredentials(): UserProfile{
+  GetUserCredentials(): UserProfile {
     return JSON.parse(this.cookieService.get("usuario"));
   }
 
@@ -43,7 +44,7 @@ export class DataService {
     return this.http.get(url);
   }
 
-  GetPermisosYComisiones():Observable<any> {
+  GetPermisosYComisiones(): Observable<any> {
     let url = this.GetUrl('account/getPermisosYComisiones');
     return this.http.get(url);
   }
@@ -58,12 +59,12 @@ export class DataService {
     return this.http.post(url, usuario);
   }
 
-  GetDatosParaActivacion(id: string, code:string): Observable<any> {
-    let url:string
-    if(code){
+  GetDatosParaActivacion(id: string, code: string): Observable<any> {
+    let url: string
+    if (code) {
       url = this.GetUrl(`account/GetDatosResetPassword?usuarioId=${id}&changePasswordCode=${code}`);
     }
-    else{
+    else {
       url = this.GetUrl(`account/GetDatosActivacion?id=${id}`);
     }
 
@@ -168,7 +169,7 @@ export class DataService {
 
   ConsultaSolicitudes(filtro: FiltroData): Observable<PaginatedResult<Solicitud>> {
     let url = this.GetUrl('Solicitud/paginada');
-    
+
     return this.http.post<PaginatedResult<Solicitud>>(url, filtro);
   }
 
@@ -196,38 +197,14 @@ export class DataService {
     return this.http.get(this.GetUrl('TipoSolicitud/ConRequisitos'));
   }
 
-  GetSeccionales(): Observable<any> {
+  GetSeccionales(): Observable<Array<ItemModel>> {
     var seccionales = this.localStorageService.GetSeccionales();
 
-    if (seccionales) {
-      return new Observable((observer) => {
-        observer.next(seccionales);
-        observer.complete();
-      })
-    }
-    else {
-      return this.UpdateAndGetSeccionales();
-    }
-
+    return this.http.get<Array<ItemModel>>(this.GetUrl('seccionales'));
   }
 
-  UpdateAndGetSeccionales(): Observable<any> {
-    var observable = new Observable(observer => {
-      this.http.get(this.GetUrl('seccionales')).subscribe(response => {
-        this.localStorageService.SaveSeccionales(response);
-        observer.next(response);
-        observer.complete();
-      }, error => {
-        observer.error(error)
-      });
-    });
 
-
-    return observable;
-
-  }
-
-  userSpace:string = 'usuario';
+  userSpace: string = 'usuario';
 
   Login(usuario: string, password: string): Observable<UserProfile> {
     return this.http.post<UserProfile>(this.GetUrl('Account'), {
@@ -236,7 +213,7 @@ export class DataService {
     });
   }
 
-  LogOut(){
+  LogOut() {
     this.cookieService.remove(this.userSpace)
   }
 
@@ -257,7 +234,7 @@ export class DataService {
   constructor(private http: HttpClient,
     private localStorageService: AppLocalStorageService,
     private cookieService: AppCookieService,
-    private store:Store<AppState>) {
+    private store: Store<AppState>) {
 
-     }
+  }
 }

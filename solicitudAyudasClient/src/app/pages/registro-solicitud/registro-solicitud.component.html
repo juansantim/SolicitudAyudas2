@@ -70,6 +70,10 @@
                             (click)="removerSeccional()" [attr.disabled] = "maestro">Remover</button>
     
                     </div>
+
+                    <app-loading [show] = "!seccionales">
+                        <label>cargando seccionales</label>
+                    </app-loading>
             </div>
             <app-validation-error-message *ngIf="GetErrors('seccional', 'required')"
                 textMessage="la seccional es obligatoria"></app-validation-error-message>

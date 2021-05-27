@@ -1,5 +1,6 @@
 import { JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ItemModel } from '../model/itemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,12 @@ export class AppLocalStorageService {
     return  localStorage.getItem(storeName);
   }
 
-  GetSeccionales(){
+  GetSeccionales() : Array<ItemModel>{
     let str = this.GetValueFromStore(this.seccionalesStore);
     if(str){
-      return JSON.parse(str);
+      return JSON.parse(str) as Array<ItemModel>;
     }
-    return null
+    return null;
   }
 
   constructor() { }
