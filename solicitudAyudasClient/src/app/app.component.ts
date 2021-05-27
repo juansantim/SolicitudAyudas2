@@ -63,10 +63,7 @@ export class AppComponent {
     this.userProfile$ = this.store.pipe(
       select(userProfile)
     );
-
   }
-
-
 
   GetActive(){
 

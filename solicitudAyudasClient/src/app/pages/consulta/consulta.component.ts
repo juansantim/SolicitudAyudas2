@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Solicitud } from 'src/app/model/ConsultaSolicitudes/Solicitud';
 import { FiltroData } from 'src/app/model/FiltroData';
 import { DataService } from 'src/app/services/data.service';
 import { ConsultaService } from './consulta.service';
@@ -11,9 +12,10 @@ import { ConsultaService } from './consulta.service';
 export class ConsultaComponent implements OnInit {
   itemsPerPage: number = 10;
   page: number = 1;
+  
   filtro: FiltroData;
   totalItems: number;
-  data = [];
+  data:Array<Solicitud> = [];
 
   loading: boolean;
 
@@ -42,6 +44,7 @@ export class ConsultaComponent implements OnInit {
     this.filtro.Page = this.page;
     this.consultaService.SetLoading.next(true);
     this.dataService.ConsultaSolicitudes(this.filtro).subscribe(data => {      
+      
       this.totalItems = data.totalItems;
       this.data = data.data;
 

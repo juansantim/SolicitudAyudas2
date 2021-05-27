@@ -10,6 +10,8 @@
           <th>Concepto</th>
           <th>Monto</th>
           <th>Estado</th>
+          <th>Fecha Solicitud</th>
+          <th>Fecha Aprobacion</th>
       </thead>
       <tbody>
           <tr *ngFor="let s of data">
@@ -22,6 +24,9 @@
               <td>
                 <app-estado-solicitud [nombre] = "s.estado" [estadoId] = "s.estadoId"></app-estado-solicitud>
               </td>
+              <td>{{s.fechaSolicitud | date: 'dd/MM/yyyy'}}</td>
+              <td>{{s.fechaAprobacion | date: 'dd/MM/yyyy'}}</td>
+            
               <td> <a [routerLink]="['../detalle/' + s.id]" >Ir a Detalle</a>  </td>
               <td>
                 <a [routerLink]="['../editarSolicitud/' + s.id]" >Modificar </a>  

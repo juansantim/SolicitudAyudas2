@@ -16,6 +16,8 @@ import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
 import { AppState } from '../store/store';
 import { Store } from '@ngrx/store';
 import { UserProfile } from '../model/UserProfile';
+import { Solicitud } from '../model/ConsultaSolicitudes/Solicitud';
+import { PaginatedResult } from '../model/ConsultaSolicitudes/SolicitudConsultaDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -35,18 +37,22 @@ export class DataService {
     let url = this.GetUrl(`Solicitud/Anular?solicitudId=${solicitudId}`);
     return this.http.post(url, solicitudId);
   }
+
   GetPuedeModificarSolicitud() {
     let url = this.GetUrl('account/TienePermiso?permisoId=9');
     return this.http.get(url);
   }
+
   GetPermisosYComisiones():Observable<any> {
     let url = this.GetUrl('account/getPermisosYComisiones');
     return this.http.get(url);
   }
+
   CerrarSesion() {
     this.cookieService.remove('token');
     localStorage.removeItem('usuario');
   }
+
   ActivarUsuario(usuario: ActivacionUsuarioDTO): Observable<any> {
     var url = this.GetUrl('account/ActivarUsuario');
     return this.http.post(url, usuario);
@@ -86,6 +92,7 @@ export class DataService {
     var url = this.GetUrl('account/CrearUsuario');
     return this.http.post(url, usuario);
   }
+
   GetUsuarioPorEmail(email: AbstractControl): Observable<any> {
     var url = this.GetUrl(`account/getUsuarioPorEmail?email=${email}`);
     return this.http.get(url);
@@ -106,6 +113,7 @@ export class DataService {
     };
     return this.http.post(url, datosProcesamiento);
   }
+
   GetMaestro(cedula: any): Observable<any> {
     let url = this.GetUrl(`Maestros/porcedula?cedula=${cedula}`)
 
@@ -158,15 +166,17 @@ export class DataService {
     return this.http.get(url);
   }
 
-  ConsultaSolicitudes(filtro: FiltroData): Observable<any> {
+  ConsultaSolicitudes(filtro: FiltroData): Observable<PaginatedResult<Solicitud>> {
     let url = this.GetUrl('Solicitud/paginada');
-    return this.http.post(url, filtro);
+    
+    return this.http.post<PaginatedResult<Solicitud>>(url, filtro);
   }
 
   Download(fileId: number): Observable<any> {
     let url = `${environment.baseUrl}/files/download?id=${fileId}`;
     return this.http.get(url, { responseType: 'arraybuffer' });
   }
+
   CrearSolicitud(formData): Observable<any> {
     return this.http.post(this.GetUrl('Solicitud/post'), formData)
   }

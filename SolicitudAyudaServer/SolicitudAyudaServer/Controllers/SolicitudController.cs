@@ -19,6 +19,7 @@ using SolicitudAyuda.Model.Services.Signatures;
 namespace SolicitudAyudaServer.Controllers
 {
     [Authorize]
+    [ApiController]
     public class SolicitudController : AppBaseController
     {
         private IConfiguration _config;
@@ -97,13 +98,13 @@ namespace SolicitudAyudaServer.Controllers
 
         [HttpPost]
         [Route("api/Solicitud/paginada")]
-        public dynamic getData([FromBody] dynamic filtro)
+        public dynamic getData(FiltroSolicitudesDTO filtro)
         {
-            var filtro2 = JsonConvert.DeserializeObject<FiltroSolicitudesDTO>(filtro.ToString());
-            return service.GetDataConsulta(filtro2);
+            //var filtro2 = JsonConvert.DeserializeObject<FiltroSolicitudesDTO>(filtro.ToString());            
+            return service.GetDataConsulta(filtro);
         }
 
-        public string sendEmail(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
+        private string sendEmail(SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud)
         {
             var notifyEmail = bool.Parse(this._config["NotifyEmail"]);
 
@@ -235,7 +236,7 @@ namespace SolicitudAyudaServer.Controllers
             return solicitud.AprobacionesSolicitud.Select(s => s.UsuarioId);
         }
 
-        public static byte[] GetBytes(Stream input)
+        private static byte[] GetBytes(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
             using (MemoryStream ms = new MemoryStream())

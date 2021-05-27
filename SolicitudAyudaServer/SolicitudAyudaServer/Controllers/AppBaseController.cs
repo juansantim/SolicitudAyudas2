@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SolicitudAyudaServer.Controllers
 {
+
     public class AppBaseController : ControllerBase
     {
         private readonly DataContext db;

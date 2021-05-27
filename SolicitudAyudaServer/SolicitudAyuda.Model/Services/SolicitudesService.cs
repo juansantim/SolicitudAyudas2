@@ -204,7 +204,8 @@ namespace SolicitudAyuda.Model.Services
             var query = db.Solicitudes
                 .Include(sc => sc.Maestro)
                 .Include(sc => sc.TipoSolicitud)
-                .Include(sc => sc.Estado).AsQueryable();
+                .Include(sc => sc.Estado)
+                .OrderBy(sc => sc.Id).AsQueryable();
 
             if (!string.IsNullOrEmpty(filtro.cedula))
             {

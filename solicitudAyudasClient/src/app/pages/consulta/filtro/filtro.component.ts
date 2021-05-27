@@ -20,18 +20,18 @@ defineLocale('es-do', esDoLocale);
 })
 export class FiltroComponent implements OnInit {
 
-  filtrarPorCedula:boolean;
-  filtrarPorSeccional:boolean;
-  
+  filtrarPorCedula: boolean;
+  filtrarPorSeccional: boolean;
+
   seccionales = [];
 
-  today:Date;
+  today: Date;
 
-  loading:boolean;
+  loading: boolean;
 
-  constructor(private localeService: BsLocaleService, private dataService:DataService,  private consultaService:ConsultaService) { }
+  constructor(private localeService: BsLocaleService, private dataService: DataService, private consultaService: ConsultaService) { }
 
-  form = new FormGroup({    
+  form = new FormGroup({
     cedulaChk: new FormControl(false),
     seccinalChk: new FormControl(false),
     solicitudDesdeChk: new FormControl(false),
@@ -47,15 +47,15 @@ export class FiltroComponent implements OnInit {
     aprobacionHasta: new FormControl(''),
   })
 
-  selectedSeccional:any;
+  selectedSeccional: any;
 
   ngOnInit() {
     this.today = new Date();
     this.localeService.use('es-do');
 
     this.dataService.GetSeccionales().subscribe(data => {
-      this.seccionales = data;    
-    
+      this.seccionales = data;
+
     }, err => {
       //this.solicitudAyudaForm.get('seccional').setErrors(Validators.)
       Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
@@ -83,28 +83,28 @@ export class FiltroComponent implements OnInit {
   }
 
 
-  SetToggle(chkControlName, dataControlName){
+  SetToggle(chkControlName, dataControlName) {
 
     let dataControl = this.form.get(dataControlName);
 
-    this.form.get(chkControlName).valueChanges.subscribe(newValue => {      
-      if(newValue){
+    this.form.get(chkControlName).valueChanges.subscribe(newValue => {
+      if (newValue) {
         dataControl.enable();
       }
-      else{
+      else {
         dataControl.disable();
-      }      
+      }
     })
 
 
   }
-  
-  removerSeccional(){
-    this.selectedSeccional = null; 
+
+  removerSeccional() {
+    this.selectedSeccional = null;
     this.form.get('seccional').enable();
-    this.form.get('seccional').setValue('')   
+    this.form.get('seccional').setValue('')
   }
-  SetDisabled(dataControlName){
+  SetDisabled(dataControlName) {
     let dataControl = this.form.get(dataControlName);
     dataControl.disable();
 
@@ -116,21 +116,26 @@ export class FiltroComponent implements OnInit {
     //this.form.get('seccional').disable();        
   }
 
- 
-  onSubmit(){
-    let filtro:FiltroData = new FiltroData();
+  getValueOrNull(value) {
+    return value ? value : null;
+  }
+
+  onSubmit() {
+
     let raw = this.form.getRawValue();
 
-    filtro.cedula = raw.cedula;
-    filtro.seccionalId= this.selectedSeccional? this.selectedSeccional.id : 0;
-    
-    filtro.solicitudDesde  = raw.solicitudDesde;
-    filtro.solicitudHasta = raw.solicitudHasta;
-    
-    filtro.aprobacionDesde= raw.aprobacionDesde;
-    filtro.aprobacionHasta=raw.aprobacionHasta;
+    let filtro: FiltroData = {
+      ItemsPerPage: 10,
+      Page: 1,
+      cedula: this.form.controls.cedulaChk.value ? this.getValueOrNull(raw.cedula) : null,
+      seccionalId: this.form.controls.seccinalChk.value ? this.selectedSeccional.id : null,
+      solicitudDesde: this.form.controls.solicitudDesdeChk.value ? this.getValueOrNull(raw.solicitudDesde) : null,
+      solicitudHasta: this.form.controls.solicitudHastaChk.value ? this.getValueOrNull(raw.solicitudHasta) : null,
+      aprobacionDesde: this.form.controls.aprobacionDesdeChk.value ? this.getValueOrNull(raw.aprobacionDesde) : null,
+      aprobacionHasta: this.form.controls.aprobacionHastaChk.value ? this.getValueOrNull(raw.aprobacionHasta) : null
+    };
 
-    let collapses = $('#collapseOne');    
+    let collapses = $('#collapseOne');
     collapses.removeClass('show');
     collapses.addClass('hide');
 
@@ -138,6 +143,6 @@ export class FiltroComponent implements OnInit {
     this.consultaService.aplicarFiltro(filtro);
 
   }
-  
+
 
 }
