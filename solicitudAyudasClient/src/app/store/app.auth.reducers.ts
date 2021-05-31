@@ -11,9 +11,6 @@ export const initialState: AppState = {
 
 
 const LogOut = (state, action) => {
-
-  //this.cookieService.remove("usuario")
-
   return {
     ...state,
     usuario: undefined
@@ -40,6 +37,7 @@ export const AuthReducer = createReducer(
   on(LoginActions.logOut, LogOut),
   on(LoginActions.pageReloadedLoggedIn, Login),
   on(LoginActions.pageReloadedLogedOutIn, LogOut),
+  on(LoginActions.AuthGuardlogOut, LogOut),
   on(LoginActions.redirectToMainPage, (state, action) => {
     return {
       ...state,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { AppCookieService } from '../services/app-cookie.service';
 import { LoginActions } from './app.actions.types';
 
@@ -10,11 +11,16 @@ import { LoginActions } from './app.actions.types';
 export class AuthEffects {
 
   SignOut$ = createEffect(() => this.actions$.pipe(
-    ofType('[Main Menu] Page Realoaded LoggedOut', '[Main Menu] Cerrar Sesion'),
-    map(() => {
+    ofType(LoginActions.pageReloadedLogedOutIn, LoginActions.logOut, LoginActions.AuthGuardlogOut),
+    map(action => {
       this.cookieService.remove("usuario");
       this.router.navigateByUrl("/login");
-      return ({ type: 'NO_ACTION' })}),
+
+      if (action.type === "[Default Auth Guard] Cerrar Sesion")
+        Swal.fire("Tiempo de sesión agotado", "Tiempo de inicio de sesión agotado, favor iniciar sesión nuevamente", "warning");
+
+      return ({ type: 'NO_ACTION' })
+    }),
   )
   );
 

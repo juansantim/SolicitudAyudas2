@@ -14,7 +14,7 @@ import { AppState } from '../store/store';
 @Injectable()
 export class AuthGuardDefault implements CanActivate {
 
-  token:string;
+  token: string;
 
   constructor(public router: Router,
     private cookieService: AppCookieService,
@@ -27,38 +27,14 @@ export class AuthGuardDefault implements CanActivate {
   canActivate(): Observable<boolean> {
 
     return this.dataService.CheckToken().pipe(
-      catchError(err =>  of(false)),
-      map(response => true)
+      map(response => true),
+      catchError(err => of(false)),
+      tap(isTokenValid => { 
+        if (!isTokenValid) {
+          this.store.dispatch(LoginActions.AuthGuardlogOut());          
+        }         
+      })
     )
-
-    // let result = new Observable<boolean>(observer => {
-    //   let token = this.cookieService.get('token');
-
-    //   this.httpClient.get(this.dataService.GetUrl('Account/heartbeat'), {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   }).subscribe(response => {
-    //     observer.next(true);
-    //     observer.complete();
-    //   }, error => {
-    //     console.log(error);
-    //     if(error.status == 401){
-    //       observer.next(false);
-    //       this.cookieService.remove('token');
-    //       this.router.navigate(['login']);
-    //     }
-    //     if(error.status == 0){
-    //       this.router.navigate(['servicionodisponible']);
-    //     }
-    //   })
-
-    // });
-
-
-
-    // return result;
-
   }
 
 }

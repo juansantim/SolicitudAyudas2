@@ -78,7 +78,7 @@ namespace SolicitudAyudaServer.Controllers
             }
         }
 
-        private string GenerateJSONWebToken(Usuario usuario)
+        private string GenerateJSONWebToken(Usuario usuario, double timeValidInMinutes = 480)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -90,7 +90,7 @@ namespace SolicitudAyudaServer.Controllers
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               claims,
-              expires: DateTime.Now.AddMinutes(480),
+              expires: DateTime.Now.AddMinutes(timeValidInMinutes),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
