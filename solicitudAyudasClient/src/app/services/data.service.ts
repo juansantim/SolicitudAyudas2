@@ -13,7 +13,7 @@ import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
 import { BancoForSelectDTO } from '../model/BancoSelectDTO';
 import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
-import { AppState } from '../store/store';
+import { AppAuthState } from '../store/app.auth.reducers';
 import { Store } from '@ngrx/store';
 import { UserProfile } from '../model/UserProfile';
 import { Solicitud } from '../model/ConsultaSolicitudes/Solicitud';
@@ -234,7 +234,7 @@ export class DataService {
   constructor(private http: HttpClient,
     private localStorageService: AppLocalStorageService,
     private cookieService: AppCookieService,
-    private store: Store<AppState>) {
+    private store: Store<AppAuthState>) {
 
   }
 }

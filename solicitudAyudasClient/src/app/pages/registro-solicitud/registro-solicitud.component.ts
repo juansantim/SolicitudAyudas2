@@ -20,7 +20,7 @@ import { esDoLocale } from 'ngx-bootstrap/locale';
 import { BancoForSelectDTO } from 'src/app/model/BancoSelectDTO';
 import { UploadedFile } from 'src/app/model/UploadedFile';
 import { select, Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/store';
+import { AppAuthState } from 'src/app/store/app.auth.reducers';
 import { userProfile } from 'src/app/store/app.selectors';
 import { first } from 'rxjs/operators';
 
@@ -84,7 +84,7 @@ export class RegistroSolicitudComponent implements OnInit {
     private localeService: BsLocaleService,
     private router: Router,
     private route: ActivatedRoute,
-    private store:Store<AppState>) {
+    private store:Store<AppAuthState>) {
     console.log(this.QuienRecibiraAyuda);
   }
   

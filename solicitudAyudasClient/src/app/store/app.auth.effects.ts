@@ -21,8 +21,7 @@ export class AuthEffects {
 
       return ({ type: 'NO_ACTION' })
     }),
-  )
-  );
+  ));
 
   SignIn$ = createEffect(() => this.actions$.pipe(
     ofType(LoginActions.login),

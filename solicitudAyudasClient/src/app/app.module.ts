@@ -55,6 +55,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/app.auth.effects';
+import { SeccionalesReducer } from './store/seccionales/app.seccionales.reducer';
+import { SeccionalesEffects } from './store/seccionales/app.seccionales.effects';
 
 @NgModule({
   declarations: [
@@ -102,9 +104,9 @@ import { AuthEffects } from './store/app.auth.effects';
     CollapseModule.forRoot(),
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
-    StoreModule.forRoot({auth: AuthReducer}),
+    StoreModule.forRoot({auth: AuthReducer, seccionales: SeccionalesReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects, SeccionalesEffects])
   ],
   entryComponents:[ProcesarSolicitudComponent],
   providers: [

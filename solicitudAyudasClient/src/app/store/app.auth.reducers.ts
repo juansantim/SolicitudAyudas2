@@ -1,12 +1,14 @@
 import { createReducer, on } from "@ngrx/store";
 import { UserProfile } from "../model/UserProfile";
-import { login } from "./app.actions";
 import { LoginActions } from "./app.actions.types";
-import { AppState } from "./store";
 
-export const initialState: AppState = {
+export class AppAuthState{
+  usuario: UserProfile  
+}
+
+
+export const initialState: AppAuthState = {
   usuario: undefined,
-  url: undefined
 }
 
 

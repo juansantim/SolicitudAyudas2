@@ -9,7 +9,7 @@ import { UserProfile } from '../model/UserProfile';
 import { AppCookieService } from '../services/app-cookie.service';
 import { DataService } from '../services/data.service';
 import { LoginActions } from '../store/app.actions.types';
-import { AppState } from '../store/store';
+import { AppAuthState } from '../store/app.auth.reducers';
 
 @Injectable()
 export class AuthGuardDefault implements CanActivate {
@@ -19,7 +19,7 @@ export class AuthGuardDefault implements CanActivate {
   constructor(public router: Router,
     private cookieService: AppCookieService,
     private dataService: DataService,
-    private store: Store<AppState>) {
+    private store: Store<AppAuthState>) {
 
 
   }

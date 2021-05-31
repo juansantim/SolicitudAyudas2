@@ -20,7 +20,9 @@ namespace SolicitudAyudaServer.Controllers
 
         [Route("api/seccionales")]
         public dynamic Get() 
-        {            
+        {
+            ///System.Threading.Thread.Sleep(10000);
+
             return db.Seccionales.Select(s => new 
             {
                 s.Id,

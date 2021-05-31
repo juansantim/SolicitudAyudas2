@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { ConsultaService } from '../consulta.service';
 
 import * as $ from 'jquery';
+import { ItemModel } from 'src/app/model/itemModel';
 
 defineLocale('es-do', esDoLocale);
 
@@ -22,8 +23,6 @@ export class FiltroComponent implements OnInit {
 
   filtrarPorCedula: boolean;
   filtrarPorSeccional: boolean;
-
-  seccionales = [];
 
   today: Date;
 
@@ -47,20 +46,11 @@ export class FiltroComponent implements OnInit {
     aprobacionHasta: new FormControl(''),
   })
 
-  selectedSeccional: any;
+  selectedSeccional: ItemModel;
 
   ngOnInit() {
     this.today = new Date();
     this.localeService.use('es-do');
-
-    this.dataService.GetSeccionales().subscribe(data => {
-      this.seccionales = data;
-
-    }, err => {
-      //this.solicitudAyudaForm.get('seccional').setErrors(Validators.)
-      Swal.fire('Error', 'Hubo un error al cargar seccionales. Intente nuevamente mas tarde', 'error')
-    })
-
 
     this.SetToggle('cedulaChk', 'cedula');
     this.SetToggle('seccinalChk', 'seccional');
@@ -98,22 +88,23 @@ export class FiltroComponent implements OnInit {
 
 
   }
-
-  removerSeccional() {
-    this.selectedSeccional = null;
-    this.form.get('seccional').enable();
-    this.form.get('seccional').setValue('')
-  }
   SetDisabled(dataControlName) {
     let dataControl = this.form.get(dataControlName);
     dataControl.disable();
 
   }
 
-  typeaheadOnSelect(e: TypeaheadMatch): void {
-    this.selectedSeccional = e.item;
-    this.form.get('seccional').setValue(e.item.nombre)
-    //this.form.get('seccional').disable();        
+  removerSeccional() {
+    this.selectedSeccional = null;
+    this.form.get('seccional').enable();
+    this.form.get('seccional').setValue('')
+  }
+
+
+
+  onSeccionalSelected(e: ItemModel): void {
+    this.selectedSeccional = e;
+    this.form.get('seccional').setValue(e.nombre)    
   }
 
   getValueOrNull(value) {

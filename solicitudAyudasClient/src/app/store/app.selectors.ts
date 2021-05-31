@@ -1,15 +1,15 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { UserProfile } from "../model/UserProfile";
-import { AppState } from "./store";
+import { AppAuthState } from "./app.auth.reducers";
 
 export const selectAuthState= createFeatureSelector("auth");
 
 export const isLoggedIn = createSelector(
     selectAuthState,
-    (state:AppState) => !!state.usuario
+    (state:AppAuthState) => !!state.usuario
 )
 
 export const userProfile = createSelector(
     selectAuthState,
-    (auth: AppState) => auth.usuario
+    (auth: AppAuthState) => auth.usuario
 )

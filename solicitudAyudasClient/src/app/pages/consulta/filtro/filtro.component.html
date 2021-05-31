@@ -20,19 +20,23 @@
 
             <div class="mb-0" id="filtersSelected">
                 <div class="col">
-                   <app-selected-filter [control] = "form.get('cedula')" name="Cedula"></app-selected-filter>
-                   <app-selected-filter [control] = "form.get('seccional')" *ngIf="selectedSeccional" name="Seccional" ></app-selected-filter>                   
-                   <app-selected-filter [control] = "form.get('solicitudDesde')" name="Solicitud Desde" format = "dd/MM/yyyy"></app-selected-filter>
-                   <app-selected-filter [control] = "form.get('solicitudHasta')" name="Solicitud Hasta" format = "dd/MM/yyyy"></app-selected-filter>
-                   
-                   <app-selected-filter [control] = "form.get('aprobacionDesde')" name="Aprobacion Desde" format = "dd/MM/yyyy"></app-selected-filter>
-                   <app-selected-filter [control] = "form.get('aprobacionHasta')" name="Aprobacion Hasta" format = "dd/MM/yyyy"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('cedula')" name="Cedula"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('seccional')" *ngIf="selectedSeccional" name="Seccional">
+                    </app-selected-filter>
+                    <app-selected-filter [control]="form.get('solicitudDesde')" name="Solicitud Desde"
+                        format="dd/MM/yyyy"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('solicitudHasta')" name="Solicitud Hasta"
+                        format="dd/MM/yyyy"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('aprobacionDesde')" name="Aprobacion Desde"
+                        format="dd/MM/yyyy"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('aprobacionHasta')" name="Aprobacion Hasta"
+                        format="dd/MM/yyyy"></app-selected-filter>
                 </div>
 
 
             </div>
 
-     
+
         </div>
 
         <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
@@ -62,16 +66,14 @@
                                         <input type="checkbox" formControlName="seccinalChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="seccional" minlength="a"
-                                    [typeahead]="seccionales" [adaptivePosition]="true"
-                                    [readonly] = "selectedSeccional"
-                                    [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre"
-                                    (typeaheadOnSelect)="typeaheadOnSelect($event)">
 
-                                <button class="btn btn-danger" *ngIf="selectedSeccional"
-                                    (click)="removerSeccional()">Remover</button>
+                                <div class="input-group-append">
+                                    <app-seccional [enableField]="form.get('seccinalChk').value"
+                                    (onSelect)="onSeccionalSelected($event)"></app-seccional>
+                                </div>
 
                             </div>
+
                         </div>
                     </div>
 

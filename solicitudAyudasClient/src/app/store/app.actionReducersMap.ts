@@ -1,6 +1,5 @@
-import { ActionReducerMap, MetaReducer } from "@ngrx/store";
+import { MetaReducer } from "@ngrx/store";
 import { environment } from "src/environments/environment";
-import { AuthReducer } from "./app.auth.reducers";
-import {AppState} from './store';
+import { AppAuthState } from "./app.auth.reducers";
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<AppAuthState>[] = !environment.production ? [] : [];

@@ -10,7 +10,7 @@ import { UserProfile } from '../model/UserProfile';
 import { AppCookieService } from '../services/app-cookie.service';
 import { DataService } from '../services/data.service';
 import { LoginActions } from '../store/app.actions.types';
-import { AppState } from '../store/store';
+import { AppAuthState } from '../store/app.auth.reducers';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private dataService: DataService,
     private cookieService: AppCookieService,
-    private store: Store<AppState>) {
+    private store: Store<AppAuthState>) {
 
   }
 
