@@ -1,5 +1,3 @@
-import { DecimalPipe } from "@angular/common";
-
 export interface SolicitudAyuda {
      Id:number;
      NumeroExpediente: number;
@@ -44,9 +42,6 @@ export interface SolicitudAyuda {
      DatosAprobacion: DatoAprobacion[];
      ProcesadaPorUsuario: boolean;
 
-     //public List<AprobacionSolicitud> AprobacionesSolicitud { get; set; }
-     //public List<ComentarioSolicitud> Comentarios { get; set; }
-
 }
 
 export interface RequisitoSolicitud {
@@ -56,7 +51,6 @@ export interface RequisitoSolicitud {
      Descripcion:string;
      Value:string;
      Values: string[];
-
 }
 
 export interface AdjuntoSolicitud {

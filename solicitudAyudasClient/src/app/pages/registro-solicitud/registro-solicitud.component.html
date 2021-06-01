@@ -99,13 +99,13 @@
             <select class="form-control" formControlName="tipoDeAyuda"
                 (change)="onChangeTipoSolicitud($event.target.value)" required>
                 <option [ngValue]="null">--SELECCIONE--</option>
-                <option *ngFor="let s of tiposSolicitudes" value="{{s.id}}">{{s.nombre}}</option>
+                <option *ngFor="let s of tiposSolicitudes" value="{{s.Id}}">{{s.Nombre}}</option>
             </select>
             <div style="margin-top: 5px;">
                 <input type="text" class="form-control" *ngIf="EspecificarOtro" placeholder="Especificar otro" required minlength="5" formControlName="otroTipoSolicitud">
                 
                 <app-validation-error-message *ngIf="GetErrors('otroTipoSolicitud', 'required')"
-                textMessage="Debe especifiar otro tipo de soliitud"></app-validation-error-message>    
+                textMessage="Debe especifiar otro tipo de solicitud"></app-validation-error-message>    
 
                 <app-validation-error-message *ngIf="GetErrors('otroTipoSolicitud', 'minlength')"
                 textMessage="Debe contener al menos 5 letras"></app-validation-error-message>    
@@ -126,7 +126,7 @@
         <div class="col-md-6">
             <label>Banco</label>
             <select class="form-control" formControlName="banco">
-                <option *ngFor="let b of bancos" value="{{b.id}}"> {{b.nombre}}</option>
+                <option *ngFor="let b of bancos" value="{{b.Id}}"> {{b.Nombre}}</option>
             </select>
             <app-validation-error-message *ngIf="GetErrors('banco', 'required')"
             textMessage="Debe seleccionar una entidad bancaria"></app-validation-error-message>
@@ -206,23 +206,23 @@
                 <legend>Requisitos</legend>
 
                 <div class="row" *ngFor="let r of RequisitosSolicitud">
-                    <div class="col-md-12" *ngIf="r.values.length == 0">
+                    <div class="col-md-12" *ngIf="r.Values.length == 0">
                         <label>
-                            <input type="checkbox" [formControlName]="r.formName" required>
-                            {{r.descripcion}}
+                            <input type="checkbox" [formControlName]="r.FormName" required>
+                            {{r.Descripcion}}
                         </label>
-                        <app-validation-error-message *ngIf="GetErrors(r.formName, 'required')"
+                        <app-validation-error-message *ngIf="GetErrors(r.FormName, 'required')"
                             textMessage="La verificación es obligatoria"></app-validation-error-message>
                     </div>
 
-                    <div class="col-md-12" *ngIf="r.values.length > 0">
+                    <div class="col-md-12" *ngIf="r.Values.length > 0">
                         <label>
-                            <label>{{r.descripcion}}:</label>
-                            <select class="form-control" [formControlName]="r.formName" required>
+                            <label>{{r.Descripcion}}:</label>
+                            <select class="form-control" [formControlName]="r.FormName" required>
                                 <option [ngValue]="null">--SELECCIONE--</option>
-                                <option *ngFor="let o of r.values" value="{{o}}">{{o}}</option>
+                                <option *ngFor="let o of r.Values" value="{{o}}">{{o}}</option>
                             </select>
-                            <app-validation-error-message *ngIf="GetErrors(r.formName, 'required')"
+                            <app-validation-error-message *ngIf="GetErrors(r.FormName, 'required')"
                                 textMessage="Este dato es obligatorio"></app-validation-error-message>
                         </label>
                     </div>
@@ -233,7 +233,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label>Quien recibira ayuda?</label>
-                        <select class="form-control" formControlName="quienRecibeAyuda" required
+                        <select class="form-control" formControlName="quienRecibeAyuda" required [attr.disabled] = "maestro"
                             (change)="onChangeQuienRecibiraAyuda($event.target.value)">
                             <option *ngFor="let x of QuienRecibiraAyuda" value="{{x.value}}">{{x.name}} </option>
                         </select>

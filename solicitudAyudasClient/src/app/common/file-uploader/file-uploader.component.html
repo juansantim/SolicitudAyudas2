@@ -1,10 +1,10 @@
 <div *ngIf="UploadedFiles?.length">
     <div *ngFor="let uploadedFile of UploadedFiles; let i = index">
         <app-downloable-file 
-        [fileName] = "uploadedFile.displayName"
-        [fileSize] = "uploadedFile.sizeMB"
-        [fileId] = "uploadedFile.id"
-        [contentType] = "uploadedFile.contentType"
+        [fileName] = "uploadedFile.DisplayName"
+        [fileSize] = "uploadedFile.SizeMB"
+        [fileId] = "uploadedFile.Id"
+        [contentType] = "uploadedFile.ContentType"
         >
 
         </app-downloable-file> | <button type="button" class="btn btn-danger" (click) = "eliminarArchivo(uploadedFile, i)"> Eliminar Adjunto <i class="fas fa-trash"></i></button>    

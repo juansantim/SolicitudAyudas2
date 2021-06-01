@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { setTime } from 'ngx-bootstrap/chronos/utils/date-setters';
+import {  FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
-import { promise } from 'protractor';
-import { from } from 'rxjs';
+
 import { collectionItem } from 'src/app/model/collectionItem';
-//import { SolicitudAyuda } from 'src/app/model/SolicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
 
 import Swal from 'sweetalert2';
@@ -17,12 +15,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esDoLocale } from 'ngx-bootstrap/locale';
-import { BancoForSelectDTO } from 'src/app/model/BancoSelectDTO';
 import { UploadedFile } from 'src/app/model/UploadedFile';
 import { select, Store } from '@ngrx/store';
 import { AppAuthState } from 'src/app/store/app.auth.reducers';
 import { userProfile } from 'src/app/store/app.selectors';
 import { first } from 'rxjs/operators';
+import { ItemModel } from 'src/app/model/itemModel';
+import { TipoSolicitud } from 'src/app/model/Solicitud/TipoSolicitud';
 
 defineLocale('es-do', esDoLocale);
 
@@ -131,88 +130,91 @@ export class RegistroSolicitudComponent implements OnInit {
       this.dataService.GetPuedeModificarSolicitud().subscribe(puede => {
         if (puede) {
           this.cargando = true;
+
           this.dataService.GetDetalleSolicitud(solicitudId).subscribe(solicitud => {
             
             this.solicitudAyudaForm.controls.solicitudId.setValue(solicitudId);
                         
-            this.solicitudAyudaForm.controls.cedula.setValue(solicitud.cedulaSolicitante);
+            this.solicitudAyudaForm.controls.cedula.setValue(solicitud.CedulaSolicitante);
             this.solicitudAyudaForm.controls.cedula.disable();
-            //this.solicitudAyudaForm.controls.cedula.markAsTouched();
 
-            this.solicitudAyudaForm.controls.nombreCompleto.setValue(solicitud.nombreSolicitante);
+            this.solicitudAyudaForm.controls.nombreCompleto.setValue(solicitud.Maestro);
             this.solicitudAyudaForm.controls.nombreCompleto.disable();
 
-            this.solicitudAyudaForm.controls.fechaNacimiento.setValue(new Date(solicitud.fechaNacimiento));
+            this.solicitudAyudaForm.controls.fechaNacimiento.setValue(new Date(solicitud.FechaNacimiento));
             this.solicitudAyudaForm.controls.fechaNacimiento.disable();
 
-            this.solicitudAyudaForm.controls.sexo.setValue(solicitud.sexoSolicitante);
+            this.solicitudAyudaForm.controls.sexo.setValue(solicitud.SexoMaestro);
             this.solicitudAyudaForm.controls.sexo.disable();
 
             this.maestro = {};
 
-            this.solicitudAyudaForm.controls.seccional.setValue(solicitud.seccional);
+            this.solicitudAyudaForm.controls.seccional.setValue(solicitud.Seccional);
+            
             this.selectedSeccional = {
-              id: solicitud.seccionalId
+              Id: solicitud.SeccionalId
             }
+
             this.solicitudAyudaForm.controls.seccional.disable();
 
-            this.solicitudAyudaForm.controls.cargo.setValue(solicitud.cargo);
+            this.solicitudAyudaForm.controls.cargo.setValue(solicitud.Cargo);
             this.solicitudAyudaForm.controls.cargo.disable();
 
-            this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.tipoSolicitudId);
+            this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.TipoSolicitudId);
             this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
 
-            if(solicitud.categoriaId === 3){
+            if(solicitud.CategoriaId === 3){
               this.EspecificarOtro = true;
             }
             else{
               this.EspecificarOtro = false;
             }
 
-            this.solicitudAyudaForm.controls.montoAyuda.setValue(solicitud.montoSolicitado);
+            this.solicitudAyudaForm.controls.montoAyuda.setValue(solicitud.MontoSolicitado);
 
-            this.solicitudAyudaForm.controls.banco.setValue(solicitud.bancoId);
+            this.solicitudAyudaForm.controls.banco.setValue(solicitud.BancoId);
 
-            this.solicitudAyudaForm.controls.numeroCuentaBanco.setValue(solicitud.numeroCuentaBanco)
+            this.solicitudAyudaForm.controls.numeroCuentaBanco.setValue(solicitud.NumeroCuentaBanco)
 
-            this.solicitudAyudaForm.controls.telefonoCelular.setValue(solicitud.celular)
-            this.solicitudAyudaForm.controls.telefonoResidencia.setValue(solicitud.telefonoCasa)
-            this.solicitudAyudaForm.controls.telefonoLaboral.setValue(solicitud.telefonoTrabajo)
-            this.solicitudAyudaForm.controls.email.setValue(solicitud.email)
-            this.solicitudAyudaForm.controls.direccion.setValue(solicitud.direccion)
+            this.solicitudAyudaForm.controls.telefonoCelular.setValue(solicitud.Celular)
+            this.solicitudAyudaForm.controls.telefonoResidencia.setValue(solicitud.TelefonoCasa)
+            this.solicitudAyudaForm.controls.telefonoLaboral.setValue(solicitud.TelefonoTrabajo)
+            this.solicitudAyudaForm.controls.email.setValue(solicitud.Email)
+            this.solicitudAyudaForm.controls.direccion.setValue(solicitud.Direccion)
 
-            this.solicitudAyudaForm.controls.quienRecibeAyuda.setValue(solicitud.quienRecibeAyuda);
+            this.solicitudAyudaForm.controls.quienRecibeAyuda.setValue(solicitud.QuienRecibeAyuda);
       
-            this.solicitudAyudaForm.controls.RBActaNacimiento.setValue(solicitud.actaNacimientoHijoHija);
-            this.solicitudAyudaForm.controls.RBPadreMadre.setValue(solicitud.copiaCedulaPadreMadre);
-            this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.actaMatrimonioUnion);
+            this.solicitudAyudaForm.controls.RBActaNacimiento.setValue(solicitud.ActaNacimientoHijoHija);
+            this.solicitudAyudaForm.controls.RBPadreMadre.setValue(solicitud.CopiaCedulaPadreMadre);
+            this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.ActaMatrimonioUnion);
 
-            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.esJubiladoInabima? 'true': 'false');
+            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.EsJubiladoInabima? 'true': 'false');
             this.solicitudAyudaForm.controls.esJubiladoInabima.markAsTouched();
 
-            this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.motivoSolicitud);
+            this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.MotivoSolicitud);
 
-            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.esJubiladoInabima? true: false);
+            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.EsJubiladoInabima? true: false);
 
-            this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.otroTipoSolicitud);
+            this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.OtroTipoSolicitud);
 
-            this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.fechaSolicitud));
+            this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.FechaSolicitud));
 
-            this.uploadedFiles = solicitud.adjuntos;
+            this.uploadedFiles = solicitud.Adjuntos;
             
-            if (solicitud.requisitos.length > 0) {
+            if (solicitud.Requisitos.length > 0) {
 
-              solicitud.requisitos.forEach(element => {
+              solicitud.Requisitos.forEach(element => {
                 let control = new FormControl('', Validators.required);                
                 
-                this.solicitudAyudaForm.addControl(element.formName, control);                
+                this.solicitudAyudaForm.addControl(element.FormName, control);                
                 control.markAllAsTouched();
 
-                control.setValue(element.values.length? element.value: true)
+                control.setValue(element.Values.length? element.value: true)
               });
         
             }
-            this.RequisitosSolicitud = solicitud.requisitos;
+
+            this.RequisitosSolicitud = solicitud.Requisitos;
 
             this.cargando = false;
           }, error => {
@@ -233,10 +235,10 @@ export class RegistroSolicitudComponent implements OnInit {
   seccionales: Array<any>;
   selectedSeccional: any;
   cargandoSeccionales: boolean;
-  tiposSolicitudes: Array<any>;
+  tiposSolicitudes: Array<TipoSolicitud>;
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
-  bancos: Array<BancoForSelectDTO> = [];
+  bancos: Array<ItemModel> = [];
 
   archivos: File[] = [];
 
@@ -362,7 +364,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
   onChangeTipoSolicitud(tipoSolicitudId) {
 
-    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.id == tipoSolicitudId)[0]
+    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.Id == tipoSolicitudId)[0]
 
     let keys = [];
 
@@ -376,16 +378,16 @@ export class RegistroSolicitudComponent implements OnInit {
       this.solicitudAyudaForm.removeControl(key);
     })
 
-    if (tipoSolictud.requisitos.length > 0) {
-      tipoSolictud.requisitos.forEach(element => {
-        this.solicitudAyudaForm.addControl(element.formName, new FormControl())
+    if (tipoSolictud.Requisitos.length > 0) {
+      tipoSolictud.Requisitos.forEach(element => {
+        this.solicitudAyudaForm.addControl(element.FormName, new FormControl())
         //console.log(element.formName);
       });
 
     }
-    this.RequisitosSolicitud = tipoSolictud.requisitos;
+    this.RequisitosSolicitud = tipoSolictud.Requisitos;
 
-    if(tipoSolictud.categoriaId === 3){
+    if(tipoSolictud.CategoriaId === 3){
       this.EspecificarOtro = true;
     }
     else{
@@ -409,7 +411,7 @@ export class RegistroSolicitudComponent implements OnInit {
   onChangeQuienRecibiraAyuda(value) {
     console.log(value);
 
-    let quienRecibira = this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
+    let quienRecibira = !value?  this.QuienRecibiraAyuda[0] : this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
 
     //let keys = this.QuienRecibiraAyuda.filter(x => x.formControlName != value &&  x.formControlName != '' );
 
@@ -467,7 +469,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
           form.append("SolicitudId", this.solicitudAyudaForm.get('solicitudId')? this.solicitudAyudaForm.get('solicitudId').value: 0);
           
-          form.append("SeccionalId", this.selectedSeccional.id);
+          form.append("SeccionalId", this.selectedSeccional.Id);
           form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
 
           form.append("Celular", this.solicitudAyudaForm.get('telefonoCelular').value);
@@ -500,10 +502,10 @@ export class RegistroSolicitudComponent implements OnInit {
 
           this.RequisitosSolicitud.forEach(r => {
 
-            let controlRequisito = this.solicitudAyudaForm.get(r.formName);
+            let controlRequisito = this.solicitudAyudaForm.get(r.FormName);
 
             requisitos.push({
-              RequisitoTiposSolicitudId: r.id,
+              RequisitoTiposSolicitudId: r.Id,
               Value: controlRequisito.value
             })
           })
@@ -515,7 +517,7 @@ export class RegistroSolicitudComponent implements OnInit {
             NombreCompleto: this.solicitudAyudaForm.get('nombreCompleto').value,
             FechaNacimiento: this.solicitudAyudaForm.get('fechaNacimiento').value,
             Sexo: this.solicitudAyudaForm.get('sexo').value,
-            SeccionalId: this.selectedSeccional.id,
+            SeccionalId: this.selectedSeccional.Id,
             Cargo: this.solicitudAyudaForm.get('cargo').value,
 
           }))
@@ -542,8 +544,8 @@ export class RegistroSolicitudComponent implements OnInit {
             .then(response => {
               let responseMessage = response;
 
-              if (responseMessage.success) {
-                let solicitudId = responseMessage.data.solicitudId;
+              if (responseMessage.Success) {
+                let solicitudId = responseMessage.Data.SolicitudId;
 
                 Swal.fire({
                   title: 'Solicitud de ayuda registrada satisfactoriamente',

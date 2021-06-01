@@ -35,8 +35,8 @@ namespace SolicitudAyudaServer.Controllers
                         r.Id,
                         r.Descripcion,
                         r.FormName,
-                        value = "",
-                        values = solicitudService.Getvalues(r)
+                        Value = "",
+                        Values = solicitudService.Getvalues(r)
                     })
                 });
         }

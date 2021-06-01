@@ -11,7 +11,6 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
-import { BancoForSelectDTO } from '../model/BancoSelectDTO';
 import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
 import { AppAuthState } from '../store/app.auth.reducers';
 import { Store } from '@ngrx/store';
@@ -20,6 +19,7 @@ import { PaginatedResult } from '../model/ConsultaSolicitudes/PaginatedResult';
 import { ItemModel } from '../model/itemModel';
 import { LoginModel } from '../model/LoginModel';
 import { SolicitudAyuda } from '../model/Solicitud/solicitudAyuda';
+import { TipoSolicitud } from '../model/Solicitud/TipoSolicitud';
 @Injectable({
   providedIn: 'root'
 })
@@ -72,10 +72,10 @@ export class DataService {
     return this.http.get<any>(url);
   }
 
-  GetBancos(): Observable<Array<BancoForSelectDTO>> {
+  GetBancos(): Observable<Array<ItemModel>> {
     let url = this.GetUrl('bancos');
 
-    return this.http.get<Array<BancoForSelectDTO>>(url);
+    return this.http.get<Array<ItemModel>>(url);
   }
 
   GetDetalleUsuario(usuarioId: any): Observable<any> {
@@ -193,8 +193,8 @@ export class DataService {
     return this.http.get(url);
   }
 
-  GetTiposSolicitudesConRequisitos(): Observable<any> {
-    return this.http.get(this.GetUrl('TipoSolicitud/ConRequisitos'));
+  GetTiposSolicitudesConRequisitos(): Observable<TipoSolicitud[]> {
+    return this.http.get<TipoSolicitud[]>(this.GetUrl('TipoSolicitud/ConRequisitos'));
   }
 
   GetSeccionales(): Observable<Array<ItemModel>> {

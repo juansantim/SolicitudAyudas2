@@ -69,7 +69,7 @@ export class FileUploaderComponent implements OnInit {
 
   GetEspacioTotal() {
     let sum = this.files.reduce((acumulator, current) => {
-      return acumulator += current.size;
+      return acumulator += current.Size;
     }, 0)
 
     return sum;
@@ -78,7 +78,7 @@ export class FileUploaderComponent implements OnInit {
   eliminarArchivo(uploadedFile:UploadedFile, index){
     Swal.fire({
       title: 'Elimar archivo adjunto',
-      text:  `Seguro que desea eliminar el archivo -> ${uploadedFile.displayName}?`,
+      text:  `Seguro que desea eliminar el archivo -> ${uploadedFile.DisplayName}?`,
       icon: 'question',
       showConfirmButton: true,
       confirmButtonText: 'Eliminar',
@@ -86,7 +86,7 @@ export class FileUploaderComponent implements OnInit {
       showCancelButton: true,
       cancelButtonText: 'No',
       preConfirm: () => {
-        let url = this.dataService.GetUrl(`files/delete?id=${uploadedFile.id}`);
+        let url = this.dataService.GetUrl(`files/delete?id=${uploadedFile.Id}`);
         
         return fetch(url, {
           method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -116,7 +116,7 @@ export class FileUploaderComponent implements OnInit {
         if(result.value.success){
           Swal.fire({
             title: `Archivo Eliminado`,
-            text: `${uploadedFile.displayName} eliminado correctamente`,
+            text: `${uploadedFile.DisplayName} eliminado correctamente`,
             icon: 'warning'
           })
 

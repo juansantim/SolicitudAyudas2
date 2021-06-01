@@ -1,6 +1,6 @@
 export class UploadedFile{
-    id: number;
-    contentType: string;
-    sizeMB: number;
-    displayName: string;
+    Id: number;
+    ContentType: string;
+    SizeMB: number;
+    DisplayName: string;
 }

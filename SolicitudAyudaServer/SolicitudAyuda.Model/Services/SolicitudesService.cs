@@ -68,6 +68,7 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.Id,
                 solicitud.NumeroExpediente,
                 solicitud.CedulaSolicitante,
+                solicitud.SeccionalId,
                 Seccional = solicitud.Seccional.Nombre,
                 Maestro = solicitud.Maestro.NombreCompleto,
                 Edad = GetEdad(solicitud.Maestro),
@@ -612,19 +613,23 @@ namespace SolicitudAyuda.Model.Services
                 List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
 
                 var movimiento = DetectarCambios(actualSolicitud, this.db);
-                movimiento.UsuarioId = usuarioId;
 
-                db.Movimientos.Add(movimiento);
-
-                using (TransactionScope scope = new TransactionScope())
+                if (movimiento != null) 
                 {
-                    db.SaveChanges();
-                    scope.Complete();
+                    movimiento.UsuarioId = usuarioId;
+                    db.Movimientos.Add(movimiento);
+
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        db.SaveChanges();
+                        scope.Complete();
+                    }
+
+                    fileStorageService.SaveFiles(actualSolicitud.Id, files);
                 }
+        
 
-                fileStorageService.SaveFiles(actualSolicitud.Id, files);
-
-                response.Data = new { solicitudId = actualSolicitud.Id };
+                response.Data = new { SolicitudId = actualSolicitud.Id };
             }
             else
             {

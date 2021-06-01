@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -30,6 +31,9 @@ export class DownloableFileComponent implements OnInit {
     this.downloading = true;
     this.dataService.Download(this.fileId).subscribe(file => {
       this.downLoadFile(file, this.contentType)
+      this.downloading = false;
+    }, err => {
+      Swal.fire("Error al Descargar Adjunto", "No se pudo desargar el archivo, favor intentar nuevamente. Si problema persiste, favor reportar a soporte", "error")
       this.downloading = false;
     })
   }
