@@ -38,7 +38,7 @@ namespace SolicitudAyudaServer.Controllers
         }
 
         [Route("delete")]
-        [HttpPost]
+        [HttpDelete]
         public HttpDataResponse delete(int id)
         {
             HttpDataResponse response = new HttpDataResponse();
@@ -49,7 +49,7 @@ namespace SolicitudAyudaServer.Controllers
             }
             catch (Exception ex)
             {
-                response.AddError(ex.Message);
+                response.AddError("Archivo no existe en Storage");
             }
             
             return response;

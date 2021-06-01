@@ -614,7 +614,7 @@ namespace SolicitudAyuda.Model.Services
 
                 var movimiento = DetectarCambios(actualSolicitud, this.db);
 
-                if (movimiento != null) 
+                if (movimiento != null)
                 {
                     movimiento.UsuarioId = usuarioId;
                     db.Movimientos.Add(movimiento);
@@ -627,7 +627,7 @@ namespace SolicitudAyuda.Model.Services
 
                     fileStorageService.SaveFiles(actualSolicitud.Id, files);
                 }
-        
+
 
                 response.Data = new { SolicitudId = actualSolicitud.Id };
             }
@@ -637,6 +637,26 @@ namespace SolicitudAyuda.Model.Services
             }
 
             return response;
+        }
+
+        public Entities.SolicitudAyuda AnularSolicitud(int solicitudId)
+        {
+            var result = new HttpDataResponse();
+
+            var solicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
+            solicitud.EstadoId = 5;
+
+            var movimiento = DetectarCambios(solicitud, db);
+            db.Movimientos.Add(movimiento);
+
+            SaveChanges();
+
+            return solicitud;
+        }
+
+        public int SaveChanges()
+        {
+            return db.SaveChanges();
         }
     }
 }

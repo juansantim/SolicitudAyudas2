@@ -21,5 +21,6 @@ namespace SolicitudAyuda.Model.Services.Signatures
         List<FileDataDTO> GetFilesToUpLoad(IFormFileCollection files);
         HttpDataResponse CreateSolicitud(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
         HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
+        Entities.SolicitudAyuda AnularSolicitud(int solicitudId);
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
@@ -22,6 +22,7 @@ import { userProfile } from 'src/app/store/app.selectors';
 import { first } from 'rxjs/operators';
 import { ItemModel } from 'src/app/model/itemModel';
 import { TipoSolicitud } from 'src/app/model/Solicitud/TipoSolicitud';
+import { HttpDataResponse } from 'src/app/model/HttpDataResponse';
 
 defineLocale('es-do', esDoLocale);
 
@@ -32,7 +33,7 @@ defineLocale('es-do', esDoLocale);
 })
 export class RegistroSolicitudComponent implements OnInit {
 
-  bearer:string;
+  bearer: string;
   //form controls:
   solicitudAyudaForm = new FormGroup({
 
@@ -58,7 +59,7 @@ export class RegistroSolicitudComponent implements OnInit {
     cargo: new FormControl('', Validators.required),
     banco: new FormControl(''),
     numeroCuentaBanco: new FormControl(''),
-    
+
     QuienRecibeAyuda: new FormControl(''),
 
     RBActaNacimiento: new FormControl(''),
@@ -83,16 +84,16 @@ export class RegistroSolicitudComponent implements OnInit {
     private localeService: BsLocaleService,
     private router: Router,
     private route: ActivatedRoute,
-    private store:Store<AppAuthState>) {
+    private store: Store<AppAuthState>) {
     console.log(this.QuienRecibiraAyuda);
   }
-  
+
   cargando: boolean;
   uploadedFiles: Array<UploadedFile> = [];
 
   ngOnInit() {
-    
-    
+
+
     this.store.pipe(
       select(userProfile),
       first()
@@ -132,9 +133,9 @@ export class RegistroSolicitudComponent implements OnInit {
           this.cargando = true;
 
           this.dataService.GetDetalleSolicitud(solicitudId).subscribe(solicitud => {
-            
+
             this.solicitudAyudaForm.controls.solicitudId.setValue(solicitudId);
-                        
+
             this.solicitudAyudaForm.controls.cedula.setValue(solicitud.CedulaSolicitante);
             this.solicitudAyudaForm.controls.cedula.disable();
 
@@ -150,7 +151,7 @@ export class RegistroSolicitudComponent implements OnInit {
             this.maestro = {};
 
             this.solicitudAyudaForm.controls.seccional.setValue(solicitud.Seccional);
-            
+
             this.selectedSeccional = {
               Id: solicitud.SeccionalId
             }
@@ -163,10 +164,10 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.TipoSolicitudId);
             this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
 
-            if(solicitud.CategoriaId === 3){
+            if (solicitud.CategoriaId === 3) {
               this.EspecificarOtro = true;
             }
-            else{
+            else {
               this.EspecificarOtro = false;
             }
 
@@ -183,35 +184,35 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.direccion.setValue(solicitud.Direccion)
 
             this.solicitudAyudaForm.controls.quienRecibeAyuda.setValue(solicitud.QuienRecibeAyuda);
-      
+
             this.solicitudAyudaForm.controls.RBActaNacimiento.setValue(solicitud.ActaNacimientoHijoHija);
             this.solicitudAyudaForm.controls.RBPadreMadre.setValue(solicitud.CopiaCedulaPadreMadre);
             this.solicitudAyudaForm.controls.RBConyuge.setValue(solicitud.ActaMatrimonioUnion);
 
-            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.EsJubiladoInabima? 'true': 'false');
+            this.solicitudAyudaForm.controls.esJubiladoInabima.setValue(solicitud.EsJubiladoInabima ? 'true' : 'false');
             this.solicitudAyudaForm.controls.esJubiladoInabima.markAsTouched();
 
             this.solicitudAyudaForm.controls.motivoSolicitud.setValue(solicitud.MotivoSolicitud);
 
-            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.EsJubiladoInabima? true: false);
+            this.solicitudAyudaForm.controls.estadoCuenta.setValue(solicitud.EsJubiladoInabima ? true : false);
 
             this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.OtroTipoSolicitud);
 
             this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.FechaSolicitud));
 
             this.uploadedFiles = solicitud.Adjuntos;
-            
+
             if (solicitud.Requisitos.length > 0) {
 
               solicitud.Requisitos.forEach(element => {
-                let control = new FormControl('', Validators.required);                
-                
-                this.solicitudAyudaForm.addControl(element.FormName, control);                
+                let control = new FormControl('', Validators.required);
+
+                this.solicitudAyudaForm.addControl(element.FormName, control);
                 control.markAllAsTouched();
 
-                control.setValue(element.Values.length? element.value: true)
+                control.setValue(element.Values.length ? element.value : true)
               });
-        
+
             }
 
             this.RequisitosSolicitud = solicitud.Requisitos;
@@ -221,7 +222,7 @@ export class RegistroSolicitudComponent implements OnInit {
             this.cargando = false;
           })
 
-      
+
         }
         else {
           this.router.navigate([`/accesoDenegado/`]);
@@ -360,7 +361,7 @@ export class RegistroSolicitudComponent implements OnInit {
     return this.solicitudAyudaForm.get('esJubiladoInabima').value === 'true';
   }
 
-  EspecificarOtro:boolean;
+  EspecificarOtro: boolean;
 
   onChangeTipoSolicitud(tipoSolicitudId) {
 
@@ -387,10 +388,10 @@ export class RegistroSolicitudComponent implements OnInit {
     }
     this.RequisitosSolicitud = tipoSolictud.Requisitos;
 
-    if(tipoSolictud.CategoriaId === 3){
+    if (tipoSolictud.CategoriaId === 3) {
       this.EspecificarOtro = true;
     }
-    else{
+    else {
       this.EspecificarOtro = false;
     }
   }
@@ -411,7 +412,7 @@ export class RegistroSolicitudComponent implements OnInit {
   onChangeQuienRecibiraAyuda(value) {
     console.log(value);
 
-    let quienRecibira = !value?  this.QuienRecibiraAyuda[0] : this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
+    let quienRecibira = !value ? this.QuienRecibiraAyuda[0] : this.QuienRecibiraAyuda.filter(q => q.value == value)[0];
 
     //let keys = this.QuienRecibiraAyuda.filter(x => x.formControlName != value &&  x.formControlName != '' );
 
@@ -467,8 +468,8 @@ export class RegistroSolicitudComponent implements OnInit {
         preConfirm: () => {
           let form = new FormData();
 
-          form.append("SolicitudId", this.solicitudAyudaForm.get('solicitudId')? this.solicitudAyudaForm.get('solicitudId').value: 0);
-          
+          form.append("SolicitudId", this.solicitudAyudaForm.get('solicitudId') ? this.solicitudAyudaForm.get('solicitudId').value : 0);
+
           form.append("SeccionalId", this.selectedSeccional.Id);
           form.append("CedulaSolicitante", this.solicitudAyudaForm.get('cedula').value)
 
@@ -484,18 +485,18 @@ export class RegistroSolicitudComponent implements OnInit {
           form.append("Direccion", this.solicitudAyudaForm.get('direccion').value);
           form.append("BancoId", this.solicitudAyudaForm.get('banco').value,);
           form.append("NumeroCuentaBanco", this.solicitudAyudaForm.get('numeroCuentaBanco').value);
-          
+
           form.append("QuienRecibeAyuda", this.solicitudAyudaForm.get('quienRecibeAyuda').value);
 
-          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento')? this.solicitudAyudaForm.get('RBActaNacimiento').value : false);
+          form.append("ActaNacimientoHijoHija", this.solicitudAyudaForm.get('RBActaNacimiento') ? this.solicitudAyudaForm.get('RBActaNacimiento').value : false);
           form.append("CopiaCedulaPadreMadre", this.solicitudAyudaForm.get('RBPadreMadre') ? this.solicitudAyudaForm.get('RBPadreMadre').value : false);
-          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge')? this.solicitudAyudaForm.get('RBConyuge').value: false);
-          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima')? this.solicitudAyudaForm.get('esJubiladoInabima').value : false);
-          form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta')? this.solicitudAyudaForm.get('estadoCuenta').value : false);
+          form.append("ActaMatrimonioUnion", this.solicitudAyudaForm.get('RBConyuge') ? this.solicitudAyudaForm.get('RBConyuge').value : false);
+          form.append("EsJubiladoInabima", this.solicitudAyudaForm.get('esJubiladoInabima') ? this.solicitudAyudaForm.get('esJubiladoInabima').value : false);
+          form.append("EstadoCuenta", this.solicitudAyudaForm.get('estadoCuenta') ? this.solicitudAyudaForm.get('estadoCuenta').value : false);
 
           form.append("OtroTipoSolicitud", this.solicitudAyudaForm.get('otroTipoSolicitud').value);
 
-     
+
           form.append("FechaSolicitud", this.solicitudAyudaForm.get('fechaSolicitud').value.toISOString());
 
           let requisitos = [];
@@ -554,7 +555,9 @@ export class RegistroSolicitudComponent implements OnInit {
                   confirmButtonText: 'Ok',
                   showConfirmButton: true
                 }).then(alertResult => {
-                  this.router.navigate(['/detalle', solicitudId]);
+
+                  //this.router.navigate(['/detalle', solicitudId]);
+                  this.GoToDetails(solicitudId);
                 });
               }
               else {
@@ -577,7 +580,7 @@ export class RegistroSolicitudComponent implements OnInit {
           title: 'Error al enviar datos',
           text: 'Error',
           icon: 'error'
-        })        
+        })
       })
 
     }
@@ -591,21 +594,68 @@ export class RegistroSolicitudComponent implements OnInit {
 
   }
 
-  GetAllErrors() {
-
+  GoToDetails(solicitudId) {
+    this.router.navigate(['/detalle', solicitudId]);
   }
 
   SetFiles(fileList) {
     this.archivos = fileList;
   }
 
-  anularSolicitud(){
-    
-    alert('anular')
-    
+  anularSolicitud() {
+
+    const solicitudId: number = this.solicitudAyudaForm.controls.solicitudId.value;
+
+    Swal.fire({
+      title: 'Anular Solicitud',
+      text: `Seguro que desea Anular esta solicitud?`,
+      icon: 'question',
+      showConfirmButton: true,
+      confirmButtonText: 'Si, Anular',
+      confirmButtonColor: 'red',
+      showCancelButton: true,
+      cancelButtonText: 'No',
+      preConfirm: () => {
+        return new Promise((resolve, reject) => {
+          this.dataService.Anular(solicitudId).subscribe(response => {
+            resolve(response)
+          }, err => {
+            reject(err);
+          })
+
+        })
+      }
+    }).then((alertResult: any) => {
+      if (alertResult.isConfirmed) {
+        
+        const response:HttpDataResponse<number> = alertResult.value;
+
+        if (response && response.Success) {
+          Swal.fire({
+            title: `Solicitud Anulada`,
+            text: `solicitud ${solicitudId} anulada correctamente`,
+            icon: 'warning'
+          })
+
+          this.GoToDetails(solicitudId);          
+        }
+        else {
+          Swal.fire({
+            title: 'Error al anular solicitud',
+            html: `Error al procesar: ${this.util.GetUlList(response)}`,
+            icon: 'error'
+          })
+        }
+      }
+    }).catch(error => {
+      Swal.showValidationMessage(
+        `Request failed: ${error}`
+      )
+    });
   }
 
 }
+
 
 //Mask plugin documentation
 //https://www.npmjs.com/package/ngx-mask

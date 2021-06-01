@@ -75,7 +75,7 @@ export class FileUploaderComponent implements OnInit {
     return sum;
   }
 
-  eliminarArchivo(uploadedFile:UploadedFile, index){
+  eliminarArchivo(uploadedFile:UploadedFile, index){    
     Swal.fire({
       title: 'Elimar archivo adjunto',
       text:  `Seguro que desea eliminar el archivo -> ${uploadedFile.DisplayName}?`,
@@ -85,35 +85,11 @@ export class FileUploaderComponent implements OnInit {
       confirmButtonColor: 'red',
       showCancelButton: true,
       cancelButtonText: 'No',
-      preConfirm: () => {
-        let url = this.dataService.GetUrl(`files/delete?id=${uploadedFile.Id}`);
+      preConfirm: () => this.dataService.EliminarAdjunto(uploadedFile.Id) 
+    }).then((alertResult:any) => {
+      if(alertResult.isConfirmed){
         
-        return fetch(url, {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          mode: 'cors', // no-cors, *cors, same-origin
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: 'same-origin', // include, *same-origin, omit
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.cookieService.get('token')}`     
-          },                    
-          body: "" // body data type must match "Content-Type" header
-        }).then(response => {
-          if (!response.ok) {
-            throw new Error(response.statusText)
-          }          
-          return response.json();
-
-        }).catch(error => {
-          console.log(error);
-          Swal.showValidationMessage(            
-            `Request failed: ${error}`
-          )
-        });
-      }
-    }).then((result) => {
-      if(result.isConfirmed){
-        if(result.value.success){
+        if(alertResult.value && alertResult.value.Success){
           Swal.fire({
             title: `Archivo Eliminado`,
             text: `${uploadedFile.DisplayName} eliminado correctamente`,
@@ -125,14 +101,17 @@ export class FileUploaderComponent implements OnInit {
         else{
           Swal.fire({
             title: 'Error al eliminar archivo',
-            html: `Error al procesar: ${this.utilsService.GetUnorderedList(result.value.errors)}`,
+            html: `Error al procesar: ${this.utilsService.GetUnorderedList(alertResult.value.Errors)}`,
             icon:'error'
             }
           )
         }        
       }
-    })
+    }).catch(error => {      
+      Swal.showValidationMessage(            
+        `Request failed: ${error}`
+      )
+    });
+    
   }
-
-
 }

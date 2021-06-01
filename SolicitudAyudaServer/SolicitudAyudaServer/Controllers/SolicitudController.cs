@@ -271,10 +271,17 @@ namespace SolicitudAyudaServer.Controllers
         {
             HttpDataResponse response = new HttpDataResponse();
 
-            var solicitud = db.Solicitudes.Single(s => s.Id == solicitudId);
-            solicitud.EstadoId = 5;
+            if (this.permisosService.VerificarPermiso(UsuarioId, 5))
+            {
+                service.AnularSolicitud(solicitudId);
 
-            db.SaveChanges();
+                response.Data = solicitudId;
+            }
+            else {
+                response.AddError("Usted no tiene permiso para realizar esta operación");
+            }
+
+            
 
             return response;
         }

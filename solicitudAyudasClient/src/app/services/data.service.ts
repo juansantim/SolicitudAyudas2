@@ -20,10 +20,24 @@ import { ItemModel } from '../model/itemModel';
 import { LoginModel } from '../model/LoginModel';
 import { SolicitudAyuda } from '../model/Solicitud/solicitudAyuda';
 import { TipoSolicitud } from '../model/Solicitud/TipoSolicitud';
+import { HttpDataResponse } from '../model/HttpDataResponse';
+import { rejects } from 'assert';
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
+  EliminarAdjunto(id: any) {
+    let url = this.GetUrl(`files/delete?id=${id}`);
+
+    return new Promise((resolve, reject) => {
+      this.http.delete<HttpDataResponse<any>>(url).subscribe(response => {
+        resolve(response)
+      }, err => {
+        reject(err)
+      })
+    })
+  }
 
   CheckToken() {
     const url = this.GetUrl('Account/heartbeat');
@@ -34,9 +48,10 @@ export class DataService {
     return JSON.parse(this.cookieService.get("usuario"));
   }
 
-  Anular(solicitudId: number) {
+  Anular(solicitudId: number): Observable<HttpDataResponse<number>> {
     let url = this.GetUrl(`Solicitud/Anular?solicitudId=${solicitudId}`);
-    return this.http.post(url, solicitudId);
+
+    return this.http.post<HttpDataResponse<number>>(url, solicitudId);
   }
 
   GetPuedeModificarSolicitud() {
@@ -206,7 +221,7 @@ export class DataService {
 
   userSpace: string = 'usuario';
 
-  Login(loginModel:LoginModel): Observable<UserProfile> {
+  Login(loginModel: LoginModel): Observable<UserProfile> {
     return this.http.post<UserProfile>(this.GetUrl('Account'), {
       Login: loginModel.usuario,
       Password: loginModel.password
@@ -228,6 +243,7 @@ export class DataService {
     }
 
   }
+
 
   bsModalRef: BsModalRef;
 

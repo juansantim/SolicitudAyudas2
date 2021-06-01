@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpDataResponse } from '../model/HttpDataResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -6,19 +7,24 @@ import { Injectable } from '@angular/core';
 export class UtilsService {
 
   GetUnorderedList(list:Array<string>){
+    let ul = '';    
     if(list.length > 0){
-      let ul = '<ul>';    
-      ul += '</ul>'
-
+      ul = '<ul>';          
       list.forEach(text => {
         ul += '<li>';
         ul += text
         ul += '</li>';
       });
-
-      return ul;
+      ul += '</ul>'
     }
-    return "";    
+    
+    return ul;    
   }
+
+  
+  public GetUlList(httpDataResponse: HttpDataResponse<any>) {
+    return this.GetUnorderedList(httpDataResponse.Errors);
+  }
+  
   constructor() { }
 }
