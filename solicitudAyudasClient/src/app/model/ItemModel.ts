@@ -1,4 +1,4 @@
 export interface ItemModel{
-    id:number;
-    nombre:string;
+    Id:number;
+    Nombre:string;
 }

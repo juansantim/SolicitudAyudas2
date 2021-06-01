@@ -16,10 +16,10 @@ import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
 import { AppAuthState } from '../store/app.auth.reducers';
 import { Store } from '@ngrx/store';
 import { UserProfile } from '../model/UserProfile';
-import { Solicitud } from '../model/ConsultaSolicitudes/Solicitud';
-import { PaginatedResult } from '../model/ConsultaSolicitudes/SolicitudConsultaDTO';
+import { PaginatedResult } from '../model/ConsultaSolicitudes/PaginatedResult';
 import { ItemModel } from '../model/itemModel';
-
+import { LoginModel } from '../model/LoginModel';
+import { SolicitudAyuda } from '../model/Solicitud/solicitudAyuda';
 @Injectable({
   providedIn: 'root'
 })
@@ -167,10 +167,10 @@ export class DataService {
     return this.http.get(url);
   }
 
-  ConsultaSolicitudes(filtro: FiltroData): Observable<PaginatedResult<Solicitud>> {
+  ConsultaSolicitudes(filtro: FiltroData): Observable<PaginatedResult<SolicitudAyuda>> {
     let url = this.GetUrl('Solicitud/paginada');
 
-    return this.http.post<PaginatedResult<Solicitud>>(url, filtro);
+    return this.http.post<PaginatedResult<SolicitudAyuda>>(url, filtro);
   }
 
   Download(fileId: number): Observable<any> {
@@ -206,10 +206,10 @@ export class DataService {
 
   userSpace: string = 'usuario';
 
-  Login(usuario: string, password: string): Observable<UserProfile> {
+  Login(loginModel:LoginModel): Observable<UserProfile> {
     return this.http.post<UserProfile>(this.GetUrl('Account'), {
-      Login: usuario,
-      Password: password
+      Login: loginModel.usuario,
+      Password: loginModel.password
     });
   }
 

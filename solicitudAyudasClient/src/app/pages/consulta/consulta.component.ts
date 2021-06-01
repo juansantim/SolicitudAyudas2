@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Solicitud } from 'src/app/model/ConsultaSolicitudes/Solicitud';
+import { tap } from 'rxjs/operators';
 import { FiltroData } from 'src/app/model/FiltroData';
+import { SolicitudAyuda } from 'src/app/model/Solicitud/solicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
 import { ConsultaService } from './consulta.service';
 
@@ -15,7 +16,7 @@ export class ConsultaComponent implements OnInit {
   
   filtro: FiltroData;
   totalItems: number;
-  data:Array<Solicitud> = [];
+  data:Array<SolicitudAyuda> = [];
 
   loading: boolean;
 
@@ -43,10 +44,11 @@ export class ConsultaComponent implements OnInit {
   LoadData(){
     this.filtro.Page = this.page;
     this.consultaService.SetLoading.next(true);
-    this.dataService.ConsultaSolicitudes(this.filtro).subscribe(data => {      
+    this.dataService.ConsultaSolicitudes(this.filtro)    
+    .subscribe(data => {      
       
-      this.totalItems = data.totalItems;
-      this.data = data.data;
+      this.totalItems = data.TotalItems;
+      this.data = data.Data;
 
       this.consultaService.SetLoading.next(false);
     });

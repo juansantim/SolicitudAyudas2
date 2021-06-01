@@ -15,7 +15,7 @@ export class AppHttpInterceptor implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const userCredentias = this.dataService.GetUserCredentials()
-        let Authorization = `Bearer ${userCredentias?.token}`;
+        let Authorization = `Bearer ${userCredentias?.Token}`;
 
         return next.handle(req.clone({ setHeaders: { Authorization } }));
     }

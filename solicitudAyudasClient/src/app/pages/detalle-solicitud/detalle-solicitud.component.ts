@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SolicitudAyuda } from 'src/app/model/Solicitud/solicitudAyuda';
 import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
 
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class DetalleSolicitudComponent implements OnInit {
 
-  solicitud: any = {};
+  solicitud: SolicitudAyuda;
   cargandoSolicitud = false;
 
   constructor(private route: ActivatedRoute, 
@@ -44,17 +45,15 @@ export class DetalleSolicitudComponent implements OnInit {
   }
 
   getValorRequisito(requisito){
-    if(requisito.value == 'true'){
+    if(requisito.Value == 'true'){
       return "SI"      
     }
 
-    if(requisito.value == 'false'){
+    if(requisito.Value == 'false'){
       return "NO"      
     }
 
-    return requisito.value;
-
-
+    return requisito.Value;
   }
 
 }

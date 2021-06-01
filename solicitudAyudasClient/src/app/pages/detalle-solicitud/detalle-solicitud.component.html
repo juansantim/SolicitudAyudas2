@@ -1,133 +1,124 @@
 <div *ngIf="cargandoSolicitud">
-    <app-loading [show] = "true"></app-loading>
+    <app-loading [show]="true"></app-loading>
 </div>
-<div *ngIf="!cargandoSolicitud">
-    <h1>SOLICITUD # {{solicitud.numeroExpediente}}
-        <app-estado-solicitud *ngIf="solicitud.estadoId" [estadoId] = "solicitud.estadoId"  [nombre] = "solicitud.estado" ></app-estado-solicitud>
+<div *ngIf="!cargandoSolicitud && solicitud">
+    <h1>SOLICITUD # {{solicitud.NumeroExpediente}}
+        <app-estado-solicitud *ngIf="solicitud.EstadoId" [estadoId]="solicitud.EstadoId" [nombre]="solicitud.Estado">
+        </app-estado-solicitud>
     </h1>
     <fieldset>
         <legend>DATOS DE SOLICITANTE</legend>
         <div class="row">
             <div class="col">
                 <label class="encabezado">Cedula</label>
-                <h4 class="dato">{{solicitud.cedulaSolicitante}}</h4>
+                <h4 class="dato">{{solicitud.CedulaSolicitante}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Nombre Completo </label>
-                <h4 class="dato">{{solicitud.nombreSolicitante}}</h4>
+                <h4 class="dato">{{solicitud.Maestro}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Sexo </label>
-                <h4 class="dato">{{solicitud.sexoSolicitante}}</h4>
+                <h4 class="dato">{{solicitud.SexoMaestro}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Edad </label>
-                <h4 class="dato">{{solicitud.edad}}</h4>
+                <h4 class="dato">{{solicitud.Edad}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Email </label>
-                <h4 class="dato">{{solicitud.email}}</h4>
+                <h4 class="dato">{{solicitud.Email}}</h4>
             </div>
-        </div>    
+        </div>
         <div class="row">
             <div class="col">
                 <label class="encabezado">Seccional</label>
-                <h4 class="dato">{{solicitud.seccional}}</h4>
+                <h4 class="dato">{{solicitud.Seccional}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Cargo </label>
-                <h4 class="dato">{{solicitud.cargo}}</h4>
-            </div>     
+                <h4 class="dato">{{solicitud.Cargo}}</h4>
+            </div>
             <div class="col">
                 <label class="encabezado"> Banco </label>
-                <h4 class="dato">{{solicitud.banco}}</h4>
-            </div>   
+                <h4 class="dato">{{solicitud.Banco}}</h4>
+            </div>
             <div class="col">
                 <label class="encabezado"> Numero Cta </label>
-                <h4 class="dato">{{solicitud.numeroCuentaBanco}}</h4>
-            </div> 
-        </div> 
+                <h4 class="dato">{{solicitud.NumeroCuentaBanco}}</h4>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <label class="encabezado">Tipo Solicitud</label>
-                <h4 class="dato">{{solicitud.tipoSolicitud}}</h4>
-                <h3 class="dato" *ngIf="solicitud.categoriaId === 3">***{{solicitud.otroTipoSolicitud}}***</h3>
+                <h4 class="dato">{{solicitud.TipoSolicitud}}</h4>
+                <h3 class="dato" *ngIf="solicitud.CategoriaId === 3">***{{solicitud.OtroTipoSolicitud}}***</h3>
             </div>
             <div class="col">
                 <label class="encabezado"> Fecha Solicitud </label>
-                <h4 class="dato">{{solicitud.fechaSolicitud | date: 'dd/MM/yyyy'}}</h4>
+                <h4 class="dato">{{solicitud.FechaSolicitud | date: 'dd/MM/yyyy'}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Monto Solicitado </label>
-                <h4 class="dato">{{solicitud.montoSolicitado | currency}}</h4>
+                <h4 class="dato">{{solicitud.MontoSolicitado | currency}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Monto Aprobado </label>
-                <h4 class="dato">{{solicitud.montoAprobado? solicitud.montoAprobado : 0 | currency}}</h4>
+                <h4 class="dato">{{solicitud.MontoAprobado? solicitud.MontoAprobado : 0 | currency}}</h4>
             </div>
-        
-        </div> 
+
+        </div>
 
     </fieldset>
-    
 
+    <fieldset>
+        <legend>Requisitos</legend>
+        <div class="row">
+            <div class="col">
+                <ul>
+                    <li *ngFor="let r of solicitud.Requisitos">
+                        {{r.Nombre}} | <label class="badge badge-primary"> {{ getValorRequisito(r)}}</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul>
+
+                    <li *ngFor="let r of solicitud.Adjuntos">
+                        <!-- {{r | json}} -->
+                        <app-downloable-file [fileId]="r.Id" [fileName]="r.DisplayName" [fileSize]="r.SizeMB"
+                            [contentType]="r.ContentType"></app-downloable-file>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Comisión de aprobación:</legend>
+
+        <div class="row" style="font-weight: bold;">
+            <div class="col borde">Miembro</div>
+            <div class="col borde">Estado</div>
+            <div class="col borde">Fecha</div>
+            <div class="col borde">Comentario</div>
+        </div>
+        <div class="row" *ngFor="let m of solicitud.DatosAprobacion">
+            <div class="col unerlined">
+                {{m.Usuario}}
+            </div>
+            <div class="col unerlined">
+                <app-estado-solicitud *ngIf="m" [estadoId]="m.EstadoId" [nombre]="m.Estado"></app-estado-solicitud>
+            </div>
+            <div class="col unerlined">
+                {{m.fecha |date: 'dd/MM/yyyy hh:mm a'}}
+            </div>
+            <div class="col unerlined">
+                {{m.comentario}}
+            </div>
+        </div>
+    </fieldset>
+
+    <app-acciones [tipoSolicitudAyuda]="solicitud.TipoSolicitudId" [solicitudId]="solicitud.Id"
+        [procesado]="solicitud.ProcesadaPorUsuario"></app-acciones>
 </div>
-
-<fieldset>
-    <legend>Requisitos</legend>
-    <div class="row">
-        <div class="col">
-          <ul>
-              <li *ngFor="let r of solicitud.requisitos">
-                {{r.nombre}} | <label class="badge badge-primary"> {{ getValorRequisito(r)}}</label>
-              </li>
-          </ul>  
-        </div>
-        <div class="col">
-            <ul>
-                
-                <li *ngFor="let r of solicitud.adjuntos">
-                    <!-- {{r | json}} -->
-                  <app-downloable-file [fileId] ="r.id" 
-                  [fileName] = "r.displayName" 
-                  [fileSize] = "r.sizeMB" 
-                  [contentType] = "r.contentType"></app-downloable-file>
-                </li>
-            </ul>  
-        </div>
-    </div>
-</fieldset>
-
-<fieldset>
-    <legend>Comisión de aprobación:</legend>
-
-    <div class="row" style="font-weight: bold;">
-        <div class="col borde">Miembro</div>
-        <div class="col borde">Estado</div>
-        <div class="col borde">Fecha</div>
-        <div class="col borde">Comentario</div>
-    </div>
-    <div class="row" *ngFor="let m of solicitud.datosAprobacion">
-        <div class="col unerlined">
-            {{m.usuario}}
-        </div>
-        <div class="col unerlined">
-            <app-estado-solicitud *ngIf="m" [estadoId] = "m.estadoId" [nombre] = "m.estado"></app-estado-solicitud>
-        </div>
-        <div class="col unerlined">
-             {{m.fecha |date: 'dd/MM/yyyy hh:mm a'}}
-        </div>
-        <div class="col unerlined">
-            {{m.comentario}}
-        </div>
-    </div>
-</fieldset>
-
-<app-acciones *ngIf="solicitud.tipoSolicitudId" 
-[tipoSolicitudAyuda] = "solicitud.tipoSolicitudId"
-[solicitudId]= "solicitud.id"
-[procesado]="solicitud.procesadaPorUsuario"
-></app-acciones>
-
-<!-- 
-{{solicitud | json}} -->

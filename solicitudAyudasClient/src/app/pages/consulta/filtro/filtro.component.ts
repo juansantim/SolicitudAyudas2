@@ -104,7 +104,7 @@ export class FiltroComponent implements OnInit {
 
   onSeccionalSelected(e: ItemModel): void {
     this.selectedSeccional = e;
-    this.form.get('seccional').setValue(e.nombre)    
+    this.form.get('seccional').setValue(e.Nombre)    
   }
 
   getValueOrNull(value) {
@@ -118,12 +118,12 @@ export class FiltroComponent implements OnInit {
     let filtro: FiltroData = {
       ItemsPerPage: 10,
       Page: 1,
-      cedula: this.form.controls.cedulaChk.value ? this.getValueOrNull(raw.cedula) : null,
-      seccionalId: this.form.controls.seccinalChk.value ? this.selectedSeccional.id : null,
-      solicitudDesde: this.form.controls.solicitudDesdeChk.value ? this.getValueOrNull(raw.solicitudDesde) : null,
-      solicitudHasta: this.form.controls.solicitudHastaChk.value ? this.getValueOrNull(raw.solicitudHasta) : null,
-      aprobacionDesde: this.form.controls.aprobacionDesdeChk.value ? this.getValueOrNull(raw.aprobacionDesde) : null,
-      aprobacionHasta: this.form.controls.aprobacionHastaChk.value ? this.getValueOrNull(raw.aprobacionHasta) : null
+      Cedula: this.form.controls.cedulaChk.value ? this.getValueOrNull(raw.cedula) : null,
+      SeccionalId: this.form.controls.seccinalChk.value ? this.selectedSeccional.Id : null,
+      SolicitudDesde: this.form.controls.solicitudDesdeChk.value ? this.getValueOrNull(raw.solicitudDesde) : null,
+      SolicitudHasta: this.form.controls.solicitudHastaChk.value ? this.getValueOrNull(raw.solicitudHasta) : null,
+      AprobacionDesde: this.form.controls.aprobacionDesdeChk.value ? this.getValueOrNull(raw.aprobacionDesde) : null,
+      AprobacionHasta: this.form.controls.aprobacionHastaChk.value ? this.getValueOrNull(raw.aprobacionHasta) : null
     };
 
     let collapses = $('#collapseOne');

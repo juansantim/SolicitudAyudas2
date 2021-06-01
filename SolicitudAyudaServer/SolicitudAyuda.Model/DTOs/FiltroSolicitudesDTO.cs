@@ -9,12 +9,12 @@ namespace SolicitudAyuda.Model.DTOs
         public int ItemsPerPage { get; set; }
         public int Page { get; set; }
 
-        public string cedula { get; set; }
-        public int? seccionalId { get; set; }
-        public DateTime? solicitudDesde { get; set; }
-        public DateTime? solicitudHasta { get; set; }
-        public DateTime? aprobacionDesde { get; set; }
-        public DateTime? aprobacionHasta { get; set; }
+        public string Cedula { get; set; }
+        public int? SeccionalId { get; set; }
+        public DateTime? SolicitudDesde { get; set; }
+        public DateTime? SolicitudHasta { get; set; }
+        public DateTime? AprobacionDesde { get; set; }
+        public DateTime? AprobacionHasta { get; set; }
 
     }
 }

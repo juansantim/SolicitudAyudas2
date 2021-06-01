@@ -69,10 +69,10 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.NumeroExpediente,
                 solicitud.CedulaSolicitante,
                 Seccional = solicitud.Seccional.Nombre,
-                NombreSolicitante = solicitud.Maestro.NombreCompleto,
+                Maestro = solicitud.Maestro.NombreCompleto,
                 Edad = GetEdad(solicitud.Maestro),
                 FechaNacimiento = solicitud.Maestro.FechaNacimiento,
-                SexoSolicitante = solicitud.Maestro.Sexo,
+                SexoMaestro = solicitud.Maestro.Sexo,
                 solicitud.FechaSolicitud,
                 solicitud.Maestro.Cargo,
                 solicitud.MontoSolicitado,
@@ -175,7 +175,7 @@ namespace SolicitudAyuda.Model.Services
                 Nombre = tipo.Descripcion,
                 Descripcion = tipo.Descripcion,
                 requisito.Value,
-                values = Getvalues(tipo)
+                Values = Getvalues(tipo)
             };
         }
 
@@ -207,24 +207,24 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sc => sc.Estado)
                 .OrderBy(sc => sc.Id).AsQueryable();
 
-            if (!string.IsNullOrEmpty(filtro.cedula))
+            if (!string.IsNullOrEmpty(filtro.Cedula))
             {
-                query = query.Where(q => q.CedulaSolicitante == filtro.cedula);
+                query = query.Where(q => q.CedulaSolicitante == filtro.Cedula);
             }
 
-            if (filtro.seccionalId > 0)
+            if (filtro.SeccionalId > 0)
             {
-                query = query.Where(q => q.SeccionalId == filtro.seccionalId);
+                query = query.Where(q => q.SeccionalId == filtro.SeccionalId);
             }
 
-            if (filtro.solicitudDesde.HasValue)
+            if (filtro.SolicitudDesde.HasValue)
             {
-                query = query.Where(q => q.FechaSolicitud >= filtro.solicitudDesde);
+                query = query.Where(q => q.FechaSolicitud >= filtro.SolicitudDesde);
             }
 
-            if (filtro.solicitudHasta.HasValue)
+            if (filtro.SolicitudHasta.HasValue)
             {
-                query = query.Where(q => q.FechaSolicitud <= filtro.solicitudHasta);
+                query = query.Where(q => q.FechaSolicitud <= filtro.SolicitudHasta);
             }
 
             decimal itemsCount = query.Any() ? query.Count() : 0;

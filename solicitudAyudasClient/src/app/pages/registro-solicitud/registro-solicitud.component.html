@@ -336,8 +336,10 @@
 
     </fieldset>
 
-    <div class="card card-body bg-light">
+    <div class="div">
+        <input *ngIf="solicitudAyudaForm.controls.solicitudId.value" type="button" class="btn btn-danger" value="Anular Solicitud" (click) = "anularSolicitud()">
         <input type="submit" class="btn btn-success" value="Registrar Solicitud">
+        
    
    </div>
     <div class="row">

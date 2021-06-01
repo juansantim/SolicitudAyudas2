@@ -93,11 +93,12 @@ export class RegistroSolicitudComponent implements OnInit {
 
   ngOnInit() {
     
+    
     this.store.pipe(
       select(userProfile),
       first()
     ).subscribe(profile => {
-      this.bearer = profile.token;
+      this.bearer = profile.Token;
     })
 
     this.setSeccionalesDisabled();
@@ -594,6 +595,12 @@ export class RegistroSolicitudComponent implements OnInit {
 
   SetFiles(fileList) {
     this.archivos = fileList;
+  }
+
+  anularSolicitud(){
+    
+    alert('anular')
+    
   }
 
 }

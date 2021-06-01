@@ -50,7 +50,7 @@ export class AppComponent {
     const usuario:UserProfile = JSON.parse(this.cookieService.get("usuario"));
 
     if(usuario){
-      this.store.dispatch(LoginActions.login({usuario}));
+      this.store.dispatch(LoginActions.userLogedIn({usuario}));
     }
     else{
       this.store.dispatch(LoginActions.logOut());
@@ -63,6 +63,7 @@ export class AppComponent {
     this.userProfile$ = this.store.pipe(
       select(userProfile)
     );
+    
   }
 
   GetActive(){

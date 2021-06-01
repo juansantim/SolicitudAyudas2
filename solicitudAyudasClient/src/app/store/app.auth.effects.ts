@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError, tap } from 'rxjs/operators';
+import { EMPTY, of } from 'rxjs';
+import { map, mergeMap, catchError, tap, switchMap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AppCookieService } from '../services/app-cookie.service';
+import { DataService } from '../services/data.service';
 import { LoginActions } from './app.actions.types';
 
 @Injectable()
@@ -19,23 +20,50 @@ export class AuthEffects {
       if (action.type === "[Default Auth Guard] Cerrar Sesion")
         Swal.fire("Tiempo de sesión agotado", "Tiempo de inicio de sesión agotado, favor iniciar sesión nuevamente", "warning");
 
-      return ({ type: 'NO_ACTION' })
+      return ({ type: 'REDIRECT_TO_LOGIN' })
     }),
   ));
 
+  StartLogin$ = createEffect(() => this.actions$.pipe(
+      ofType(LoginActions.loginStarted),
+      mergeMap(action => this.dataService.Login(action.usuario).pipe(        
+        catchError(err => of(null)),        
+        map(usuario => {
+          if(usuario) {
+            return LoginActions.userLogedIn({ usuario })
+          } 
+          else{
+            return LoginActions.loginFail()
+          }
+         }),
+        
+      ))
+    ));
+
   SignIn$ = createEffect(() => this.actions$.pipe(
-    ofType(LoginActions.login),
-    map((payload) => {
-      this.cookieService.set("usuario", JSON.stringify(payload.usuario));
-      this.router.navigateByUrl("/inicio");
-      return ({ type: 'NO_ACTION' })
-    }),
-  )
-  );
+      ofType(LoginActions.userLogedIn),
+      map((action) => {
+        this.cookieService.set("usuario", JSON.stringify(action.usuario));
+
+             this.router.navigateByUrl("/inicio");
+        return ({ type: 'REDIRECT_TO_MAIN' })
+      }),
+    ));
+
+    LoginFailed$ = createEffect(() => this.actions$.pipe(
+      ofType(LoginActions.loginFail),
+      map((action) => {
+        Swal.fire("Error al iniciar sesión", "Favor verificar nombre de usuario y/o contraseña.", "error")        
+      }),
+    ), {
+      dispatch: false
+    });
 
   constructor(
     private actions$: Actions,
     private cookieService: AppCookieService,
-    private router: Router
+    private router: Router,
+    private activatedRoute:ActivatedRoute,
+    private dataService: DataService
   ) { }
 }

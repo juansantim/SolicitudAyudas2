@@ -33,7 +33,11 @@ namespace SolicitudAyudaServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                // Use the default property (Pascal) casing.
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
             services.AddControllersWithViews();
 
             services.AddDbContextPool<DataContext>(options =>
@@ -67,6 +71,7 @@ namespace SolicitudAyudaServer
                     };
                 });
 
+            
 
         }
 
@@ -99,6 +104,7 @@ namespace SolicitudAyudaServer
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }

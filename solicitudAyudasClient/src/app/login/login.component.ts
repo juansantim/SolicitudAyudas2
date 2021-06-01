@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { EMPTY } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError, first, map, shareReplay, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { LoginModel } from '../model/LoginModel';
@@ -11,6 +11,7 @@ import { AppCookieService } from '../services/app-cookie.service';
 import { DataService } from '../services/data.service';
 import { LoginActions } from '../store/app.actions.types';
 import { AppAuthState } from '../store/app.auth.reducers';
+import { iniciandoSesion } from '../store/app.selectors';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   })
 
-  cargando: boolean = false;
+  cargando$: Observable<boolean>;
 
   constructor(private router: Router,
     private dataService: DataService,
@@ -35,40 +36,25 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.cookieService.get('token')) {
-      this.router.navigate(['/inicio']);
-      this.dataService.showNav.next(true);
-    }
+    this.store.pipe(
+      tap(state => {
+        if (state.usuario) {
+          this.router.navigate(['/inicio']);
+        }
+      })
+    )
+
+    this.cargando$ = this.store.pipe(
+      select(iniciandoSesion)
+    )
   }
 
   login() {
 
     if (this.loginForm.valid) {
 
-      let { usuario, password } = this.loginForm.value;
-
-      this.cargando = true;
-
-      this.dataService.Login(usuario, password).pipe(
-        map(response => {
-          const user = {
-            email: response.email,
-            token: response.token,
-            nombreCompleto: response.nombreCompleto,
-            seccional: response.seccional
-          } as UserProfile
-          return user;
-        }),
-        first(),
-        catchError(err => {
-          Swal.fire("Error al iniciar sesion", "Nombre de usuario o clave incorrectas", 'error');
-          this.cargando = false;
-          return EMPTY
-        }),
-        map(usr => this.store.dispatch(LoginActions.login({ usuario: usr }))),
-        tap(() => this.cargando = false),
-      ).subscribe();
-
+      const loginModel: LoginModel = this.loginForm.value;
+      this.store.dispatch(LoginActions.loginStarted({ usuario: loginModel }))
     }
     else {
 
@@ -76,10 +62,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.get(key).markAsDirty();
       });
 
-
     }
-
-
   }
 
   onKey(event: KeyboardEvent) {

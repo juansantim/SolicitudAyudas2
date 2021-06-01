@@ -13,3 +13,8 @@ export const userProfile = createSelector(
     selectAuthState,
     (auth: AppAuthState) => auth.usuario
 )
+
+export const iniciandoSesion= createSelector(
+    selectAuthState,
+    (auth: AppAuthState) => auth.loginIn
+)
