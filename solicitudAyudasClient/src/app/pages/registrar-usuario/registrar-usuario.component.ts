@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreacionUsuarioDTO } from 'src/app/model/CreacionUsuarioDTO';
+import { SeccionalComponent } from 'src/app/common/seccional/seccional.component';
+import { HttpDataResponse } from 'src/app/model/HttpDataResponse';
+import { ItemModel } from 'src/app/model/itemModel';
+//import { CreacionUsuarioDTO } from 'src/app/model/CreacionUsuarioDTO';
 import { PermisoUsuarioDTO } from 'src/app/model/PermisoUsuarioDTO';
 import { SeccionalDTO } from 'src/app/model/SeccionalDTO';
+import { Usuario } from 'src/app/model/Usuarios/Usuario';
 import { DataService } from 'src/app/services/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import Swal from 'sweetalert2';
@@ -15,19 +19,23 @@ import Swal from 'sweetalert2';
 })
 export class RegistrarUsuarioComponent implements OnInit {
 
+  @ViewChild('seccionalComponent') seccionalesComponent: SeccionalComponent;
+
   formulario = new FormGroup({
-    cedula: new FormControl(''),
-    email: new FormControl('', Validators.email),
-    nombreCompleto: new FormControl(''),
-    seccional: new FormControl(''),
-    fechaNacimiento: new FormControl(''),
-    telefonoCelular: new FormControl(''),
-    telefonoResidencia: new FormControl(''),
-    telefonoLaboral: new FormControl(''),
-    sexo: new FormControl(''),
-    direccion: new FormControl(''),
-    cargo: new FormControl(''),
-    disponible:new FormControl('')
+    Id: new FormControl(''),
+    Cedula: new FormControl(''),
+    Email: new FormControl('', Validators.email),
+    NombreCompleto: new FormControl(''),
+    SeccionalId: new FormControl(''),
+    Seccional: new FormControl(''),
+    FechaNacimiento: new FormControl(''),
+    TelefonoCelular: new FormControl(''),
+    TelefonoResidencial: new FormControl(''),
+    TelefonoLabora: new FormControl(''),
+    Sexo: new FormControl(''),
+    Direccion: new FormControl(''),
+    Cargo: new FormControl(''),
+    Disponible: new FormControl('')
   });
 
   constructor(private dataService: DataService,
@@ -35,53 +43,58 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   seccional: any;
   cargando: boolean;
-  usuario: CreacionUsuarioDTO = new CreacionUsuarioDTO();
+  usuario: Usuario = {} as Usuario;
+
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      if(params['usuarioId']){     
+      if (params['usuarioId']) {
         this.usuario.Id = parseInt(params['usuarioId']);
 
         this.cargando = true;
         this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
-          let usr = response.data;
-  
-          this.formulario.get('cedula').setValue(usr.cedula);
-          this.formulario.get('email').setValue(usr.email);
-          this.formulario.get('nombreCompleto').setValue(usr.nombreCompleto);
-          this.formulario.get('seccional').setValue(usr.seccionalId);
-          this.formulario.get('fechaNacimiento').setValue(usr.fechaNacimiento);
-          this.formulario.get('telefonoCelular').setValue(usr.telefonoCelular);
-          this.formulario.get('telefonoResidencia').setValue(usr.telefonoResidencial);
-          this.formulario.get('telefonoLaboral').setValue(usr.telefonoLabora);
-          this.formulario.get('sexo').setValue(usr.sexo);
-          this.formulario.get('direccion').setValue(usr.direccion);
-          this.formulario.get('cargo').setValue(usr.cargo);
-          this.formulario.get('disponible').setValue(usr.disponible);
-  
+          let usr = response.Data;
+
+          this.formulario.get('Id').setValue(usr.Id);
+          this.formulario.get('Cedula').setValue(usr.Cedula);
+          this.formulario.get('Email').setValue(usr.Email);
+          this.formulario.get('NombreCompleto').setValue(usr.NombreCompleto);
+          this.formulario.get('SeccionalId').setValue(usr.SeccionalId);
+          this.formulario.get('Seccional').setValue(usr.Seccional);
+          this.formulario.get('FechaNacimiento').setValue(new Date(usr.FechaNacimiento));
+          this.formulario.get('TelefonoCelular').setValue(usr.TelefonoCelular);
+          this.formulario.get('TelefonoResidencial').setValue(usr.TelefonoResidencial);
+          this.formulario.get('TelefonoLabora').setValue(usr.TelefonoLabora);
+          this.formulario.get('Sexo').setValue(usr.Sexo);
+          this.formulario.get('Direccion').setValue(usr.Direccion);
+          this.formulario.get('Cargo').setValue(usr.Cargo);
+          this.formulario.get('Disponible').setValue(usr.Disponible);
+
+
+
           this.cargando = false;
           this.dataService.userUserLoaded.next(this.usuario.Id);
           let seccionalDto: SeccionalDTO = new SeccionalDTO();
-          seccionalDto.seccionalId = usr.seccionalId;
-  
-          seccionalDto.seccional = usr.seccional;
-  
-          this.usuario.PermisosUsuario = usr.permisosUsuario;
-          this.usuario.ComisionesAprobacion = usr.comisionesAprobacion;
-  
+          seccionalDto.seccionalId = usr.SeccionalId;
+
+          seccionalDto.seccional = usr.Seccional;
+
+          this.usuario.PermisosUsuario = usr.PermisosUsuario;
+          this.usuario.ComisionesAprobacion = usr.ComisionesAprobacion;
+
           this.dataService.setSeccional.next(seccionalDto);
-  
+
         }, error => {
           this.cargando = false;
         });
       }
-      else{
+      else {
         this.dataService.GetPermisosYComisiones().subscribe(response => {
-          if(response.success){
+          if (response.success) {
             this.usuario.PermisosUsuario = response.data.permisos;
             this.usuario.ComisionesAprobacion = response.data.comisiones;
           }
-          
+
         }, error => {
 
         })
@@ -101,7 +114,6 @@ export class RegistrarUsuarioComponent implements OnInit {
   onSubmit() {
 
     let action = this.usuario.Id ? "Actualizar" : "Crear";
-    //let mensaje = this.usuario.Id ? "Usuario actualizado correctamente" : `se ha enviado un correo electrónico a ${email.value} para completar el registro`;
 
     if (this.formulario.valid) {
       Swal.fire({
@@ -115,70 +127,43 @@ export class RegistrarUsuarioComponent implements OnInit {
         allowOutsideClick: false,
         confirmButtonText: action,
         preConfirm: () => {
-          let confirmPromise = new Promise((resolve, reject) => {
-            let { cedula, email, nombreCompleto, fechaNacimiento,
-              telefonoCelular, telefonoResidencia, telefonoLaboral,
-              sexo, direccion, cargo, disponible } = this.formulario.controls;
-  
-            this.usuario.Cedula = cedula.value;
-            this.usuario.Email = email.value;
-            this.usuario.NombreCompleto = nombreCompleto.value;
-            this.usuario.SeccionalId = this.seccional;
-            this.usuario.FechaNacimiento = fechaNacimiento.value;
-            this.usuario.TelefonoCelular = telefonoCelular.value;
-            this.usuario.TelefonoResidencial = telefonoResidencia.value;
-            this.usuario.TelefonoLabora = telefonoLaboral.value;
-            this.usuario.Sexo = sexo.value
-            this.usuario.Direccion = direccion.value;
-            this.usuario.Cargo = cargo.value;
-            this.usuario.Host = `${location.protocol}//${location.host}`
-            this.usuario.Disponible = disponible.value === true? true: false;
-  
-            //let action = this.usuario.Id ? "actualizado" : "creado";
-  
-  
-            this.dataService.CrearUsuario(this.usuario).subscribe(response => {
-              // if (response.success) {
-              //   Swal.fire({
-              //     title: `Usuario ${action} satisfactoriamente`,
-              //     text: mensaje,
-              //     icon: 'info'
-              //   }).then(alertResult => {
-              //     this.router.navigate(['/consultausuarios'])
-              //   });
-              // }
-              // else {
-              //   Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUnorderedList(response.errors), 'error');
-              // }
+          return new Promise((resolve, reject) => {
+
+            const usuario = this.formulario.value as Usuario;
+            usuario.PermisosUsuario = [... this.usuario.PermisosUsuario];
+            usuario.ComisionesAprobacion = [...this.usuario.ComisionesAprobacion];
+
+
+            this.dataService.CrearUsuario(usuario).subscribe(response => {
+
               resolve(response);
             }, error => {
               reject(error);
-              //Swal.fire('Hubo un error al procesar solicitud', error.message, 'error');
             });
-  
+
+          }).catch(err => {
+            this.utils.DefaultGeneralFail();
           })
-
-          return confirmPromise;
         }
-      }).then(response => {
-        let value:any = response.value;
+      }).then(alertResult => {
+        let response: HttpDataResponse<any> = alertResult.value as HttpDataResponse<any>;
 
-        if(value.error){
-          Swal.fire('Hubo un error al procesar solicitud', 'Hubo un error al procesar solicitud. Favor contactar soporte', 'error');
+        if (response.Success) {
+          Swal.fire({
+            title: `Usuario ${action} satisfactoriamente`,
+            text: "Datos guardados correctamente",
+            icon: 'info'
+          }).then(alertResult => {
+            this.router.navigate(['/consultausuarios'])
+          });
         }
-        else{          
-            Swal.fire({
-                  title: `Usuario ${action} satisfactoriamente`,
-                  text: "Datos guardados correctamente",
-                  icon: 'info'
-                }).then(alertResult => {
-                  this.router.navigate(['/consultausuarios'])
-                });
+        else {
+          Swal.fire('Hubo un error al procesar solicitud', this.utils.GetUlList(response), 'error');
         }
 
-        console.log('RESOLVED', response);
+        //console.log('RESOLVED', alertResult);
       }).catch(err => {
-        console.log('CATCHED!',err);
+        this.utils.DefaultGeneralFail();
       })
     }
     else {
@@ -209,6 +194,7 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   SetSeccional(event) {
     this.seccional = event;
+    this.formulario.controls.seccional = event;
   }
   SearchCedula() {
 
@@ -218,6 +204,18 @@ export class RegistrarUsuarioComponent implements OnInit {
     return this.dataService.GetErrors(this.formulario, fieldName, errorName)
   }
 
+  // ngAfterViewChecked(): void {
+  //   if (this.formulario.controls.SeccionalId.value) {
+
+  //     const itemModel: ItemModel = {
+  //       Id: this.formulario.controls.SeccionalId.value,
+  //       Nombre: this.formulario.controls.Seccional.value
+  //     }
+
+  //     this.seccionalesComponent.SetSeccional(itemModel);
+  //   }
+
+  // }
 
 
 }

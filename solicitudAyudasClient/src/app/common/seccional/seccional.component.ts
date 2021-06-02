@@ -16,6 +16,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./seccional.component.css']
 })
 export class SeccionalComponent implements OnInit {
+  
+  SetSeccional(item:ItemModel){
+    this.selectedSeccional = item;
+    this.onSelect.next(this.selectedSeccional);
+  }
 
   constructor(private dataService: DataService,
     private store: Store<SeccionalesState>) {
@@ -35,7 +40,7 @@ export class SeccionalComponent implements OnInit {
 
   ngOnInit() {
 
-    this.seccionales$ = this.store.pipe(
+    const x = this.store.pipe(
       select(selectSeccionales),
       tap(seccionales => {
         if(!seccionales || seccionales.length == 0){
@@ -43,6 +48,12 @@ export class SeccionalComponent implements OnInit {
         }
       })
     )
+
+    this.seccionales$ = x;
+
+    x.subscribe(seccs => {
+      this.seccionales = seccs;
+    })
 
     this.loadingSeccionales$ = this.store.pipe(
       select(selectLoadingSeccionales)
@@ -56,9 +67,10 @@ export class SeccionalComponent implements OnInit {
   onRemove = new EventEmitter<number>();
 
   typeaheadOnSelect(e: TypeaheadMatch ): void {
-    this.selectedSeccional = e.item;
-    this.onSelect.next(this.selectedSeccional);
+    this.SetSeccional(e.item)
   }
+
+
 
   removerSeccional() {
     this.selectedSeccional = null;

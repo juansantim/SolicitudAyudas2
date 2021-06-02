@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
+import Swal from 'sweetalert2';
 import { HttpDataResponse } from '../model/HttpDataResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
+  
+  DefaultGeneralFail() {
+    Swal.fire("Error", "Hubo un error al procesar la solicitud. Intente de nuevamente. Si el problema persiste favor contactar a soporte", "error");
+  }
 
   GetUnorderedList(list:Array<string>){
     let ul = '';    

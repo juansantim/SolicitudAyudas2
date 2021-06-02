@@ -8,7 +8,7 @@ import { AppCookieService } from './app-cookie.service';
 import { FormatWidth } from '@angular/common';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
+//import { CreacionUsuarioDTO } from '../model/CreacionUsuarioDTO';
 import { FiltroDataUsuario } from '../model/FiltroDataUsuarios';
 import { SeccionalDTO } from '../model/SeccionalDTO';
 import { ActivacionUsuarioDTO } from '../model/ActivacionUsuarioDTO';
@@ -22,6 +22,8 @@ import { SolicitudAyuda } from '../model/Solicitud/solicitudAyuda';
 import { TipoSolicitud } from '../model/Solicitud/TipoSolicitud';
 import { HttpDataResponse } from '../model/HttpDataResponse';
 import { rejects } from 'assert';
+import { UsuarioForConsulta } from '../model/Usuarios/UsuarioForConsulta';
+import { Usuario } from '../model/Usuarios/Usuario';
 @Injectable({
   providedIn: 'root'
 })
@@ -93,18 +95,19 @@ export class DataService {
     return this.http.get<Array<ItemModel>>(url);
   }
 
-  GetDetalleUsuario(usuarioId: any): Observable<any> {
+  GetDetalleUsuario(usuarioId: any): Observable<HttpDataResponse<Usuario>> {
     let url = this.GetUrl(`account/GetDetalleUsuario?usuarioId=${usuarioId}`);
 
-    return this.http.get(url);
+    return this.http.get<HttpDataResponse<Usuario>>(url);
   }
 
-  GetUsuariosConsulta(filtro: FiltroDataUsuario): Observable<any> {
+  GetUsuariosConsulta(filtro: FiltroDataUsuario): Observable<HttpDataResponse<PaginatedResult<UsuarioForConsulta>>> {
     let url = this.GetUrl('account/consultaUsuarios');
-    return this.http.post(url, filtro);
+    
+    return this.http.post<HttpDataResponse<PaginatedResult<UsuarioForConsulta>>>(url, filtro);
   }
 
-  CrearUsuario(usuario: CreacionUsuarioDTO): Observable<any> {
+  CrearUsuario(usuario: Usuario): Observable<any> {
     var url = this.GetUrl('account/CrearUsuario');
     return this.http.post(url, usuario);
   }

@@ -4,27 +4,27 @@
         <div class="row">
             <div class="col-md-3">
                 <label>Correo Electrónico</label>
-                <input type="email" class="form-control" formControlName="email"
+                <input type="email" class="form-control" formControlName="Email"
                 required (keyup.enter) = "SearchEmail()"
                 (blur) ="SearchEmail()"
                 required
                 >
-                <app-validation-error-message *ngIf="GetErrors('email', 'email')"
+                <app-validation-error-message *ngIf="GetErrors('Email', 'email')"
                     textMessage="El email es inválido, favor corregir"></app-validation-error-message>
-                    <app-validation-error-message *ngIf="GetErrors('email', 'required')"
+                    <app-validation-error-message *ngIf="GetErrors('Email', 'required')"
                     textMessage="El email es obligatorio"></app-validation-error-message>
             </div>
             <div class="col-md-4">
                 <label>Nombre Completo</label>
-                <input type="text" class="form-control" formControlName="nombreCompleto" minlength="5" required>
-                <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'minlength')"
+                <input type="text" class="form-control" formControlName="NombreCompleto" minlength="5" required>
+                <app-validation-error-message *ngIf="GetErrors('NombreCompleto', 'minlength')"
                     textMessage="El nombre debe contener al menos 5 letras"></app-validation-error-message>
-                <app-validation-error-message *ngIf="GetErrors('nombreCompleto', 'required')"
+                <app-validation-error-message *ngIf="GetErrors('NombreCompleto', 'required')"
                     textMessage="El nombre es obligatorio"></app-validation-error-message>
             </div>
             <div class="col-md-5">
                 <label>Seccional</label>
-                <app-seccional (onSelect) = "SetSeccional($event)" (onRemove) = "seccional = null"></app-seccional>
+                <app-seccional (onSelect) = "SetSeccional($event)" (onRemove) = "seccional = null"  [enableField] = "true"></app-seccional>
                 <app-validation-error-message *ngIf="!seccional" textMessage="La seccional es requerida"></app-validation-error-message>
             </div>
         </div>
@@ -32,46 +32,46 @@
     <div class="row">
         <div class="col-md-3">
             <label>Cedula Solicitante</label>
-            <input type="text" class="form-control" mask="000-0000000-0" formControlName="cedula" required
+            <input type="text" class="form-control" mask="000-0000000-0" formControlName="Cedula" required
                 (keyup.enter)="SearchCedula()" minlength="11" (blur)="SearchCedula()">
 
-            <app-validation-error-message *ngIf="GetErrors('cedula', 'required')" textMessage="La cedula es requerida">
+            <app-validation-error-message *ngIf="GetErrors('Cedula', 'required')" textMessage="La cedula es requerida">
             </app-validation-error-message>
-            <app-validation-error-message *ngIf="GetErrors('cedula', 'minlength')"
+            <app-validation-error-message *ngIf="GetErrors('Cedula', 'minlength')"
                 textMessage="La cedula debe contener 11 digitos"></app-validation-error-message>
 
         </div>
         <div class="col-md-3">
             <label>Sexo</label>
-            <select class="form-control" formControlName="sexo" required>
+            <select class="form-control" formControlName="Sexo" required>
                 <option [ngValue]="null">--SELECCIONE--</option>
                 <option value="F">Femenino</option>
                 <option value="M">Masculino</option>
             </select>
-            <app-validation-error-message *ngIf="GetErrors('sexo', 'required')" textMessage="El sexo es obligatorio">
+            <app-validation-error-message *ngIf="GetErrors('Sexo', 'required')" textMessage="El sexo es obligatorio">
             </app-validation-error-message>
         </div>
         <div class="col-md-2">
             <label>Fecha Nacimiento</label>
-            <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaNacimiento" required>
-            <app-validation-error-message *ngIf="GetErrors('fechaNacimiento', 'required')"
+            <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="FechaNacimiento" required>
+            <app-validation-error-message *ngIf="GetErrors('FechaNacimiento', 'required')"
                 textMessage="La fecha de nacimiento es obligatoria"></app-validation-error-message>
 
         </div>
         <div class="col-md-2">
             <label>Cargo</label>
-            <input type="text" class="form-control" formControlName="cargo" required minlength="5">
-            <app-validation-error-message *ngIf="GetErrors('cargo', 'required')" textMessage="El cargo es oblogatorio">
+            <input type="text" class="form-control" formControlName="Cargo" required minlength="5">
+            <app-validation-error-message *ngIf="GetErrors('Cargo', 'required')" textMessage="El cargo es oblogatorio">
             </app-validation-error-message>
-            <app-validation-error-message *ngIf="GetErrors('cargo', 'minlength')"
+            <app-validation-error-message *ngIf="GetErrors('Cargo', 'minlength')"
                 textMessage="El cargo debe contener al menos 5 letras"></app-validation-error-message>
         </div>
         <div class="col-md-2">
             <label>Tel. Celular</label>
-            <input type="" class="form-control" mask="000-000-0000" formControlName="telefonoCelular" required>
-            <app-validation-error-message *ngIf="GetErrors('telefonoCelular', 'mask')"
+            <input type="" class="form-control" mask="000-000-0000" formControlName="TelefonoCelular" required>
+            <app-validation-error-message *ngIf="GetErrors('TelefonoCelular', 'mask')"
                 textMessage="Celular debe contener 10 dígitos"></app-validation-error-message>
-            <app-validation-error-message *ngIf="GetErrors('telefonoCelular', 'required')"
+            <app-validation-error-message *ngIf="GetErrors('TelefonoCelular', 'required')"
                 textMessage="Celular es requerido"></app-validation-error-message>
         </div>
 
@@ -81,22 +81,22 @@
     
         <div class="col-md-2">
             <label>Tel. Residencial</label>
-            <input type="text" class="form-control" mask="000-000-0000" formControlName="telefonoResidencia">
-            <app-validation-error-message *ngIf="GetErrors('telefonoResidencia', 'mask')"
+            <input type="text" class="form-control" mask="000-000-0000" formControlName="TelefonoResidencial">
+            <app-validation-error-message *ngIf="GetErrors('TelefonoResidencial', 'mask')"
                 textMessage="Teléfono residencial debe contener 10 dígitos"></app-validation-error-message>
         </div>
         <div class="col-md-2">
             <label>Tel. Laboral</label>
-            <input type="text" class="form-control" mask="000-000-0000" formControlName="telefonoLaboral" required>
-            <app-validation-error-message *ngIf="GetErrors('telefonoLaboral', 'required')"
+            <input type="text" class="form-control" mask="000-000-0000" formControlName="TelefonoLabora" required>
+            <app-validation-error-message *ngIf="GetErrors('TelefonoLabora', 'required')"
                 textMessage="Teléfono laboral es requerido"></app-validation-error-message>
-            <app-validation-error-message *ngIf="GetErrors('telefonoLaboral', 'mask')"
+            <app-validation-error-message *ngIf="GetErrors('TelefonoLabora', 'mask')"
                 textMessage="Teléfono laboral debe contener 10 dígitos"></app-validation-error-message>
         </div>
         <div class="col-md-8">
             <label>Direccion</label>
-            <textarea class="form-control" cols="2" required formControlName="direccion" required></textarea>
-            <app-validation-error-message *ngIf="GetErrors('direccion', 'required')"
+            <textarea class="form-control" cols="2" required formControlName="Direccion" required></textarea>
+            <app-validation-error-message *ngIf="GetErrors('Direccion', 'required')"
                 textMessage="La direccion es requerida"></app-validation-error-message>
         </div>
 
@@ -115,7 +115,7 @@
 
 <fieldset>
     <legend>Disponible</legend>
-    <input type="checkbox" class="form-control" formControlName="disponible">
+    <input type="checkbox" class="form-control" formControlName="Disponible">
 </fieldset>
 
 <div class="row">

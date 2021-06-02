@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FiltroDataUsuario } from 'src/app/model/FiltroDataUsuarios';
+import { UsuarioForConsulta } from 'src/app/model/Usuarios/UsuarioForConsulta';
 import { DataService } from 'src/app/services/data.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import Swal from 'sweetalert2';
@@ -16,7 +17,7 @@ export class ConsultaUsuariosComponent implements OnInit {
 
   cargando: boolean;
 
-  usuarios:Array<any> = [];
+  usuarios:UsuarioForConsulta[];
 
   ngOnInit() {
     this.filtro.Page = 1;
@@ -29,9 +30,17 @@ export class ConsultaUsuariosComponent implements OnInit {
   Search(){
     this.cargando = true;
     this.dataService.GetUsuariosConsulta(this.filtro).subscribe(response => {
-      this.filtro.TotalItems = response.data.totalItems
-      this.usuarios = response.data.data;
-      this.cargando = false
+      if(response.Success){
+        this.usuarios = [];
+
+        this.filtro.TotalItems = response.Data.TotalItems
+        this.usuarios = response.Data.Data;
+        this.cargando = false;
+      
+      }else{
+        Swal.fire('Error', this.utils.GetUlList(response), 'error');  
+      }
+      
     }, error => {
       Swal.fire('Error', 'Hubo un error al procesar solicitud', 'error');
       this.cargando = false;

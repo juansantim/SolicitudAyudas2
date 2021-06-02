@@ -1,7 +1,7 @@
 export class PermisoUsuarioDTO {
-    public id: number;
-    public nombre: string;
-    public usuarioId: number;
-    public permisoId: number;
-    public checked: boolean;
+    public Id: number;
+    public Nombre: string;
+    public UsuarioId: number;
+    public PermisoId: number;
+    public Checked: boolean;
 }

@@ -4,16 +4,24 @@
 
 
 <div class="input-group">
-    <input class="form-control " [disabled]="!(seccionales$ | async).length || selectedSeccional || !enableField"
-        name="seccional" [typeahead]="seccionales$ | async" [adaptivePosition]="true"
-        [typeaheadItemTemplate]="customItemTemplate" typeaheadOptionField="nombre" [(ngModel)]="seccional"
-        (typeaheadOnSelect)="typeaheadOnSelect($event)"
-        placeholder="Empiece a escribir y seleccione uno de la lista desplegada">
+    <input class="form-control" 
+    [disabled]="!(seccionales$ | async).length || selectedSeccional || !enableField"
+    name="seccional" 
+    [typeahead]="seccionales" 
+    [adaptivePosition]="true"
+    [typeaheadItemTemplate]="customItemTemplate" 
+    typeaheadOptionField="nombre" 
+    [(ngModel)]="seccional"
+    (typeaheadOnSelect)="typeaheadOnSelect($event)"
+    placeholder="Empiece a escribir y seleccione uno de la lista desplegada">
     <div class="input-group-append">
         <div class="input-group-append">
             <button class="btn btn-danger" *ngIf="selectedSeccional" (click)="removerSeccional()">Remover</button>
         </div>
     </div>
 </div>
+{{(seccionales$ | async).length}}
+{{(seccionales ).length}}
+
 
 <app-loading [show]="(loadingSeccionales$ | async)"></app-loading>

@@ -28,17 +28,17 @@
     </thead>
     <tbody >
         <tr *ngFor="let u of usuarios">
-            <td>{{u.email}}</td>
-            <td>{{u.nombreCompleto}}</td>
-            <td>{{u.seccional}}</td>
+            <td>{{u.Email}}</td>
+            <td>{{u.NombreCompleto}}</td>
+            <td>{{u.Seccional}}</td>
             <td>
-                <span class="badge badge-success" *ngIf="u.disponible">Disponible</span>
-                <span class="badge badge-danger" *ngIf="!u.disponible">No Disponible</span>
+                <span class="badge badge-success" *ngIf="u.Disponible">Disponible</span>
+                <span class="badge badge-danger" *ngIf="!u.Disponible">No Disponible</span>
             </td>
-            <td [innerHTML] = "GetUl(u.permisos)"></td>
-            <td [innerHTML] = "GetUl(u.comisiones)"></td>
+            <td [innerHTML] = "GetUl(u.Permisos)"></td>
+            <td [innerHTML] = "GetUl(u.Comisiones)"></td>
             <td>
-                <a routerLink="/modificarusuario/{{u.id}}" class="btn btn-primary">Ir a Detalle</a>
+                <a routerLink="/modificarusuario/{{u.Id}}" class="btn btn-primary">Ir a Detalle</a>
             </td>
         </tr>
     </tbody>
