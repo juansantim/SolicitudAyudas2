@@ -69,7 +69,7 @@ namespace SolicitudAyudaServer.Controllers
                     Token = tokenString,
                     Email = usuario.Email,
                     NombreCompleto = usuario.NombreCompleto,
-                    Seccional = usuario.Seccional == null? "N/A": usuario.Seccional.Nombre
+                    Seccional = usuario.Seccional == null ? "N/A" : usuario.Seccional.Nombre
                 });
             }
             else
@@ -129,89 +129,31 @@ namespace SolicitudAyudaServer.Controllers
         [HttpPost]
         [Authorize]
         [Route("CrearUsuario")]
-        public IActionResult CrearUsuario(CreacionUsuarioDTO usuarioDTO)
+        public HttpDataResponse CrearUsuario(CreacionUsuarioDTO usuarioDTO)
         {
             HttpDataResponse response = new HttpDataResponse();
 
-            var usuarioConEmail = db.Usuarios.FirstOrDefault(u => u.Email == usuarioDTO.Email && u.Disponible && (usuarioDTO.Id == 0));
-
-            if (usuarioConEmail != null)
+            if (usuarioDTO.Id == 0)
             {
-                response.AddError($"Ya existe un usuario con el email {usuarioDTO.Email} que pertenece a {usuarioConEmail.NombreCompleto}");
-                return new JsonResult(response);
+                response = this.usuariosService.VerificarEmailExiste(usuarioDTO);
             }
 
-            var usr = CurrentUsuario;
+            if (!response.Success) {
+                return response;
+            }
 
-            if (usr != null)
+            if (this.permisoService.VerificarPermiso(CurrentUsuario.Id, 8))
             {
-                db.Entry(usr).Collection(u => u.PermisosUsuario).Load();
+                var usuario = this.usuariosService.Submit(usuarioDTO);
 
-                if (usr.PermisosUsuario.Any(u => u.PermisoId == 8 && u.Disponible))
+                if (usuarioDTO.Id == 0)
                 {
-                    using (TransactionScope scope = new TransactionScope())
-                    {
-                        Usuario usuario = null;
+                    var id = this.dataProtector.Protect(usuario.Id.ToString());
+                    var activationUrl = $"{usuarioDTO.Host}/activar/{id}";
 
-                        if (usuarioDTO.Id > 0)
-                        {
-                            usuario = db.Usuarios
-                                .Include(u => u.Maestro).Single(u => u.Id == usuarioDTO.Id);
-
-                            if (usuario.Maestro == null)
-                            {
-                                usuario.Maestro = new Maestro();
-                            }
-                        }
-                        else
-                        {
-                            usuario = new Usuario();
-                            usuario.Maestro = new Maestro();
-
-                            db.Usuarios.Add(usuario);
-                        }
-
-                        usuario.Maestro.Cedula = usuarioDTO.Cedula;
-                        usuario.Maestro.NombreCompleto = usuarioDTO.NombreCompleto;
-                        usuario.Maestro.Cargo = usuarioDTO.Cargo;
-                        usuario.Maestro.SeccionalId = usuarioDTO.SeccionalId;
-                        usuario.Maestro.Sexo = usuarioDTO.Sexo;
-                        usuario.Maestro.FechaNacimiento = usuarioDTO.FechaNacimiento;
-                        usuario.Maestro.Direccion = usuarioDTO.Direccion;
-                        usuario.Maestro.TelefonoCelular = usuarioDTO.TelefonoCelular;
-                        usuario.Maestro.TelefonoLabora = usuarioDTO.TelefonoLabora;
-                        usuario.Maestro.TelefonoResidencial = usuarioDTO.TelefonoResidencial;
-
-                        usuario.Login = usuarioDTO.Login;
-                        usuario.Email = usuarioDTO.Email;
-                        usuario.NombreCompleto = usuarioDTO.NombreCompleto;
-                        usuario.FechaCreacion = DateTime.Now;
-                        usuario.Disponible = false;
-                        usuario.FechaInactivacion = null;
-                        usuario.SeccionalId = usuarioDTO.SeccionalId;
-                        usuario.Disponible = usuarioDTO.Disponible;
-
-                        ActualizarPermisos(usuarioDTO, usuario);
-                        ActualizarComisiones(usuarioDTO, usuario);
-
-                        db.SaveChanges();
-
-                        scope.Complete();
-
-                        if (usuarioDTO.Id == 0)
-                        {
-                            var id = this.dataProtector.Protect(usuario.Id.ToString());
-                            var activationUrl = $"{usuarioDTO.Host}/activar/{id}";
-
-                            sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
-                        }
-                    }
-
+                    sendEmailCreacionUsuario(usuarioDTO, activationUrl, "");
                 }
-                else
-                {
-                    response.AddError("Usted no tiene permisos para crear usuarios");
-                }
+
             }
             else
             {
@@ -219,74 +161,10 @@ namespace SolicitudAyudaServer.Controllers
             }
 
 
-            return new JsonResult(response);
+            return response;
         }
 
-        private void ActualizarPermisos(CreacionUsuarioDTO usuarioDTO, Usuario usuario)
-        {
-            foreach (var item in usuarioDTO.PermisosUsuario)
-            {
-                var permisoUsuario = db.PermisosUsuarios.FirstOrDefault(pu => pu.UsuarioId == usuario.Id && pu.PermisoId == item.PermisoId);
 
-                if (item.Checked)
-                {
-                    if (permisoUsuario == null)
-                    {
-                        db.PermisosUsuarios.Add(new PermisoUsuario
-                        {
-                            PermisoId = item.PermisoId,
-                            UsuarioId = usuario.Id,
-                            Disponible = true,
-                        });
-                    }
-                    else if (permisoUsuario.Disponible == false)
-                    {
-                        permisoUsuario.Disponible = true;
-                    }
-                }
-                else
-                {
-                    if (permisoUsuario != null)
-                    {
-                        permisoUsuario.Disponible = false;
-                    }
-                }
-            }
-        }
-
-        private void ActualizarComisiones(CreacionUsuarioDTO usuarioDTO, Usuario usuario)
-        {
-            foreach (var item in usuarioDTO.ComisionesAprobacion)
-            {
-                var comisionAprobacionUsuario = db.UsuarioComisionAprobacion.FirstOrDefault(pu => pu.UsuarioId == usuario.Id && pu.ComisionAprobacionId == item.ComisionAprobacionId);
-
-                if (item.Checked)
-                {
-                    if (comisionAprobacionUsuario == null)
-                    {
-                        db.UsuarioComisionAprobacion.Add(new UsuarioComisionAprobacion
-                        {
-                            ComisionAprobacionId = item.ComisionAprobacionId,
-                            UsuarioId = usuario.Id,
-                            UsuarioCreacionId = this.UsuarioId,
-                            FechaCreacion = DateTime.Now,
-                            Disponible = true
-                        });
-                    }
-                    else if (comisionAprobacionUsuario.Disponible == false)
-                    {
-                        comisionAprobacionUsuario.Disponible = true;
-                    }
-                }
-                else
-                {
-                    if (comisionAprobacionUsuario != null)
-                    {
-                        comisionAprobacionUsuario.Disponible = false;
-                    }
-                }
-            }
-        }
 
         public string sendEmailCreacionUsuario(CreacionUsuarioDTO usuarioDTO, string activationUrl, string cancelUrl)
         {
@@ -363,6 +241,7 @@ namespace SolicitudAyudaServer.Controllers
 
             response.Data = new CreacionUsuarioDTO
             {
+                Id = usuario.Id,
                 Cedula = usuario.Maestro.Cedula,
                 NombreCompleto = usuario.NombreCompleto,
                 Direccion = usuario.Maestro.Direccion,

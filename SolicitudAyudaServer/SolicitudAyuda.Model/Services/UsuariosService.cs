@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 
 namespace SolicitudAyuda.Model.Services
 {
@@ -154,6 +155,143 @@ namespace SolicitudAyuda.Model.Services
             return db.Usuarios.FirstOrDefault(u => u.Id == usuarioId
             && u.ChangePasswordCode == code
             && u.ChangePasswordCodeExpiration >= DateTime.Now);
+        }
+
+        public HttpDataResponse VerificarEmailExiste(CreacionUsuarioDTO usuarioDTO)
+        {
+            HttpDataResponse response = new HttpDataResponse();
+
+            var usuario = db.Usuarios.FirstOrDefault(u => u.Email == usuarioDTO.Email && u.Disponible && (usuarioDTO.Id == 0));
+
+            if (usuario != null)
+            {
+                response.AddError($"Ya existe un usuario con el email {usuarioDTO.Email} que pertenece a {usuario.NombreCompleto}");                
+            }
+
+            return response;
+        }
+
+        public Usuario Submit(CreacionUsuarioDTO usuarioDTO)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                Usuario usuario = null;
+
+                if (usuarioDTO.Id > 0)
+                {
+                    usuario = db.Usuarios.Include(u => u.Maestro).Single(u => u.Id == usuarioDTO.Id);
+
+                    if (usuario.Maestro == null)
+                    {
+                        usuario.Maestro = new Maestro();
+                    }
+                }
+                else
+                {
+                    usuario = new Usuario();
+                    usuario.Maestro = new Maestro();
+
+                    
+                }
+
+                usuario.Maestro.Cedula = usuarioDTO.Cedula;
+                usuario.Maestro.NombreCompleto = usuarioDTO.NombreCompleto;
+                usuario.Maestro.Cargo = usuarioDTO.Cargo;
+                usuario.Maestro.SeccionalId = usuarioDTO.SeccionalId;
+                usuario.Maestro.Sexo = usuarioDTO.Sexo;
+                usuario.Maestro.FechaNacimiento = usuarioDTO.FechaNacimiento;
+                usuario.Maestro.Direccion = usuarioDTO.Direccion;
+
+                usuario.Maestro.TelefonoCelular = usuarioDTO.TelefonoCelular;
+                usuario.Maestro.TelefonoLabora = usuarioDTO.TelefonoLabora;
+                usuario.Maestro.TelefonoResidencial = usuarioDTO.TelefonoResidencial;
+
+                usuario.Login = usuarioDTO.Login;
+                usuario.Email = usuarioDTO.Email;
+                usuario.NombreCompleto = usuarioDTO.NombreCompleto;
+                usuario.FechaCreacion = DateTime.Now;
+                usuario.Disponible = false;
+                usuario.FechaInactivacion = null;
+                usuario.SeccionalId = usuarioDTO.SeccionalId;
+                usuario.Disponible = usuarioDTO.Disponible;
+
+                ActualizarPermisos(usuarioDTO);
+                ActualizarComisiones(usuarioDTO);
+
+                if (usuario.Id == 0)
+                    db.Usuarios.Add(usuario);
+                db.SaveChanges();
+                scope.Complete();
+
+                return usuario;
+            }
+
+        }
+
+        private void ActualizarPermisos(CreacionUsuarioDTO usuarioDTO)
+        {
+            foreach (var item in usuarioDTO.PermisosUsuario)
+            {
+                var permisoUsuario = db.PermisosUsuarios.FirstOrDefault(pu => pu.UsuarioId == usuarioDTO.Id && pu.PermisoId == item.PermisoId);
+
+                if (item.Checked)
+                {
+                    if (permisoUsuario == null)
+                    {
+                        db.PermisosUsuarios.Add(new PermisoUsuario
+                        {
+                            PermisoId = item.PermisoId,
+                            UsuarioId = item.UsuarioId,
+                            Disponible = true,
+                        });
+                    }
+                    else if (permisoUsuario.Disponible == false)
+                    {
+                        permisoUsuario.Disponible = true;
+                    }
+                }
+                else
+                {
+                    if (permisoUsuario != null)
+                    {
+                        permisoUsuario.Disponible = false;
+                    }
+                }
+            }
+        }
+
+        private void ActualizarComisiones(CreacionUsuarioDTO usuarioDTO)
+        {
+            foreach (var item in usuarioDTO.ComisionesAprobacion)
+            {
+                var comisionAprobacionUsuario = db.UsuarioComisionAprobacion.FirstOrDefault(pu => pu.UsuarioId == usuarioDTO.Id && pu.ComisionAprobacionId == item.ComisionAprobacionId);
+
+                if (item.Checked)
+                {
+                    if (comisionAprobacionUsuario == null)
+                    {
+                        db.UsuarioComisionAprobacion.Add(new UsuarioComisionAprobacion
+                        {
+                            ComisionAprobacionId = item.ComisionAprobacionId,
+                            UsuarioId = item.UsuarioId,
+                            UsuarioCreacionId = item.UsuarioId,
+                            FechaCreacion = DateTime.Now,
+                            Disponible = true
+                        });
+                    }
+                    else if (comisionAprobacionUsuario.Disponible == false)
+                    {
+                        comisionAprobacionUsuario.Disponible = true;
+                    }
+                }
+                else
+                {
+                    if (comisionAprobacionUsuario != null)
+                    {
+                        comisionAprobacionUsuario.Disponible = false;
+                    }
+                }
+            }
         }
     }
 }

@@ -20,5 +20,7 @@ namespace SolicitudAyuda.Model.Services.Signatures
         List<ComisionAprobacionUsuarioDTO> GetComisionesAprobacion();
         void ActivarUsuario(ActivacionUsuarioDTO usuario);
         string EnableResetPassword(int usuarioId);
+        HttpDataResponse VerificarEmailExiste(CreacionUsuarioDTO usuarioDTO);
+        Usuario Submit(CreacionUsuarioDTO usuarioDTO);
     }
 }
