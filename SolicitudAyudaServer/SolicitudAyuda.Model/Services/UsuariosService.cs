@@ -220,6 +220,7 @@ namespace SolicitudAyuda.Model.Services
 
                 if (usuario.Id == 0)
                     db.Usuarios.Add(usuario);
+
                 db.SaveChanges();
                 scope.Complete();
 

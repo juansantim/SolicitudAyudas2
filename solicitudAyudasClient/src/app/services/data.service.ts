@@ -215,11 +215,16 @@ export class DataService {
     return this.http.get<TipoSolicitud[]>(this.GetUrl('TipoSolicitud/ConRequisitos'));
   }
 
-  GetSeccionales(): Observable<Array<ItemModel>> {
+  GetSeccionales(): Observable<ItemModel[]> {
     var seccionales = this.localStorageService.GetSeccionales();
 
-    return this.http.get<Array<ItemModel>>(this.GetUrl('seccionales'));
+    return this.http.get<ItemModel[]>(this.GetUrl('seccionales'));
   }
+
+  GetSeccionalesByTerm(term:string): Observable<ItemModel[]> {    
+    return this.http.get<ItemModel[]>(this.GetUrl(`seccionalesByTerm?term=${term}`));
+  }
+
 
 
   userSpace: string = 'usuario';

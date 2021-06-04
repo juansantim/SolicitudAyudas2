@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { delay, first, map } from 'rxjs/operators';
 import { SeccionalComponent } from 'src/app/common/seccional/seccional.component';
 import { HttpDataResponse } from 'src/app/model/HttpDataResponse';
 import { ItemModel } from 'src/app/model/itemModel';
@@ -39,20 +41,28 @@ export class RegistrarUsuarioComponent implements OnInit {
   });
 
   constructor(private dataService: DataService,
-    private utils: UtilsService, private router: Router, private activatedRoute: ActivatedRoute) { }
+    private utils: UtilsService, private router: Router, private activatedRoute: ActivatedRoute) {
+    this.usuarioId$ = this.activatedRoute.params.pipe(
+      first(),
+      map(prms => prms["usuarioId"] ? parseFloat(prms["usuarioId"]) : 0),
+    )
+  }
 
   seccional: any;
   cargando: boolean;
   usuario: Usuario = {} as Usuario;
 
+  usuarioId$: Observable<number>;
+
+
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      if (params['usuarioId']) {
-        this.usuario.Id = parseInt(params['usuarioId']);
+    this.usuarioId$.subscribe(usuarioId => {
+      if (usuarioId) {
+        this.usuario.Id = usuarioId
 
         this.cargando = true;
-        this.dataService.GetDetalleUsuario(this.usuario.Id).subscribe(response => {
+        this.dataService.GetDetalleUsuario(usuarioId).subscribe(response => {
           let usr = response.Data;
 
           this.formulario.get('Id').setValue(usr.Id);
@@ -194,7 +204,7 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   SetSeccional(event) {
     this.seccional = event;
-    this.formulario.controls.seccional = event;
+    this.formulario.controls.seccional.setValue(event);
   }
   SearchCedula() {
 
@@ -204,18 +214,21 @@ export class RegistrarUsuarioComponent implements OnInit {
     return this.dataService.GetErrors(this.formulario, fieldName, errorName)
   }
 
-  // ngAfterViewChecked(): void {
-  //   if (this.formulario.controls.SeccionalId.value) {
+  ngAfterViewInit() {
+    this.usuarioId$
+      .pipe(
+        delay(200)
+      )
+      .subscribe(usuarioId => {
+        if (usuarioId) {
+          console.log(usuarioId);
+          const itemModel: ItemModel = {
+            Id: this.formulario.controls.SeccionalId.value,
+            Nombre: this.formulario.controls.Seccional.value
+          }
+          this.seccionalesComponent.SetSeccional(itemModel);
+        }
+      })
 
-  //     const itemModel: ItemModel = {
-  //       Id: this.formulario.controls.SeccionalId.value,
-  //       Nombre: this.formulario.controls.Seccional.value
-  //     }
-
-  //     this.seccionalesComponent.SetSeccional(itemModel);
-  //   }
-
-  // }
-
-
+  }
 }

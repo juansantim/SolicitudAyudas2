@@ -569,9 +569,13 @@ namespace SolicitudAyuda.Model.Services
             return files;
         }
 
-        public HttpDataResponse CreateSolicitud(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
+        public HttpDataResponse Submit(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
         {
             HttpDataResponse response = new HttpDataResponse();
+
+            if (solicitud.Id > 0) {
+                return Update(solicitud, requestFiles, usuarioId);
+            }
 
             solicitud.EstadoId = 1;
             solicitud.UsuarioId = usuarioId;
@@ -591,7 +595,7 @@ namespace SolicitudAyuda.Model.Services
             return response;
         }
 
-        public HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
+        private HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId)
         {
             HttpDataResponse response = new HttpDataResponse();
 
@@ -627,7 +631,6 @@ namespace SolicitudAyuda.Model.Services
 
                     fileStorageService.SaveFiles(actualSolicitud.Id, files);
                 }
-
 
                 response.Data = new { SolicitudId = actualSolicitud.Id };
             }

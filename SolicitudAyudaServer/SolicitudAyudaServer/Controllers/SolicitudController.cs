@@ -57,27 +57,28 @@ namespace SolicitudAyudaServer.Controllers
             {
                 solicitud.Id = int.Parse(string.IsNullOrEmpty(HttpContext.Request.Form["SolicitudId"][0]) ? "0" : HttpContext.Request.Form["SolicitudId"].ToString());
 
+                bool emailShuldBeSended = false;
+                
                 if (solicitud.Id == 0)
                 {
-                    solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(HttpContext.Request.Form["Requisitos"].ToString());
-
-                    var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
-
-                    solicitud.Maestro = service.GetMaestro(maestroDto, solicitud, response);
-
-                    if (response.Success)
-                    {
-                        response = service.CreateSolicitud(solicitud, HttpContext.Request.Form.Files, UsuarioId);
-                        sendEmail(solicitud);
-                    }
-
-                    return response;
+                    emailShuldBeSended = true;
                 }
-                else
+
+                solicitud.Requisitos = JsonConvert.DeserializeObject<List<RequisitoSolicitud>>(HttpContext.Request.Form["Requisitos"].ToString());
+
+                var maestroDto = JsonConvert.DeserializeObject<MaestroDto>(HttpContext.Request.Form["MaestroDTO"].ToString());
+                solicitud.Maestro = service.GetMaestro(maestroDto, solicitud, response);
+
+                if (response.Success)
                 {
-                    return service.Update(solicitud, HttpContext.Request.Form.Files, UsuarioId);
-
+                    response = service.Submit(solicitud, HttpContext.Request.Form.Files, UsuarioId);
+                    
+                    if (emailShuldBeSended)
+                        sendEmail(solicitud);
                 }
+
+                return response;
+
             }
             catch (Exception ex)
             {
@@ -130,7 +131,7 @@ namespace SolicitudAyudaServer.Controllers
                 catch (Exception ex)
                 {
                     throw;
-                }               
+                }
             }
 
             return "Ok";
@@ -277,11 +278,12 @@ namespace SolicitudAyudaServer.Controllers
 
                 response.Data = solicitudId;
             }
-            else {
+            else
+            {
                 response.AddError("Usted no tiene permiso para realizar esta operación");
             }
 
-            
+
 
             return response;
         }

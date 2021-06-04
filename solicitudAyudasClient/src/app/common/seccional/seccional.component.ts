@@ -2,13 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable, Subscriber } from 'rxjs';
-import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { concatMap, debounceTime, delay, distinctUntilChanged, exhaustMap, filter, first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ItemModel } from 'src/app/model/itemModel';
 import { DataService } from 'src/app/services/data.service';
 import { loadSeccionales } from 'src/app/store/seccionales/app.seccionales.actions';
 import { SeccionalesState } from 'src/app/store/seccionales/app.seccionales.reducer';
 import { selectLoadingSeccionales, selectSeccionales } from 'src/app/store/seccionales/app.seccionales.selectors';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-seccional',
@@ -17,65 +16,53 @@ import Swal from 'sweetalert2';
 })
 export class SeccionalComponent implements OnInit {
   
-  SetSeccional(item:ItemModel){
-    this.selectedSeccional = item;
-    this.onSelect.next(this.selectedSeccional);
-  }
-
-  constructor(private dataService: DataService,
-    private store: Store<SeccionalesState>) {
-
-  }
-  
-  seccionales$: Observable<ItemModel[]>;
-  loadingSeccionales$: Observable<boolean>;
-
-  seccionales: Array<any> = [];
-  selectedSeccional: ItemModel;
-  seccional: any;
-  loadingSeccionales: boolean;
-
   @Input()
   enableField: boolean;
-
-  ngOnInit() {
-
-    const x = this.store.pipe(
-      select(selectSeccionales),
-      tap(seccionales => {
-        if(!seccionales || seccionales.length == 0){
-          this.store.dispatch(loadSeccionales())
-        }
-      })
-    )
-
-    this.seccionales$ = x;
-
-    x.subscribe(seccs => {
-      this.seccionales = seccs;
-    })
-
-    this.loadingSeccionales$ = this.store.pipe(
-      select(selectLoadingSeccionales)
-    )
-  }
-
+  
   @Output()
   onSelect = new EventEmitter<ItemModel>();
 
   @Output()
   onRemove = new EventEmitter<number>();
 
-  typeaheadOnSelect(e: TypeaheadMatch ): void {
-    this.SetSeccional(e.item)
+  seccionales$: Observable<ItemModel[]>;
+  loadingSeccionales$: Observable<boolean>;
+
+  selectedSeccional: ItemModel;
+  seccional: string;
+  loadingSeccionales: boolean;
+ 
+  constructor(private store: Store<SeccionalesState>) {
+    this.seccionales$ = new Observable(subscriber => {
+      subscriber.next(this.seccional)
+    }).pipe(
+      debounceTime(400),      
+      switchMap((token: string) => this.store.select(selectSeccionales).pipe(
+        map(seccs => seccs.filter(s => s.Nombre?.toLowerCase().includes(token?.toLowerCase())))
+      ))
+    )
+  }
+  
+  ngOnInit() {
+    this.store.dispatch(loadSeccionales());    
+    this.loadingSeccionales$ = this.store.pipe(
+      select(selectLoadingSeccionales)
+    )
+  }
+   
+  SetSeccional(item: ItemModel) {
+    this.selectedSeccional = item;
+    this.seccional = item.Nombre;
+    this.onSelect.next(this.selectedSeccional);
   }
 
-
+  typeaheadOnSelect(e: TypeaheadMatch): void {
+    this.SetSeccional(e.item)
+  }
 
   removerSeccional() {
     this.selectedSeccional = null;
     this.seccional = null;
     this.onRemove.next(null);
   }
-
 }

@@ -19,8 +19,8 @@ namespace SolicitudAyuda.Model.Services.Signatures
         Movimiento DetectarCambios(Entities.SolicitudAyuda actualSolicitud, DataContext db);
         Maestro GetMaestro(MaestroDto maestroDto, SolicitudAyuda.Model.Entities.SolicitudAyuda solicitud, HttpDataResponse response);
         List<FileDataDTO> GetFilesToUpLoad(IFormFileCollection files);
-        HttpDataResponse CreateSolicitud(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
-        HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
+        HttpDataResponse Submit(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
+        //HttpDataResponse Update(Entities.SolicitudAyuda solicitud, IFormFileCollection requestFiles, int usuarioId);
         Entities.SolicitudAyuda AnularSolicitud(int solicitudId);
     }
 }

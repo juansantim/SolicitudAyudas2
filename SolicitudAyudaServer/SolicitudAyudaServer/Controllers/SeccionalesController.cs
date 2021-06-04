@@ -27,5 +27,17 @@ namespace SolicitudAyudaServer.Controllers
                 Nombre = $"{s.Municipio.Provincia.Nombre} - {s.Nombre}"
             }).ToList();
         }
+
+
+        [Route("api/seccionalesByTerm")]
+        public dynamic seccionalesByTerm(string term)
+        {
+            return db.Seccionales.Where(s => s.Nombre.Contains(term)).Select(s => new
+            {
+                s.Id,
+                Nombre = $"{s.Municipio.Provincia.Nombre} - {s.Nombre}"
+            }).ToList();
+        }
+        
     }
 }

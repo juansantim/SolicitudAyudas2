@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-5">
                 <label>Seccional</label>
-                <app-seccional (onSelect) = "SetSeccional($event)" (onRemove) = "seccional = null"  [enableField] = "true"></app-seccional>
+                <app-seccional (onSelect) = "SetSeccional($event)" (onRemove) = "seccional = null"  [enableField] = "true" #seccionalComponent></app-seccional>
                 <app-validation-error-message *ngIf="!seccional" textMessage="La seccional es requerida"></app-validation-error-message>
             </div>
         </div>
