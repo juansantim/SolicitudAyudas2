@@ -202,9 +202,10 @@ export class RegistrarUsuarioComponent implements OnInit {
     });
   }
 
-  SetSeccional(event) {
+  SetSeccional(event:ItemModel) {
     this.seccional = event;
-    this.formulario.controls.seccional.setValue(event);
+    this.formulario.controls.SeccionalId.setValue(event.Id);
+    this.formulario.controls.Seccional.setValue(event.Nombre);
   }
   SearchCedula() {
 
