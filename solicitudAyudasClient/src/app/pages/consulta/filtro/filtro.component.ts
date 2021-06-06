@@ -11,6 +11,9 @@ import { ConsultaService } from '../consulta.service';
 
 import * as $ from 'jquery';
 import { ItemModel } from 'src/app/model/itemModel';
+import { ConsultaSolicitudState } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.reducers';
+import { Store } from '@ngrx/store';
+import { ConsultaActions } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.actions.types';
 
 defineLocale('es-do', esDoLocale);
 
@@ -28,7 +31,9 @@ export class FiltroComponent implements OnInit {
 
   loading: boolean;
 
-  constructor(private localeService: BsLocaleService, private dataService: DataService, private consultaService: ConsultaService) { }
+  constructor(private localeService: BsLocaleService,     
+    private consultaService: ConsultaService, 
+    private store:Store<ConsultaSolicitudState>) { }
 
   form = new FormGroup({
     cedulaChk: new FormControl(false),
@@ -100,8 +105,6 @@ export class FiltroComponent implements OnInit {
     this.form.get('seccional').setValue('')
   }
 
-
-
   onSeccionalSelected(e: ItemModel): void {
     this.selectedSeccional = e;
     this.form.get('seccional').setValue(e.Nombre)    
@@ -130,9 +133,8 @@ export class FiltroComponent implements OnInit {
     collapses.removeClass('show');
     collapses.addClass('hide');
 
-
-    this.consultaService.aplicarFiltro(filtro);
-
+    this.store.dispatch(ConsultaActions.filterChanged({filtro}))
+    
   }
 
 

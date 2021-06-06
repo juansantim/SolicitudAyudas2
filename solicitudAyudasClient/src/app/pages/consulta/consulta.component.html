@@ -14,7 +14,7 @@
           <th>Fecha Aprobacion</th>
       </thead>
       <tbody>
-          <tr *ngFor="let s of data">
+          <tr *ngFor="let s of (data$ | async)">
               <td>{{s.Id}}</td>
               <td>{{s.Cedula}}</td>
               <td>{{s.Solicitante}}</td>
@@ -36,7 +36,7 @@
     </table>
   </div>
 
-  <app-pagination [itemsPerPage] = "itemsPerPage" [totalItems] = "totalItems" (onPageChanged) = "pageChanged($event)"></app-pagination>
+  <app-pagination [itemsPerPage] = "itemsPerPage" (onPageChanged) = "pageChanged($event)"></app-pagination>
   <div style="align-content: center;">
     <app-loading [show] = "loading" ></app-loading>
   </div>

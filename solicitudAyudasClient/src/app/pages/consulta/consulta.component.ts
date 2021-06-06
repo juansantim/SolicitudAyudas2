@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FiltroData } from 'src/app/model/FiltroData';
 import { SolicitudAyuda } from 'src/app/model/Solicitud/solicitudAyuda';
-import { DataService } from 'src/app/services/data.service';
-import { ConsultaService } from './consulta.service';
-
+import { SolicitudEntityService } from 'src/app/services/StoreEntityServices/solicitud-entity.service';
+import { ConsultaActions } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.actions.types';
+import { ConsultaSolicitudState } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.reducers';
 @Component({
   selector: 'app-consulta',
   templateUrl: './consulta.component.html',
@@ -13,51 +15,38 @@ import { ConsultaService } from './consulta.service';
 export class ConsultaComponent implements OnInit {
   itemsPerPage: number = 10;
   page: number = 1;
-  
+
   filtro: FiltroData;
   totalItems: number;
-  data:Array<SolicitudAyuda> = [];
+  data: Array<SolicitudAyuda> = [];
+  data$: Observable<SolicitudAyuda[]>;
 
   loading: boolean;
 
-  constructor(private consultaService: ConsultaService,
-    private dataService: DataService) { }
-
+  constructor(private store: Store<ConsultaSolicitudState>,
+    solicitudEntityService: SolicitudEntityService) {
+      
+      this.data$ = solicitudEntityService.entities$.pipe(
+        map(entities => entities)
+      )
+  }
 
   ngOnInit() {
-    this.consultaService.aplicarFiltroEvent.subscribe(filtro => {
-      this.filtro = filtro;
 
-      filtro.ItemsPerPage = this.itemsPerPage;
-      filtro.Page = this.page;
+    this.store.pipe(
 
-      this.LoadData();
-
-    });
-
-    this.consultaService.SetLoading.subscribe(value => {
-      this.loading = value;
-    })
+    )
 
   }
 
-  LoadData(){
+  LoadData() {
     this.filtro.Page = this.page;
-    this.consultaService.SetLoading.next(true);
-    this.dataService.ConsultaSolicitudes(this.filtro)    
-    .subscribe(data => {      
-      
-      this.totalItems = data.TotalItems;
-      this.data = data.Data;
 
-      this.consultaService.SetLoading.next(false);
-    });
+    this.store.dispatch(ConsultaActions.filterChanged({ filtro: this.filtro }))
+
   }
 
   pageChanged(pageData) {
-    let page = pageData.page
-    this.page = page;
-
     this.LoadData();
   }
 

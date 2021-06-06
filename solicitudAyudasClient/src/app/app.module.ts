@@ -11,7 +11,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppHttpInterceptor } from './HttpInterceptor/AppHttpInterceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import {HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './common/loading/loading.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 
@@ -37,7 +37,7 @@ import { SelectedFilterComponent } from './pages/consulta/filtro/selected-filter
 import { AccionesComponent } from './pages/detalle-solicitud/acciones/acciones.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import {ResumenSolicitadoPorSucursalComponent} from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component';
+import { ResumenSolicitadoPorSucursalComponent } from './pages/estadisticas/resumen-solicitado-por-sucursal/resumen-solicitado-por-sucursal.component';
 import { ResumenAprobadoPorSeccionalComponent } from './pages/estadisticas/resumen-aprobado-por-seccional/resumen-aprobado-por-seccional.component';
 import { SeccionalComponent } from './common/seccional/seccional.component';
 import { ProcesarSolicitudComponent } from './pages/detalle-solicitud/procesar-solicitud/procesar-solicitud.component';
@@ -57,6 +57,19 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/app.auth.effects';
 import { SeccionalesReducer } from './store/seccionales/app.seccionales.reducer';
 import { SeccionalesEffects } from './store/seccionales/app.seccionales.effects';
+import { EntityDataModule, EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
+import { SolicitudDataService } from './services/StoreEntityServices/solicitud-data.service';
+import { SolicitudEntityService } from './services/StoreEntityServices/solicitud-entity.service';
+import { ConsultaReducer } from './store/ConsultaSolicitudes/consulta-solicitudes.reducers';
+import { ConsultaEffects } from './store/ConsultaSolicitudes/consulta-solicitudes.effects';
+import { SolicitudAyuda } from './model/Solicitud/solicitudAyuda';
+//import { entityConfig } from './entity-metadata';
+
+const entityMetaData: EntityMetadataMap = {
+  Solicitud: {
+    selectId: (solicitud:SolicitudAyuda) => solicitud.Id
+  }
+}
 
 @NgModule({
   declarations: [
@@ -104,16 +117,27 @@ import { SeccionalesEffects } from './store/seccionales/app.seccionales.effects'
     CollapseModule.forRoot(),
     AccordionModule.forRoot(),
     ModalModule.forRoot(),
-    StoreModule.forRoot({auth: AuthReducer, seccionales: SeccionalesReducer}),
+    StoreModule.forRoot({ auth: AuthReducer, seccionales: SeccionalesReducer, consulta: ConsultaReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([AuthEffects, SeccionalesEffects])
+    EffectsModule.forRoot([AuthEffects, SeccionalesEffects, ConsultaEffects]),
+    EntityDataModule.forRoot({ entityMetadata: entityMetaData }),
+    //EntityDataModule.forRoot(entityConfig)
   ],
-  entryComponents:[ProcesarSolicitudComponent],
+  entryComponents: [ProcesarSolicitudComponent],
   providers: [
-
     AuthGuardDefault,
-    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
+    SolicitudEntityService,
+    SolicitudDataService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private eds: EntityDefinitionService, 
+    private entityDataService:EntityDataService, 
+    solicitudDataService:SolicitudDataService) {
+      
+      eds.registerMetadataMap(entityMetaData);
+      entityDataService.registerService("Solicitud", solicitudDataService)
+  }
+ }

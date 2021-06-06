@@ -1,6 +1,7 @@
 <div class="nav justify-content-center">    
-        <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize] = "10"></pagination>
+        <pagination [totalItems]="totalItems$ |async" [itemsPerPage]="itemsPerPage" (pageChanged)="pageChanged($event)" [maxSize] = "10" [(ngModel)]="currentPage"></pagination>
     
-        <label class="badget" style="vertical-align: middle;"> |  {{totalPages()}}</label>
+        <!-- <label class="badget" style="vertical-align: middle;"> |  {{totalPages()}}</label> -->
+        <label class="badget" style="vertical-align: middle;"></label>
     
 </div>
