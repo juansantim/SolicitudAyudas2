@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
-
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-selected-filter',
   templateUrl: './selected-filter.component.html',

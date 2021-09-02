@@ -17,5 +17,9 @@ namespace SolicitudAyuda.Model.DTOs
         public int EstadoId { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public DateTime? FechaAprobacion { get; set; }
+        public override bool Equals(object obj)
+        {
+            return this.Id == (obj as SolicitudConsultaDTO).Id;
+        }
     }
 }

@@ -33,6 +33,9 @@ defineLocale('es-do', esDoLocale);
 })
 export class RegistroSolicitudComponent implements OnInit {
 
+  maestro: any;
+  cargandoCedula: boolean;
+
   bearer: string;
   //form controls:
   solicitudAyudaForm = new FormGroup({
@@ -53,6 +56,7 @@ export class RegistroSolicitudComponent implements OnInit {
     sexo: new FormControl(''),
     direccion: new FormControl('', Validators.required),
     montoAyuda: new FormControl(''),
+    montoAprobado: new FormControl(''),
     esJubiladoInabima: new FormControl(''),
     estadoCuenta: new FormControl('', Validators.required),
     motivoSolicitud: new FormControl('', Validators.required),
@@ -172,6 +176,7 @@ export class RegistroSolicitudComponent implements OnInit {
             }
 
             this.solicitudAyudaForm.controls.montoAyuda.setValue(solicitud.MontoSolicitado);
+            this.solicitudAyudaForm.controls.montoAprobado.setValue(solicitud.MontoAprobado);
 
             this.solicitudAyudaForm.controls.banco.setValue(solicitud.BancoId);
 
@@ -199,6 +204,8 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.otroTipoSolicitud.setValue(solicitud.OtroTipoSolicitud);
 
             this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.FechaSolicitud));
+
+
 
             this.uploadedFiles = solicitud.Adjuntos;
 
@@ -229,6 +236,19 @@ export class RegistroSolicitudComponent implements OnInit {
         }
       })
     }
+
+    this.solicitudAyudaForm.get("montoAprobado").disable();
+    this.solicitudAyudaForm.get("fechaSolicitud").valueChanges.subscribe(selectedValue => {
+      var cutDate = new Date(2021, 0, 1, 0, 0, 0, 0);
+      var date = new Date(selectedValue);
+
+      if(date < cutDate){
+        this.solicitudAyudaForm.get("montoAprobado").enable();
+      }
+      else{
+        this.solicitudAyudaForm.get("montoAprobado").disable();        
+      }      
+    })
 
   }
 
@@ -262,9 +282,6 @@ export class RegistroSolicitudComponent implements OnInit {
   }
 
 
-
-  maestro: any;
-  cargandoCedula: boolean;
   SearchCedula() {
     var fieldCedula = this.solicitudAyudaForm.get('cedula');
 
@@ -481,6 +498,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
           form.append("Concepto", this.solicitudAyudaForm.get('motivoSolicitud').value);
           form.append("MontoSolicitado", this.solicitudAyudaForm.get('montoAyuda').value);
+          form.append("MontoAprobado", this.solicitudAyudaForm.get("montoAprobado").value);
 
           form.append("Direccion", this.solicitudAyudaForm.get('direccion').value);
           form.append("BancoId", this.solicitudAyudaForm.get('banco').value,);
@@ -561,7 +579,7 @@ export class RegistroSolicitudComponent implements OnInit {
                 });
               }
               else {
-                let ul = this.util.GetUnorderedList(responseMessage.errors);
+                let ul = this.util.GetUnorderedList(responseMessage.Errors);
                 Swal.showValidationMessage(`Request failed: ${ul}`);
               }
 
@@ -627,8 +645,8 @@ export class RegistroSolicitudComponent implements OnInit {
       }
     }).then((alertResult: any) => {
       if (alertResult.isConfirmed) {
-        
-        const response:HttpDataResponse<number> = alertResult.value;
+
+        const response: HttpDataResponse<number> = alertResult.value;
 
         if (response && response.Success) {
           Swal.fire({
@@ -637,7 +655,7 @@ export class RegistroSolicitudComponent implements OnInit {
             icon: 'warning'
           })
 
-          this.GoToDetails(solicitudId);          
+          this.GoToDetails(solicitudId);
         }
         else {
           Swal.fire({
@@ -652,6 +670,11 @@ export class RegistroSolicitudComponent implements OnInit {
         `Request failed: ${error}`
       )
     });
+  }
+
+  onFechaSolicitudChanged(fecha) {
+    console.log(fecha)
+
   }
 
 }

@@ -20,16 +20,16 @@
 
             <div class="mb-0" id="filtersSelected">
                 <div class="col">
-                    <app-selected-filter [control]="form.get('cedula')" name="Cedula"></app-selected-filter>
-                    <app-selected-filter [control]="form.get('seccional')" *ngIf="selectedSeccional" name="Seccional">
+                    <app-selected-filter [control]="form.get('Cedula')" name="Cedula"></app-selected-filter>
+                    <app-selected-filter [control]="form.get('Seccional')" *ngIf="selectedSeccional" name="Seccional">
                     </app-selected-filter>
-                    <app-selected-filter [control]="form.get('solicitudDesde')" name="Solicitud Desde"
+                    <app-selected-filter [control]="form.get('SolicitudDesde')" name="Solicitud Desde"
                         format="dd/MM/yyyy"></app-selected-filter>
-                    <app-selected-filter [control]="form.get('solicitudHasta')" name="Solicitud Hasta"
+                    <app-selected-filter [control]="form.get('SolicitudHasta')" name="Solicitud Hasta"
                         format="dd/MM/yyyy"></app-selected-filter>
-                    <app-selected-filter [control]="form.get('aprobacionDesde')" name="Aprobacion Desde"
+                    <app-selected-filter [control]="form.get('AprobacionDesde')" name="Aprobacion Desde"
                         format="dd/MM/yyyy"></app-selected-filter>
-                    <app-selected-filter [control]="form.get('aprobacionHasta')" name="Aprobacion Hasta"
+                    <app-selected-filter [control]="form.get('AprobacionHasta')" name="Aprobacion Hasta"
                         format="dd/MM/yyyy"></app-selected-filter>
                 </div>
 
@@ -49,10 +49,10 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="cedulaChk">
+                                        <input type="checkbox" formControlName="CedulaChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="cedula" mask="000-0000000-0">
+                                <input type="text" class="form-control" formControlName="Cedula" mask="000-0000000-0">
                             </div>
                         </div>
 
@@ -63,12 +63,12 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="seccinalChk">
+                                        <input type="checkbox" formControlName="SeccinalChk">
                                     </div>
                                 </div>
 
                                 <div class="input-group-append">
-                                    <app-seccional [enableField]="form.get('seccinalChk').value"
+                                    <app-seccional [enableField]="form.get('SeccinalChk').value"
                                     (onSelect)="onSeccionalSelected($event)"></app-seccional>
                                 </div>
 
@@ -83,10 +83,10 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="solicitudDesdeChk">
+                                        <input type="checkbox" formControlName="SolicitudDesdeChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="solicitudDesde" bsDatepicker
+                                <input type="text" class="form-control" formControlName="SolicitudDesde" bsDatepicker
                                     #dp1="bsDatepicker">
                             </div>
                         </div>
@@ -97,10 +97,10 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="solicitudHastaChk">
+                                        <input type="checkbox" formControlName="SolicitudHastaChk">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" formControlName="solicitudHasta" bsDatepicker
+                                <input type="text" class="form-control" formControlName="SolicitudHasta" bsDatepicker
                                     #dp2="bsDatepicker">
                             </div>
                         </div>
@@ -112,11 +112,11 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="aprobacionDesdeChk">
+                                        <input type="checkbox" formControlName="AprobacionDesdeChk">
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" bsDatepicker #dp3="bsDatepicker"
-                                    formControlName="aprobacionDesde">
+                                    formControlName="AprobacionDesde">
                             </div>
                         </div>
 
@@ -127,11 +127,11 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input type="checkbox" formControlName="aprobacionHastaChk">
+                                        <input type="checkbox" formControlName="AprobacionHastaChk">
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" bsDatepicker #dp4="bsDatepicker"
-                                    formControlName="aprobacionHasta">
+                                    formControlName="AprobacionHasta">
                             </div>
                         </div>
                     </div>

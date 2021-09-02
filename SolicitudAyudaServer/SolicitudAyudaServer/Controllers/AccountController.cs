@@ -138,7 +138,8 @@ namespace SolicitudAyudaServer.Controllers
                 response = this.usuariosService.VerificarEmailExiste(usuarioDTO);
             }
 
-            if (!response.Success) {
+            if (!response.Success)
+            {
                 return response;
             }
 
@@ -428,6 +429,15 @@ namespace SolicitudAyudaServer.Controllers
                 return dataProtector.Unprotect(text);
             }
             return "";
+        }
+
+        [HttpGet]
+        [Route("hashPass")]
+        [AllowAnonymous]
+        public string hashPass(string text)
+        {
+
+            return MD5Helper.MD5Hash(text);
         }
     }
 }

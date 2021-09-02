@@ -63,5 +63,7 @@ namespace SolicitudAyuda.Model.Entities
             Adjuntos = new List<AdjuntosSolicitud>();
             Comentarios = new List<ComentarioSolicitud>();
         }
+
+      
     }
 }

@@ -9,11 +9,14 @@ import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
 import { ConsultaService } from '../consulta.service';
 
+import {tap} from 'rxjs/operators'
+
 import * as $ from 'jquery';
 import { ItemModel } from 'src/app/model/itemModel';
 import { ConsultaSolicitudState } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.reducers';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { ConsultaActions } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.actions.types';
+import { filtroOfStore } from 'src/app/store/ConsultaSolicitudes/consulta-solicitudes.selectors';
 
 defineLocale('es-do', esDoLocale);
 
@@ -24,9 +27,6 @@ defineLocale('es-do', esDoLocale);
 })
 export class FiltroComponent implements OnInit {
 
-  filtrarPorCedula: boolean;
-  filtrarPorSeccional: boolean;
-
   today: Date;
 
   loading: boolean;
@@ -36,19 +36,19 @@ export class FiltroComponent implements OnInit {
     private store:Store<ConsultaSolicitudState>) { }
 
   form = new FormGroup({
-    cedulaChk: new FormControl(false),
-    seccinalChk: new FormControl(false),
-    solicitudDesdeChk: new FormControl(false),
-    solicitudHastaChk: new FormControl(false),
-    aprobacionDesdeChk: new FormControl(false),
-    aprobacionHastaChk: new FormControl(false),
+    CedulaChk: new FormControl(false),
+    SeccinalChk: new FormControl(false),
+    SolicitudDesdeChk: new FormControl(false),
+    SolicitudHastaChk: new FormControl(false),
+    AprobacionDesdeChk: new FormControl(false),
+    AprobacionHastaChk: new FormControl(false),
 
-    cedula: new FormControl(''),
-    seccional: new FormControl(''),
-    solicitudDesde: new FormControl(''),
-    solicitudHasta: new FormControl(''),
-    aprobacionDesde: new FormControl(''),
-    aprobacionHasta: new FormControl(''),
+    Cedula: new FormControl(''),
+    Seccional: new FormControl(''),
+    SolicitudDesde: new FormControl(''),
+    SolicitudHasta: new FormControl(''),
+    AprobacionDesde: new FormControl(''),
+    AprobacionHasta: new FormControl(''),
   })
 
   selectedSeccional: ItemModel;
@@ -57,23 +57,30 @@ export class FiltroComponent implements OnInit {
     this.today = new Date();
     this.localeService.use('es-do');
 
-    this.SetToggle('cedulaChk', 'cedula');
-    this.SetToggle('seccinalChk', 'seccional');
-    this.SetToggle('solicitudDesdeChk', 'solicitudDesde');
-    this.SetToggle('solicitudHastaChk', 'solicitudHasta');
-    this.SetToggle('aprobacionDesdeChk', 'aprobacionDesde');
-    this.SetToggle('aprobacionHastaChk', 'aprobacionHasta');
+    this.SetToggle('CedulaChk', 'Cedula');
+    this.SetToggle('SeccinalChk', 'Seccional');
+    this.SetToggle('SolicitudDesdeChk', 'SolicitudDesde');
+    this.SetToggle('SolicitudHastaChk', 'SolicitudHasta');
+    this.SetToggle('AprobacionDesdeChk', 'AprobacionDesde');
+    this.SetToggle('AprobacionHastaChk', 'AprobacionHasta');
 
-    this.SetDisabled('cedula');
-    this.SetDisabled('seccional');
-    this.SetDisabled('solicitudDesde');
-    this.SetDisabled('solicitudHasta');
-    this.SetDisabled('aprobacionDesde');
-    this.SetDisabled('aprobacionHasta');
+    this.SetDisabled('Cedula');
+    this.SetDisabled('Seccional');
+    this.SetDisabled('SolicitudDesde');
+    this.SetDisabled('SolicitudHasta');
+    this.SetDisabled('AprobacionDesde');
+    this.SetDisabled('AprobacionHasta');
 
     this.consultaService.SetLoading.subscribe(loading => {
       this.loading = loading;
     })
+
+    this.store.pipe(
+      select(filtroOfStore),
+      tap(filtro => {
+        this.form.setValue(filtro)
+      })
+    ).subscribe();
 
   }
 
@@ -121,12 +128,12 @@ export class FiltroComponent implements OnInit {
     let filtro: FiltroData = {
       ItemsPerPage: 10,
       Page: 1,
-      Cedula: this.form.controls.cedulaChk.value ? this.getValueOrNull(raw.cedula) : null,
-      SeccionalId: this.form.controls.seccinalChk.value ? this.selectedSeccional.Id : null,
-      SolicitudDesde: this.form.controls.solicitudDesdeChk.value ? this.getValueOrNull(raw.solicitudDesde) : null,
-      SolicitudHasta: this.form.controls.solicitudHastaChk.value ? this.getValueOrNull(raw.solicitudHasta) : null,
-      AprobacionDesde: this.form.controls.aprobacionDesdeChk.value ? this.getValueOrNull(raw.aprobacionDesde) : null,
-      AprobacionHasta: this.form.controls.aprobacionHastaChk.value ? this.getValueOrNull(raw.aprobacionHasta) : null
+      Cedula: this.form.controls.CedulaChk.value ? this.getValueOrNull(raw.Cedula) : null,
+      SeccionalId: this.form.controls.SeccinalChk.value ? this.selectedSeccional.Id : null,
+      SolicitudDesde: this.form.controls.SolicitudDesdeChk.value ? this.getValueOrNull(raw.SolicitudDesde) : null,
+      SolicitudHasta: this.form.controls.SolicitudHastaChk.value ? this.getValueOrNull(raw.SolicitudHasta) : null,
+      AprobacionDesde: this.form.controls.AprobacionDesdeChk.value ? this.getValueOrNull(raw.AprobacionDesde) : null,
+      AprobacionHasta: this.form.controls.AprobacionHastaChk.value ? this.getValueOrNull(raw.AprobacionHasta) : null
     };
 
     let collapses = $('#collapseOne');

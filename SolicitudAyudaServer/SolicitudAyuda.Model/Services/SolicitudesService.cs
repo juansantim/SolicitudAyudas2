@@ -228,6 +228,11 @@ namespace SolicitudAyuda.Model.Services
                 query = query.Where(q => q.FechaSolicitud <= filtro.SolicitudHasta);
             }
 
+            if (filtro.Estados != null && filtro.Estados.Count > 0) 
+            {
+                query = query.Where(s => filtro.Estados.Any(e => e == s.EstadoId));
+            }
+
             decimal itemsCount = query.Any() ? query.Count() : 0;
 
             query = query.Skip((filtro.Page - 1) * filtro.ItemsPerPage).Take(filtro.ItemsPerPage);
@@ -365,18 +370,18 @@ namespace SolicitudAyuda.Model.Services
             return result.ToString();
         }
 
-        public bool TieneSolicitudElMismoDia(Maestro maestro)
+        public bool TieneSolicitudElMismoDia(Maestro maestro, int solicitudId = 0)
         {
             var desde = DateTime.Now.AddDays(-1);
             var hasta = DateTime.Now;
 
             return db.Solicitudes.Any(s =>
             s.CedulaSolicitante == maestro.Cedula &&
-            s.FechaSolicitud >= desde &&
-            s.FechaSolicitud <= hasta && (s.EstadoId != 4 && s.EstadoId != 5));
+            s.Id != solicitudId&&
+            (s.FechaSolicitud >= desde && s.FechaSolicitud <= hasta) && (s.EstadoId != 4 && s.EstadoId != 5));
         }
 
-        public List<UltimasSolicitudesDTO> TieneSolicitudAntesTiempoReglamentario(Maestro maestro)
+        public List<UltimasSolicitudesDTO> TieneSolicitudAntesTiempoReglamentario(Maestro maestro, int solicitudId = 0)
         {
             var desde = DateTime.Now.AddDays(-this.TiempoReglamentario.Dias);
             var hasta = DateTime.Now;
@@ -384,7 +389,7 @@ namespace SolicitudAyuda.Model.Services
             return db.Solicitudes
                 .Include(s => s.Estado)
                 .Include(s => s.TipoSolicitud)
-                .Where(s => s.CedulaSolicitante == maestro.Cedula &&
+                .Where(s => s.CedulaSolicitante == maestro.Cedula && s.Id != solicitudId &&
             s.FechaSolicitud >= desde &&
             s.FechaSolicitud <= hasta && (s.EstadoId != 4 && s.EstadoId != 5))
                 .Select(t => new UltimasSolicitudesDTO
@@ -514,12 +519,12 @@ namespace SolicitudAyuda.Model.Services
 
             if (maestro != null)
             {
-                if (TieneSolicitudElMismoDia(maestro))
+                if (TieneSolicitudElMismoDia(maestro, solicitud.Id))
                 {
                     response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
                 }
 
-                var solicitudesAnteriores = TieneSolicitudAntesTiempoReglamentario(maestro);
+                var solicitudesAnteriores = TieneSolicitudAntesTiempoReglamentario(maestro, solicitud.Id);
 
                 if (solicitudesAnteriores.Count > 0)
                 {
@@ -592,6 +597,8 @@ namespace SolicitudAyuda.Model.Services
                 scope.Complete();
             }
 
+            response.Data = new { SolicitudId = solicitud.Id };
+            
             return response;
         }
 
@@ -613,6 +620,7 @@ namespace SolicitudAyuda.Model.Services
                 actualSolicitud.Concepto = solicitud.Concepto;
                 actualSolicitud.OtroTipoSolicitud = solicitud.OtroTipoSolicitud;
                 actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
+                actualSolicitud.MontoAprobado = solicitud.MontoAprobado;
 
                 List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
 

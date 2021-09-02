@@ -15,6 +15,6 @@ namespace SolicitudAyuda.Model.DTOs
         public DateTime? SolicitudHasta { get; set; }
         public DateTime? AprobacionDesde { get; set; }
         public DateTime? AprobacionHasta { get; set; }
-
+        public List<int> Estados { get; set; }
     }
 }

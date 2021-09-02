@@ -15,7 +15,7 @@ namespace SolicitudAyuda.Model
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
         public DbSet<Seccional> Seccionales { get; set; }
-        public DbSet<SolicitudAyuda.Model.Entities.SolicitudAyuda> Solicitudes { get; set; }
+        public virtual DbSet<SolicitudAyuda.Model.Entities.SolicitudAyuda> Solicitudes { get; set; }
         public DbSet<Maestro> Maestros { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<AdjuntosSolicitud> AdjuntosSolicitudes { get; set; }

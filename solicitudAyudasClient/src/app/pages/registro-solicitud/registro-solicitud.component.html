@@ -1,5 +1,5 @@
 <ng-template #customItemTemplate let-model="item" let-index="index">
-    <label>{{model.nombre}}</label>
+    <label>{{model.Nombre}}</label>
 </ng-template>
 
 <app-loading *ngIf="cargando"></app-loading>
@@ -61,7 +61,7 @@
                     [typeahead]="seccionales"
                     [adaptivePosition]="true" 
                     [typeaheadItemTemplate]="customItemTemplate" 
-                    typeaheadOptionField="nombre"
+                    typeaheadOptionField="Nombre"
                     (typeaheadOnSelect)="typeaheadOnSelect($event)"
                     placeholder="Empiece a escribir y seleccione uno de la lista desplegada" required>
                     <div class="input-group-append">
@@ -114,11 +114,18 @@
             <app-validation-error-message *ngIf="GetErrors('tipoDeAyuda', 'required')"
                 textMessage="Tipo de Ayuda es obligatorio"></app-validation-error-message>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <label style="font-weight: bold;">Monto de la Ayuda</label>
             <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
                 thousandSeparator="," formControlName="montoAyuda" required>
             <app-validation-error-message *ngIf="GetErrors('montoAyuda', 'required')"
+                textMessage="Monto de Ayuda es obligatorio"></app-validation-error-message>
+        </div>
+        <div class="col-md-3">
+            <label style="font-weight: bold;">Monto Aprobado</label>
+            <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
+                thousandSeparator="," formControlName="montoAprobado">
+            <app-validation-error-message *ngIf="GetErrors('montoAprobado', 'required')"
                 textMessage="Monto de Ayuda es obligatorio"></app-validation-error-message>
         </div>
     </div>
@@ -145,7 +152,7 @@
         <div class="col-md-3">
             <label>Fecha Solicitud</label>
             <input type="text" bsDatepicker class="form-control" formControlName="fechaSolicitud" minlength="5" name="fechaSolicitud" autocomplete="off">
-            <app-validation-error-message *ngIf="GetErrors('fechaSolicitud', 'required')"
+            <app-validation-error-message *ngIf="GetErrors('fechaSolicitud', 'required')" (change) = "onFechaSolicitudChanged($event.target.value)"
             textMessage="La fecha de solicitud es requerida"></app-validation-error-message>
 
             <app-validation-error-message *ngIf="GetErrors('fechaSolicitud', 'date')"
