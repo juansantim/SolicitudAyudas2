@@ -2,7 +2,7 @@
     <app-loading [show]="true"></app-loading>
 </div>
 <div *ngIf="!cargandoSolicitud && solicitud">
-    <h1>SOLICITUD # {{solicitud.NumeroExpediente}}
+    <h1>SOLICITUD # {{solicitud.Id}}
         <app-estado-solicitud *ngIf="solicitud.EstadoId" [estadoId]="solicitud.EstadoId" [nombre]="solicitud.Estado">
         </app-estado-solicitud>
     </h1>
@@ -61,6 +61,10 @@
             <div class="col">
                 <label class="encabezado"> Monto Solicitado </label>
                 <h4 class="dato">{{solicitud.MontoSolicitado | currency}}</h4>
+            </div>
+            <div class="col">
+                <label class="encabezado"> Fecha Aprobación</label>
+                <h4 class="dato">{{solicitud.FechaAprobacion | date: 'dd/MM/yyyy'}}</h4>
             </div>
             <div class="col">
                 <label class="encabezado"> Monto Aprobado </label>

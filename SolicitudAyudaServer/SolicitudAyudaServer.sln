@@ -7,12 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolicitudAyuda.Model", "Sol
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EC8E1F35-CD0F-4A09-BF52-18A4518AA670}"
 	ProjectSection(SolutionItems) = preProject
+		ReportRequeriments.txt = ReportRequeriments.txt
 		Requerimientos.txt = Requerimientos.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportsProject", "ReportsProject\ReportsProject.csproj", "{EBD2C3DA-C72E-4625-A231-2510515B1990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolicitudAyuda.Tests", "SolicitudAyuda.Tests\SolicitudAyuda.Tests.csproj", "{3E8372BC-0FB1-4E27-BE64-752B1FF44717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolicitudAyuda.Tests", "SolicitudAyuda.Tests\SolicitudAyuda.Tests.csproj", "{3E8372BC-0FB1-4E27-BE64-752B1FF44717}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolicitudAyudaServer", "SolicitudAyudaServer\SolicitudAyudaServer.csproj", "{0EC5BAF0-C664-415A-A07A-E7D049FDEE10}"
 EndProject

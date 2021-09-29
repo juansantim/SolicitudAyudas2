@@ -70,7 +70,8 @@ export class RegistroSolicitudComponent implements OnInit {
     RBPadreMadre: new FormControl(''),
     RBConyuge: new FormControl(''),
     otroTipoSolicitud: new FormControl(''),
-    fechaSolicitud: new FormControl('', Validators.required)
+    fechaSolicitud: new FormControl('', Validators.required),
+    fechaAprobacion: new FormControl('')
   });
 
   QuienRecibiraAyuda: Array<collectionItem> = [
@@ -205,7 +206,9 @@ export class RegistroSolicitudComponent implements OnInit {
 
             this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.FechaSolicitud));
 
+            this.solicitudAyudaForm.controls.fechaAprobacion.setValue((new Date(solicitud.FechaAprobacion)));
 
+            //this.solicitudAyudaForm.controls.ars
 
             this.uploadedFiles = solicitud.Adjuntos;
 
@@ -239,15 +242,17 @@ export class RegistroSolicitudComponent implements OnInit {
 
     this.solicitudAyudaForm.get("montoAprobado").disable();
     this.solicitudAyudaForm.get("fechaSolicitud").valueChanges.subscribe(selectedValue => {
-      var cutDate = new Date(2021, 0, 1, 0, 0, 0, 0);
-      var date = new Date(selectedValue);
+      // var cutDate = new Date(2021, 0, 1, 0, 0, 0, 0);
+      // var date = new Date(selectedValue);
 
-      if(date < cutDate){
-        this.solicitudAyudaForm.get("montoAprobado").enable();
-      }
-      else{
-        this.solicitudAyudaForm.get("montoAprobado").disable();        
-      }      
+      // if(date < cutDate){
+      //   this.solicitudAyudaForm.get("montoAprobado").enable();
+      // }
+      // else{
+      //   this.solicitudAyudaForm.get("montoAprobado").disable();        
+      // }      
+
+      this.solicitudAyudaForm.get("montoAprobado").enable();
     })
 
   }
@@ -516,6 +521,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
 
           form.append("FechaSolicitud", this.solicitudAyudaForm.get('fechaSolicitud').value.toISOString());
+          form.append("FechaAprobacion", this.solicitudAyudaForm.get('fechaAprobacion').value.toISOString());
 
           let requisitos = [];
 

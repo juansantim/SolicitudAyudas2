@@ -75,6 +75,7 @@ namespace SolicitudAyuda.Model.Services
                 FechaNacimiento = solicitud.Maestro.FechaNacimiento,
                 SexoMaestro = solicitud.Maestro.Sexo,
                 solicitud.FechaSolicitud,
+                solicitud.FechaAprobacion,
                 solicitud.Maestro.Cargo,
                 solicitud.MontoSolicitado,
                 solicitud.MontoAprobado,
@@ -372,13 +373,14 @@ namespace SolicitudAyuda.Model.Services
 
         public bool TieneSolicitudElMismoDia(Maestro maestro, int solicitudId = 0)
         {
-            var desde = DateTime.Now.AddDays(-1);
-            var hasta = DateTime.Now;
+            return false;
+            //var desde = DateTime.Now.AddDays(-1);
+            //var hasta = DateTime.Now;
 
-            return db.Solicitudes.Any(s =>
-            s.CedulaSolicitante == maestro.Cedula &&
-            s.Id != solicitudId&&
-            (s.FechaSolicitud >= desde && s.FechaSolicitud <= hasta) && (s.EstadoId != 4 && s.EstadoId != 5));
+            //return db.Solicitudes.Any(s =>
+            //s.CedulaSolicitante == maestro.Cedula &&
+            //s.Id != solicitudId&&
+            //(s.FechaSolicitud >= desde && s.FechaSolicitud <= hasta) && (s.EstadoId != 4 && s.EstadoId != 5));
         }
 
         public List<UltimasSolicitudesDTO> TieneSolicitudAntesTiempoReglamentario(Maestro maestro, int solicitudId = 0)
@@ -524,8 +526,8 @@ namespace SolicitudAyuda.Model.Services
                     response.AddError("Ya esta persona tiene una solicitud registrada hace menos de 24 horas");
                 }
 
-                var solicitudesAnteriores = TieneSolicitudAntesTiempoReglamentario(maestro, solicitud.Id);
-
+                //var solicitudesAnteriores = TieneSolicitudAntesTiempoReglamentario(maestro, solicitud.Id);
+                var solicitudesAnteriores = new List<UltimasSolicitudesDTO>();
                 if (solicitudesAnteriores.Count > 0)
                 {
                     foreach (var s in solicitudesAnteriores)
@@ -584,7 +586,7 @@ namespace SolicitudAyuda.Model.Services
 
             solicitud.EstadoId = 1;
             solicitud.UsuarioId = usuarioId;
-            solicitud.FechaSolicitud = DateTime.Now;
+            //solicitud.FechaSolicitud = DateTime.Now;
 
             List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
             db.Solicitudes.Add(solicitud);
@@ -621,6 +623,7 @@ namespace SolicitudAyuda.Model.Services
                 actualSolicitud.OtroTipoSolicitud = solicitud.OtroTipoSolicitud;
                 actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
                 actualSolicitud.MontoAprobado = solicitud.MontoAprobado;
+                actualSolicitud.FechaAprobacion = solicitud.FechaAprobacion;
 
                 List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
 
