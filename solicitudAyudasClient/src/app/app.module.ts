@@ -63,6 +63,7 @@ import { SolicitudEntityService } from './services/StoreEntityServices/solicitud
 import { ConsultaReducer } from './store/ConsultaSolicitudes/consulta-solicitudes.reducers';
 import { ConsultaEffects } from './store/ConsultaSolicitudes/consulta-solicitudes.effects';
 import { SolicitudAyuda } from './model/Solicitud/solicitudAyuda';
+import { SubTiposSolicitudesPipe } from './model/PipeFilters/SubTiposSolicitudesFilter';
 //import { entityConfig } from './entity-metadata';
 
 const entityMetaData: EntityMetadataMap = {
@@ -70,6 +71,7 @@ const entityMetaData: EntityMetadataMap = {
     selectId: (solicitud:SolicitudAyuda) => solicitud.Id
   }
 }
+
 
 @NgModule({
   declarations: [
@@ -100,7 +102,8 @@ const entityMetaData: EntityMetadataMap = {
     ComisionesAprobacionUsuarioComponent,
     ActivarUsuarioComponent,
     EditarSolicitudComponent,
-    UnAuthorizedComponent
+    UnAuthorizedComponent,
+    SubTiposSolicitudesPipe
   ],
   imports: [
     BrowserModule,

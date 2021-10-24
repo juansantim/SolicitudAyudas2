@@ -30,10 +30,13 @@ namespace SolicitudAyuda.Model
 
         public DbSet<Movimiento> Movimientos { get; set; }
 
+
+        public DbSet<SubTipoSolicitudAyuda> SubTiposSolicitudesAyuda { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {
             
         }
+
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,6 +64,7 @@ namespace SolicitudAyuda.Model
             modelBuilder.ApplyConfiguration(new RequisitoSolicitudETC());
             modelBuilder.ApplyConfiguration(new MovimientosETC());
             modelBuilder.ApplyConfiguration(new CambioETC());
+
         }
 
         public interface IAuditedEntity

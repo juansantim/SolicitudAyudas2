@@ -28,6 +28,10 @@ import { Usuario } from '../model/Usuarios/Usuario';
   providedIn: 'root'
 })
 export class DataService {
+  
+  GetSubTiposSolicitudes():Observable<Array<ItemModel>> {
+    return this.http.get<Array<ItemModel>>(this.GetUrl(`TipoSolicitud/SubTiposSolicitudes`));
+  }
 
   EliminarAdjunto(id: any) {
     let url = this.GetUrl(`files/delete?id=${id}`);

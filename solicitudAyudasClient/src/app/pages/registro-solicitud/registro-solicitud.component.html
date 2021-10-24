@@ -115,20 +115,30 @@
                 textMessage="Tipo de Ayuda es obligatorio"></app-validation-error-message>
         </div>
         <div class="col-md-3">
+            <label>Sub Tipo Solicitud</label>
+
+            <select class="form-control" formControlName="subTipoSolicitudId" required>
+                <option [ngValue]="null">--SELECCIONE--</option>
+                <option *ngFor="let s of subtiposSolicitudes | SubTiposSolicitudesPipe: solicitudAyudaForm.controls.tipoDeAyuda.value" value="{{s.Id}}">{{s.Nombre}}</option>
+            </select>
+            <app-validation-error-message *ngIf="GetErrors('subTipoSolicitudId', 'required')"
+            textMessage="Tipo de Sub-Ayuda es obligatorio"></app-validation-error-message>
+        </div>
+        <div class="col-md-2">
             <label style="font-weight: bold;">Monto de la Ayuda</label>
             <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
                 thousandSeparator="," formControlName="montoAyuda" required>
             <app-validation-error-message *ngIf="GetErrors('montoAyuda', 'required')"
                 textMessage="Monto de Ayuda es obligatorio"></app-validation-error-message>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label style="font-weight: bold;">Monto Aprobado</label>
             <input style="color: blue;font-weight: bold;" type="text" class="form-control" mask="separator.2"
                 thousandSeparator="," formControlName="montoAprobado">
             <app-validation-error-message *ngIf="GetErrors('montoAprobado', 'required')"
                 textMessage="Monto de Ayuda es obligatorio"></app-validation-error-message>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label style="font-weight: bold;">Fecha de Aprobación</label>
             <input style="color: blue;font-weight: bold;" type="text" class="form-control" bsDatepicker
                 formControlName="fechaAprobacion">
@@ -139,7 +149,7 @@
     <div class="row">
         <div class="col-md-6">
             <label>Banco</label>
-            <select class="form-control" formControlName="banco">
+            <select class="form-control" formControlName="banco" required>
                 <option *ngFor="let b of bancos" value="{{b.Id}}"> {{b.Nombre}}</option>
             </select>
             <app-validation-error-message *ngIf="GetErrors('banco', 'required')"
@@ -350,6 +360,7 @@
 
     </fieldset>
 
+   
     <div class="div">
         <input *ngIf="solicitudAyudaForm.controls.solicitudId.value" type="button" class="btn btn-danger" value="Anular Solicitud" (click) = "anularSolicitud()">
         <input type="submit" class="btn btn-success" value="Registrar Solicitud">

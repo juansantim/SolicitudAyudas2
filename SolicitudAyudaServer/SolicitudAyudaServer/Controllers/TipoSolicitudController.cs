@@ -37,10 +37,28 @@ namespace SolicitudAyudaServer.Controllers
                         r.FormName,
                         Value = "",
                         Values = solicitudService.Getvalues(r)
-                    })
+                    }),
+                    SubTiposSolicitud = db.SubTiposSolicitudesAyuda.Where(st => st.TiposSolicitudes.Contains(ts.Id.ToString()))
+                    .OrderBy(r => r.Nombre).Select(a => new { 
+                        a.Id,
+                        a.Nombre
+                    }).ToList()
                 });
         }
 
-      
+        [Route("api/TipoSolicitud/SubTiposSolicitudes")]
+        public dynamic SubTiposSolicitudes()
+        {
+            return db.SubTiposSolicitudesAyuda
+                    .OrderBy(r => r.Nombre).Select(a => new
+                    {
+                        a.Id,
+                        a.Nombre,
+                        a.TiposSolicitudes
+                    }).ToList();
+        }
+
+
+
     }
 }

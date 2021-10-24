@@ -30,6 +30,9 @@ namespace SolicitudAyuda.Model.Entities
         public int TipoSolicitudId { get; set; }
         public TipoSolicitud TipoSolicitud { get; set; }
 
+        public int? SubTipoSolicitudId { get; set; }
+        public SubTipoSolicitudAyuda SubTipoSolicitud { get; set; }
+
         public string OtroTipoSolicitud { get; set; }
 
         public List<RequisitoSolicitud> Requisitos { get; set; }

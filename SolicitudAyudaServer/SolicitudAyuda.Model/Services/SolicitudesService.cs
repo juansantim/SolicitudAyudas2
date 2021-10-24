@@ -61,6 +61,7 @@ namespace SolicitudAyuda.Model.Services
                 .Include(sl => sl.TipoSolicitud)
                 .ThenInclude(ts => ts.ComisionAprobacion)
                 .Include(st => st.Banco)
+                .Include(st => st.SubTipoSolicitud)
                 .Include(sl => sl.Maestro).Single(s => s.Id == solicitudId);
 
             return new
@@ -82,20 +83,20 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.TelefonoCasa,
                 solicitud.Celular,
                 solicitud.TelefonoTrabajo,
-                solicitud.Email,
+                Email  = solicitud.Email != null?  solicitud.Email.ToLower() == "null"? null: solicitud.Email: solicitud.Email,
                 solicitud.Direccion,
                 solicitud.QuienRecibeAyuda,
                 solicitud.EstadoId,
                 solicitud.BancoId,
                 Banco = solicitud.Banco.Nombre,
-                solicitud.NumeroCuentaBanco,
+                NumeroCuentaBanco = solicitud.NumeroCuentaBanco != null? solicitud.NumeroCuentaBanco.ToLower() == "null"? null : solicitud.NumeroCuentaBanco : solicitud.NumeroCuentaBanco,
                 solicitud.EsJubiladoInabima,
-                solicitud.OtroTipoSolicitud,
+                OtroTipoSolicitud = solicitud.OtroTipoSolicitud != null ? solicitud.OtroTipoSolicitud.ToLower() == "null" ? null : solicitud.OtroTipoSolicitud : solicitud.OtroTipoSolicitud,
                 solicitud.TipoSolicitud.CategoriaId,
                 MotivoSolicitud = solicitud.Concepto,
                 estado = solicitud.Estado.Nombre,
                 solicitud.EstadoCuenta,
-                tipoSolicitud = solicitud.TipoSolicitud.Nombre,
+                TipoSolicitud = solicitud.TipoSolicitud.Nombre,
                 solicitud.TipoSolicitudId,
                 Requisitos = solicitud.Requisitos.Select(rq => GetRequisitosParaDetalle(rq)),
                 Adjuntos = solicitud.Adjuntos.Select(ad => GetAdjunto(ad)),
@@ -104,7 +105,8 @@ namespace SolicitudAyuda.Model.Services
                 solicitud.ActaNacimientoHijoHija,
                 solicitud.CopiaCedulaPadreMadre,
                 solicitud.ActaMatrimonioUnion,
-
+                solicitud.SubTipoSolicitudId,
+                SubTipoSolicitud = solicitud.SubTipoSolicitud.Nombre
             };
         }
 
@@ -229,7 +231,7 @@ namespace SolicitudAyuda.Model.Services
                 query = query.Where(q => q.FechaSolicitud <= filtro.SolicitudHasta);
             }
 
-            if (filtro.Estados != null && filtro.Estados.Count > 0) 
+            if (filtro.Estados != null && filtro.Estados.Count > 0)
             {
                 query = query.Where(s => filtro.Estados.Any(e => e == s.EstadoId));
             }
@@ -580,7 +582,8 @@ namespace SolicitudAyuda.Model.Services
         {
             HttpDataResponse response = new HttpDataResponse();
 
-            if (solicitud.Id > 0) {
+            if (solicitud.Id > 0)
+            {
                 return Update(solicitud, requestFiles, usuarioId);
             }
 
@@ -600,7 +603,7 @@ namespace SolicitudAyuda.Model.Services
             }
 
             response.Data = new { SolicitudId = solicitud.Id };
-            
+
             return response;
         }
 
@@ -624,6 +627,7 @@ namespace SolicitudAyuda.Model.Services
                 actualSolicitud.FechaSolicitud = solicitud.FechaSolicitud;
                 actualSolicitud.MontoAprobado = solicitud.MontoAprobado;
                 actualSolicitud.FechaAprobacion = solicitud.FechaAprobacion;
+                actualSolicitud.SubTipoSolicitudId = solicitud.SubTipoSolicitudId;
 
                 List<FileDataDTO> files = GetFilesToUpLoad(requestFiles);
 

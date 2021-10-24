@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
@@ -71,7 +71,8 @@ export class RegistroSolicitudComponent implements OnInit {
     RBConyuge: new FormControl(''),
     otroTipoSolicitud: new FormControl(''),
     fechaSolicitud: new FormControl('', Validators.required),
-    fechaAprobacion: new FormControl('')
+    fechaAprobacion: new FormControl(''),
+    subTipoSolicitudId: new FormControl(''),
   });
 
   QuienRecibiraAyuda: Array<collectionItem> = [
@@ -95,9 +96,13 @@ export class RegistroSolicitudComponent implements OnInit {
 
   cargando: boolean;
   uploadedFiles: Array<UploadedFile> = [];
+  puedeModificar: boolean;
 
   ngOnInit() {
+    const routeParams = this.route.snapshot.paramMap;
+    const solicitudId = Number(routeParams.get('solicitudId'));
 
+    //this.solicitudAyudaForm.controls.subTipoSolicitudId.disable();
 
     this.store.pipe(
       select(userProfile),
@@ -123,14 +128,28 @@ export class RegistroSolicitudComponent implements OnInit {
       console.log(err);
     })
 
+    // var LoadTiposSolicitudes = function (tipoSolicitudId, subTipoSolicitudId, self) {
+    //   self.dataService.GetTiposSolicitudesConRequisitos().subscribe(data => {
+    //     self.tiposSolicitudes = data;
+    //   }, err => {
+    //     console.log(err);
+    //   })
+
+    // }
+
+    // if (!solicitudId) {
+    //   LoadTiposSolicitudes(null, null, this);
+    // }
+
     this.dataService.GetBancos().subscribe(bancos => {
       this.bancos = bancos;
     })
 
     this.cargandoSeccionales = false;
 
-    const routeParams = this.route.snapshot.paramMap;
-    const solicitudId = Number(routeParams.get('solicitudId'));
+    this.dataService.GetSubTiposSolicitudes().subscribe(data => {
+      this.subtiposSolicitudes = data
+    })
 
     if (solicitudId) {
       this.dataService.GetPuedeModificarSolicitud().subscribe(puede => {
@@ -167,7 +186,7 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.cargo.disable();
 
             this.solicitudAyudaForm.controls.tipoDeAyuda.setValue(solicitud.TipoSolicitudId);
-            this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
+            //this.solicitudAyudaForm.controls.tipoDeAyuda.disable();
 
             if (solicitud.CategoriaId === 3) {
               this.EspecificarOtro = true;
@@ -207,6 +226,13 @@ export class RegistroSolicitudComponent implements OnInit {
             this.solicitudAyudaForm.controls.fechaSolicitud.setValue(new Date(solicitud.FechaSolicitud));
 
             this.solicitudAyudaForm.controls.fechaAprobacion.setValue((new Date(solicitud.FechaAprobacion)));
+
+            this.solicitudAyudaForm.controls.subTipoSolicitudId.setValue(solicitud.SubTipoSolicitudId);
+
+            //LoadTiposSolicitudes(solicitud.TipoSolicitudId, solicitud.SubTipoSolicitudId, this);
+            //this.solicitudAyudaForm.controls.subTipoSolicitudId.setValue(solicitud.SubTipoSolicitudId);
+
+            //this.solicitudAyudaForm.controls.fechaAprobacion.getv
 
             //this.solicitudAyudaForm.controls.ars
 
@@ -262,6 +288,7 @@ export class RegistroSolicitudComponent implements OnInit {
   selectedSeccional: any;
   cargandoSeccionales: boolean;
   tiposSolicitudes: Array<TipoSolicitud>;
+  subtiposSolicitudes: Array<ItemModel>;
   TipoDeAyuda: any;
   RequisitosSolicitud: Array<any>;
   bancos: Array<ItemModel> = [];
@@ -387,7 +414,14 @@ export class RegistroSolicitudComponent implements OnInit {
 
   onChangeTipoSolicitud(tipoSolicitudId) {
 
-    var tipoSolictud = this.tiposSolicitudes.filter(tipo => tipo.Id == tipoSolicitudId)[0]
+    if (!tipoSolicitudId || !this.tiposSolicitudes)
+      return;
+
+    this.solicitudAyudaForm.controls.subTipoSolicitudId.enable();
+
+
+
+    var tipoSolictud: any = this.tiposSolicitudes.filter(tipo => tipo.Id == tipoSolicitudId)[0]
 
     let keys = [];
 
@@ -416,6 +450,8 @@ export class RegistroSolicitudComponent implements OnInit {
     else {
       this.EspecificarOtro = false;
     }
+
+    //this.subtiposSolicitudes = tipoSolictud.SubTiposSolicitud
   }
 
   GetErrors(fieldName, errorName) {
@@ -522,6 +558,7 @@ export class RegistroSolicitudComponent implements OnInit {
 
           form.append("FechaSolicitud", this.solicitudAyudaForm.get('fechaSolicitud').value.toISOString());
           form.append("FechaAprobacion", this.solicitudAyudaForm.get('fechaAprobacion').value.toISOString());
+          form.append("SubTipoSolicitudId", this.solicitudAyudaForm.get('subTipoSolicitudId').value);
 
           let requisitos = [];
 
@@ -613,7 +650,17 @@ export class RegistroSolicitudComponent implements OnInit {
         this.solicitudAyudaForm.get(key).markAsDirty();
       });
 
-      Swal.fire('Error en formulario', 'Existen errores en el formulario, favor verificar mensajes en rojo.', 'error')
+      Swal.fire('Error en formulario', 'Existen errores en el formulario, favor verificar mensajes en rojo.', 'error');
+
+      Object.keys(this.solicitudAyudaForm.controls).forEach(key => {
+
+        const controlErrors: ValidationErrors = this.solicitudAyudaForm.get(key).errors;
+        if (controlErrors != null) {
+              Object.keys(controlErrors).forEach(keyError => {
+                console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+              });
+            }
+          });
     }
 
   }

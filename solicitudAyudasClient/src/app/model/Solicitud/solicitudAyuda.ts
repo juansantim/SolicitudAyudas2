@@ -41,6 +41,7 @@ export interface SolicitudAyuda {
      Adjuntos: AdjuntoSolicitud[];
      DatosAprobacion: DatoAprobacion[];
      ProcesadaPorUsuario: boolean;
+     SubTipoSolicitud:string;
 
 }
 
